@@ -4,6 +4,7 @@
 //req.session
 const express = require('express'),
     app = express(),
+    server = require('http').createServer(app),
     body_parser = require('body-parser'),
     mongoose = require('mongoose'),
     bcrypt = require('bcryptjs'),
@@ -11,13 +12,17 @@ const express = require('express'),
     passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
     securePin = require('secure-pin'),
-    cookieParser = require('cookie-parser');
+    cookieParser = require('cookie-parser'),
+    io = require('socket.io')(server);
 
-app.use(cookieParser());
-app.use(express.static('static'));
+    require('events').EventEmitter.defaultMaxListeners = 100;
+
 app.use(body_parser.urlencoded({
     extended: true
-}));
+}))
+app.use(body_parser.json())
+app.use(cookieParser());
+app.use(express.static('static'));;
 //mongoose.connect("mongodb://mo855f_Dagonin:Dagonin666@mongo.ct8.pl/mo855f_Dagonin", {
 mongoose.connect("mongodb://localhost:27017/Live-text", {
         useNewUrlParser: true
@@ -147,38 +152,45 @@ app.post('/join', (req, res) => {
             console.log(err)
         }
         if (fRoom) {
-            //TO NIE DZIALA
-            if (fRoom.id == req.cookies.Room && req.cookies.Name != '') {
-                res.redirect('/room_' + req.body.PIN)
-            }
-            if (req.user != undefined) {
-                res.redirect('/')
-            }
-            // TO DZIALA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            if (fRoom.id != req.cookies.Room) {
-                Guests.create({
-                    username: req.body.guestname,
-                    email: req.body.remail
-                }, (err, cGuest) => {
-                    if (err) {
-                        console.log(err)
-                    }
-                    console.log('a')
-                                        res.cookie('Room', fRoom);
-                                        res.cookie('Name', cGuest.username)
-                                        res.redirect('/room_' + req.body.PIN);
-                }                )
-            }
+//            //TO NIE DZIALA
+//            if (fRoom.id == req.cookies.Room && req.cookies.Name != '') {
+//                res.redirect('/room_' + req.body.PIN)
+//            }
+//            if (req.user != undefined) {
+//                res.redirect('/')
+//            }
+//            // TO DZIALA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//            if (fRoom.id != req.cookies.Room) {
+//                Guests.create({
+//                    username: req.body.guestname,
+//                    email: req.body.remail
+//                }, (err, cGuest) => {
+//                    if (err) {
+//                        console.log(err)
+//                    }
+//                    console.log('a')
+//                                        res.cookie('Room', fRoom);
+//                                        res.cookie('Name', cGuest.username)
+//                                        res.redirect('/room_' + req.body.PIN);
+//                }                )
+//            }
+            res.redirect("/room_"+req.body.PIN);
         } else {
             res.redirect('/')
         }
     })
 
 })
+
+
 app.get('/room_:id', (req, res) => {
-
+let rooms = io
+  .of('/room_'+req.params.id)
+  .on('connection', function (socket) {
+    console.log("working")
+  });
+    res.redirect("/room_"+req.params.id);
 })
-
 
 
 
@@ -237,9 +249,71 @@ app.get("/logout", (req, res) => {
 })
 
 
-app.listen(8080, 'localhost', () => {
+
+
+//SOCKET.IO
+io.on('connection', function(socket){
+  console.log('a user connected');
+  socket.on('disconnect', function(){
+    console.log('user disconnected');
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+server.listen(8080, 'localhost', () => {
     console.log("8080");
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //const express = require('express'),
 //    app = express(),
