@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<% if(user != undefined){ %>
+<form action="/create_room" method="get">
+        <button>create room</button>
+</form>
+    
+    <%} else {%>
+    <form action="/join_room" method="get">
+       <input type="number">
+        <button>Join room</button>
+</form>
+    
+    <%} %>
+    
+    
+    <% console.log(user) %>
+</body>
+</html>
