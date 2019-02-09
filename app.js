@@ -15,7 +15,7 @@ const express = require('express'),
     cookieParser = require('cookie-parser'),
     io = require('socket.io')(server);
 
-    require('events').EventEmitter.defaultMaxListeners = 100;
+require('events').EventEmitter.defaultMaxListeners = 100;
 
 app.use(body_parser.urlencoded({
     extended: true
@@ -110,7 +110,7 @@ app.get('/room', (req, res) => {
 });
 
 app.get('/create_room', (req, res) => {
-    console.log("why")
+
     if (req.user) {
         securePin.generatePin(6, (pin) => {
             Rooms.findOne({
@@ -131,6 +131,7 @@ app.get('/create_room', (req, res) => {
                             user: req.user
                         });
                         console.log(pin)
+
                     })
                 } else {
                     res.redirect('/create_room');
@@ -152,29 +153,39 @@ app.post('/join', (req, res) => {
             console.log(err)
         }
         if (fRoom) {
-//            //TO NIE DZIALA
-//            if (fRoom.id == req.cookies.Room && req.cookies.Name != '') {
-//                res.redirect('/room_' + req.body.PIN)
-//            }
-//            if (req.user != undefined) {
-//                res.redirect('/')
-//            }
-//            // TO DZIALA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//            if (fRoom.id != req.cookies.Room) {
-//                Guests.create({
-//                    username: req.body.guestname,
-//                    email: req.body.remail
-//                }, (err, cGuest) => {
-//                    if (err) {
-//                        console.log(err)
-//                    }
-//                    console.log('a')
-//                                        res.cookie('Room', fRoom);
-//                                        res.cookie('Name', cGuest.username)
-//                                        res.redirect('/room_' + req.body.PIN);
-//                }                )
-//            }
-            res.redirect("/room_"+req.body.PIN);
+            //            //TO NIE DZIALA
+            //            if (fRoom.id == req.cookies.Room && req.cookies.Name != '') {
+            //                res.redirect('/room_' + req.body.PIN)
+            //            }
+            //            if (req.user != undefined) {
+            //                res.redirect('/')
+            //            }
+            //            // TO DZIALA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //            if (fRoom.id != req.cookies.Room) {
+            //                Guests.create({
+            //                    username: req.body.guestname,
+            //                    email: req.body.remail
+            //                }, (err, cGuest) => {
+            //                    if (err) {
+            //                        console.log(err)
+            //                    }
+            //                    console.log('a')
+            //                                        res.cookie('Room', fRoom);
+            //                                        res.cookie('Name', cGuest.username)
+            //                                        res.redirect('/room_' + req.body.PIN);
+            //                }                )
+            //            }
+            Guests.create({
+                username: req.body.guestname,
+                email: req.body.remail
+            }, (err, cGuest) => {
+                if (err) {
+                    console.log(err)
+                }
+                res.cookie('guestid', cGuest.id)
+                console.log(req.cookies["guestid"])
+                res.redirect('/room_' + req.body.PIN);
+            })
         } else {
             res.redirect('/')
         }
@@ -184,12 +195,33 @@ app.post('/join', (req, res) => {
 
 
 app.get('/room_:id', (req, res) => {
-let rooms = io
-  .of('/room_'+req.params.id)
-  .on('connection', function (socket) {
-    console.log("working")
-  });
-    res.redirect("/room_"+req.params.id);
+    let id = req.cookies["guestid"]
+    //                             io
+    //                            .of('/room_' + req.params.id)
+    //                            .on('connection', function (socket) {
+    //                                console.log("working")
+    //                            });
+
+    Guests.findById(
+        id,
+        (err, fGuest) => {
+            if (err) {
+                console.log(err);
+            }
+            console.log(fGuest.username);
+            res.render("room_", {
+                user: req.user,
+                guest: fGuest
+            });
+
+            io.on('connection', function (socket) {
+                socket.join('room_' + req.params.id);
+                //        let rooms = Object.keys(socket.rooms);
+                //        console.log(rooms);
+                io.to('room_' + req.params.id).emit('join_room',fGuest.username )
+            })
+        })
+
 })
 
 
@@ -252,31 +284,12 @@ app.get("/logout", (req, res) => {
 
 
 //SOCKET.IO
-io.on('connection', function(socket){
-  console.log('a user connected');
-  socket.on('disconnect', function(){
-    console.log('user disconnected');
-  });
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//io.on('connection', function (socket) {
+//    console.log('a user connected');
+//    socket.on('disconnect', function () {
+//        console.log('user disconnected');
+//    });
+//});
 
 
 
@@ -289,23 +302,6 @@ io.on('connection', function(socket){
 server.listen(8080, 'localhost', () => {
     console.log("8080");
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -23,16 +23,18 @@
             </form>
         </div>
         <form action="/join" method="post">
-           <input type="number" name="PIN">
-           <input type="email" name="remail">
-           <input type="text" name='guestname'>
+            <input type="number" name="PIN">
+            <input type="email" name="remail">
+            <input type="text" name='guestname'>
             <input type="submit" value="Join Class" id="submit">
         </form>
-        
+
         <% }else{ %>
-            <div>Witaj <%= user.username %> </div>
-            <a href="/logout">Wyloguj</a>
-    <%    } %>
+        <div>Witaj
+            <%= user.username %>
+        </div>
+        <a href="/logout">Wyloguj</a>
+        <%    } %>
 
 
 
@@ -43,7 +45,14 @@
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
-  var socket = io();
+    var socket = io();
+    socket.on('connect', () => {
+        console.log(socket.id); // true
+    });
+    socket.on('roomcheck', ()=> {
+        console.log(io.rooms)
+    })
+
 </script>
 
 </html>
