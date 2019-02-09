@@ -1,5 +1,5 @@
 'use strict';
-
+//JESTEM KOZAKIEM
 //Socket.io
 //req.session
 const express = require('express'),
