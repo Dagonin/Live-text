@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>
+    </title>
+</head>
+
+<body>
+    <header>
+        <% if(user==undefined){ %>
+        <div class="register">
+            <!-- Temp logo, standard Vue.js  logo-->
+            <img src="@/assets/logo.png" alt="logo">
+            <!-- Register form -->
+            <form method="post" action="/">
+                <input name="login" type="text" v-model="login" placeholder="Login" class="input">
+                <input name="password" type="password" v-model="password" placeholder="Password" class="input">
+                <input name="repeatpassword" type="password" v-model="repeatpassword" placeholder="Repeat password" class="input">
+                <input name="email" type="email" v-model="email" placeholder="Email" class="input">
+                <input type="submit" value="Register" id="submit">
+            </form>
+        </div>
+        <form action="/join" method="post">
+            <input type="number" name="PIN">
+            <input type="email" name="remail">
+            <input type="text" name='guestname'>
+            <input type="submit" value="Join Class" id="submit">
+        </form>
+
+        <% }else{ %>
+        <div>Witaj
+            <%= user.username %>
+        </div>
+        <a href="/logout">Wyloguj</a>
+        <%    } %>
+
+
+
+    </header>
+
+
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+    var socket = io();
+    socket.on('connect', () => {
+        console.log(socket.id); // true
+    });
+    socket.on('roomcheck', ()=> {
+        console.log(io.rooms)
+    })
+
+</script>
+
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+    </title>
+</head>
+<body>
+  <form action="/login" method="post">
+   <label for="username">Nazwa użytkownika</label>
+    <input name="username" type="text">
+    <label for="password">Hasło</label>
+    <input name="password" type="password">
+    <button>Zaloguj</button>
+</form>
+       
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+    var socket = io();
+    socket.on('connect', () => {
+        console.log(socket.id); // true
+    });
+    socket.on('roomcheck', ()=> {
+        console.log(io.rooms)
+    })
+
+</script>
+</html>
