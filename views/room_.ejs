@@ -5,7 +5,7 @@
     <title>Document</title>
 </head>
 <body>
-   
+<h1><%= room.PIN%></h1>
    <ul id="guests"></ul>
    
    
@@ -20,6 +20,7 @@
         console.log(socket.id); // true
     });
         socket.on('join_room', (data)=>{
+            
       $('#guests').append($('<li>').text(data));
     });
 </script>

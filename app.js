@@ -127,14 +127,12 @@ app.get('/create_room', (req, res) => {
                         if (err) {
                             console.log(err)
                         };
-                        res.render('index', {
-                            user: req.user
-                        });
+                        res.redirect('/room_' + cRoom.PIN)
                         console.log(pin)
 
                     })
                 } else {
-                    res.redirect('/create_room');
+                    res.redirect('/');
                 };
             });
         });
@@ -190,37 +188,59 @@ app.post('/join', (req, res) => {
             res.redirect('/')
         }
     })
+    app.get('/room_:id', (req, res) => {
+            let id = req.cookies["guestid"]
+        Rooms.findOne({
+            PIN: req.params.id
+        }, (err, fRoom) => {
+            if (err) {
+                console.log(err)
+            }
+            
+            if (req.user) {
+                
+                if(req.user.id == fRoom.owner) {
+                res.render("room_", {
+                    user: req.user,
+                    room: fRoom
+                });
+                }
+            } else {
 
-})
 
 
-app.get('/room_:id', (req, res) => {
-    let id = req.cookies["guestid"]
+                Guests.findById(
+                    id,
+                    (err, fGuest) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                        console.log(fGuest.username);
+                        res.render("room_", {
+                            user: req.user,
+                            guest: fGuest,
+                            room: fRoom
+                        });
+
+                        io.on('connection', function (socket) {
+                            socket.join('room_' + req.params.id);
+                            //        let rooms = Object.keys(socket.rooms);
+                            //        console.log(rooms);
+                            io.to('room_' + req.params.id).emit('join_room', fGuest.username)
+                        })
+                    })
+            }
+
+
+        })
+    })
     //                             io
     //                            .of('/room_' + req.params.id)
     //                            .on('connection', function (socket) {
     //                                console.log("working")
     //                            });
 
-    Guests.findById(
-        id,
-        (err, fGuest) => {
-            if (err) {
-                console.log(err);
-            }
-            console.log(fGuest.username);
-            res.render("room_", {
-                user: req.user,
-                guest: fGuest
-            });
 
-            io.on('connection', function (socket) {
-                socket.join('room_' + req.params.id);
-                //        let rooms = Object.keys(socket.rooms);
-                //        console.log(rooms);
-                io.to('room_' + req.params.id).emit('join_room',fGuest.username )
-            })
-        })
 
 })
 
