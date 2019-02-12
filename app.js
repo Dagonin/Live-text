@@ -189,21 +189,21 @@ app.post('/join', (req, res) => {
         }
     })
     app.get('/room_:id', (req, res) => {
-            let id = req.cookies["guestid"]
+        let id = req.cookies["guestid"]
         Rooms.findOne({
             PIN: req.params.id
         }, (err, fRoom) => {
             if (err) {
                 console.log(err)
             }
-            
+
             if (req.user) {
-                
-                if(req.user.id == fRoom.owner) {
-                res.render("room_", {
-                    user: req.user,
-                    room: fRoom
-                });
+
+                if (req.user.id == fRoom.owner) {
+                    res.render("room_", {
+                        user: req.user,
+                        room: fRoom
+                    });
                 }
             } else {
 
@@ -215,13 +215,23 @@ app.post('/join', (req, res) => {
                         if (err) {
                             console.log(err);
                         }
+                        fRoom.updateOne({
+                            $push: {
+                                guests: fGuest._id
+                            }
+                        }, (err,upd)=>{
+                            if(err){
+                                return err;
+                            }
+                        } )
+                        console.log(fRoom.guests)
                         console.log(fGuest.username);
                         res.render("room_", {
                             user: req.user,
                             guest: fGuest,
                             room: fRoom
                         });
-
+                            
                         io.on('connection', function (socket) {
                             socket.join('room_' + req.params.id);
                             //        let rooms = Object.keys(socket.rooms);
