@@ -1,14 +1,14 @@
 const mongoose = require('mongoose'),
-      Users = require('./user');
+    Users = require('./user');
 const roomSchema = new mongoose.Schema({
-        PIN: Number,
-        owner: {
+    PIN: Number,
+    owner: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-        guests: [{
+    guests: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Guest'    
+        ref: 'Guest'
         }]
 })
 

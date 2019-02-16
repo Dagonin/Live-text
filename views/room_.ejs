@@ -9,19 +9,22 @@
    <ul id="guests"></ul>
    
    
-   
     
 </body>
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
-    var socket = io();
+//    var socket = io({transports: ['websocket'], upgrade: false});
+    var socket = io.connect('/room_<%= room.PIN %>',{ reconnection: false, forceNew: false  });
     socket.on('connect', () => {
         console.log(socket.id); // true
+
     });
         socket.on('join_room', (data)=>{
-            
+//            < %= room.guests.forEach(console.log("xd")) %>
+            $('guests').innerHTML = (" ");
       $('#guests').append($('<li>').text(data));
+            console.log(data)
     });
 </script>
 </html>

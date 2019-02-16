@@ -188,6 +188,12 @@ app.post('/join', (req, res) => {
             res.redirect('/')
         }
     })
+
+
+
+
+
+    // POKOJE SIE TU DZIEJĄ ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     app.get('/room_:id', (req, res) => {
         let id = req.cookies["guestid"]
         Rooms.findOne({
@@ -219,25 +225,40 @@ app.post('/join', (req, res) => {
                             $push: {
                                 guests: fGuest._id
                             }
-                        }, (err,upd)=>{
-                            if(err){
+                        }, (err, upd) => {
+                            if (err) {
                                 return err;
                             }
-                        } )
-                        console.log(fRoom.guests)
-                        console.log(fGuest.username);
+                        })
+                        //                        console.log(fRoom.guests)
+                        //                        console.log(fGuest.username + "USERNAME");
                         res.render("room_", {
                             user: req.user,
                             guest: fGuest,
                             room: fRoom
                         });
-                            
-                        io.on('connection', function (socket) {
+
+
+
+                        var room = io.of('room_' + req.params.id).on('connect', function (socket) {
+                            //                                                                                    if (io.sockets.adapter.rooms['room_' + req.params.id] == undefined) {
                             socket.join('room_' + req.params.id);
+                            room.to('room_' + req.params.id).emit('join_room', fGuest.username)
+                            //                                                                                    } 
+                            console.log(socket.id + "RUM");
+                            socket.on('disconnect', function () {
+                                console.log(socket.connected)
+                                socket.disconnect(true);
+                                console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                                socket.leave('room_' + req.params.id)
+
+
+                            });
                             //        let rooms = Object.keys(socket.rooms);
                             //        console.log(rooms);
-                            io.to('room_' + req.params.id).emit('join_room', fGuest.username)
+
                         })
+
                     })
             }
 
