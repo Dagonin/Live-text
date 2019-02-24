@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +14,7 @@
     <input name="password" type="password">
     <button>Zaloguj</button>
 </form>
-       
+       <ul id="guests"></ul>
 </body>
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
@@ -26,5 +27,8 @@
         console.log(io.rooms)
     })
 
+
+    });
+    
 </script>
 </html>

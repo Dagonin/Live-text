@@ -1,30 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
 </head>
+
 <body>
-<h1><%= room.PIN%></h1>
-   <ul id="guests"></ul>
-   
-   
-    
+    <h1>
+        <%= room.PIN%>
+    </h1>
+    <ul id="guests"></ul>
+
+
+
 </body>
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
-//    var socket = io({transports: ['websocket'], upgrade: false});
-    var socket = io.connect('/room_<%= room.PIN %>',{ reconnection: false, forceNew: false  });
+    //    var socket = io({transports: ['websocket'], upgrade: false});
+    const socket = io();
     socket.on('connect', () => {
         console.log(socket.id); // true
+        socket.emit('room', <%= room.PIN %>);
+    });
 
-    });
-        socket.on('join_room', (data)=>{
-//            < %= room.guests.forEach(console.log("xd")) %>
-            $('guests').innerHTML = (" ");
-      $('#guests').append($('<li>').text(data));
-            console.log(data)
-    });
+
+    socket.on('join_room', (data) => {
+        
+    <%    room.guests.forEach(function(guest) { %>
+            socket.emit('findG', '<%= guest %>');
+            socket.on('<%= guest %>', (foundG)=>{
+                $('#guests').append($('<li>').text(foundG.username));
+                console.log(foundG);
+            })
+      <%  }) %>
+
+    })
+
+
+    //            < %= room.guests.forEach(console.log("xd")) %>
+//    $('#guests').append($('<li>').text('<%= guest.username %>'));
+//                                       console.log(data)
+//    ));
+
 </script>
+
 </html>

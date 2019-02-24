@@ -240,24 +240,6 @@ app.post('/join', (req, res) => {
 
 
 
-                        var room = io.of('room_' + req.params.id).on('connect', function (socket) {
-                            //                                                                                    if (io.sockets.adapter.rooms['room_' + req.params.id] == undefined) {
-                            socket.join('room_' + req.params.id);
-                            room.to('room_' + req.params.id).emit('join_room', fGuest.username)
-                            //                                                                                    } 
-                            console.log(socket.id + "RUM");
-                            socket.on('disconnect', function () {
-                                console.log(socket.connected)
-                                socket.disconnect(true);
-                                console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-                                socket.leave('room_' + req.params.id)
-
-
-                            });
-                            //        let rooms = Object.keys(socket.rooms);
-                            //        console.log(rooms);
-
-                        })
 
                     })
             }
@@ -265,12 +247,6 @@ app.post('/join', (req, res) => {
 
         })
     })
-    //                             io
-    //                            .of('/room_' + req.params.id)
-    //                            .on('connection', function (socket) {
-    //                                console.log("working")
-    //                            });
-
 
 
 })
@@ -334,18 +310,6 @@ app.get("/logout", (req, res) => {
 
 
 
-//SOCKET.IO
-//io.on('connection', function (socket) {
-//    console.log('a user connected');
-//    socket.on('disconnect', function () {
-//        console.log('user disconnected');
-//    });
-//});
-
-
-
-
-
 
 
 
@@ -353,6 +317,46 @@ app.get("/logout", (req, res) => {
 server.listen(8080, 'localhost', () => {
     console.log("8080");
 })
+
+
+//SOCKET.IO
+
+io.on('connection', function (socket) {
+    socket.on('room', function (roompin) {
+        socket.join('room_' + roompin);
+        socket.emit('join_room');
+    });
+    socket.on('findG', function (GID) {
+        Guests.findById(
+            GID,
+            (err, fGuest) => {
+                if (err) {
+                    console.log(err);
+                }
+                socket.emit(GID, fGuest);
+
+
+
+
+            })
+    })
+
+
+
+
+
+
+
+
+
+    //    
+    //  socket.emit('request', /* */); // emit an event to the socket
+    //  io.emit('broadcast', /* */); // emit an event to all connected sockets
+    //  socket.on('reply', function(){ /* */ }); // listen to the event
+    //    
+
+
+});
 
 
 
