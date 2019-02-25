@@ -212,36 +212,48 @@ app.post('/join', (req, res) => {
                     });
                 }
             } else {
-
-
-
-                Guests.findById(
-                    id,
-                    (err, fGuest) => {
-                        if (err) {
-                            console.log(err);
-                        }
-                        fRoom.updateOne({
-                            $push: {
-                                guests: fGuest._id
-                            }
-                        }, (err, upd) => {
+                let boolean = false;
+                for (let z = 0; z < fRoom.guests.length; z++) {
+                    if (fRoom.guests[z] == id) {
+                        boolean = true;
+                    }
+                }
+                if (!req.user) {
+                    Guests.findById(
+                        id,
+                        (err, fGuest) => {
                             if (err) {
-                                return err;
+                                console.log(err);
                             }
+                            if (boolean == false) {
+                                fRoom.updateOne({
+                                    $push: {
+                                        guests: fGuest._id
+                                    }
+                                }, (err, upd) => {
+                                    if (err) {
+                                        return err;
+                                    }
+                                })
+                            }
+                            res.render("room_", {
+                                user: req.user,
+                                fguest: fGuest,
+                                room: fRoom
+                            });
                         })
-                        //                        console.log(fRoom.guests)
-                        //                        console.log(fGuest.username + "USERNAME");
-                        res.render("room_", {
-                            user: req.user,
-                            guest: fGuest,
-                            room: fRoom
-                        });
+                }
+                //                        console.log(fRoom.guests)
+                //                        console.log(fGuest.username + "USERNAME");
+                res.render("room_", {
+                    user: req.user,
+                    room: fRoom
+                });
 
 
 
 
-                    })
+
             }
 
 
@@ -324,7 +336,9 @@ server.listen(8080, 'localhost', () => {
 io.on('connection', function (socket) {
     socket.on('room', function (roompin) {
         socket.join('room_' + roompin);
-        socket.emit('join_room');
+        if (!req.user) {
+            socket.emit('join_room');
+        }
     });
     socket.on('findG', function (GID) {
         Guests.findById(
