@@ -100,16 +100,16 @@ app.get('/login', (req, res) => {
 
 
 
-app.get('/mail', (req,res)=>{
-    Mailer.mail('nagłówek', 'tresc', (err)=>{
-        if(err){
+app.get('/mail', (req, res) => {
+    Mailer.mail('nagłówek', 'tresc', (err) => {
+        if (err) {
             console.log(err);
-        }else{
+        } else {
             console.log("wyslano maila")
         }
-        
+
     });
-    
+
 })
 
 //Pokoje
@@ -161,28 +161,6 @@ app.post('/join', (req, res) => {
             console.log(err)
         }
         if (fRoom) {
-            //            //TO NIE DZIALA
-            //            if (fRoom.id == req.cookies.Room && req.cookies.Name != '') {
-            //                res.redirect('/room_' + req.body.PIN)
-            //            }
-            //            if (req.user != undefined) {
-            //                res.redirect('/')
-            //            }
-            //            // TO DZIALA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            //            if (fRoom.id != req.cookies.Room) {
-            //                Guests.create({
-            //                    username: req.body.guestname,
-            //                    email: req.body.remail
-            //                }, (err, cGuest) => {
-            //                    if (err) {
-            //                        console.log(err)
-            //                    }
-            //                    console.log('a')
-            //                                        res.cookie('Room', fRoom);
-            //                                        res.cookie('Name', cGuest.username)
-            //                                        res.redirect('/room_' + req.body.PIN);
-            //                }                )
-            //            }
             Guests.create({
                 username: req.body.guestname,
                 email: req.body.remail
@@ -198,80 +176,81 @@ app.post('/join', (req, res) => {
             res.redirect('/')
         }
     })
+})
 
 
 
 
-
-    // POKOJE SIE TU DZIEJĄ ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    app.get('/room_:id', (req, res) => {
-        let id = req.cookies["guestid"]
-        Rooms.findOne({
-            PIN: req.params.id
-        }, (err, fRoom) => {
-            if (err) {
-                console.log(err)
+// POKOJE SIE TU DZIEJĄ ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+app.get('/room_:id', (req, res) => {
+    console.log(req.params.id)
+    let id = req.cookies["guestid"]
+    Rooms.findOne({
+        PIN: req.params.id
+    }, (err, fRoom) => {
+        if (err) {
+            console.log(err)
+        }
+        console.log(fRoom + "ASDASDASD")
+        if (req.user) {
+            if (req.user.id == fRoom.owner) {
+                res.render("room_", {
+                    user: req.user,
+                    room: fRoom
+                });
             }
+        } else {
 
-            if (req.user) {
-
-                if (req.user.id == fRoom.owner) {
-                    res.render("room_", {
-                        user: req.user,
-                        room: fRoom
-                    });
-                }
-            } else {
-                let boolean = false;
+            let boolean = false;
+            if (fRoom.guests.length != null) {
                 for (let z = 0; z < fRoom.guests.length; z++) {
                     if (fRoom.guests[z] == id) {
                         boolean = true;
                     }
                 }
-                if (!req.user) {
-                    Guests.findById(
-                        id,
-                        (err, fGuest) => {
-                            if (err) {
-                                console.log(err);
-                            }
-                            if (boolean == false) {
-                                fRoom.updateOne({
-                                    $push: {
-                                        guests: fGuest._id
-                                    }
-                                }, (err, upd) => {
-                                    if (err) {
-                                        return err;
-                                    }
-                                })
-                            }
-                            res.render("room_", {
-                                user: req.user,
-                                fguest: fGuest,
-                                room: fRoom
-                            });
-                        })
-                }
-                //                        console.log(fRoom.guests)
-                //                        console.log(fGuest.username + "USERNAME");
-                res.render("room_", {
-                    user: req.user,
-                    room: fRoom
-                });
-
-
-
-
-
             }
+            Guests.findById(
+                id,
+                (err, fGuest) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    if (boolean == false) {
+                        fRoom.updateOne({
+                            $push: {
+                                guests: fGuest._id
+                            }
+                        }, (err, upd) => {
+                            if (err) {
+                                return err;
+                            }
+                        })
+                    }
+                    res.render("room_", {
+                        user: req.user,
+                        fguest: fGuest,
+                        room: fRoom
+                    });
+                })
+            //                        console.log(fRoom.guests)
+            //                        console.log(fGuest.username + "USERNAME");
+            //            res.render("room_", {
+            //                user: req.user,
+            //                room: fRoom
+            //            });
 
 
-        })
+
+
+
+        }
+
+
     })
-
-
 })
+
+
+
 
 
 
@@ -344,11 +323,10 @@ server.listen(8080, 'localhost', () => {
 //SOCKET.IO
 
 io.on('connection', function (socket) {
-    socket.on('room', function (roompin) {
-        socket.join('room_' + roompin);
-        if (!req.user) {
-            socket.emit('join_room');
-        }
+    socket.on('room', function (roompin, boolean) {
+       let rom = 'room_' + roompin;
+        socket.join(rom);
+        io.to(rom).emit('join_room');
     });
     socket.on('findG', function (GID) {
         Guests.findById(
@@ -381,101 +359,3 @@ io.on('connection', function (socket) {
 
 
 });
-
-
-
-
-
-
-
-
-
-//const express = require('express'),
-//    app = express(),
-//    mongoose = require('mongoose'),
-//    bcrypt = require('bcryptjs'),
-//    cors = require('cors'),
-//    morgan = require('morgan'),
-//    bodyParser = require("body-parser");
-//
-//
-//// CONFIGURATION
-//app.use(express.static('static'));
-//app.use(morgan('combined'))
-//app.use(bodyParser.json);
-//app.use(cors());
-//mongoose.connect("mongodb://localhost:27017/Text_live", {
-//    useNewUrlParser: true
-//});
-//app.set('view engine', 'ejs');
-//app.disable('x-powered-by');
-//
-//
-//
-//
-//
-//
-//// MODELS
-//const Users = require("./models/user"),
-//    Guests = require('./models/guest');
-//
-//
-//
-//
-//
-//
-//// ROUTERS
-//app.get("/", (req, res) => {
-//    res.render('index');
-//});
-//
-//app.post("/api/register", (req, res) => {
-//    let xd = [];
-//    if (req.body.login == "" || req.body.password == "" || req.body.email == "") {
-//        xd.push("empty")
-//    }
-//    Users.find({
-//        username: req.body.login.toLowerCase()
-//    }, (err, fUser) => {
-//        if (err) {
-//            return console.log(err);
-//        }
-//        if (fUser.length != 0) {
-//            xd.push("used")
-//        }
-//        if (req.body.password.length < 4 & req.body.password.length > 27) {
-//            xd.push("pwlength");
-//        }
-//
-//        if (xd == "") {
-//            Users.create({
-//                username: req.body.login.toLowerCase(),
-//                password: bcrypt.hashSync(req.body.password, 7),
-//                email: req.body.email,
-//                cDate: new Date(),
-//                permissions: "user"
-//            }, (err, cUser) => {
-//                if (err) {
-//                    console.log(err);
-//                }
-//                xd.push("success")
-//            })
-//        }
-//        res.send(
-//            {
-//                message: xd
-//            })
-//    })
-//});
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//app.listen(4040, 'localhost', () => {
-//    console.log("4040");
-//});

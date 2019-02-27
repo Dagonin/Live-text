@@ -20,18 +20,25 @@
 <script>
     //    var socket = io({transports: ['websocket'], upgrade: false});
     const socket = io();
+    let boolean = false;
     socket.on('connect', () => {
+<% if(user) {%>
+        boolean = true;
+        <% } %>
+        
+        
+        
         console.log(socket.id); // true
-        socket.emit('room', <%= room.PIN %>);
+        socket.emit('room', <%= room.PIN %>, boolean);
     });
 
 
     socket.on('join_room', () => {
-        
-        //DO NAPRAWIENIA, NIE UMIEM POKAZAC GUESTA Z FUNKCJI
+        //Swiezo dodany nick jest pokazany po odswiezeniu
+
     <%    room.guests.forEach(function(guest) { %>
             socket.emit('findG', '<%= guest %>');
-            socket.on(guest, (foundG)=>{
+            socket.on('<%= guest %>', (foundG)=>{
                 $('#guests').append($('<li>').text(foundG.username));
                 console.log(foundG);
             })
@@ -40,10 +47,6 @@
     })
 
 
-    //            < %= room.guests.forEach(console.log("xd")) %>
-//    $('#guests').append($('<li>').text('<%= guest.username %>'));
-//                                       console.log(data)
-//    ));
 
 </script>
 
