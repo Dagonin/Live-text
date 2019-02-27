@@ -82,7 +82,7 @@ passport.deserializeUser(function (id, done) {
 const Guests = require("./models/guest");
 const Users = require("./models/user");
 const Rooms = require('./models/room');
-
+const Mailer = require('./helpers/mailer')
 
 
 
@@ -100,7 +100,17 @@ app.get('/login', (req, res) => {
 
 
 
-
+app.get('/mail', (req,res)=>{
+    Mailer.mail('nagłówek', 'tresc', (err)=>{
+        if(err){
+            console.log(err);
+        }else{
+            console.log("wyslano maila")
+        }
+        
+    });
+    
+})
 
 //Pokoje
 app.get('/room', (req, res) => {

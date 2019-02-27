@@ -30,7 +30,7 @@
         
         //DO NAPRAWIENIA, NIE UMIEM POKAZAC GUESTA Z FUNKCJI
     <%    room.guests.forEach(function(guest) { %>
-            socket.emit('findG', guest);
+            socket.emit('findG', '<%= guest %>');
             socket.on(guest, (foundG)=>{
                 $('#guests').append($('<li>').text(foundG.username));
                 console.log(foundG);
