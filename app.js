@@ -328,6 +328,8 @@ io.on('connection', function (socket) {
         socket.disconnect();
     });
     socket.on('room', function (roompin, boolean) {
+        let test = 0;
+        let glist = [];
         let rom = 'room_' + roompin;
         socket.join(rom);
         Rooms.findOne({
@@ -339,18 +341,45 @@ io.on('connection', function (socket) {
             if (!fRoom) {
                 return ('Nie znaleziono pokoju w socketio')
             }
-            io.to(rom).emit('join_room', fRoom.guests);
+
+            fRoom.guests.forEach(function (GID) {
+                Guests.findById(
+                    GID,
+                    (err, fGuest) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                        glist.push(fGuest);
+                        test++;
+                        if (test == fRoom.guests.length) {
+                            console.log(glist);
+                            io.to(rom).emit('join_room', glist);
+                        }
+
+
+
+                    })
+            })
+
+
+
+
+
+
+
+            //            io.to(rom).emit('join_room', fRoom.guests);
         })
 
     });
-    socket.on('findG', function (GID, SID) {
+    socket.on('findG', function (GID) {
         Guests.findById(
             GID,
             (err, fGuest) => {
                 if (err) {
                     console.log(err);
                 }
-                io.to(SID).emit(GID, fGuest);
+                console.log("no nie wiem")
+                socket.emit(GID, fGuest);
 
 
 

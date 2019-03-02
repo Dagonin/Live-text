@@ -1,2 +1,1 @@
-1. Naprawiæ room_
-2. Lifetime na roomach i guestach
+1. Niepowtarzanie siê guestów przy refreshu

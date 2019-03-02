@@ -21,6 +21,9 @@
     //    var socket = io({transports: ['websocket'], upgrade: false});
     const socket = io();
     let boolean = false;
+    let xd = [];
+//    let boolean1 = false;
+//    let joinedG = [];
     socket.on('connect', () => {
         <% if(user) {%>
         boolean = true;
@@ -29,21 +32,24 @@
         console.log(socket.id); // true
         socket.emit('room', <%= room.PIN %>, boolean);
     });
+    
 
 
     socket.on('join_room', (nroom) => {
+
         console.log(nroom)
         //Swiezo dodany nick jest pokazany po odswiezeniu
         document.getElementById('guests').innerHTML = "";
         nroom.forEach(function(guest) {
-            socket.emit('findG', guest, socket.id);
-            socket.on(guest, (foundG) => {
-                console.log(2)
-                $('#guests').append($('<li>').text(foundG.username));
-                console.log(foundG);
-                console.log("xd");
-
-            })
+            $('#guests').append($('<li>').text(guest.username));
+//            socket.emit('findG', guest);
+//            socket.on(guest, (foundG) => {
+//                console.log(foundG);
+//                $('#guests').append($('<li>').text(foundG.username));
+//
+//
+//
+//            })
         })
 
     })
