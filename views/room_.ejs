@@ -35,10 +35,11 @@
 
     socket.on('join_room', () => {
         //Swiezo dodany nick jest pokazany po odswiezeniu
-
+      setTimeout(2000);
     <%    room.guests.forEach(function(guest) { %>
             socket.emit('findG', '<%= guest %>');
             socket.on('<%= guest %>', (foundG)=>{
+                        $('#guests').innerHTML= " ";
                 $('#guests').append($('<li>').text(foundG.username));
                 console.log(foundG);
             })

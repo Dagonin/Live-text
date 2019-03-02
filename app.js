@@ -23,7 +23,7 @@ app.use(body_parser.urlencoded({
 app.use(body_parser.json())
 app.use(cookieParser());
 app.use(express.static('static'));;
-//mongoose.connect("mongodb://mo855f_Dagonin:Dagonin666@mongo.ct8.pl/mo855f_Dagonin", {
+//mongoose.connect("mongodb://mo855f_Dagonin:has@mongo.ct8.pl/mo855f_Dagonin", {
 mongoose.connect("mongodb://localhost:27017/Live-text", {
         useNewUrlParser: true
     }).then(
