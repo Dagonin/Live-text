@@ -323,19 +323,34 @@ server.listen(8080, 'localhost', () => {
 //SOCKET.IO
 
 io.on('connection', function (socket) {
-    socket.on('room', function (roompin, boolean) {
-       let rom = 'room_' + roompin;
-        socket.join(rom);
-        io.to(rom).emit('join_room');
+    socket.on('disconnect', function () {
+        io.emit('user disconnected');
+        socket.disconnect();
     });
-    socket.on('findG', function (GID) {
+    socket.on('room', function (roompin, boolean) {
+        let rom = 'room_' + roompin;
+        socket.join(rom);
+        Rooms.findOne({
+            PIN: roompin
+        }, (err, fRoom) => {
+            if (err) {
+                return (err);
+            }
+            if (!fRoom) {
+                return ('Nie znaleziono pokoju w socketio')
+            }
+            io.to(rom).emit('join_room', fRoom.guests);
+        })
+
+    });
+    socket.on('findG', function (GID, SID) {
         Guests.findById(
             GID,
             (err, fGuest) => {
                 if (err) {
                     console.log(err);
                 }
-                socket.emit(GID, fGuest);
+                io.to(SID).emit(GID, fGuest);
 
 
 
