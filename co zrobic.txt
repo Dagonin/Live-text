@@ -1,1 +1,15 @@
-1. Niepowtarzanie siê guestów przy refreshu
+1. Usuwanie forma
+3. Lifetime guestów i pokoi
+4. Blokowanie pokoju po starcie ( w bazie danych dodaæ started, i przy join:id j± sprawdzaæ.     )
+
+
+
+
+
+
+
+
+
+
+Czego potrzebuje?
+1. Id ka¿dego inputa w formie

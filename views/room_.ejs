@@ -10,7 +10,14 @@
     <h1>
         <%= room.PIN%>
     </h1>
+    <h2 id='pytanie'></h2>
     <ul id="guests"></ul>
+    <% if(user){ %>
+    <form>
+        <input id='qinput' type="text">
+        <button id="qbutton">Wyślij</button>
+    </form>
+    <% } %>
 
 
 
@@ -21,9 +28,7 @@
     //    var socket = io({transports: ['websocket'], upgrade: false});
     const socket = io();
     let boolean = false;
-    let xd = [];
-//    let boolean1 = false;
-//    let joinedG = [];
+    //DOŁĄCZANIE
     socket.on('connect', () => {
         <% if(user) {%>
         boolean = true;
@@ -32,28 +37,33 @@
         console.log(socket.id); // true
         socket.emit('room', <%= room.PIN %>, boolean);
     });
-    
 
 
+    //WYŚWIETLANIE LISTY
     socket.on('join_room', (nroom) => {
-
         console.log(nroom)
-        //Swiezo dodany nick jest pokazany po odswiezeniu
         document.getElementById('guests').innerHTML = "";
         nroom.forEach(function(guest) {
             $('#guests').append($('<li>').text(guest.username));
-//            socket.emit('findG', guest);
-//            socket.on(guest, (foundG) => {
-//                console.log(foundG);
-//                $('#guests').append($('<li>').text(foundG.username));
-//
-//
-//
-//            })
         })
 
     })
 
+    //ZADANIE PYTANIA
+    $('#qbutton').click((e)=>{
+        e.preventDefault();
+        let qinput = $('#qinput').val();
+        socket.emit("question", qinput, <%= room.PIN %>);
+    })
+    //Wyświetlanie pytania
+    socket.on('qquestion', (qinput)=>{
+         document.getElementById('guests').innerHTML = "";
+//        $('#guests').remove();
+//        $('qform').remove();
+        $('#pytanie').text(qinput);
+    })
+    
+    
 </script>
 
 </html>

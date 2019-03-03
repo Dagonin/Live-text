@@ -355,38 +355,15 @@ io.on('connection', function (socket) {
                             console.log(glist);
                             io.to(rom).emit('join_room', glist);
                         }
-
-
-
                     })
             })
-
-
-
-
-
-
-
             //            io.to(rom).emit('join_room', fRoom.guests);
         })
 
     });
-    socket.on('findG', function (GID) {
-        Guests.findById(
-            GID,
-            (err, fGuest) => {
-                if (err) {
-                    console.log(err);
-                }
-                console.log("no nie wiem")
-                socket.emit(GID, fGuest);
-
-
-
-
-            })
-    })
-
+    socket.on("question", function(qinput, roompin){
+              io.to("room_"+roompin).emit("qquestion", qinput);
+              })
 
 
 
