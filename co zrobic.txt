@@ -1,7 +1,8 @@
-1. Usuwanie forma
+//1. Usuwanie forma
+2. Dodanie textboxów (I ICH POKAZANIE)
 3. Lifetime guestów i pokoi
-4. Blokowanie pokoju po starcie ( w bazie danych dodaæ started, i przy join:id j± sprawdzaæ.     )
-
+//4. Blokowanie pokoju po starcie ( w bazie danych dodaæ started, i przy join:id j± sprawdzaæ.     )
+5. blokowanie wejscia do pokoju po linku
 
 
 

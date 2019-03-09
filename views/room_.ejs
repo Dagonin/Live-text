@@ -13,13 +13,12 @@
     <h2 id='pytanie'></h2>
     <ul id="guests"></ul>
     <% if(user){ %>
-    <form>
+    <form id="qform">
         <input id='qinput' type="text">
         <button id="qbutton">Wyślij</button>
     </form>
     <% } %>
-
-
+    <form id='qanswer'></form>
 
 </body>
 <script src="/socket.io/socket.io.js"></script>
@@ -50,20 +49,18 @@
     })
 
     //ZADANIE PYTANIA
-    $('#qbutton').click((e)=>{
+    $('#qbutton').click((e) => {
         e.preventDefault();
         let qinput = $('#qinput').val();
         socket.emit("question", qinput, <%= room.PIN %>);
     })
     //Wyświetlanie pytania
-    socket.on('qquestion', (qinput)=>{
-         document.getElementById('guests').innerHTML = "";
-//        $('#guests').remove();
-//        $('qform').remove();
-        $('#pytanie').text(qinput);
+    socket.on('qquestion', (qinput) => {
+        document.getElementById('guests').innerHTML = "";
+        document.getElementById('qform').innerHTML = "<button id='qbutton'>Zakończ</button>"
+//        document.getElementById('qanswer').innerHTML = "<textarea name='' id='' cols='30' rows='10'></textarea>"
     })
-    
-    
+
 </script>
 
 </html>

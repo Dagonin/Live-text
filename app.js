@@ -160,7 +160,7 @@ app.post('/join', (req, res) => {
         if (err) {
             console.log(err)
         }
-        if (fRoom) {
+        if (fRoom && fRoom.OPEN != false) {
             Guests.create({
                 username: req.body.guestname,
                 email: req.body.remail
@@ -279,6 +279,7 @@ app.post("/", (req, res) => {
                 username: req.body.login.toLowerCase(),
                 password: bcrypt.hashSync(req.body.password, 7),
                 email: req.body.email,
+                OPEN: true,
                 cDate: new Date(),
                 permissions: "user"
             }, (err, cUser) => {
@@ -361,9 +362,18 @@ io.on('connection', function (socket) {
         })
 
     });
-    socket.on("question", function(qinput, roompin){
-              io.to("room_"+roompin).emit("qquestion", qinput);
-              })
+    socket.on("question", function (qinput, roompin) {
+        Rooms.findOneAndUpdate({
+            PIN: roompin
+        },{OPEN: false}, (err, fRoom) => {
+            if (err) {
+                return (err);
+            }
+            console.log(fRoom);
+            io.to("room_" + roompin).emit("qquestion", qinput);
+        })
+        
+    })
 
 
 

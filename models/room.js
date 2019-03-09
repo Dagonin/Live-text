@@ -2,6 +2,7 @@ const mongoose = require('mongoose'),
     Users = require('./user');
 const roomSchema = new mongoose.Schema({
     PIN: Number,
+    OPEN: Boolean,
     owner: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
