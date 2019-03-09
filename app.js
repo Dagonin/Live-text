@@ -13,7 +13,10 @@ const express = require('express'),
     LocalStrategy = require('passport-local').Strategy,
     securePin = require('secure-pin'),
     cookieParser = require('cookie-parser'),
-    io = require('socket.io')(server);
+    io = require('socket.io')(server, {
+        pingTimeout: 5000,
+        pingInterval: 25000
+    });
 
 require('events').EventEmitter.defaultMaxListeners = 100;
 
@@ -189,7 +192,10 @@ app.get('/room_:id', (req, res) => {
         PIN: req.params.id
     }, (err, fRoom) => {
         if (err) {
-            console.log(err)
+            return (err)
+        }
+        if (fRoom == null) {
+            return res.redirect('/')
         }
         console.log(fRoom + "ASDASDASD")
         if (req.user) {
@@ -198,7 +204,11 @@ app.get('/room_:id', (req, res) => {
                     user: req.user,
                     room: fRoom
                 });
+            } else {
+                res.redirect('/');
             }
+
+
         } else {
 
             let boolean = false;
@@ -215,6 +225,9 @@ app.get('/room_:id', (req, res) => {
                     if (err) {
                         console.log(err);
                     }
+                    if (fGuest == null) {
+                        return res.redirect('/');
+                    }
                     if (boolean == false) {
                         fRoom.updateOne({
                             $push: {
@@ -225,6 +238,7 @@ app.get('/room_:id', (req, res) => {
                                 return err;
                             }
                         })
+
                     }
                     res.render("room_", {
                         user: req.user,
@@ -232,6 +246,7 @@ app.get('/room_:id', (req, res) => {
                         room: fRoom
                     });
                 })
+
             //                        console.log(fRoom.guests)
             //                        console.log(fGuest.username + "USERNAME");
             //            res.render("room_", {
@@ -322,12 +337,30 @@ server.listen(8080, 'localhost', () => {
 
 
 //SOCKET.IO
-
+function sleep(time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+}
+let timeout = false;
 io.on('connection', function (socket) {
+    timeout = false;
+    console.log('dawid');
+
     socket.on('disconnect', function () {
-        io.emit('user disconnected');
-        socket.disconnect();
+        timeout = true;
+
+        sleep(5000).then(() => {
+            if (timeout == false) {
+            }
+        });
+
+
+
+
     });
+
+
+
+
     socket.on('room', function (roompin, boolean) {
         let test = 0;
         let glist = [];
@@ -365,14 +398,16 @@ io.on('connection', function (socket) {
     socket.on("question", function (qinput, roompin) {
         Rooms.findOneAndUpdate({
             PIN: roompin
-        },{OPEN: false}, (err, fRoom) => {
+        }, {
+            OPEN: false
+        }, (err, fRoom) => {
             if (err) {
                 return (err);
             }
             console.log(fRoom);
             io.to("room_" + roompin).emit("qquestion", qinput);
         })
-        
+
     })
 
 
