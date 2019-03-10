@@ -420,13 +420,25 @@ io.on('connection', function (socket) {
     })
 
     socket.on('ans', function (socid, text, gid, roompin) {
-        io.to("room_" + roompin).emit("wys",socid, text, gid);
+            Guests.findById(
+                gid,
+                (err, fGuest) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    io.to("room_" + roompin).emit("wys", socid, text, fGuest);
+                }
+            )
+
+
+
+
     })
-    //    
-    //  socket.emit('request', /* */); // emit an event to the socket
-    //  io.emit('broadcast', /* */); // emit an event to all connected sockets
-    //  socket.on('reply', function(){ /* */ }); // listen to the event
-    //    
+//    
+//  socket.emit('request', /* */); // emit an event to the socket
+//  io.emit('broadcast', /* */); // emit an event to all connected sockets
+//  socket.on('reply', function(){ /* */ }); // listen to the event
+//    
 
 
 });

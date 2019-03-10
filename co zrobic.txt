@@ -2,6 +2,7 @@
 2. // Dodanie textboxów (I ICH POKAZANIE) < focus na funkcjonalnosci
 3. //zrobienie obiektow u ownera z odpowiedziami
 4. //przesylanie i pokazywanie odpowiedzi   << JEBANE DUBLOWANIE SIE GUESTOW
+4a pokazanie wyslanej odpowiedzi
 5. zaznaczanie b³êdów (owner zaznacza tekst, klika dobry przycisk i wszruca ze spany z dobrym id)
 
 ^ na ten weekend ma byæ kurwa zrobione.
