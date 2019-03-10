@@ -349,8 +349,7 @@ io.on('connection', function (socket) {
         timeout = true;
 
         sleep(5000).then(() => {
-            if (timeout == false) {
-            }
+            if (timeout == false) {}
         });
 
 
@@ -412,17 +411,17 @@ io.on('connection', function (socket) {
 
 
 
-socket.on('glist', function(gsocket){
-    io.to(gsocket).emit("lista", "czesc");
-})
-    
-    socket.on('odp', function(roompin, text, gid){
-        io.to("room_" + roompin).emit("godp", text,gid);
+    socket.on('glist', function (gsocket) {
+        io.to(gsocket).emit("lista", "czesc");
     })
 
+    socket.on('odp', function (roompin, text, gid) {
+        io.to("room_" + roompin).emit("godp", text, gid);
+    })
 
-
-
+    socket.on('ans', function (socid, text, gid, roompin) {
+        io.to("room_" + roompin).emit("wys",socid, text, gid);
+    })
     //    
     //  socket.emit('request', /* */); // emit an event to the socket
     //  io.emit('broadcast', /* */); // emit an event to all connected sockets

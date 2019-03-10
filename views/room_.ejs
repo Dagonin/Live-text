@@ -19,7 +19,6 @@
             <button id="qbutton">Wyślij</button>
         </form>
         <% }else{ %>
-        <form id='qanswer'></form>
 
 
         <% } %>
@@ -40,7 +39,8 @@
         <% if(user) {%>
         boolean = true;
         <% } if(!user && room.OPEN == false) {%>
-        document.getElementById('qanswer').innerHTML = "<textarea name='' id='area' cols='30' rows='10'></textarea>"
+        document.getElementById('content').innerHTML = "<div id='area' contenteditable='true'>  </div>";
+        $('#content').append("<button onclick='wyslij()' id='przycisk'>Wyślij</button>")
 
         <% } if(user && room.OPEN == false) { %>
         $('#content').append("<button id='qbutton'>Zakończ</button>")
@@ -77,32 +77,50 @@
         <% if(user){  %>
         $('#content').append("<button id='qbutton'>Zakończ</button>")
         <% }else { %>
-        document.getElementById('qanswer').innerHTML = "<textarea name='' id='area' cols='30' rows='10'></textarea>"
+        document.getElementById('qanswer').innerHTML = "<div id='area' contenteditable='true'></div>"
+        $('#content').append("<button onclick='wyslij()' id='przycisk'>Wyślij</button>")
         <% } %>
         socket.emit('glist', socket.id)
     })
 
+
+    //Przesyłanie pytania
+    setInterval(function() {
+
+        <% if(!user) { %>
+
+        if ($('#area').val() != " ") {
+            let xd = $('#area').val();
+            socket.emit('odp', <%= room.PIN %>, xd, '<%= fguest.id %>');
+        }
+        <% } %>
+    }, 5000)
+
+
+    //Wyświetlanie odpowiedzi
     socket.on('lista', (glist) => {
         console.log(list)
         list.forEach(function(guest) {
             $('#content').append($('<span>').text('as').attr("id", guest._id));
         })
     })
-    
-    socket.on('godp', (text, gid)=>{
-        $("#"+gid).text(text)
+
+    socket.on('godp', (text, gid) => {
+        $("#" + gid).text(text)
     })
 
-    //Przesyłanie pytania
-    setInterval(function(){
-       <% if(!user && room.OPEN == false){ %>
-            let xd = $('#area').val();
-            socket.emit('odp',<%= room.PIN %>, xd, '<%= fguest.id %>');
-   <%     } %>
-    },5000)
 
-    
-    
+
+    //Wysyłanie odpowiedzi
+    function wyslij() {
+        let ans = $('#area').text();
+        $('#area').text(" ");
+        socket.emit('ans', socket.id, ans, '<%= fguest.id %>', <%= room.PIN %>)
+    }
+    socket.on('wys', (socid,text,gid)=>{
+        
+    })
+
 </script>
 
 </html>
