@@ -412,7 +412,13 @@ io.on('connection', function (socket) {
 
 
 
-
+socket.on('glist', function(gsocket){
+    io.to(gsocket).emit("lista", "czesc");
+})
+    
+    socket.on('odp', function(roompin, text, gid){
+        io.to("room_" + roompin).emit("godp", text,gid);
+    })
 
 
 

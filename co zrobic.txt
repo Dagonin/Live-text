@@ -1,8 +1,8 @@
 //1. Usuwanie forma
-2. Dodanie textboxów (I ICH POKAZANIE) < focus na funkcjonalnosci
-3. zrobienie obiektow u ownera z odpowiedziami
-4. przesylanie i pokazywanie odpowiedzi
-5. zaznaczanie b³êdów
+2. // Dodanie textboxów (I ICH POKAZANIE) < focus na funkcjonalnosci
+3. //zrobienie obiektow u ownera z odpowiedziami
+4. //przesylanie i pokazywanie odpowiedzi   << JEBANE DUBLOWANIE SIE GUESTOW
+5. zaznaczanie b³êdów (owner zaznacza tekst, klika dobry przycisk i wszruca ze spany z dobrym id)
 
 ^ na ten weekend ma byæ kurwa zrobione.
 
@@ -19,6 +19,10 @@
 
 
 
+
+
+
+(2 guesty o tym samym id rozpierdalaja wszystko (chyba))
 
 
 

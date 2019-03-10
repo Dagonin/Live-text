@@ -12,13 +12,19 @@
     </h1>
     <h2 id='pytanie'></h2>
     <ul id="guests"></ul>
-    <% if(user){ %>
-    <form id="qform">
-        <input id='qinput' type="text">
-        <button id="qbutton">Wyślij</button>
-    </form>
-    <% } %>
-    <form id='qanswer'></form>
+    <div id="content">
+        <% if(user && room.OPEN != false ){ %>
+        <form id="qform">
+            <input id='qinput' type="text">
+            <button id="qbutton">Wyślij</button>
+        </form>
+        <% }else{ %>
+        <form id='qanswer'></form>
+
+
+        <% } %>
+
+    </div>
 
 </body>
 <script src="/socket.io/socket.io.js"></script>
@@ -26,26 +32,37 @@
 <script>
     //    var socket = io({transports: ['websocket'], upgrade: false});
     const socket = io();
+    let list;
     let boolean = false;
     //DOŁĄCZANIE
     socket.on('connect', () => {
+        socket.emit('room', <%= room.PIN %>, boolean);
         <% if(user) {%>
         boolean = true;
-        <% } %>
+        <% } if(!user && room.OPEN == false) {%>
+        document.getElementById('qanswer').innerHTML = "<textarea name='' id='area' cols='30' rows='10'></textarea>"
 
+        <% } if(user && room.OPEN == false) { %>
+        $('#content').append("<button id='qbutton'>Zakończ</button>")
+        socket.emit('glist', socket.id)
+        <% } %>
         console.log(socket.id); // true
-        socket.emit('room', <%= room.PIN %>, boolean);
+
+
+
     });
 
 
     //WYŚWIETLANIE LISTY
     socket.on('join_room', (nroom) => {
+        list = nroom;
+        <% if (room.OPEN != false){ %>
         console.log(nroom)
         document.getElementById('guests').innerHTML = "";
         nroom.forEach(function(guest) {
             $('#guests').append($('<li>').text(guest.username));
         })
-
+        <%    } %>
     })
 
     //ZADANIE PYTANIA
@@ -57,10 +74,35 @@
     //Wyświetlanie pytania
     socket.on('qquestion', (qinput) => {
         document.getElementById('guests').innerHTML = "";
-        document.getElementById('qform').innerHTML = "<button id='qbutton'>Zakończ</button>"
-//        document.getElementById('qanswer').innerHTML = "<textarea name='' id='' cols='30' rows='10'></textarea>"
+        <% if(user){  %>
+        $('#content').append("<button id='qbutton'>Zakończ</button>")
+        <% }else { %>
+        document.getElementById('qanswer').innerHTML = "<textarea name='' id='area' cols='30' rows='10'></textarea>"
+        <% } %>
+        socket.emit('glist', socket.id)
     })
 
+    socket.on('lista', (glist) => {
+        console.log(list)
+        list.forEach(function(guest) {
+            $('#content').append($('<span>').text('as').attr("id", guest._id));
+        })
+    })
+    
+    socket.on('godp', (text, gid)=>{
+        $("#"+gid).text(text)
+    })
+
+    //Przesyłanie pytania
+    setInterval(function(){
+       <% if(!user && room.OPEN == false){ %>
+            let xd = $('#area').val();
+            socket.emit('odp',<%= room.PIN %>, xd, '<%= fguest.id %>');
+   <%     } %>
+    },5000)
+
+    
+    
 </script>
 
 </html>
