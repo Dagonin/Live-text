@@ -4,6 +4,83 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
+    <style>
+        .active > .answer-actions > button {
+        display: none;
+      }
+
+      .active > .answer-actions > .writing {
+        display: inherit;
+        width: 300px;
+        height: 25px;
+        padding: 1px;
+        background-color: chocolate;
+        line-height: 25px;
+        font-size: 20px;
+        color: #eeeeee;
+        text-align: center;
+      }
+
+      .writing {
+        display: none;
+      }
+
+      .inline-block {
+        display: inline-block;
+      }
+
+      .answer {
+        margin: 5px;
+        border: 3px solid #eee;
+        width: 750px;
+        height: 150px;
+        padding: 10px;
+        box-sizing: border-box;
+      }
+
+      .answer-actions {
+        float: right;
+      }
+
+      .answer-text {
+        width: 400px;
+      }
+
+      .btn {
+        padding: 1px;
+        border: none;
+        border-radius: 5%;
+        width: 100px;
+        height: 25px;
+        color: white;
+        font-weight: bold;
+        outline: none;
+      }
+
+      .warning {
+        background-color: orange;
+      }
+
+      .error {
+        background-color: red;
+      }
+
+      .success {
+        background-color: green;
+      }
+
+      .warning:hover {
+        background-color: #ff9400;
+      }
+
+      .error:hover {
+        background-color: #ee0000;
+      }
+
+      .success:hover {
+        background-color: #007000;
+      }
+    </style>
 </head>
 
 <body>
@@ -24,6 +101,37 @@
         <% } %>
 
     </div>
+
+
+
+
+
+
+
+
+    <div class="answer">
+        <div class="answer-text inline-block">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore
+            tempora quae delectus vel nulla molestiae excepturi. Reiciendis quia
+            blanditiis expedita reprehenderit eum et quo ea error corporis
+            doloremque. Id, incidunt.
+        </div>
+        <div class="answer-actions inline-block">
+            <button class="btn warning">Bledy</button>
+            <button class="btn error">Odrzuć</button>
+            <button class="btn success">Dobrze</button>
+            <a class="writing">Someone is writing</a>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
 
 </body>
 <script src="/socket.io/socket.io.js"></script>
