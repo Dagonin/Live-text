@@ -102,29 +102,7 @@
 
     </div>
 
-
-
-
-
-
-
-
-    <div class="answer">
-        <div class="answer-text inline-block">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore
-            tempora quae delectus vel nulla molestiae excepturi. Reiciendis quia
-            blanditiis expedita reprehenderit eum et quo ea error corporis
-            doloremque. Id, incidunt.
-        </div>
-        <div class="answer-actions inline-block">
-            <button class="btn warning">Bledy</button>
-            <button class="btn error">Odrzuć</button>
-            <button class="btn success">Dobrze</button>
-            <a class="writing">Someone is writing</a>
-        </div>
-    </div>
-
-
+    <div id="a"></div>
 
 
 
@@ -137,9 +115,11 @@
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
-    //    var socket = io({transports: ['websocket'], upgrade: false});
+    //    var socket = io({transports: ['websocket'], upgrade: false});l
+
     const socket = io();
     let list;
+    let oczekiwanie = false;
     let boolean = false;
     //DOŁĄCZANIE
     socket.on('connect', () => {
@@ -192,13 +172,14 @@
     })
 
 
-    //Przesyłanie pytania
+    //Przesyłanie odpowiedzi
     setInterval(function() {
 
         <% if(!user) { %>
 
-        if ($('#area').val() != " ") {
+        if ($('#area').val() != " " && oczekiwanie == false) {
             let xd = $('#area').text();
+            oczekiwanie = false;
             socket.emit('odp', <%= room.PIN %>, xd, '<%= fguest.id %>');
         }
         <% } %>
@@ -209,13 +190,26 @@
     socket.on('lista', (glist) => {
         console.log(list)
         list.forEach(function(guest) {
-            $('#content').append($('<div>').text('as').attr("id", guest._id));
+
+            $('#a').append(`<div class="answer ` + guest._id + `">
+        <div class="answer-text inline-block">
+        </div>
+        <div class="answer-actions inline-block">
+            <button class="btn warning">Bledy</button>
+            <button class="btn error">Odrzuć</button>
+            <button class="btn success">Dobrze</button>
+            <a class="writing">Someone is writing</a>
+        </div>
+    </div>`)
+
         })
     })
 
     socket.on('godp', (text, gid) => {
         console.log(text)
-        $("#" + gid).text(text)
+        //        console.log( $("#" + gid))
+        //        console.log( $("#a")
+        $("." + gid).children().first().text(text);
     })
 
 
@@ -224,9 +218,12 @@
     <%  if(!user){ %>
 
     function wyslij() {
-        let ans = $('#area').text();
-        $('#area').text(" ");
-        socket.emit('ans', socket.id, ans, '<%= fguest.id %>', <%= room.PIN %>)
+        if (oczekiwanie == false) {
+            let ans = $('#area').text();
+            $('#area').text(" ");
+            oczekiwanie = true;
+            socket.emit('ans', socket.id, ans, '<%= fguest.id %>', <%= room.PIN %>);
+        }
     }
     <%}%>
 
@@ -235,7 +232,7 @@
 
     <%  if(user){ %>
     socket.on('wys', (socid, text, g) => {
-        console.log(g);
+        $('.'+g._id).attr('.active');
     })
     <%}%>
 

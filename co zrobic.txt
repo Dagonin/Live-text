@@ -1,7 +1,9 @@
-//1. Usuwanie forma
-2. // Dodanie textboxów (I ICH POKAZANIE) < focus na funkcjonalnosci
-3. //zrobienie obiektow u ownera z odpowiedziami
-4. //przesylanie i pokazywanie odpowiedzi   << JEBANE DUBLOWANIE SIE GUESTOW
+(Pamietac o dzialaniu 'oczekiwanie')
+
+SPRAWDZIC POKAZYWANIE ODPOWIEDZI Z 2 ROZNYCH GUESTOW, NA HOSTINGU NAJLEPIPEJ
+
+
+
 4a pokazanie wyslanej odpowiedzi
 5. zaznaczanie b³êdów (owner zaznacza tekst, klika dobry przycisk i wszruca ze spany z dobrym id)
 
@@ -32,3 +34,44 @@
 
 Czego potrzebuje?
 1. Id ka¿dego inputa w formie
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+active do aktywacji
+
+``````    <<< to cos do zaznaczania jako cudzyslow
+
+   ` <div class="answer">
+        <div class="answer-text inline-block">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore
+            tempora quae delectus vel nulla molestiae excepturi. Reiciendis quia
+            blanditiis expedita reprehenderit eum et quo ea error corporis
+            doloremque. Id, incidunt.
+        </div>
+        <div class="answer-actions inline-block">
+            <button class="btn warning">Bledy</button>
+            <button class="btn error">Odrzuæ</button>
+            <button class="btn success">Dobrze</button>
+            <a class="writing">Someone is writing</a>
+        </div>
+    </div> ` 
