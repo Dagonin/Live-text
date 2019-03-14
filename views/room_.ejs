@@ -80,6 +80,21 @@
       .success:hover {
         background-color: #007000;
       }
+        .dontlookhere{
+            display:none;
+        }
+        span{
+            font-size: 30px;
+        }
+        .mark{
+            background-color: gold;
+        }
+        <% if(user){ %>
+        span:hover {
+            font-size: 35px;
+            background-color: yellow;
+        }
+        <% } %>
     </style>
 </head>
 
@@ -188,21 +203,24 @@
 
     //Wyświetlanie odpowiedzi
     socket.on('lista', (glist) => {
+        <% if(user){ %>
         console.log(list)
         list.forEach(function(guest) {
 
-            $('#a').append(`<div class="answer ` + guest._id + `">
+            $('#a').append(`<div class="answer active ` + guest._id + `">
         <div class="answer-text inline-block">
         </div>
+        <div class='dontlookhere'> </div>
         <div class="answer-actions inline-block">
-            <button class="btn warning">Bledy</button>
-            <button class="btn error">Odrzuć</button>
+            <button onclick='oopsie(this)' class="btn warning">Bledy</button>
+            <button onclick='err(this)' class="btn error">Odrzuć</button>
             <button class="btn success">Dobrze</button>
-            <a class="writing">Someone is writing</a>
+            <a class="writing">` + guest.username + `</a>
         </div>
     </div>`)
 
         })
+        <%}%>
     })
 
     socket.on('godp', (text, gid) => {
@@ -229,11 +247,69 @@
 
 
 
-
     <%  if(user){ %>
+
     socket.on('wys', (socid, text, g) => {
-        $('.'+g._id).attr('.active');
+
+        $('.' + g._id).removeClass('active').children().first().text(text);
+        $('.' + g._id).children('.dontlookhere').text(socid);
+
     })
+
+    // Obsluga przyciskow
+    function err(heh) {
+        let texta = [];
+        console.log(texta);
+        let socid = heh.parentElement.parentElement.children[1].innerHTML;
+
+
+    }
+
+
+
+    function oopsie(sp) {
+        let count = 0;
+        let text = sp.parentElement.parentElement.children[0].innerHTML;
+        texta = text.split(" ");
+        sp.parentElement.parentElement.children[0].innerHTML = " "
+        texta.forEach(function(tex) {
+            sp.parentElement.parentElement.children[0].innerHTML += "<span>" + tex + "</span>" + '<span> </span>';
+            //            console.log(tex);
+            //            if (tex == '&nbsp;') {
+            //                count++;
+            //                console.log(count);
+            //            } else {
+            //
+            //                let whitespace = '';
+            //                for (let x = 0; x < count; x++) {
+            //                    whitespace += '&nbsp;'
+            //                    console.log(whitespace)
+            //                    if (whitespace != "") {
+            //                        sp.parentElement.parentElement.children[0].innerHTML += "<span>" + tex + "</span>" + '<span>' + whitespace + '</span>';
+            //                    } else {
+            //                        
+            //                    }
+            //                }
+            //
+            //            }
+
+
+
+
+            $('span').click((a)=> {
+                          a.toElement.className += 'mark';
+            })
+
+
+
+
+
+
+
+
+
+        })
+    }
     <%}%>
 
 </script>

@@ -56,7 +56,7 @@ Czego potrzebuje?
 
 
 
-
+dontlookhere trzyma socid (w modelu odpowiedzi)
 active do aktywacji
 
 ``````    <<< to cos do zaznaczania jako cudzyslow
