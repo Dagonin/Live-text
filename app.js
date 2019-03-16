@@ -85,7 +85,8 @@ passport.deserializeUser(function (id, done) {
 const Guests = require("./models/guest");
 const Users = require("./models/user");
 const Rooms = require('./models/room');
-const Mailer = require('./helpers/mailer')
+const Mailer = require('./helpers/mailer');
+const Answer = require('./models/answer');
 
 
 
@@ -433,6 +434,12 @@ io.on('connection', function (socket) {
 
 
 
+    })
+    socket.on('back', function(text,socid){
+        socket.to(`${socid}`).emit('back1', text);
+    })
+    socket.on('badans', function(socid){
+        socket.to(`${socid}`).emit('badans1');
     })
 //    
 //  socket.emit('request', /* */); // emit an event to the socket

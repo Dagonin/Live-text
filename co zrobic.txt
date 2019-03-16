@@ -1,16 +1,12 @@
 (Pamietac o dzialaniu 'oczekiwanie')
 
-SPRAWDZIC POKAZYWANIE ODPOWIEDZI Z 2 ROZNYCH GUESTOW, NA HOSTINGU NAJLEPIPEJ
 
 
 
-4a pokazanie wyslanej odpowiedzi
-5. zaznaczanie b³êdów (owner zaznacza tekst, klika dobry przycisk i wszruca ze spany z dobrym id)
-
-^ na ten weekend ma byæ kurwa zrobione.
-
-6. przekazywanie blednych odpowiedzi
-
+1. Przycisk dobrze:
+a. robienie modelu odpowiedzi
+b. przeniesienie guesta z guests do complete
+2. Ocenianie odpowiedzi (NIE WIADOMO JAK)
 
 
 

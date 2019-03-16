@@ -103,7 +103,7 @@
         <%= room.PIN%>
     </h1>
     <h2 id='pytanie'></h2>
-    <ul id="guests"></ul>
+    <ul oncopy="return false" id="guests"></ul>
     <div id="content">
         <% if(user && room.OPEN != false ){ %>
         <form id="qform">
@@ -136,7 +136,7 @@
     let list;
     let oczekiwanie = false;
     let boolean = false;
-    //DOŁĄCZANIE
+    //DOŁĄCZANIE IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
     socket.on('connect', () => {
         socket.emit('room', <%= room.PIN %>, boolean);
         <% if(user) {%>
@@ -156,7 +156,7 @@
     });
 
 
-    //WYŚWIETLANIE LISTY
+    //WYŚWIETLANIE LISTY IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
     socket.on('join_room', (nroom) => {
         list = nroom;
         <% if (room.OPEN != false){ %>
@@ -168,13 +168,13 @@
         <%    } %>
     })
 
-    //ZADANIE PYTANIA
+    //ZADANIE PYTANIA IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
     $('#qbutton').click((e) => {
         e.preventDefault();
         let qinput = $('#qinput').val();
         socket.emit("question", qinput, <%= room.PIN %>);
     })
-    //Wyświetlanie pytania
+    //Wyświetlanie pytania IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
     socket.on('qquestion', (qinput) => {
         document.getElementById('guests').innerHTML = "";
         <% if(user){  %>
@@ -187,7 +187,7 @@
     })
 
 
-    //Przesyłanie odpowiedzi
+    //Przesyłanie odpowiedzi IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
     setInterval(function() {
 
         <% if(!user) { %>
@@ -201,7 +201,7 @@
     }, 5000)
 
 
-    //Wyświetlanie odpowiedzi
+    //Wyświetlanie odpowiedzi IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
     socket.on('lista', (glist) => {
         <% if(user){ %>
         console.log(list)
@@ -214,7 +214,8 @@
         <div class="answer-actions inline-block">
             <button onclick='oopsie(this)' class="btn warning">Bledy</button>
             <button onclick='err(this)' class="btn error">Odrzuć</button>
-            <button class="btn success">Dobrze</button>
+            <button onclick='done(this)' class="btn success">Dobrze</button>
+            <button onclick='ods(this)' class="btn ">odeslij</button>
             <a class="writing">` + guest.username + `</a>
         </div>
     </div>`)
@@ -232,7 +233,7 @@
 
 
 
-    //Wysyłanie odpowiedzi
+    //Wysyłanie odpowiedzi IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
     <%  if(!user){ %>
 
     function wyslij() {
@@ -256,19 +257,17 @@
 
     })
 
-    // Obsluga przyciskow
+    // Obsluga przyciskow IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
     function err(heh) {
-        let texta = [];
-        console.log(texta);
         let socid = heh.parentElement.parentElement.children[1].innerHTML;
-
+        heh.parentElement.parentElement.classList.remove('active');
+        socket.emit('badans', socid);
 
     }
 
 
 
     function oopsie(sp) {
-        let count = 0;
         let text = sp.parentElement.parentElement.children[0].innerHTML;
         texta = text.split(" ");
         sp.parentElement.parentElement.children[0].innerHTML = " "
@@ -296,8 +295,8 @@
 
 
 
-            $('span').click((a)=> {
-                          a.toElement.className += 'mark';
+            $('span').click((a) => {
+                a.toElement.classList.toggle('mark');
             })
 
 
@@ -310,7 +309,45 @@
 
         })
     }
+
+    function ods(a) {
+        let text = a.parentElement.parentElement.children[0].innerHTML;
+        let socid = a.parentElement.parentElement.children[1].innerHTML;
+        a.parentElement.parentElement.classList.add('active');
+        socket.emit('back', text, socid);
+    }
+
+    function done(a) {
+
+        let socid = a.parentElement.parentElement.children[1].innerHTML;
+        let text = a.parentElement.parentElement.children[0].innerHTML;
+
+    }
+
     <%}%>
+
+
+    // PRZYCISKI DALEJ IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+    socket.on('back1', (text) => {
+        oczekiwanie = false;
+        $('#guests').text('')
+        $('#guests').append("Popraw błędy!");
+        $('#guests').append(text);
+        let ret = text.replace(/<span>/g, " ").replace(/<span class="mark">/g, ' ').replace(/<\/span>/g, " ").replace(/&nbsp;/g, ' ');
+        console.log(ret)
+        $("#area").text(ret);
+    })
+    socket.on('badans1', () => {
+        oczekiwanie = false;
+        $('#guests').text(' ')
+        $('#guests').append("Twoja odpowiedź była błędna, napisz ją od nowa.");
+        $('#area').text(' ')
+    })
+
+    <% if(!user){ %>
+
+
+    <% } %>
 
 </script>
 
