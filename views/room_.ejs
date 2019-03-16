@@ -321,6 +321,10 @@
 
         let socid = a.parentElement.parentElement.children[1].innerHTML;
         let text = a.parentElement.parentElement.children[0].innerHTML;
+        let ret = text.replace(/<span>/g, " ").replace(/<span class="mark">/g, ' ').replace(/<\/span>/g, " ").replace(/&nbsp;/g, ' ');
+        console.log(ret + 'text')
+        let gid = a.parentElement.parentElement.classList[1]
+        socket.emit('goodans', socid, ret, gid, <%= room.PIN %>)
 
     }
 

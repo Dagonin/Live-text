@@ -86,7 +86,7 @@ const Guests = require("./models/guest");
 const Users = require("./models/user");
 const Rooms = require('./models/room');
 const Mailer = require('./helpers/mailer');
-const Answer = require('./models/answer');
+const Answers = require('./models/answer');
 
 
 
@@ -421,31 +421,76 @@ io.on('connection', function (socket) {
     })
 
     socket.on('ans', function (socid, text, gid, roompin) {
-            Guests.findById(
-                gid,
-                (err, fGuest) => {
-                    if (err) {
-                        console.log(err);
-                    }
-                    io.to("room_" + roompin).emit("wys", socid, text, fGuest);
+        Guests.findById(
+            gid,
+            (err, fGuest) => {
+                if (err) {
+                    console.log(err);
                 }
-            )
+                io.to("room_" + roompin).emit("wys", socid, text, fGuest);
+            }
+        )
 
 
 
 
     })
-    socket.on('back', function(text,socid){
+    socket.on('back', function (text, socid) {
         socket.to(`${socid}`).emit('back1', text);
     })
-    socket.on('badans', function(socid){
+    socket.on('badans', function (socid) {
         socket.to(`${socid}`).emit('badans1');
     })
-//    
-//  socket.emit('request', /* */); // emit an event to the socket
-//  io.emit('broadcast', /* */); // emit an event to all connected sockets
-//  socket.on('reply', function(){ /* */ }); // listen to the event
-//    
+
+    socket.on('goodans', function (socid, ret, gid, roompin) {
+        console.log("ans", socid, gid, roompin, ret)
+        Answers.create({
+            guest: gid,
+            odp: ret,
+            PIN: roompin
+        }, (err, cAns) => {
+            if (err) {
+                return console.log(err);
+            }
+            console.log(cAns);
+            console.log('cAns');
+
+            Rooms.findOne({
+                PIN: roompin
+            }, (err, fRoom) => {
+                if (err) {
+                    return console.log(err)
+                }
+                fRoom.updateOne({
+                    $pull: {
+                        guests: gid
+                    }
+                }, (err, upd) => {
+                    if (err) {
+                        return err;
+                    }
+                })
+                fRoom.updateOne({
+                    $push: {
+                        complete: gid
+                    }
+                }, (err, upd) => {
+                    if (err) {
+                        return err;
+                    }
+                })
+
+            })
+
+
+        })
+    })
+
+    //    
+    //  socket.emit('request', /* */); // emit an event to the socket
+    //  io.emit('broadcast', /* */); // emit an event to all connected sockets
+    //  socket.on('reply', function(){ /* */ }); // listen to the event
+    //    
 
 
 });
