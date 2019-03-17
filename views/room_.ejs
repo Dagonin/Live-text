@@ -205,9 +205,10 @@
     socket.on('lista', (glist) => {
         <% if(user){ %>
         console.log(list)
-        list.forEach(function(guest) {
+        if (list) {
+            list.forEach(function(guest) {
 
-            $('#a').append(`<div class="answer active ` + guest._id + `">
+                $('#a').append(`<div class="answer active ` + guest._id + `">
         <div class="answer-text inline-block">
         </div>
         <div class='dontlookhere'> </div>
@@ -220,7 +221,8 @@
         </div>
     </div>`)
 
-        })
+            })
+        }
         <%}%>
     })
 
@@ -322,8 +324,8 @@
         let socid = a.parentElement.parentElement.children[1].innerHTML;
         let text = a.parentElement.parentElement.children[0].innerHTML;
         let ret = text.replace(/<span>/g, " ").replace(/<span class="mark">/g, ' ').replace(/<\/span>/g, " ").replace(/&nbsp;/g, ' ');
-        console.log(ret + 'text')
-        let gid = a.parentElement.parentElement.classList[1]
+        let gid = a.parentElement.parentElement.classList[1];
+        a.parentElement.parentElement.remove();
         socket.emit('goodans', socid, ret, gid, <%= room.PIN %>)
 
     }

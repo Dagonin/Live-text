@@ -198,7 +198,7 @@ app.get('/room_:id', (req, res) => {
         if (fRoom == null) {
             return res.redirect('/')
         }
-        console.log(fRoom + "ASDASDASD")
+//        console.log(fRoom + "ASDASDASD")
         if (req.user) {
             if (req.user.id == fRoom.owner) {
                 res.render("room_", {
@@ -229,7 +229,7 @@ app.get('/room_:id', (req, res) => {
                     if (fGuest == null) {
                         return res.redirect('/');
                     }
-                    if (boolean == false) {
+                    if (boolean == false && fRoom.complete.indexOf(fGuest._id)== -1) {
                         fRoom.updateOne({
                             $push: {
                                 guests: fGuest._id
@@ -386,7 +386,7 @@ io.on('connection', function (socket) {
                         glist.push(fGuest);
                         test++;
                         if (test == fRoom.guests.length) {
-                            console.log(glist);
+//                            console.log(glist);
                             io.to(rom).emit('join_room', glist);
                         }
                     })
@@ -404,7 +404,7 @@ io.on('connection', function (socket) {
             if (err) {
                 return (err);
             }
-            console.log(fRoom);
+//            console.log(fRoom);
             io.to("room_" + roompin).emit("qquestion", qinput);
         })
 
@@ -443,7 +443,7 @@ io.on('connection', function (socket) {
     })
 
     socket.on('goodans', function (socid, ret, gid, roompin) {
-        console.log("ans", socid, gid, roompin, ret)
+//        console.log("ans", socid, gid, roompin, ret)
         Answers.create({
             guest: gid,
             odp: ret,
@@ -452,7 +452,7 @@ io.on('connection', function (socket) {
             if (err) {
                 return console.log(err);
             }
-            console.log(cAns);
+//            console.log(cAns);
             console.log('cAns');
 
             Rooms.findOne({
@@ -478,6 +478,8 @@ io.on('connection', function (socket) {
                     if (err) {
                         return err;
                     }
+                    
+                    
                 })
 
             })
