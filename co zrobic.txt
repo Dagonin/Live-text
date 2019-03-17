@@ -3,10 +3,10 @@
 
 
 
-1. Przycisk dobrze:
+//1. Przycisk dobrze:
 //a. robienie modelu odpowiedzi
 //b. przeniesienie guesta z guests do complete
-c. odswiezanie listy u ownera 
+//c. odswiezanie listy u ownera 
 2. Ocenianie odpowiedzi (NIE WIADOMO JAK)
 
 

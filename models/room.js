@@ -14,6 +14,10 @@ const roomSchema = new mongoose.Schema({
     complete: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Guest'
+        }],
+    answers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Guest'
         }]
 })
 

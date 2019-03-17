@@ -349,9 +349,11 @@
         $('#guests').append("Twoja odpowiedź była błędna, napisz ją od nowa.");
         $('#area').text(' ')
     })
-
+// OCENIANIE ODPOWIEDZI IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
     <% if(!user){ %>
-
+socket.on('answrs',(answrs)=>{
+    console.log(answrs)
+})
 
     <% } %>
 
