@@ -5,6 +5,7 @@ const guestSchema = new mongoose.Schema({
     answered: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Guest'
-        }]
+        }],
+    states: []
 });
 module.exports = mongoose.model('Guest', guestSchema);

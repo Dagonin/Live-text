@@ -133,6 +133,10 @@
     //    var socket = io({transports: ['websocket'], upgrade: false});l
 
     const socket = io();
+    <% if(!user){ %>
+    let Ssend = <%= fguest.states[0] %>;
+    let Srating = <%= fguest.states[1] %>;
+    <% } %>
     let list;
     let oczekiwanie = false;
     let boolean = false;
@@ -349,12 +353,34 @@
         $('#guests').append("Twoja odpowiedź była błędna, napisz ją od nowa.");
         $('#area').text(' ')
     })
-// OCENIANIE ODPOWIEDZI IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+    // OCENIANIE ODPOWIEDZI IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
     <% if(!user){ %>
-socket.on('answrs',(answrs)=>{
-    console.log(answrs)
-})
+    socket.on('anslist', (uroom, g) => {
+        
+        console.log(uroom)
+        console.log(g)
+        if (uroom.complete.includes(g._id) && uroom.answers.length >= 3) {
+            let c = [];
 
+            uroom.answers.forEach(function(ans) {
+                if(g.answered.includes(ans)){
+                    console.log("cos")
+                }else{
+                    c.push(ans)
+                }
+                if(c.length==2){
+                    socket.emit('twoodp', c, socket.id)
+                    c = [];
+                }
+            })
+
+
+
+        }
+
+
+
+    })
     <% } %>
 
 </script>

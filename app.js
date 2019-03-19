@@ -167,7 +167,8 @@ app.post('/join', (req, res) => {
         if (fRoom && fRoom.OPEN != false) {
             Guests.create({
                 username: req.body.guestname,
-                email: req.body.remail
+                email: req.body.remail,
+                states: [0, 0]
             }, (err, cGuest) => {
                 if (err) {
                     console.log(err)
@@ -442,8 +443,10 @@ io.on('connection', function (socket) {
         socket.to(`${socid}`).emit('badans1');
     })
 
+    // SMUTNO MI SIE ROBI JAK NA TO PATRZE
     socket.on('goodans', function (socid, ret, gid, roompin) {
         //        console.log("ans", socid, gid, roompin, ret)
+
         Answers.create({
             guest: gid,
             odp: ret,
@@ -452,81 +455,58 @@ io.on('connection', function (socket) {
             if (err) {
                 return console.log(err);
             }
-            //            console.log(cAns);
             console.log('cAns');
 
-            Rooms.findOne({
+            Rooms.findOneAndUpdate({
                 PIN: roompin
-            }, (err, fRoom) => {
-                if (err) {
-                    return console.log(err)
+            }, {
+                $push: {
+                    answers: cAns._id,
+                    complete: gid
+                },
+                $pull: {
+                    guests: gid
                 }
-                fRoom.updateOne({
-                        $push: {
-                            answers: cAns._id
-                        }
-                    },
-                    (err, upd) => {
-                        if (err) {
-                            return console.lot(err);
-                        }
-                    }
-                )
-
-                fRoom.updateOne({
-                    $pull: {
-                        guests: gid
-                    }
-                }, (err, upd) => {
-                    if (err) {
-                        return console.lot(err)
-                    }
-                })
-                fRoom.updateOne({
+            }, {
+                new: true
+            }, (err, uRoom) => {
+                if (err) {
+                    return console.log(err);
+                }
+                Guests.findByIdAndUpdate(gid, {
                     $push: {
-                        complete: gid
-                    }
-                }, (err, upd) => {
+                        answered: cAns
+                    },
+
+                    $set: {
+                       "states.$[element]": 15,
+                    },
+
+                }, {
+                    arrayFilters: [{
+                        element: [0]
+                        }],
+                    upsert: true,
+                    new: true
+                }, (err, uGuest) => {
                     if (err) {
-                        return console.lot(err)
+                        return console.log(err);
                     }
-
+                    console.log(uGuest)
+                    io.to('room_' + roompin).emit('anslist', uRoom, uGuest);
                 })
-                Guests.findById(
-                    gid,
-                    (err, fGuest) => {
-                        if (err) {
-                            console.log(err);
-                        }
-                        fGuest.updateOne({
-                            $push: {
-                                answered: cAns
-                            }
-                        }, (err, upd) => {
-                            if (err) {
-                                return console.lot(err)
-                            }
-
-                        })
-
-                    }
-                )
-
             })
 
         })
-        Rooms.findOne({
-            PIN: roompin
-        }, (err, fRoom) => {
-            if (err) {
-                return console.log(err)
-            }
-            console.log(fRoom + "ASDJHKASDJHKASD")
-            io.to(roompin).emit('answrs', fRoom.answers);
-        })
+
 
 
     })
+
+    socket.on('twoodp', function (odps, socid) {
+
+    })
+
 })
 
 //    
