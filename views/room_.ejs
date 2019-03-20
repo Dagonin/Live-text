@@ -134,6 +134,8 @@
 
     const socket = io();
     <% if(!user){ %>
+    let NER;
+    let NEG;
     let Ssend = <%= fguest.states[0] %>;
     let Srating = <%= fguest.states[1] %>;
     <% } %>
@@ -146,6 +148,7 @@
         <% if(user) {%>
         boolean = true;
         <% } if(!user && room.OPEN == false) {%>
+        // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TU EJST DIV DO WPISYWANIA ODPOWIEDZI U GUESTA
         document.getElementById('content').innerHTML = "<div id='area' contenteditable='true'>  </div>";
         $('#content').append("<button onclick='wyslij()' id='przycisk'>Wyślij</button>")
 
@@ -184,6 +187,7 @@
         <% if(user){  %>
         $('#content').append("<button id='qbutton'>Zakończ</button>")
         <% }else { %>
+        // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TU EJST DIV DO WPISYWANIA ODPOWIEDZI U GUESTA
         document.getElementById('content').innerHTML = "<div id='area' contenteditable='true'></div>"
         $('#content').append("<button onclick='wyslij()' id='przycisk'>Wyślij</button>")
         <% } %>
@@ -211,7 +215,7 @@
         console.log(list)
         if (list) {
             list.forEach(function(guest) {
-
+                // TU JEST TE MENU U  OWNERA XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
                 $('#a').append(`<div class="answer active ` + guest._id + `">
         <div class="answer-text inline-block">
         </div>
@@ -356,31 +360,81 @@
     // OCENIANIE ODPOWIEDZI IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
     <% if(!user){ %>
     socket.on('anslist', (uroom, g) => {
-        
-        console.log(uroom)
-        console.log(g)
-        if (uroom.complete.includes(g._id) && uroom.answers.length >= 3) {
-            let c = [];
+        NER = uroom;
+        if (g.states[1] == 1) {
+            socket.emit('changestateR', socket.id, "<%= fguest.id %>");
+        }
+    })
+    //        if (uroom.complete.includes(g._id) && uroom.answers.length >= 3 && g.states[1] != 3) {
+    //            socket.emit('changestateR', socid, ");
+    //            let c = [];
+    //
+    //            uroom.answers.forEach(function(ans) {
+    //                if(g.answered.includes(ans)){
+    //                    console.log("cos")
+    //                }else{
+    //                    c.push(ans)
+    //                }
+    //                if(c.length==2){
+    //                    socket.emit('twoodp', c, socket.id)
+    //                    c = [];
+    //                }
+    //            })
+    //
+    //
+    //
+    //        }
+    //
+    //
+    //
+    //    })       
 
-            uroom.answers.forEach(function(ans) {
-                if(g.answered.includes(ans)){
-                    console.log("cos")
-                }else{
-                    c.push(ans)
+    socket.on('odploop', (g) => {
+        NEG = g;
+
+        if (NER.complete.includes(g._id) && NER.answers.length >= 3) {
+            for (let x = 0; x < NER.answers.length; x++) {
+                console.log(x)
+                let c = NER.answers[x]
+                let found = ""
+                //                NER.answers.every(function(ans) {
+                for (let z = 0; z < NER.answers.length; z++) {
+
+                    if (NEG.answered.includes(NER.answers[z])) {
+                        console.log("nie")
+                        console.log(NER)
+                    } else {
+                        console.log(c + NER.answers[z])
+                        if (NEG.answered.includes(c + NER.answers[z]) && NEG.answered.includes(NER.answers[z] + c)) {
+                            console.log('nie1')
+                        } else {
+
+                            found = NER.answers[z];
+                            console.log(found)
+                            break
+                        }
+                    }
                 }
-                if(c.length==2){
-                    socket.emit('twoodp', c, socket.id)
-                    c = [];
+                if (found != "") {
+                    console.log("dziala" + c + found)
+                    console.log(NER);
+                    socket.emit('renderodp', c, found, socket.id)
+                    break;
                 }
-            })
-
-
+            }
+        } else {
+            setTimeout(function() {
+                console.log("czekam")
+                socket.emit('changestateR', socket.id, "<%= fguest.id %>");
+            }, 3000);
 
         }
-
-
-
     })
+
+            socket.on('renderodp1',(st,nd)=>{
+                console.log(st,nd);
+            })
+            
     <% } %>
 
 </script>

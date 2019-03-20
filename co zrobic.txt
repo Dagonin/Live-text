@@ -1,8 +1,5 @@
 (Pamietac o dzialaniu 'oczekiwanie')
-Array ze stata'mi guestow{
-Czy wyslal odpowied¼ | czy ocenia
-NIE DZIALA ZMIENIANIE STATA
-}
+
 usuwanie pokoju i zawartosci po 30 minutowej nieobecnosci ownera?
 
 
@@ -13,9 +10,10 @@ usuwanie pokoju i zawartosci po 30 minutowej nieobecnosci ownera?
 //b. przeniesienie guesta z guests do complete
 //c. odswiezanie listy u ownera 
 2. Ocenianie odpowiedzi (NIE WIADOMO JAK)
- a. sprawdzanie, czy guest teraz nie ocenia
- b. pokazanie 2 odpowiedzi
- c. zebranie wyniku
+// a. sprawdzanie, czy guest teraz nie ocenia
+// b. pokazanie 2 odpowiedzi
+    //c. sprawdzanie czy guest nie ocenil tych 2 odpowiedzi
+ d. zebranie wyniku
 
 
 ///

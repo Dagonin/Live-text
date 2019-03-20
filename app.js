@@ -168,7 +168,7 @@ app.post('/join', (req, res) => {
             Guests.create({
                 username: req.body.guestname,
                 email: req.body.remail,
-                states: [0, 0]
+                states: [0, 1]
             }, (err, cGuest) => {
                 if (err) {
                     console.log(err)
@@ -477,22 +477,11 @@ io.on('connection', function (socket) {
                     $push: {
                         answered: cAns
                     },
-
-                    $set: {
-                       "states.$[element]": 15,
-                    },
-
-                }, {
-                    arrayFilters: [{
-                        element: [0]
-                        }],
-                    upsert: true,
                     new: true
                 }, (err, uGuest) => {
                     if (err) {
                         return console.log(err);
                     }
-                    console.log(uGuest)
                     io.to('room_' + roompin).emit('anslist', uRoom, uGuest);
                 })
             })
@@ -506,8 +495,43 @@ io.on('connection', function (socket) {
     socket.on('twoodp', function (odps, socid) {
 
     })
+    socket.on("changestateR", function (socid, gid) {
+        Guests.findByIdAndUpdate(gid, {
+            $set: {
+                "states.$[element]": 3,
+            },
+
+        }, {
+            arrayFilters: [{
+                element: 1
+                        }],
+            upsert: true,
+            new: true
+        }, (err, uGuest) => {
+            if (err) {
+                return console.log(err);
+            }
+            console.log(uGuest, socid)
+            io.to(`${socid}`).emit('odploop', uGuest);
+        })
+    })
+    socket.on('renderodp', function (st, nd, socid) {
+        Answers.findById(st, (err, fst) => {
+            if (err) {
+                return console.log(err)
+            }
+            Answers.findById(nd, (err, fnd) => {
+                if (err) {
+                    return console.log(err);
+                }
+                io.to(`${socid}`).emit('renderodp1', fst, fnd);
+            })
+        })
+    })
 
 })
+
+
 
 //    
 //  socket.emit('request', /* */); // emit an event to the socket
