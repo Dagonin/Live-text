@@ -101,6 +101,11 @@ app.get('/login', (req, res) => {
         user: req.user
     });
 })
+app.get('/register', (req, res) => {
+    res.render('register', {
+        user: req.user
+    })
+})
 
 
 
@@ -304,12 +309,9 @@ app.post("/", (req, res) => {
                     console.log(err);
                 }
                 console.log('created')
-                xd.push("success")
             })
         }
-        res.send({
-            message: xd
-        })
+        res.redirect('/')
     })
 });
 

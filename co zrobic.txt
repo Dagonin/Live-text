@@ -13,6 +13,7 @@ usuwanie pokoju i zawartosci po 30 minutowej nieobecnosci ownera?
 // a. sprawdzanie, czy guest teraz nie ocenia
 // b. pokazanie 2 odpowiedzi
     //c. sprawdzanie czy guest nie ocenil tych 2 odpowiedzi
+    // GUEST CZASAMI OCENIA SIEBIE
  d. zebranie wyniku
 
 

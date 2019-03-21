@@ -125,7 +125,6 @@
 
 
 
-
 </body>
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
@@ -400,12 +399,12 @@
                 //                NER.answers.every(function(ans) {
                 for (let z = 0; z < NER.answers.length; z++) {
 
-                    if (NEG.answered.includes(NER.answers[z])) {
+                    if (NEG.answered.includes(NER.answers[z]) || NER.answers[z] == c) {
                         console.log("nie")
                         console.log(NER)
                     } else {
                         console.log(c + NER.answers[z])
-                        if (NEG.answered.includes(c + NER.answers[z]) && NEG.answered.includes(NER.answers[z] + c)) {
+                        if (NEG.answered.includes(c + NER.answers[z]) || NEG.answered.includes(NER.answers[z] + c)) {
                             console.log('nie1')
                         } else {
 
@@ -431,10 +430,23 @@
         }
     })
 
-            socket.on('renderodp1',(st,nd)=>{
-                console.log(st,nd);
-            })
-            
+    socket.on('renderodp1', (st, nd) => {
+        console.log(st, nd);
+        $('#content').text(' ')
+        $('#content').append(
+            `<div id=` + st._id + `>
+    <span>` + st.odp + `</span>
+    <button onclick="choosen()">Wybierz</button>
+</div>`)
+
+
+        $('#content').append(
+            `<div id=` + nd._id + `>
+    <span>` + nd.odp + `</span>
+    <button onclick="choosen()">Wybierz</button>
+</div>`)
+
+    })
     <% } %>
 
 </script>
