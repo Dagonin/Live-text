@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <title>Text Live</title>
+</head>
+
+<body class="bg-dark">
+
+
+
+
+
+    <div class="container p-5">
+        <div id='glowny' class="jumbotron bg-secondary">
+            <div class="row mb-3">
+                <div class="col-sm">
+                    <h2 class="text-center">
+                        <%= room.PIN %>
+                    </h2>
+                </div>
+
+            </div>
+            <% if(user && room.OPEN != false ){ %>
+            <div class="row">
+
+                <div id="sendpyt" class="col-sm">
+                    <!-- FORM PYTANIE  POWYSŁANIU FORMA DOPISAĆ DO KLAS DIVA POWYŻEJ KLASE d-none -->
+                    <form id="qform">
+                        <div class="row justify-content-center">
+                            <input id="qinput" class="form-control col-8 mr-1" placeholder="Polecenie" type="text" />
+                            <button id="qbutton" class="form-control btn btn-primary col-3">
+                                Wyślij
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <% } if(room.OPEN != false){ %>
+
+            <ul id="guests" class="list-group mt-2">
+            </ul>
+            <% } else {%>
+
+            <% }%>
+            <div id="pytingame" class="col-sm">
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+    //    var socket = io({transports: ['websocket'], upgrade: false});l
+
+    const socket = io();
+    <% if(!user){ %>
+    let NER;
+    let NEG;
+    let Ssend = <%= fguest.states[0] %>;
+    let Srating = <%= fguest.states[1] %>;
+    <% } %>
+    let list;
+    let oczekiwanie = false;
+    let boolean = false;
+    //DOŁĄCZANIE IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+    socket.on('connect', () => {
+        socket.emit('room', <%= room.PIN %>, boolean);
+        <% if(user) {%>
+        boolean = true;
+        <% } if(!user && room.OPEN == false) {%>
+        // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TU EJST DIV DO WPISYWANIA ODPOWIEDZI U GUESTA
+        $('#glowny').append(`<div class="col-sm">
+    <!-- POKAZYWANIE BŁĘDÓW NP. JAKO LISTE
+            KONTROLA NAD TYM DOPISANIE KLASY d-none POWODUJE ZNIKNIĘCIE TEGO-->
+    <div class="alert alert-danger d-none" role="alert">
+        <strong>Popraw następujące błędy: </strong> jakieś błędy
+    </div>
+    <!-- POKAZYWANIE PYTANIA-->
+    <div class="alert alert-info" role="alert">
+        <strong>Wykonaj następujące polecenie: </strong> Pytanie
+    </div>
+    <!-- FORM ODPOWIEDZI-->
+    <form id="qform">
+        <div id='area' contenteditable='true' class="form-control mb-1" style="resize: none; font-size:1rem;" rows="3" cols="250" type="text" placeholder="Twoja Odpowiedź"></div>
+        <button onclick='wyslij()' id="qbutton" class="form-control btn btn-primary">Wyślij</button>
+    </form>
+    </form>
+</div>`)
+
+        <% } if(user && room.OPEN == false) { %>
+        //        $('#').append("<button id='qbutton'>Zakończ</button>")
+        socket.emit('glist', socket.id)
+        <% } %>
+        console.log(socket.id); // true
+
+
+
+    });
+
+
+    //WYŚWIETLANIE LISTY IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+    socket.on('join_room', (nroom) => {
+        list = nroom;
+        <% if (room.OPEN != false){ %>
+        console.log(nroom)
+        document.getElementById('guests').innerHTML = "";
+        nroom.forEach(function(guest) {
+            $('#guests').append(`<li class="list-group-item list-group-item-dark">` + guest.username +
+                <% if(user){ %>
+                `<div class="btn btn-danger btn-sm float-right">
+                        <span aria-hidden="true">&times;</span>
+                    </div>
+                </li>`
+                <% } else{ %>
+                `</li>`
+                <% } %>
+            )
+        })
+        <%    } %>
+    })
+
+    //ZADANIE PYTANIA IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+    $('#qbutton').click((e) => {
+        e.preventDefault();
+        let qinput = $('#qinput').val();
+        $('#sendpyt').addClass('d-none');
+        socket.emit("question", qinput, <%= room.PIN %>);
+    })
+    //Wyświetlanie pytania IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+    socket.on('qquestion', (qinput) => {
+        document.getElementById('guests').innerHTML = "";
+        <% if(user){  %>
+        $('#pytingame').append(`<div class="alert alert-success mb-5" role="alert">
+              <strong>Polecenie zadane uczniom:</strong> ` + qinput + `
+            </div>`)
+        <% }else { %>
+        // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX TU EJST DIV DO WPISYWANIA ODPOWIEDZI U GUESTA
+        //        document.getElementById('glowny').innerHTML = "<div id='area' glownyeditable='true'></div>"
+        //        $('#glowny').append("<button onclick='wyslij()' id='przycisk'>Wyślij</button>")
+        $('#glowny').append(`<div class="col-sm">
+    <!-- POKAZYWANIE BŁĘDÓW NP. JAKO LISTE
+            KONTROLA NAD TYM DOPISANIE KLASY d-none POWODUJE ZNIKNIĘCIE TEGO-->
+    <div class="alert alert-danger d-none" role="alert">
+        <strong>Popraw następujące błędy: </strong> jakieś błędy
+    </div>
+    <!-- POKAZYWANIE PYTANIA-->
+    <div class="alert alert-info" role="alert">
+        <strong>Wykonaj następujące polecenie: </strong> ` + qinput + `
+    </div>
+    <!-- FORM ODPOWIEDZI-->
+    <form id="qform">
+        <div id='area' contenteditable='true' class="form-control mb-1" style="resize: none; font-size:1rem;" rows="3" cols="250" type="text" placeholder="Twoja Odpowiedź"></div>
+        <button id="qbutton" onclick='wyslij()' class="form-control btn btn-primary">Wyślij</button>
+    </form>
+    </form>
+</div>`)
+        <% } %>
+        socket.emit('glist', socket.id)
+    })
+
+
+    //Przesyłanie odpowiedzi IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+    setInterval(function() {
+
+        <% if(!user) { %>
+
+        if ($('#area').val() != " " && oczekiwanie == false) {
+            let xd = $('#area').text();
+            oczekiwanie = false;
+            socket.emit('odp', <%= room.PIN %>, xd, '<%= fguest.id %>');
+        }
+        <% } %>
+    }, 5000)
+
+
+    //Wyświetlanie odpowiedzi IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+    socket.on('lista', (glist) => {
+        <% if(user){ %>
+        console.log(list)
+        if (list) {
+            list.forEach(function(guest) {
+                // TU JEST TE MENU U  OWNERA XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                $('#glowny').append(`          <div class="alert alert-light ` + guest._id + `" role="alert">
+              <div class="row">
+                <div class="col-7">ODPOWIEDŹ TU</div>
+                <!-- Dodanie to klas tego na dole d-none powoduje zniknięcie przycisków -->
+                <div class="col-5 d-none"">
+                  <div class="row">
+                    <div class="col>
+                      <div class="btn btn-danger w-100">Źle</div>
+                    </div>
+                    <div class='dontlookhere'> </div>
+                    <div class="col-5">
+                      <div class="btn btn-warning w-100 mb-2">Popraw</div>
+                      <div class="btn btn-warning w-100">Wskaż błędy</div>
+                    </div>
+                    <div class="col">
+                      <div class="btn btn-success w-100 mb-2">Dobrze</div>
+                      <div class="btn btn-secondary w-100">Odeślij</div>
+                    </div>
+                  </div>
+                </div>
+                <!-- POWYSŁANIU ZADANIA PRZEZ UCZNIA ZABRAĆ Z KLAS DIVA PONIŻEJ KLASE d-none -->
+                <div class="col-5">
+                  <div class="alert alert-info" role="alert">
+                    <p class="text-center">` + guest.username + `</p>
+                  </div>
+                </div>
+              </div>
+            </div>`)
+
+            })
+        }
+        <%}%>
+    })
+
+    socket.on('godp', (text, gid) => {
+        console.log(text)
+        //        console.log( $("#" + gid))
+        //        console.log( $("#a")
+        $("." + gid).children().first().children('.col-7').text(text);
+    })
+
+
+
+    //Wysyłanie odpowiedzi IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+    <%  if(!user){ %>
+
+    function wyslij() {
+        if (oczekiwanie == false) {
+            let ans = $('#area').text();
+            $('#area').text(" ");
+            oczekiwanie = true;
+            socket.emit('ans', socket.id, ans, '<%= fguest.id %>', <%= room.PIN %>);
+        }
+    }
+    <%}%>
+
+
+
+    <%  if(user){ %>
+
+    socket.on('wys', (socid, text, g) => {
+        console.log($('.' + g._id).children().first().children());
+        $('.' + g._id).removeClass('active').children().first().text(text);
+        $('.' + g._id).children('.dontlookhere').text(socid);
+
+    })
+
+    // Obsluga przyciskow IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+    function err(heh) {
+
+        let socid = heh.parentElement.parentElement.children[1].innerHTML;
+        heh.parentElement.parentElement.classList.remove('active');
+        socket.emit('badans', socid);
+
+    }
+
+
+
+    function oopsie(sp) {
+        let text = sp.parentElement.parentElement.children[0].innerHTML;
+        texta = text.split(" ");
+        sp.parentElement.parentElement.children[0].innerHTML = " "
+        texta.forEach(function(tex) {
+            sp.parentElement.parentElement.children[0].innerHTML += "<span>" + tex + "</span>" + '<span> </span>';
+            //            console.log(tex);
+            //            if (tex == '&nbsp;') {
+            //                count++;
+            //                console.log(count);
+            //            } else {
+            //
+            //                let whitespace = '';
+            //                for (let x = 0; x < count; x++) {
+            //                    whitespace += '&nbsp;'
+            //                    console.log(whitespace)
+            //                    if (whitespace != "") {
+            //                        sp.parentElement.parentElement.children[0].innerHTML += "<span>" + tex + "</span>" + '<span>' + whitespace + '</span>';
+            //                    } else {
+            //                        
+            //                    }
+            //                }
+            //
+            //            }
+
+
+
+
+            $('span').click((a) => {
+                a.toElement.classList.toggle('mark');
+            })
+
+
+
+
+
+
+
+
+
+        })
+    }
+
+    function ods(a) {
+        let text = a.parentElement.parentElement.children[0].innerHTML;
+        let socid = a.parentElement.parentElement.children[1].innerHTML;
+        a.parentElement.parentElement.classList.add('active');
+        socket.emit('back', text, socid);
+    }
+
+    function done(a) {
+
+        let socid = a.parentElement.parentElement.children[1].innerHTML;
+        let text = a.parentElement.parentElement.children[0].innerHTML;
+        let ret = text.replace(/<span>/g, " ").replace(/<span class="mark">/g, ' ').replace(/<\/span>/g, " ").replace(/&nbsp;/g, ' ');
+        let gid = a.parentElement.parentElement.classList[1];
+        a.parentElement.parentElement.remove();
+        socket.emit('goodans', socid, ret, gid, <%= room.PIN %>)
+
+    }
+
+    <%}%>
+
+
+    // PRZYCISKI DALEJ IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+    socket.on('back1', (text) => {
+        oczekiwanie = false;
+        $('#guests').text('')
+        $('#guests').append("Popraw błędy!");
+        $('#guests').append(text);
+        let ret = text.replace(/<span>/g, " ").replace(/<span class="mark">/g, ' ').replace(/<\/span>/g, " ").replace(/&nbsp;/g, ' ');
+        console.log(ret)
+        $("#area").text(ret);
+    });
+    socket.on('badans1', () => {
+        oczekiwanie = false;
+        $('#guests').text(' ')
+        $('#guests').append("Twoja odpowiedź była błędna, napisz ją od nowa.");
+        $('#area').text(' ')
+    })
+    // OCENIANIE ODPOWIEDZI IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+    <% if(!user){ %>
+    socket.on('anslist', (uroom, g) => {
+        NER = uroom;
+        if (g.states[1] == 1) {
+            socket.emit('changestateR', socket.id, "<%= fguest.id %>");
+        }
+    })
+    //        if (uroom.complete.includes(g._id) && uroom.answers.length >= 3 && g.states[1] != 3) {
+    //            socket.emit('changestateR', socid, ");
+    //            let c = [];
+    //
+    //            uroom.answers.forEach(function(ans) {
+    //                if(g.answered.includes(ans)){
+    //                    console.log("cos")
+    //                }else{
+    //                    c.push(ans)
+    //                }
+    //                if(c.length==2){
+    //                    socket.emit('twoodp', c, socket.id)
+    //                    c = [];
+    //                }
+    //            })
+    //
+    //
+    //
+    //        }
+    //
+    //
+    //
+    //    })       
+
+    socket.on('odploop', (g) => {
+        NEG = g;
+
+        if (NER.complete.includes(g._id) && NER.answers.length >= 3) {
+            for (let x = 0; x < NER.answers.length; x++) {
+                console.log(x)
+                let c = NER.answers[x]
+                let found = ""
+                //                NER.answers.every(function(ans) {
+                for (let z = 0; z < NER.answers.length; z++) {
+
+                    if (NEG.answered.includes(NER.answers[z]) || NER.answers[z] == c) {
+                        console.log("nie")
+                        console.log(NER)
+                    } else {
+                        console.log(c + NER.answers[z])
+                        if (NEG.answered.includes(c + NER.answers[z]) || NEG.answered.includes(NER.answers[z] + c)) {
+                            console.log('nie1')
+                        } else {
+
+                            found = NER.answers[z];
+                            console.log(found)
+                            break
+                        }
+                    }
+                }
+                if (found != "") {
+                    console.log("dziala" + c + found)
+                    console.log(NER);
+                    socket.emit('renderodp', c, found, socket.id)
+                    break;
+                }
+            }
+        } else {
+            setTimeout(function() {
+                console.log("czekam")
+                socket.emit('changestateR', socket.id, "<%= fguest.id %>");
+            }, 3000);
+
+        }
+    })
+
+    socket.on('renderodp1', (st, nd) => {
+        console.log(st, nd);
+        $('#glowny').text(' ')
+        $('#glowny').append(
+            `<div id=` + st._id + `>
+    <span>` + st.odp + `</span>
+    <button onclick="choosen()">Wybierz</button>
+</div>`)
+
+
+        $('#glowny').append(
+            `<div id=` + nd._id + `>
+    <span>` + nd.odp + `</span>
+    <button onclick="choosen()">Wybierz</button>
+</div>`)
+
+    })
+    <% } %>
+
+</script>
+
+</html>

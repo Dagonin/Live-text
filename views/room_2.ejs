@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <title>Text Live</title>
+  </head>
+  <body class="bg-dark">
+    <div class="container p-5">
+      <div class="jumbotron bg-secondary">
+        <div class="row mb-3">
+          <div class="col-sm">
+            <h2 class="text-center">KOD KLASY</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div id="sendpyt" class="col-sm">
+            <!-- FORM PYTANIE  POWYSŁANIU FORMA DOPISAĆ DO KLAS DIVA POWYŻEJ KLASE d-none -->
+            <form id="qform">
+              <div class="row justify-content-center">
+                <input
+                  id="qinput"
+                  class="form-control col-8 mr-1"
+                  placeholder="Polecenie"
+                  type="text"
+                />
+                <button id="qbutton" class="form-control btn btn-primary col-3">
+                  Wyślij
+                </button>
+              </div>
+            </form>
+            <div class="row justify-content-center">
+              <div class="col-6">
+                <ul class="list-group mt-2">
+                  <li class="list-group-item list-group-item-dark">
+                    1....
+                    <div class="btn btn-danger btn-sm float-right">
+                      <span aria-hidden="true">&times;</span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- POWYSŁANIU FORMA ZABRAĆ Z KLAS DIVA PONIŻEJ KLASE d-none -->
+          <div id="pytingame" class="col-sm d-none">
+            <!-- POKAZANIE PYTANIA NAUCZYCIELOWI-->
+            <div class="alert alert-success mb-5" role="alert">
+              <strong>Polecenie zadane uczniom: </strong> POLECENIE
+            </div>
+            <div class="alert alert-light" role="alert">
+              <div class="row">
+                <div class="col-7">ODPOWIEDŹ TU</div>
+                <!-- Dodanie to klas tego na dole d-none powoduje zniknięcie przycisków -->
+                <div class="col-5">
+                  <div class="row">
+                    <div class="col">
+                      <div class="btn btn-danger w-100">Źle</div>
+                    </div>
+                    <div class="col-5">
+                      <div class="btn btn-warning w-100 mb-2">Popraw</div>
+                      <div class="btn btn-warning w-100">Wskaż błędy</div>
+                    </div>
+                    <div class="col">
+                      <div class="btn btn-success w-100 mb-2">Dobrze</div>
+                      <div class="btn btn-secondary w-100">Odeślij</div>
+                    </div>
+                  </div>
+                </div>
+                <!-- POWYSŁANIU ZADANIA PRZEZ UCZNIA ZABRAĆ Z KLAS DIVA PONIŻEJ KLASE d-none -->
+                <div class="col-5 d-none">
+                  <div class="alert alert-info" role="alert">
+                    <p class="text-center">NAZWA</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

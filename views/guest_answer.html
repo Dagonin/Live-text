@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <title>Text Live</title>
+  </head>
+  <body class="bg-dark">
+    <div class="container p-5 d-flex justify-content-center">
+      <div class="jumbotron bg-secondary row">
+        <div class="col-sm">
+          <!-- POKAZYWANIE BŁĘDÓW NP. JAKO LISTE
+            KONTROLA NAD TYM DOPISANIE KLASY d-none POWODUJE ZNIKNIĘCIE TEGO-->
+            <div class="alert alert-danger" role="alert">
+              <strong>Popraw następujące błędy: </strong> jakieś błędy
+            </div>
+            <!-- POKAZYWANIE PYTANIA-->
+            <div class="alert alert-info" role="alert">
+                <strong>Wykonaj następujące polecenie: </strong> Pytanie
+              </div>
+            <!-- FORM ODPOWIEDZI-->
+            <form id="qform">
+                <textarea id='qinput' class="form-control mb-1" style="resize: none; font-size:1rem;" rows="3" cols="250" type="text" placeholder="Twoja Odpowiedź"></textarea>
+                <button id="qbutton" class="form-control btn btn-primary">Wyślij</button>
+            </form>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
