@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.css"
+      integrity="sha256-ujE/ZUB6CMZmyJSgQjXGCF4sRRneOimQplBVLu8OU5w="
+      crossorigin="anonymous"
+    />
+    <title>Text Live</title>
+  </head>
+
+  <body>
+    <% if(!user){%>
+    <div class="container">
+      <div class="columns">
+        <div class="column">
+          <form action="/join" method="post">
+            <div class="row justify-content-center">
+              <input
+                class="input"
+                type="number"
+                placeholder="Kod Klasy"
+                name="PIN"
+                required
+              />
+              <input
+                class="input"
+                type="text"
+                placeholder="Twoja Nazwa"
+                name="guestname"
+                required
+              />
+            </div>
+            <div class="row justify-content-center">
+              <input
+                class="input"
+                type="email"
+                placeholder="Twój Email"
+                name="remail"
+                required
+              />
+            </div>
+            <button class="button is-info">
+              Dołącz
+            </button>
+          </form>
+        </div>
+        <div class="column">
+          <form action="/login" method="post">
+            <div class="row justify-content-center">
+              <input
+                class="input"
+                name="username"
+                placeholder="Login"
+                type="text"
+                required
+              />
+            </div>
+            <div class="row justify-content-center">
+              <input
+                class="input"
+                name="password"
+                placeholder="Hasło"
+                type="password"
+                required
+              />
+            </div>
+
+            <button class="button is-info">
+              Zaloguj
+            </button>
+          </form>
+          Nie masz konta?
+          <a href="/register" class="alert-link">Utwórz konto</a>
+        </div>
+      </div>
+    </div>
+    <% } %> <% if(user){ console.log(user) %>
+    <div class="container">
+      <section class="hero is-dark">
+        <div class="hero-body">
+          <div class="container">
+            <h1 class="title">
+              Witaj, <%= user.username %>!
+            </h1>
+            <h2 class="subtitle">
+              Wygląda na to, że nie posiadasz żadnego utworzonego pokoju 😪 Użyj
+              przycisku poniżej, aby utworzyć pokój!
+              <form action="/create_room" method="get">
+                <div class="columns">
+                  <div class="column" style="margin-top: 0.75rem; ">
+                    <button class="button is-primary">Utwórz pokój</button>
+                    <a href="/logout" class="button is-primary is-outlined"
+                      >Wyloguj</a
+                    >
+                  </div>
+                </div>
+              </form>
+            </h2>
+          </div>
+        </div>
+      </section>
+    </div>
+    <% } %>
+  </body>
+</html>
