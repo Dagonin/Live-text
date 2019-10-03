@@ -112,18 +112,20 @@
                 <h2 id="pytanie"></h2>
                 <ul oncopy="return false" id="guests" class="columns"></ul>
                 <div id="content">
-                    <% if(user && room.OPEN != false ){ %>
+                    
                         <form id="qform">
                         <!--            <input id='qinput' type="text">-->
                         <div id="editor"></div>
                          <button id="qbutton">Wyślij</button>
                         </form>
+                        <% }else{ %>
+                        <% } %>
               </h2>
             </div>
           </div>
         </section>
       </div>
-      <% }else{ %> <% } %>
+      
     </div>
 
     <div id="a"></div>
