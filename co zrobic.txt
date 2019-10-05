@@ -1,44 +1,5 @@
-(Pamietac o dzialaniu 'oczekiwanie')
-
-usuwanie pokoju i zawartosci po 30 minutowej nieobecnosci ownera?
-
-
-
-
-//1. Przycisk dobrze:
-//a. robienie modelu odpowiedzi
-//b. przeniesienie guesta z guests do complete
-//c. odswiezanie listy u ownera 
-2. Ocenianie odpowiedzi (NIE WIADOMO JAK)
-// a. sprawdzanie, czy guest teraz nie ocenia
-// b. pokazanie 2 odpowiedzi
-    //c. sprawdzanie czy guest nie ocenil tych 2 odpowiedzi
-    // GUEST CZASAMI OCENIA SIEBIE
- d. zebranie wyniku
-
-
-///
-(2 klikniecia bledy )
-3. Lifetime guestów i pokoi
-//4. Blokowanie pokoju po starcie ( w bazie danych dodaæ started, i przy join:id j± sprawdzaæ.     )
-5. blokowanie wejscia do pokoju po linku
-5a. czyszczenie cookie w sockiecie
-
-
-
-
-
-
-(2 guesty o tym samym id rozpierdalaja wszystko (chyba))
-
-
-
-
-
-
-Czego potrzebuje?
-1. Id ka¿dego inputa w formie
-
+Przyciski po wyslaniu odpowiedzi przez guesta nie dzialaja (dobrze,odeslij,zle). Appendowanie do html linijka 200.
+Obsluga przycisków linijka 240.
 
 
 
