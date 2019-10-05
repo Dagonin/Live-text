@@ -304,88 +304,88 @@
             $('#area').text(' ')
         })
         // OCENIANIE ODPOWIEDZI IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
-        <% if(!user){ %>
-        socket.on('anslist', (uroom, g) => {
-            NER = uroom;
-            if (g.states[1] == 1) {
-                socket.emit('changestateR', socket.id, "<%= fguest.id %>");
-            }
-        })
-        //        if (uroom.complete.includes(g._id) && uroom.answers.length >= 3 && g.states[1] != 3) {
-        //            socket.emit('changestateR', socid, ");
-        //            let c = [];
-        //
-        //            uroom.answers.forEach(function(ans) {
-        //                if(g.answered.includes(ans)){
-        //                    console.log("cos")
-        //                }else{
-        //                    c.push(ans)
-        //                }
-        //                if(c.length==2){
-        //                    socket.emit('twoodp', c, socket.id)
-        //                    c = [];
-        //                }
-        //            })
-        //
-        //
-        //
-        //        }
-        //
-        //
-        //
-        //    })
-        socket.on('odploop', (g) => {
-            NEG = g;
-            if (NER.complete.includes(g._id) && NER.answers.length >= 3) {
-                for (let x = 0; x < NER.answers.length; x++) {
-                    console.log(x)
-                    let c = NER.answers[x]
-                    let found = ""
-                    //                NER.answers.every(function(ans) {
-                    for (let z = 0; z < NER.answers.length; z++) {
-                        if (NEG.answered.includes(NER.answers[z]) || NER.answers[z] == c) {
-                            console.log("nie")
-                            console.log(NER)
-                        } else {
-                            console.log(c + NER.answers[z])
-                            if (NEG.answered.includes(c + NER.answers[z]) || NEG.answered.includes(NER.answers[z] + c)) {
-                                console.log('nie1')
-                            } else {
-                                found = NER.answers[z];
-                                console.log(found)
-                                break
-                            }
-                        }
-                    }
-                    if (found != "") {
-                        console.log("dziala" + c + found)
-                        console.log(NER);
-                        socket.emit('renderodp', c, found, socket.id)
-                        break;
-                    }
-                }
-            } else {
-                setTimeout(function() {
-                    console.log("czekam")
-                    socket.emit('changestateR', socket.id, "<%= fguest.id %>");
-                }, 3000);
-            }
-        })
-        socket.on('renderodp1', (st, nd) => {
-            console.log(st, nd);
-            $('#content').text(' ')
-            $('#content').append(
-                `<div id=` + st._id + `>
-        <span>` + st.odp + `</span>
-        <button onclick="choosen()">Wybierz</button>
-    </div>`)
-            $('#content').append(
-                `<div id=` + nd._id + `>
-        <span>` + nd.odp + `</span>
-        <button onclick="choosen()">Wybierz</button>
-    </div>`)
-        })
-        <% } %>
+//        <% if(!user){ %>
+//        socket.on('anslist', (uroom, g) => {
+//            NER = uroom;
+//            if (g.states[1] == 1) {
+//                socket.emit('changestateR', socket.id, "<%= fguest.id %>");
+//            }
+//        })
+//        //        if (uroom.complete.includes(g._id) && uroom.answers.length >= 3 && g.states[1] != 3) {
+//        //            socket.emit('changestateR', socid, ");
+//        //            let c = [];
+//        //
+//        //            uroom.answers.forEach(function(ans) {
+//        //                if(g.answered.includes(ans)){
+//        //                    console.log("cos")
+//        //                }else{
+//        //                    c.push(ans)
+//        //                }
+//        //                if(c.length==2){
+//        //                    socket.emit('twoodp', c, socket.id)
+//        //                    c = [];
+//        //                }
+//        //            })
+//        //
+//        //
+//        //
+//        //        }
+//        //
+//        //
+//        //
+//        //    })
+//        socket.on('odploop', (g) => {
+//            NEG = g;
+//            if (NER.complete.includes(g._id) && NER.answers.length >= 3) {
+//                for (let x = 0; x < NER.answers.length; x++) {
+//                    console.log(x)
+//                    let c = NER.answers[x]
+//                    let found = ""
+//                    //                NER.answers.every(function(ans) {
+//                    for (let z = 0; z < NER.answers.length; z++) {
+//                        if (NEG.answered.includes(NER.answers[z]) || NER.answers[z] == c) {
+//                            console.log("nie")
+//                            console.log(NER)
+//                        } else {
+//                            console.log(c + NER.answers[z])
+//                            if (NEG.answered.includes(c + NER.answers[z]) || NEG.answered.includes(NER.answers[z] + c)) {
+//                                console.log('nie1')
+//                            } else {
+//                                found = NER.answers[z];
+//                                console.log(found)
+//                                break
+//                            }
+//                        }
+//                    }
+//                    if (found != "") {
+//                        console.log("dziala" + c + found)
+//                        console.log(NER);
+//                        socket.emit('renderodp', c, found, socket.id)
+//                        break;
+//                    }
+//                }
+//            } else {
+//                setTimeout(function() {
+//                    console.log("czekam")
+//                    socket.emit('changestateR', socket.id, "<%= fguest.id %>");
+//                }, 3000);
+//            }
+//        })
+//        socket.on('renderodp1', (st, nd) => {
+//            console.log(st, nd);
+//            $('#content').text(' ')
+//            $('#content').append(
+//                `<div id=` + st._id + `>
+//        <span>` + st.odp + `</span>
+//        <button onclick="choosen()">Wybierz</button>
+//    </div>`)
+//            $('#content').append(
+//                `<div id=` + nd._id + `>
+//        <span>` + nd.odp + `</span>
+//        <button onclick="choosen()">Wybierz</button>
+//    </div>`)
+//        })
+//        <% } %>
                      // IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII QUILLJS
             var toolbarOptions = [
                 ['bold', 'italic', 'underline', 'strike'], // toggled buttons
