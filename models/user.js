@@ -3,7 +3,14 @@ const userSchema = new mongoose.Schema({
     username: String,
     password: String,
     email: String,
-    questions: Array,
+    questions: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Question'
+    },
+    chapters: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Chapter'
+    },
     permissions: String,
     cDate: Date,
     avatar: String

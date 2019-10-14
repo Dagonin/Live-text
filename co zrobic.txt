@@ -3,11 +3,48 @@ Obsluga przycisków linijka 240.
 
 
 
-Potem zrobie to do liste
+
+
+Obiekt user {
+    - liste rozdzialow, pytanie w rozdziale[
+        
+    ]
+    
+    - lista pytan luzem, nieprzydzielonych
+
+}
+
+ Obiekt chapter{
+    - lista pytan
+ }
+ 
+ Obiekt question {
+    - typ pytania
+    - tresc pytania
+    - opcje dotyczace pytania (a,b,c,d,...)
+    - zdjêcie
+    - owner
+ }
+
+Obiekt room {
+    - lista guestów
+    - lista pytan [
+     ? moze byc problem z kolejnoscia pytan
+    ]
+}
+
+Obiekt answer {
+    - typ
+    - tresc
+
+}
+
+?? Jak wykonywac zmiany w bazie danych przez drzewo
 
 
 
-
+Pomysly:
+wszystkie elementy beda mialy ID_ w HTML ID z bazy danych.
 
 
 

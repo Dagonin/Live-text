@@ -87,6 +87,8 @@ const Users = require("./models/user");
 const Rooms = require('./models/room');
 const Mailer = require('./helpers/mailer');
 const Answers = require('./models/answer');
+const Questions = require('./models/question');
+const Chapter = require('./models/chapter');
 
 
 
