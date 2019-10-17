@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 const chapterSchema = new mongoose.Schema({
     owner: mongoose.Schema.Types.ObjectId,
-    questions: {
+    questions: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Question'
-    }
+    }]
     
     
 });
