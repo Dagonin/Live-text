@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const questionSchema = new mongoose.Schema({
-    owner: mongoose.Schema.Types.ObjectId,
+    owner: String,
     type: String,
     zdj: String,
     content: String,

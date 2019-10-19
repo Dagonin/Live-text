@@ -88,7 +88,7 @@ const Rooms = require('./models/room');
 const Mailer = require('./helpers/mailer');
 const Answers = require('./models/answer');
 const Questions = require('./models/question');
-const Chapter = require('./models/chapter');
+const Chapters = require('./models/chapter');
 
 
 
@@ -113,16 +113,25 @@ app.get('/register', (req, res) => {
 
 app.get('/tree', (req, res) => {
     if (req.user) {
-        Chapter.find({
+        Chapters.find({
             owner: req.user._id
         }, (err, fChapter) => {
-            if(err){
+            if (err) {
                 console.log(err)
             }
             console.log(fChapter);
-            res.render("manager", {
-                user: req.user,
-                chapter: fChapter
+            Questions.find({
+                owner: req.user._id
+            }, (err, fQuestion) => {
+                if (err) {
+                    console.log(err)
+                }
+                res.render("manager", {
+                    user: req.user,
+                    chapter: fChapter,
+                    question: fQuestion
+                })
+
             })
 
         })
@@ -130,25 +139,35 @@ app.get('/tree', (req, res) => {
         res.redirect('/');
     }
 })
-app.post('/tree',(req,res)=>{
-    if(req.user){
-    if(req.body[1]=="addchapter"){
-        Chapter.create({
-            owner: req.user.id,
-            name: req.body[0]
-            
-        },(err,cChapter)=>{
-            if(err){
-                console.log(err);
-            }
-            res.redirect('/tree');
-        })
-    }
-    
-    res.redirect('/tree');
-        }else{
-            res.redirect('/')
+app.post('/tree', (req, res) => {
+    if (req.user) {
+        if (req.body[1] == "addchapter") {
+            Chapters.create({
+                owner: req.user.id,
+                name: req.body[0]
+
+            }, (err, cChapter) => {
+                if (err) {
+                    console.log(err);
+                }
+                res.redirect('/tree');
+            })
+        }else if(req.body[1] == "addopenquestion"){
+            Questions.create({
+                owner: req.user.id,
+                type: "open",
+                content: req.body[2]
+            },(err,cQuestion)=>{
+                if(err){
+                    console.log(err)
+                }
+                res.redirect('/tree')
+            })
         }
+
+    } else {
+        res.redirect('/')
+    }
 })
 
 app.get('/mail', (req, res) => {

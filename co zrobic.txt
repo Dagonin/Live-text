@@ -1,3 +1,26 @@
+Obsluga drzewka:
+Musisz byæ zalogowany.
+Niestety nie dam rady od strony serwera wsadziæ JSONa pytania do rozdzialu, pewnie bedzie trzeba to po splitowac na tablice.
+jest funkcja do tworzenia pytañ otwartych i rozdzia³ów. 
+add(name,type,content);
+type: 
+ otwarte - addopenquestion
+ rodzial - addchapter
+ 
+ dostêp do utworzonych rzeczy
+ <%= chapter %>
+ <%= question %>
+
+
+
+
+
+
+
+
+
+
+
 Przyciski po wyslaniu odpowiedzi przez guesta nie dzialaja (dobrze,odeslij,zle). Appendowanie do html linijka 200.
 Obsluga przycisków linijka 240.
 
