@@ -109,7 +109,47 @@ app.get('/register', (req, res) => {
     })
 })
 
+// MAnager Plików
 
+app.get('/tree', (req, res) => {
+    if (req.user) {
+        Chapter.find({
+            owner: req.user._id
+        }, (err, fChapter) => {
+            if(err){
+                console.log(err)
+            }
+            console.log(fChapter);
+            res.render("manager", {
+                user: req.user,
+                chapter: fChapter
+            })
+
+        })
+    } else {
+        res.redirect('/');
+    }
+})
+app.post('/tree',(req,res)=>{
+    if(req.user){
+    if(req.body[1]=="addchapter"){
+        Chapter.create({
+            owner: req.user.id,
+            name: req.body[0]
+            
+        },(err,cChapter)=>{
+            if(err){
+                console.log(err);
+            }
+            res.redirect('/tree');
+        })
+    }
+    
+    res.redirect('/tree');
+        }else{
+            res.redirect('/')
+        }
+})
 
 app.get('/mail', (req, res) => {
     Mailer.mail('nagłówek', 'tresc', (err) => {
