@@ -157,7 +157,8 @@ app.post('/tree', (req, res) => {
             Questions.create({
                 owner: req.user.id,
                 type: "open",
-                content: req.body[2]
+                content: req.body[2],
+                name: req.body[0]
             },(err,cQuestion)=>{
                 if(err){
                     console.log(err)
