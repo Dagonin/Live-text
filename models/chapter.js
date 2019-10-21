@@ -5,7 +5,8 @@ const chapterSchema = new mongoose.Schema({
     questions: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Question'
-    }]
+    }],
+    content: String
     
     
 });

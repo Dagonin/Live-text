@@ -144,7 +144,8 @@ app.post('/tree', (req, res) => {
         if (req.body[1] == "addchapter") {
             Chapters.create({
                 owner: req.user.id,
-                name: req.body[0]
+                name: req.body[0],
+                content: req.body[2]
 
             }, (err, cChapter) => {
                 if (err) {
