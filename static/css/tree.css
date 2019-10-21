@@ -1,0 +1,17 @@
+div.dir.opened-item > div.dir-header > span.arrow {
+  transform: rotate(90deg);
+  transition: transform 0.5s ease;
+}
+
+div.dir > div.dir-header > span.arrow {
+  transform: rotate(0deg);
+  transition: transform 0.5s ease;
+}
+
+div.dir > div.dir-items {
+  display: none;
+}
+
+div.dir.opened-item > div.dir-items {
+  display: block;
+}
