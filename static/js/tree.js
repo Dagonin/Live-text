@@ -21,7 +21,9 @@ const generateTreeItems = (c, q) => {
   chapterQuestions.forEach(question => {
     if (question.type == "open") {
       tree +=
-        `<p class="list-item" title="` +
+        `<p class="list-item" db-id="` +
+        question._id +
+        `"title="` +
         question.content +
         `">
       <span class="icon"> <i class="fas fa-calendar-minus"></i> </span
@@ -30,7 +32,9 @@ const generateTreeItems = (c, q) => {
         `</p>`;
     } else if (question.type == "single") {
       tree +=
-        `<p class="list-item" title="` +
+        `<p class="list-item" db-id="` +
+        question._id +
+        `"title="` +
         question.content +
         `">
       <span class="icon"> <i class="fas fa-calendar-check"></i> </span
@@ -39,7 +43,9 @@ const generateTreeItems = (c, q) => {
         `</p>`;
     } else if (question.type == "multi") {
       tree +=
-        `<p class="list-item" title="` +
+        `<p class="list-item" db-id="` +
+        question._id +
+        `"title="` +
         question.content +
         `">
         <span class="icon"> <i class="fas fa-calendar-alt"></i> </span
@@ -57,7 +63,9 @@ const generateUnassignedItems = q => {
   chapterQuestions.forEach(question => {
     if (question.type == "open") {
       tree +=
-        `<p class="list-item" title="` +
+        `<p class="list-item" db-id="` +
+        question._id +
+        `"title="` +
         question.content +
         `">
       <span class="icon"> <i class="fas fa-calendar-minus"></i> </span
@@ -66,7 +74,9 @@ const generateUnassignedItems = q => {
         `</p>`;
     } else if (question.type == "single") {
       tree +=
-        `<p class="list-item" title="` +
+        `<p class="list-item" db-id="` +
+        question._id +
+        `"title="` +
         question.content +
         `">
       <span class="icon"> <i class="fas fa-calendar-check"></i> </span
@@ -75,7 +85,9 @@ const generateUnassignedItems = q => {
         `</p>`;
     } else if (question.type == "multi") {
       tree +=
-        `<p class="list-item" title="` +
+        `<p class="list-item" db-id="` +
+        question._id +
+        `"title="` +
         question.content +
         `">
         <span class="icon"> <i class="fas fa-calendar-alt"></i> </span
@@ -94,7 +106,9 @@ const generateTree = (chaptersList, questionsList) => {
   chapters.forEach(chapter => {
     const chapterQuestions = chapter.questions;
     let tempInner =
-      `<div class='dir list-item'>
+      `<div class='dir list-item' db-id="` +
+      chapter._id +
+      `">
     <div class='dir-header'>
       <span class='icon'><i class='fas fa-folder'></i></span> ` +
       chapter.name +
