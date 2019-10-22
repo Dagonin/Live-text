@@ -27,7 +27,7 @@ app.use(body_parser.json())
 app.use(cookieParser());
 app.use(express.static('static'));;
 //mongoose.connect("mongodb://mo8557_MONGO:Hasło123@mongo.ct8.pl/mo8557_MONGO", {
-mongoose.connect("mongodb://localhost:27017/Live-text", {
+mongoose.connect("mongodb://mo9467_db:Asd123@mongo.ct8.pl/mo9467_db", {
         useNewUrlParser: true
     }).then(
         () => {

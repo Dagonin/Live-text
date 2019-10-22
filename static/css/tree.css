@@ -9,9 +9,7 @@ div.dir > div.dir-header > span.arrow {
 }
 
 div.dir > div.dir-items {
-  display: none;
-}
-
-div.dir.opened-item > div.dir-items {
-  display: block;
+  transition: height 0.5s;
+  height: 0;
+  overflow: hidden;
 }
