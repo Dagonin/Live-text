@@ -4,7 +4,7 @@ const questionSchema = new mongoose.Schema({
     type: String,
     zdj: String,
     content: String,
-    option: Number,
+    option: Array,
     chapter: mongoose.Schema.Types.ObjectId,
     name: String
     
