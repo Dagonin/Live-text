@@ -28,10 +28,17 @@
     </div>
     <script src="/js/tree.js"></script>
     <script>
-      function add(name, type, content) {
-        post("/tree", [name, type, content]);
+      function add(name, type, content,options,correct) {
+        post("/tree", [name, type, content,options]);
       }
-
+        
+        function del(id,type){
+            post("/tree",[id,type]);
+        }
+        function move(id,to){
+            post("/tree",[id,'move',to]);
+        }
+        
       function post(path, params, method = "post") {
         // The rest of this code assumes you are not using a library.
         // It can be made less wordy if you use one.

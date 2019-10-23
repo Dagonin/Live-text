@@ -141,6 +141,7 @@ app.get('/tree', (req, res) => {
 })
 app.post('/tree', (req, res) => {
     if (req.user) {
+        //////////////////////////////////DODAWANIE
         if (req.body[1] == "addchapter") {
             Chapters.create({
                 owner: req.user.id,
@@ -153,18 +154,153 @@ app.post('/tree', (req, res) => {
                 }
                 res.redirect('/tree');
             })
-        }else if(req.body[1] == "addopenquestion"){
+        } else if (req.body[1] == "addopenquestion") {
             Questions.create({
                 owner: req.user.id,
                 type: "open",
                 content: req.body[2],
                 name: req.body[0]
-            },(err,cQuestion)=>{
-                if(err){
+            }, (err, cQuestion) => {
+                if (err) {
                     console.log(err)
                 }
                 res.redirect('/tree')
             })
+        } else if (req.body[1] == "addsinglequestion") {
+            Questions.create({
+                owner: req.user.id,
+                name: req.body[0],
+                content: req.body[2],
+                option: req.body[3],
+                type: 'single'
+            }, (err, cQuestion) => {
+                if (err) {
+                    console.log(err);
+                }
+                res.redirect('/tree')
+            })
+        } else if (req.body[1] == "addmultiquestion") {
+            Questions.create({
+                owner: req.user.id,
+                name: req.body[0],
+                content: req.body[2],
+                option: req.body[3],
+                correct: req.body[4],
+                type: 'multi'
+            }, (err, cQuestion) => {
+                if (err) {
+                    console.log(err);
+                }
+                res.redirect('/tree');
+            })
+            ////////////////////////////////// USUWANie
+        } else if (req.body[1] == "deletequestion") {
+            Questions.findByIdAndDelete(req.body[0], (err, del) => {
+                if (err) {
+                    console.log(err);
+                }
+                if (del.chapter) {
+                    Chapters.findByIdAndUpdate(
+                        del.chapter, {
+                            $pull: {
+                                questions: req.body[0]
+                            }
+                        }, (err, uChapter) => {
+                            if (err) {
+                                console.log(err);
+                            }
+                            res.redirect('/tree');
+                        }
+
+                    )
+                }
+
+            })
+
+        } else if (req.body[1] == "deletechapter") {
+            Chapters.findByIdAndDelete(req.body[0], (err, del) => {
+                if (err) {
+                    console.log(err);
+                }
+                if (del.questions) {
+                    Questions.updateMany({
+                        chapter: del._id
+                    }, {
+                        chapter: undefined
+                    }, (err, upd) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                        res.redirect('/tree');
+                    })
+                }
+
+            }) ////////////////////////////////////////////// Przesuwanie
+        } else if (req.body[1] == 'move') {
+            Questions.findById(req.body[0], (err, fQuestion) => {
+                if (err) {
+                    console.log(err);
+                }
+                if (fQuestion.chapter) {
+
+                    Chapters.findByIdAndUpdate(fQuestion.chapter, {
+                        $pull: {
+                            questions: req.body[0]
+                        }
+                    }, {
+                        new: true
+                    }, (err, fChapter) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                        Chapters.findByIdAndUpdate(req.body[2], {
+                            $push: {
+                                questions: req.body[0]
+                            }
+                        }, (err, ffChapter) => {
+                            if (err) {
+                                console.log(err);
+                            }
+                            fQuestion.updateOne({
+                                chapter: req.body[2]
+                            }, (err, upd) => {
+                                if (err) {
+                                    console.log(err);
+                                }
+                                res.redirect('/tree')
+                            })
+
+                        })
+                    })
+
+                } else {
+                    Chapters.findByIdAndUpdate(req.body[2], {
+                        $push: {
+                            questions: req.body[0]
+                        }
+                    }, {
+                        new: true
+                    }, (err, fChapter) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                        fQuestion.updateOne({
+                            $set: {
+                                chapter: fChapter._id
+                            }
+                        }, {
+                            upsert: true
+                        }, (err, upd) => {
+                            if (err) {
+                                console.log(err);
+                            }
+                            res.redirect('/tree');
+                        })
+                    })
+                }
+            })
+
+
         }
 
     } else {

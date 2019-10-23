@@ -1,17 +1,5 @@
-Obsluga drzewka:
-Musisz byæ zalogowany.
-Niestety nie dam rady od strony serwera wsadziæ JSONa pytania do rozdzialu, pewnie bedzie trzeba to po splitowac na tablice.
-jest funkcja do tworzenia pytañ otwartych i rozdzia³ów. 
-add(name,type,content);
-type: 
- otwarte - addopenquestion
- rodzial - addchapter
- 
- dostêp do utworzonych rzeczy
- <%= chapter %>
- <%= question %>
-
-
+WA¯NE:
+DODAC ZABEZPIECZENIE. TYLKO OWNER MOZE USUWAC I PRZENOSIC.
 
 
 
@@ -23,56 +11,6 @@ type:
 
 Przyciski po wyslaniu odpowiedzi przez guesta nie dzialaja (dobrze,odeslij,zle). Appendowanie do html linijka 200.
 Obsluga przycisków linijka 240.
-
-
-
-
-
-Obiekt user {
-    - liste rozdzialow, pytanie w rozdziale[
-        
-    ]
-    
-    - lista pytan luzem, nieprzydzielonych
-
-}
-
- Obiekt chapter{
-    - lista pytan
- }
- 
- Obiekt question {
-    - typ pytania
-    - tresc pytania
-    - opcje dotyczace pytania (a,b,c,d,...)
-    - zdjêcie
-    - owner
- }
-
-Obiekt room {
-    - lista guestów
-    - lista pytan [
-     ? moze byc problem z kolejnoscia pytan
-    ]
-}
-
-Obiekt answer {
-    - typ
-    - tresc
-
-}
-
-?? Jak wykonywac zmiany w bazie danych przez drzewo
-
-
-
-Pomysly:
-wszystkie elementy beda mialy ID_ w HTML ID z bazy danych.
-
-
-
-
-
 
 
 

@@ -5,6 +5,7 @@ const questionSchema = new mongoose.Schema({
     zdj: String,
     content: String,
     option: Array,
+    correct: Array,
     chapter: mongoose.Schema.Types.ObjectId,
     name: String
     
