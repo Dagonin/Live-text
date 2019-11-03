@@ -18,7 +18,8 @@ const roomSchema = new mongoose.Schema({
     answers: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Guest'
-        }]
+        }],
+    test: String
 })
 
 module.exports = mongoose.model('Room', roomSchema);

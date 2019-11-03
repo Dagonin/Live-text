@@ -89,6 +89,7 @@ const Mailer = require('./helpers/mailer');
 const Answers = require('./models/answer');
 const Questions = require('./models/question');
 const Chapters = require('./models/chapter');
+const Tests = require('./models/test');
 
 
 
@@ -213,8 +214,8 @@ app.post('/tree', (req, res) => {
                         }
 
                     )
-                }else{
-                     res.redirect('/tree');
+                } else {
+                    res.redirect('/tree');
                 }
 
             })
@@ -302,6 +303,18 @@ app.post('/tree', (req, res) => {
                 }
             })
 
+
+        } else if (req.body[0] == "ctest") {
+            Tests.create({
+                owner: req.user.id,
+                name: req.body[2],
+                questions: req.body[1].split(',')
+            }, (err, cTest) => {
+                if(err){
+                    console.log(err);
+                }
+                res.redirect('/tree');
+            })
 
         }
 
