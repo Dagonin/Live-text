@@ -213,6 +213,8 @@ app.post('/tree', (req, res) => {
                         }
 
                     )
+                }else{
+                     res.redirect('/tree');
                 }
 
             })
