@@ -153,7 +153,7 @@ app.post('/tree', (req, res) => {
                 if (err) {
                     console.log(err);
                 }
-                res.redirect('/tree');
+                res.redirect('/tree')
             })
         } else if (req.body[1] == "addopenquestion") {
             Questions.create({
@@ -310,7 +310,7 @@ app.post('/tree', (req, res) => {
                 name: req.body[2],
                 questions: req.body[1].split(',')
             }, (err, cTest) => {
-                if(err){
+                if (err) {
                     console.log(err);
                 }
                 res.redirect('/tree');
@@ -555,150 +555,261 @@ server.listen(8080, 'localhost', () => {
 
 
 //SOCKET.IO
-function sleep(time) {
-    return new Promise((resolve) => setTimeout(resolve, time));
-}
-let timeout = false;
-io.on('connection', function (socket) {
-    timeout = false;
-    console.log('dawid');
+        function sleep(time) {
+            return new Promise((resolve) => setTimeout(resolve, time));
+        }
+        let timeout = false;
+        io.on('connection', function (socket) {
+            timeout = false;
+            console.log('dawid');
 
-    socket.on('disconnect', function () {
-        timeout = true;
+            socket.on('disconnect', function () {
+                timeout = true;
 
-        sleep(5000).then(() => {
-            if (timeout == false) {}
-        });
-
-
-
-
-    });
+                sleep(5000).then(() => {
+                    if (timeout == false) {}
+                });
 
 
 
 
-    socket.on('room', function (roompin, boolean) {
-        let test = 0;
-        let glist = [];
-        let rom = 'room_' + roompin;
-        socket.join(rom);
-        Rooms.findOne({
-            PIN: roompin
-        }, (err, fRoom) => {
-            if (err) {
-                return (err);
-            }
-            if (!fRoom) {
-                return ('Nie znaleziono pokoju w socketio')
-            }
+            });
 
-            fRoom.guests.forEach(function (GID) {
+
+
+//////////////////////////////////// MANAGER
+
+
+socket.on("dodaj", (socid, name, type, content, options, correct,userid)=>{
+        if (type == "addchapter") {
+            Chapters.create({
+                owner: userid,
+                name: name,
+                content: content
+
+            }, (err, cChapter) => {
+                if (err) {
+                    console.log(err);
+                }
+                console.log(socid)
+                socket.emit('cChapter',cChapter);
+            })
+        } else if (type == "addopenquestion") {
+            Questions.create({
+                owner: req.user.id,
+                type: "open",
+                content: req.body[2],
+                name: req.body[0]
+            }, (err, cQuestion) => {
+                if (err) {
+                    console.log(err)
+                }
+                res.redirect('/tree')
+            })
+        } else if (type == "addsinglequestion") {
+            Questions.create({
+                owner: req.user.id,
+                name: req.body[0],
+                content: req.body[2],
+                option: req.body[3],
+                type: 'single'
+            }, (err, cQuestion) => {
+                if (err) {
+                    console.log(err);
+                }
+                res.redirect('/tree')
+            })
+        } else if (type == "addmultiquestion") {
+            Questions.create({
+                owner: req.user.id,
+                name: req.body[0],
+                content: req.body[2],
+                option: req.body[3],
+                correct: req.body[4],
+                type: 'multi'
+            }, (err, cQuestion) => {
+                if (err) {
+                    console.log(err);
+                }
+                res.redirect('/tree');
+            })
+
+        }
+
+
+
+
+})
+
+
+
+
+
+
+            socket.on('room', function (roompin, boolean) {
+                let test = 0;
+                let glist = [];
+                let rom = 'room_' + roompin;
+                socket.join(rom);
+                Rooms.findOne({
+                    PIN: roompin
+                }, (err, fRoom) => {
+                    if (err) {
+                        return (err);
+                    }
+                    if (!fRoom) {
+                        return ('Nie znaleziono pokoju w socketio')
+                    }
+
+                    fRoom.guests.forEach(function (GID) {
+                        Guests.findById(
+                            GID,
+                            (err, fGuest) => {
+                                if (err) {
+                                    console.log(err);
+                                }
+                                glist.push(fGuest);
+                                test++;
+                                if (test == fRoom.guests.length) {
+                                    //                            console.log(glist);
+                                    io.to(rom).emit('join_room', glist);
+                                }
+                            })
+                    })
+                    //            io.to(rom).emit('join_room', fRoom.guests);
+                })
+
+            });
+            socket.on("question", function (qinput, roompin) {
+                Rooms.findOneAndUpdate({
+                    PIN: roompin
+                }, {
+                    OPEN: false
+                }, (err, fRoom) => {
+                    if (err) {
+                        return (err);
+                    }
+                    //            console.log(fRoom);
+                    io.to("room_" + roompin).emit("qquestion", qinput);
+                })
+
+            })
+
+
+
+            socket.on('glist', function (gsocket) {
+                io.to(gsocket).emit("lista", "czesc");
+            })
+
+            socket.on('odp', function (roompin, text, gid) {
+                io.to("room_" + roompin).emit("godp", text, gid);
+            })
+
+            socket.on('ans', function (socid, text, gid, roompin) {
                 Guests.findById(
-                    GID,
+                    gid,
                     (err, fGuest) => {
                         if (err) {
                             console.log(err);
                         }
-                        glist.push(fGuest);
-                        test++;
-                        if (test == fRoom.guests.length) {
-                            //                            console.log(glist);
-                            io.to(rom).emit('join_room', glist);
-                        }
-                    })
+                        io.to("room_" + roompin).emit("wys", socid, text, fGuest);
+                    }
+                )
+
+
+
+
             })
-            //            io.to(rom).emit('join_room', fRoom.guests);
-        })
+            socket.on('back', function (text, socid) {
+                socket.to(`${socid}`).emit('back1', text);
+            })
+            socket.on('badans', function (socid) {
+                socket.to(`${socid}`).emit('badans1');
+            })
 
-    });
-    socket.on("question", function (qinput, roompin) {
-        Rooms.findOneAndUpdate({
-            PIN: roompin
-        }, {
-            OPEN: false
-        }, (err, fRoom) => {
-            if (err) {
-                return (err);
-            }
-            //            console.log(fRoom);
-            io.to("room_" + roompin).emit("qquestion", qinput);
-        })
+            // SMUTNO MI SIE ROBI JAK NA TO PATRZE
+            socket.on('goodans', function (socid, ret, gid, roompin) {
+                //        console.log("ans", socid, gid, roompin, ret)
 
-    })
+                Answers.create({
+                    guest: gid,
+                    odp: ret,
+                    PIN: roompin
+                }, (err, cAns) => {
+                    if (err) {
+                        return console.log(err);
+                    }
+                    console.log('cAns');
+
+                    Rooms.findOneAndUpdate({
+                        PIN: roompin
+                    }, {
+                        $push: {
+                            answers: cAns._id,
+                            complete: gid
+                        },
+                        $pull: {
+                            guests: gid
+                        }
+                    }, {
+                        new: true
+                    }, (err, uRoom) => {
+                        if (err) {
+                            return console.log(err);
+                        }
+                        Guests.findByIdAndUpdate(gid, {
+                            $push: {
+                                answered: cAns
+                            },
+                            new: true
+                        }, (err, uGuest) => {
+                            if (err) {
+                                return console.log(err);
+                            }
+                            io.to('room_' + roompin).emit('anslist', uRoom, uGuest);
+                        })
+                    })
+
+                })
 
 
 
-    socket.on('glist', function (gsocket) {
-        io.to(gsocket).emit("lista", "czesc");
-    })
+            })
 
-    socket.on('odp', function (roompin, text, gid) {
-        io.to("room_" + roompin).emit("godp", text, gid);
-    })
+            socket.on('twoodp', function (odps, socid) {
 
-    socket.on('ans', function (socid, text, gid, roompin) {
-        Guests.findById(
-            gid,
-            (err, fGuest) => {
-                if (err) {
-                    console.log(err);
-                }
-                io.to("room_" + roompin).emit("wys", socid, text, fGuest);
-            }
-        )
-
-
-
-
-    })
-    socket.on('back', function (text, socid) {
-        socket.to(`${socid}`).emit('back1', text);
-    })
-    socket.on('badans', function (socid) {
-        socket.to(`${socid}`).emit('badans1');
-    })
-
-    // SMUTNO MI SIE ROBI JAK NA TO PATRZE
-    socket.on('goodans', function (socid, ret, gid, roompin) {
-        //        console.log("ans", socid, gid, roompin, ret)
-
-        Answers.create({
-            guest: gid,
-            odp: ret,
-            PIN: roompin
-        }, (err, cAns) => {
-            if (err) {
-                return console.log(err);
-            }
-            console.log('cAns');
-
-            Rooms.findOneAndUpdate({
-                PIN: roompin
-            }, {
-                $push: {
-                    answers: cAns._id,
-                    complete: gid
-                },
-                $pull: {
-                    guests: gid
-                }
-            }, {
-                new: true
-            }, (err, uRoom) => {
-                if (err) {
-                    return console.log(err);
-                }
+            })
+            socket.on("changestateR", function (socid, gid) {
                 Guests.findByIdAndUpdate(gid, {
-                    $push: {
-                        answered: cAns
+                    $set: {
+                        "states.$[element]": 3,
                     },
+
+                }, {
+                    arrayFilters: [{
+                        element: 1
+                        }],
+                    upsert: true,
                     new: true
                 }, (err, uGuest) => {
                     if (err) {
                         return console.log(err);
                     }
-                    io.to('room_' + roompin).emit('anslist', uRoom, uGuest);
+                    console.log(uGuest, socid)
+                    io.to(`${socid}`).emit('odploop', uGuest);
+                })
+            })
+            socket.on('renderodp', function (st, nd, socid) {
+                Answers.findById(st, (err, fst) => {
+                    if (err) {
+                        return console.log(err)
+                    }
+                    Answers.findById(nd, (err, fnd) => {
+                        if (err) {
+                            return console.log(err);
+                        }
+                        io.to(`${socid}`).emit('renderodp1', fst, fnd);
+                    })
                 })
             })
 
@@ -706,51 +817,22 @@ io.on('connection', function (socket) {
 
 
 
-    })
-
-    socket.on('twoodp', function (odps, socid) {
-
-    })
-    socket.on("changestateR", function (socid, gid) {
-        Guests.findByIdAndUpdate(gid, {
-            $set: {
-                "states.$[element]": 3,
-            },
-
-        }, {
-            arrayFilters: [{
-                element: 1
-                        }],
-            upsert: true,
-            new: true
-        }, (err, uGuest) => {
-            if (err) {
-                return console.log(err);
-            }
-            console.log(uGuest, socid)
-            io.to(`${socid}`).emit('odploop', uGuest);
-        })
-    })
-    socket.on('renderodp', function (st, nd, socid) {
-        Answers.findById(st, (err, fst) => {
-            if (err) {
-                return console.log(err)
-            }
-            Answers.findById(nd, (err, fnd) => {
-                if (err) {
-                    return console.log(err);
-                }
-                io.to(`${socid}`).emit('renderodp1', fst, fnd);
-            })
-        })
-    })
-
-})
+        //    
+        //  socket.emit('request', /* */); // emit an event to the socket
+        //  io.emit('broadcast', /* */); // emit an event to all connected sockets
+        //  socket.on('reply', function(){ /* */ }); // listen to the event
+        //
 
 
 
-//    
-//  socket.emit('request', /* */); // emit an event to the socket
-//  io.emit('broadcast', /* */); // emit an event to all connected sockets
-//  socket.on('reply', function(){ /* */ }); // listen to the event
-//
+
+
+
+
+
+
+
+
+
+
+

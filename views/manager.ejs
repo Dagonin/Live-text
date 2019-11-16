@@ -27,6 +27,8 @@
       <div class="column is-three-quarters has-background-success"></div>
     </div>
     <script src="/js/tree.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
       function add(name, type, content,options,correct) {
         post("/tree", [name, type, content,options]);
@@ -61,7 +63,6 @@
         document.body.appendChild(form);
         form.submit();
       }
-
       generateTree(<%- JSON.stringify(chapter) %>, <%- JSON.stringify(question) %>);
       setClickEventOnTreeItems();
       // let questions = [<%- JSON.stringify(question) %>];
@@ -71,6 +72,34 @@
               <%= chapter %>
               <%= question %>
               */
+        
+        
+        
+        
+        
+        /////// SOCKET.IO
+        
+        const socket = io();
+        socket.on('connect',()=>{
+            console.log(socket.id);
+        })
+        
+                function add(name, type, content, options, correct) {
+//                    post("/tree", [name, type, content,options]);
+            socket.emit("dodaj", socket.id, name, type, content, options, correct, "<%= user.id %>" );
+        }
+
+                        socket
+                        
+
+        socket.on('cChapter',(cChapter)=>{
+               generateTree(JSON.stringify(<%- JSON.stringify(chapter) %>, <%- JSON.stringify(question) %>));
+            })
+        
+        
+        
+        
+        
     </script>
   </body>
 </html>
