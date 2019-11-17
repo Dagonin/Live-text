@@ -13,6 +13,7 @@ const express = require('express'),
     LocalStrategy = require('passport-local').Strategy,
     securePin = require('secure-pin'),
     cookieParser = require('cookie-parser'),
+    cors = require('cors'),
     io = require('socket.io')(server, {
         pingTimeout: 5000,
         pingInterval: 25000
