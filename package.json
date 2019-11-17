@@ -4,7 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon --watch src --exec npm run server",
+    "server": "node app.js",
+    "lint": "eslint **/*.js"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +17,7 @@
     "cookie-session": "^2.0.0-beta.3",
     "cors": "^2.8.5",
     "ejs": "^2.6.1",
+    "eslint": "^6.6.0",
     "express": "^4.16.4",
     "mongoose": "^5.3.11",
     "morgan": "^1.9.1",
