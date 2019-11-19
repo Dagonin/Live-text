@@ -1,105 +1,114 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Text Live</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css"
-    />
-    <script
-      defer
-      src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
-    ></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css" />
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <link rel="stylesheet" href="/css/tree.css" />
-  </head>
-  <body>
-    <nav
-      class="navbar has-background-info"
-      role="navigation"
-      aria-label="main navigation"
-    ></nav>
+</head>
+
+<body>
+    <nav class="navbar has-background-info" role="navigation" aria-label="main navigation"></nav>
     <% if(user){%>
     <div class="columns">
-      <div class="column list is-hoverable is-shadowless" id="tree"></div>
-      <% }%>
-      <div class="column is-three-quarters has-background-success"></div>
+        <div class="column list is-hoverable is-shadowless" id="tree"></div>
+        <% }%>
+        <div class="column is-three-quarters has-background-success"></div>
     </div>
     <script src="/js/tree.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
-      function add(name, type, content,options,correct) {
-        post("/tree", [name, type, content,options]);
-      }
-        
-        function del(id,type){
-            post("/tree",[id,type]);
+        let chapters = <%- JSON.stringify(chapter) %> ;
+        let questions = <%- JSON.stringify(question) %> ;
+
+        function add(name, type, content, options, correct) {
+            post("/tree", [name, type, content, options]);
         }
-        function move(id,to){
-            post("/tree",[id,'move',to]);
+
+        function del(id, type) {
+            post("/tree", [id, type]);
         }
-        
-        function ctest(arrayofquestions,name){
-            post("/tree",["ctest",arrayofquestions,name]);
+
+        function move(id, to) {
+            post("/tree", [id, 'move', to]);
         }
-        
-      function post(path, params, method = "post") {
-        // The rest of this code assumes you are not using a library.
-        // It can be made less wordy if you use one.
-        const form = document.createElement("form");
-        form.method = method;
-        form.action = path;
-        for (const key in params) {
-          if (params.hasOwnProperty(key)) {
-            const hiddenField = document.createElement("input");
-            hiddenField.type = "hidden";
-            hiddenField.name = key;
-            hiddenField.value = params[key];
-            form.appendChild(hiddenField);
-          }
+
+        function ctest(arrayofquestions, name) {
+            post("/tree", ["ctest", arrayofquestions, name]);
         }
-        document.body.appendChild(form);
-        form.submit();
-      }
-      generateTree(<%- JSON.stringify(chapter) %>, <%- JSON.stringify(question) %>);
-      setClickEventOnTreeItems();
-      // let questions = [<%- JSON.stringify(question) %>];
-      // let chapters = [<%- JSON.stringify(chapter) %>];
-      // test(chapters[0][0].questions, questions[0])
-      /*
-              <%= chapter %>
-              <%= question %>
-              */
+
+        function post(path, params, method = "post") {
+            // The rest of this code assumes you are not using a library.
+            // It can be made less wordy if you use one.
+            const form = document.createElement("form");
+            form.method = method;
+            form.action = path;
+            for (const key in params) {
+                if (params.hasOwnProperty(key)) {
+                    const hiddenField = document.createElement("input");
+                    hiddenField.type = "hidden";
+                    hiddenField.name = key;
+                    hiddenField.value = params[key];
+                    form.appendChild(hiddenField);
+                }
+            }
+            document.body.appendChild(form);
+            form.submit();
+        }
+        generateTree(chapters, questions);
+        setClickEventOnTreeItems();
+
         
-        
-        
-        
-        
+        // DRAG & DROP
+        let srcid;
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            srcid = ev.srcElement.id.substr(1);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+//            move(srcid,ev.target.id)
+            socket.emit("move",socket.id,srcid,ev.target.id,"<%= user.id %>");
+        }
+
+
+
         /////// SOCKET.IO
-        
+
         const socket = io();
-        socket.on('connect',()=>{
+        socket.on('connect', () => {
             console.log(socket.id);
         })
-        
-                function add(name, type, content, options, correct) {
-//                    post("/tree", [name, type, content,options]);
-            socket.emit("dodaj", socket.id, name, type, content, options, correct, "<%= user.id %>" );
+
+        function add(name, type, content, options, correct) {
+//            post("/tree", [name, type, content, options]);
+                        socket.emit("dodaj", socket.id, name, type, content, options, correct, "<%= user.id %>" );
         }
 
-                        socket
-                        
 
-        socket.on('cChapter',(cChapter)=>{
-               generateTree(JSON.stringify(<%- JSON.stringify(chapter) %>, <%- JSON.stringify(question) %>));
-            })
-        
-        
-        
-        
-        
+        socket.on('cChapter', (cChapter) => {
+                            
+            chapters.push(cChapter);
+                            console.log(chapters)
+                            console.log(questions)
+            generateTree(chapters, questions);
+
+        })
+        socket.on('refreshTree',(newchapters,newquestions)=>{
+            chapters = newchapters;
+            questions = newquestions;
+            generateTree(chapters, questions);
+        })
+
     </script>
-  </body>
+</body>
+
 </html>

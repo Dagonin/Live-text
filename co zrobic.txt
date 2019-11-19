@@ -1,4 +1,21 @@
 
+
+Przerobiæ generate tree albo zrobic nowa funkcjê refreshtree. Aktualnie blokuje siê aktualno¶c i zamyka wszystko
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Jebaæ one drive.
 Uczeñ ma zostaæ zawsze guestem.
 Daæ nauczycielowi jakis sposób na udostêpnianie materia³ów (pdfy itp.):
