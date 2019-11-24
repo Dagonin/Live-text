@@ -108,6 +108,12 @@
             generateTree(chapters, questions);
         })
 
+            const addtreequestion = (a,b,c)=>{
+    const target = $("#"+a);
+    target.append(`<p class="list-item" id=" ` +a +`"title="` +b +`" draggable = 'true' ondragstart="drag(event)"><span class="icon"> <i class="fas fa-calendar-minus"></i> </span>` +
+                  c +`</p>`)
+}
+
     </script>
 </body>
 

@@ -19,42 +19,43 @@ const generateTreeItems = (c, q) => {
     let tree = "";
     const chapterQuestions = getChapterQuestions(c, q);
     chapterQuestions.forEach(question => {
-        if(question){
+        if (question) {
             console.log(question)
-        if (question.type == "open") {
-            tree +=
-                `<p class="list-item" id=" ` +
-                question._id +
-                `"title="` +
-                question.content +
-                `"draggable="true" ondragstart="drag(event)">
+            if (question.type == "open") {
+                tree +=
+                    `<p class="list-item" id=" ` +
+                    question._id +
+                    `"title="` +
+                    question.content +
+                    `"draggable="true" ondragstart="drag(event)">
       <span class="icon"> <i class="fas fa-calendar-minus"></i> </span
       >` +
-                question.name +
-                `</p>`;
-        } else if (question.type == "single") {
-            `<p class="list-item" id=" ` +
-            question._id +
-                `"title="` +
-                question.content +
-                `"draggable="true" ondragstart="drag(event)">
-      <span class="icon"> <i class="fas fa-calendar-check"></i> </span
-      >` +
-                question.name +
-                `</p>`;
-        } else if (question.type == "multi") {
-            tree +=
+                    question.name +
+                    `</p>`;
+            } else if (question.type == "single") {
                 `<p class="list-item" id=" ` +
                 question._id +
-                `"title="` +
-                question.content +
-                `"draggable="true" ondragstart="drag(event)">
+                    `"title="` +
+                    question.content +
+                    `"draggable="true" ondragstart="drag(event)">
+      <span class="icon"> <i class="fas fa-calendar-check"></i> </span
+      >` +
+                    question.name +
+                    `</p>`;
+            } else if (question.type == "multi") {
+                tree +=
+                    `<p class="list-item" id=" ` +
+                    question._id +
+                    `"title="` +
+                    question.content +
+                    `"draggable="true" ondragstart="drag(event)">
         <span class="icon"> <i class="fas fa-calendar-alt"></i> </span
         >` +
-                question.name +
-                `</p>`;
+                    question.name +
+                    `</p>`;
+            }
         }
-    }});
+    });
     return tree;
 };
 
