@@ -23,7 +23,7 @@ const generateTreeItems = (c, q) => {
             console.log(question)
             if (question.type == "open") {
                 tree +=
-                    `<p class="list-item" id=" ` +
+                    `<p class="list-item" id="` +
                     question._id +
                     `"title="` +
                     question.content +
@@ -33,7 +33,7 @@ const generateTreeItems = (c, q) => {
                     question.name +
                     `</p>`;
             } else if (question.type == "single") {
-                `<p class="list-item" id=" ` +
+                `<p class="list-item" id="` +
                 question._id +
                     `"title="` +
                     question.content +
@@ -44,7 +44,7 @@ const generateTreeItems = (c, q) => {
                     `</p>`;
             } else if (question.type == "multi") {
                 tree +=
-                    `<p class="list-item" id=" ` +
+                    `<p class="list-item" id="` +
                     question._id +
                     `"title="` +
                     question.content +
@@ -65,7 +65,7 @@ const generateUnassignedItems = q => {
     chapterQuestions.forEach(question => {
         if (question.type == "open") {
             tree +=
-                `<p class="list-item" id=" ` +
+                `<p class="list-item" id="` +
                 question._id +
                 `"title="` +
                 question.content +
@@ -76,7 +76,7 @@ const generateUnassignedItems = q => {
                 `</p>`;
         } else if (question.type == "single") {
             tree +=
-                `<p class="list-item" id=" ` +
+                `<p class="list-item" id="` +
                 question._id +
                 `"title="` +
                 question.content +
@@ -87,7 +87,7 @@ const generateUnassignedItems = q => {
                 `</p>`;
         } else if (question.type == "multi") {
             tree +=
-                `<p class="list-item" id=" ` +
+                `<p class="list-item" id="` +
                 question._id +
                 `"title="` +
                 question.content +
@@ -108,10 +108,10 @@ const generateTree = (chaptersList, questionsList) => {
     Array.from(chapters).forEach(chapter => {
         const chapterQuestions = chapter.questions;
         let tempInner =
-            `<div class='dir list-item' db-id="` +
+            `<div class='dir list-item' id="` +
             chapter._id +
             `"ondrop="drop(event, this)" ondragover="allowDrop(event)">
-    <div class='dir-header' id=` +
+    <div class='dir-header' db-id=` +
             chapter._id +
             `>
       <span class='icon'><i class='fas fa-folder'></i></span> ` +
@@ -129,7 +129,7 @@ const generateTree = (chaptersList, questionsList) => {
 
     let tempInner =
         `
-    <div class='dir list-item'>
+    <div class='dir list-item' id="unassigned">
       <div class='dir-header'>
         <span class='icon'><i class='far fa-folder'></i></span> Nieprzypisane
         <span class='icon is-pulled-right arrow'><i class='fas fa-angle-right'></i></span>

@@ -692,7 +692,7 @@ io.on('connection', function (socket) {
                                         console.log(err)
                                     }
 
-                                    socket.emit('refreshTree', fffChapter, fffQuestion);
+                                    socket.emit('refreshTree', src, target,fQuestion.chapter,fffChapter,fffQuestion);
 
                                 })
 

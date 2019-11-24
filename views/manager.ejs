@@ -70,13 +70,13 @@
         }
 
         function drag(ev) {
-            srcid = ev.srcElement.id.substr(1);
+            srcid = ev.srcElement.id;
         }
 
         function drop(ev) {
             ev.preventDefault();
-//            move(srcid,ev.target.id)
-            socket.emit("move",socket.id,srcid,ev.target.id,"<%= user.id %>");
+            console.log(ev.target.parentElement)
+            socket.emit("move",socket.id,srcid,ev.target.parentElement.id,"<%= user.id %>");
         }
 
 
@@ -96,22 +96,31 @@
 
         socket.on('cChapter', (cChapter) => {
                             
-            chapters.push(cChapter);
-                            console.log(chapters)
-                            console.log(questions)
-            generateTree(chapters, questions);
+//            chapters.push(cChapter);
+//                            console.log(chapters)
+//                            console.log(questions)
+//            generateTree(chapters, questions);
 
         })
-        socket.on('refreshTree',(newchapters,newquestions)=>{
-            chapters = newchapters;
-            questions = newquestions;
-            generateTree(chapters, questions);
+        socket.on('refreshTree',(src,target,sourcediv,newChapters,newQuestions)=>{
+            chapters = newChapters;
+            questions = newQuestions;
+            const srcindex = chapters.findIndex(x => x._id ===sourcediv);
+            const targetindex = chapters.findIndex(x => x._id ===target);
+            const srcdir = chapters[srcindex].questions;
+            const targetdir = chapters[targetindex].questions;
+            const srccontent = generateTreeItems(srcdir, questions);
+            const targetcontent = generateTreeItems(targetdir,questions);
+            $("#"+sourcediv).find('.dir-items-wrapper').html(srccontent);
+            $("#"+target).find('.dir-items-wrapper').html(targetcontent);
+            
         })
 
-            const addtreequestion = (a,b,c)=>{
-    const target = $("#"+a);
-    target.append(`<p class="list-item" id=" ` +a +`"title="` +b +`" draggable = 'true' ondragstart="drag(event)"><span class="icon"> <i class="fas fa-calendar-minus"></i> </span>` +
-                  c +`</p>`)
+            const addtreequestion = (targetid,qid,content,title,sourcediv)=>{
+                const target = $("#"+targetid);
+                const srcdir = $("#"+sourcediv);
+    target.append(`<p class="list-item" id="` +qid +`"title="` +content +`" draggable = 'true' ondragstart="drag(event)"><span class="icon"> <i class="fas fa-calendar-minus"></i> </span>` +
+                  title +`</p>`)
 }
 
     </script>
