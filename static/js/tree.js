@@ -20,7 +20,6 @@ const generateTreeItems = (c, q) => {
     const chapterQuestions = getChapterQuestions(c, q);
     chapterQuestions.forEach(question => {
         if (question) {
-            console.log(question)
             if (question.type == "open") {
                 tree +=
                     `<p class="list-item" id="` +
@@ -108,7 +107,7 @@ const generateTree = (chaptersList, questionsList) => {
     Array.from(chapters).forEach(chapter => {
         const chapterQuestions = chapter.questions;
         let tempInner =
-            `<div class='dir list-item' id="` +
+            `<div class='dir cont list-item' id="` +
             chapter._id +
             `"ondrop="drop(event, this)" ondragover="allowDrop(event)">
     <div class='dir-header' db-id=` +
@@ -129,7 +128,7 @@ const generateTree = (chaptersList, questionsList) => {
 
     let tempInner =
         `
-    <div class='dir list-item' id="unassigned">
+    <div class='dir cont list-item' id="unassigned">
       <div class='dir-header'>
         <span class='icon'><i class='far fa-folder'></i></span> Nieprzypisane
         <span class='icon is-pulled-right arrow'><i class='fas fa-angle-right'></i></span>

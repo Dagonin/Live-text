@@ -75,9 +75,19 @@
 
         function drop(ev) {
             ev.preventDefault();
-            console.log(ev.target.parentElement)
+            console.log(ev.target.className)
+//            while(ev.target.className!="dir-header"){
+//                ev.target = ev.target.parentElement;
+//                console.log(ev.target);
+//                }
+            if(ev.target.className=="dir-header"){
             socket.emit("move",socket.id,srcid,ev.target.parentElement.id,"<%= user.id %>");
-        }
+                        
+            }else if(ev.target.className.includes("list-item","dir")){
+                socket.emit("move",socket.id,srcid,ev.target.id,"<%= user.id %>");
+            }
+            }
+                
 
 
 
@@ -113,6 +123,14 @@
             const targetcontent = generateTreeItems(targetdir,questions);
             $("#"+sourcediv).find('.dir-items-wrapper').html(srccontent);
             $("#"+target).find('.dir-items-wrapper').html(targetcontent);
+            const srcheight =  $("#"+sourcediv).find('.dir-items').height();
+            const targetheight =  $("#"+target).find('.dir-items').height();
+            if($("#"+sourcediv).hasClass("opened-item")){
+                $("#"+sourcediv).find('.dir-items').height(srcheight-42,5);
+            }
+            if($("#"+target).hasClass("opened-item")){
+                $("#"+target).find('.dir-items').height(targetheight+42,5);
+            }
             
         })
 
