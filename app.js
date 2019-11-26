@@ -638,6 +638,18 @@ io.on('connection', function (socket) {
             //                res.redirect('/tree');
             //            })
             //
+        } else if (type =="addopenquestion"){
+            Questions.create({
+                owner: userid,
+                name: name,
+                type: "open",
+                content: content
+            },(err,cQuestion)=>{
+                if(err){
+                    console.log(err);
+                }
+                
+            })
         }
 
 
@@ -650,8 +662,9 @@ io.on('connection', function (socket) {
             if (err) {
                 console.log(err);
             }
+            console.log(fQuestion.chapter);
             if (fQuestion.chapter) {
-
+                if(fQuestion.chapter != target){
                 Chapters.findByIdAndUpdate(fQuestion.chapter, {
                     $pull: {
                         questions: src
@@ -684,7 +697,6 @@ io.on('connection', function (socket) {
                                 if (err) {
                                     console.log(err)
                                 }
-                                console.log(fChapter);
                                 Questions.find({
                                     owner: userid
                                 }, (err, fffQuestion) => {
@@ -700,9 +712,10 @@ io.on('connection', function (socket) {
                         })
 
                     })
+                    
                 })
-
-            } else {
+                    }
+            } else{
                 Chapters.findByIdAndUpdate(target, {
                     $push: {
                         questions: src
@@ -737,7 +750,7 @@ io.on('connection', function (socket) {
                                     console.log(err)
                                 }
 
-                                socket.emit('refreshTree', fffChapter, fffQuestion);
+                                socket.emit('refreshTree',src,target,undefined, fffChapter, fffQuestion);
 
                             })
 
@@ -746,6 +759,7 @@ io.on('connection', function (socket) {
                 })
             }
         })
+            
     })
 
 

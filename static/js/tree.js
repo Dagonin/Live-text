@@ -20,6 +20,7 @@ const generateTreeItems = (c, q) => {
     const chapterQuestions = getChapterQuestions(c, q);
     chapterQuestions.forEach(question => {
         if (question) {
+
             if (question.type == "open") {
                 tree +=
                     `<p class="list-item" id="` +
@@ -101,6 +102,7 @@ const generateUnassignedItems = q => {
 };
 
 const generateTree = (chaptersList, questionsList) => {
+    console.log(questionsList)
     const chapters = chaptersList;
     const questions = questionsList;
     tree.innerHTML = "";
@@ -149,8 +151,11 @@ const setClickEventOnTreeItems = () => {
         const treeElement = treeElements[i - 1];
         const treeElementHeader = treeElement.querySelector("div.dir-header");
         const treeElementItems = treeElement.querySelector("div.dir-items");
+        if(treeElement.getAttribute('listener') != 'true'){
         treeElementHeader.addEventListener("click", () => {
             treeElement.classList.toggle("opened-item");
+            treeElement.setAttribute('listener','true');
+                        console.log(treeElement.getAttribute('listener'))
             treeElementItems;
             if (treeElementItems.clientHeight) {
                 treeElementItems.style.height = 0;
@@ -159,5 +164,6 @@ const setClickEventOnTreeItems = () => {
                 treeElementItems.style.height = wrapper.clientHeight + "px";
             }
         });
+            }
     }
 };

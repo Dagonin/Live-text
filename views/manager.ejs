@@ -59,10 +59,11 @@
             document.body.appendChild(form);
             form.submit();
         }
-        generateTree(chapters, questions);
+
+        generateTree(chapters,questions);
         setClickEventOnTreeItems();
 
-        
+
         // DRAG & DROP
         let srcid;
         function allowDrop(ev) {
@@ -75,17 +76,18 @@
 
         function drop(ev) {
             ev.preventDefault();
-            console.log(ev.target.className)
-//            while(ev.target.className!="dir-header"){
-//                ev.target = ev.target.parentElement;
-//                console.log(ev.target);
-//                }
-            if(ev.target.className=="dir-header"){
+            if(ev.path[3].className.includes('cont')&& ev.path[1].className.includes('icon')){
+                socket.emit("move",socket.id,srcid,ev.path[3].id,"<%= user.id %>");
+            }else if(ev.path[4].className.includes('cont')&& ev.path[2].className.includes('icon')){
+                socket.emit("move",socket.id,srcid,ev.path[4].id,"<%= user.id %>");
+            }else if(ev.target.className=="dir-header"){
             socket.emit("move",socket.id,srcid,ev.target.parentElement.id,"<%= user.id %>");
                         
-            }else if(ev.target.className.includes("list-item","dir")){
+            }else if(ev.target.className.includes("cont")){
                 socket.emit("move",socket.id,srcid,ev.target.id,"<%= user.id %>");
-            }
+            }else if (ev.target.className.includes("list-item")){
+                    socket.emit("move",socket.id,srcid,ev.target.parentElement.parentElement.parentElement.id,"<%= user.id %>");
+                }
             }
                 
 
@@ -106,31 +108,56 @@
 
         socket.on('cChapter', (cChapter) => {
                             
-//            chapters.push(cChapter);
+            chapters.push(cChapter);
 //                            console.log(chapters)
 //                            console.log(questions)
-//            generateTree(chapters, questions);
+            generateTree(chapters, <%- JSON.stringify(question) %>);
+            setClickEventOnTreeItems();
 
         })
         socket.on('refreshTree',(src,target,sourcediv,newChapters,newQuestions)=>{
+            console.log(sourcediv);
             chapters = newChapters;
             questions = newQuestions;
+            if(sourcediv!=undefined){
+
             const srcindex = chapters.findIndex(x => x._id ===sourcediv);
-            const targetindex = chapters.findIndex(x => x._id ===target);
             const srcdir = chapters[srcindex].questions;
-            const targetdir = chapters[targetindex].questions;
             const srccontent = generateTreeItems(srcdir, questions);
-            const targetcontent = generateTreeItems(targetdir,questions);
             $("#"+sourcediv).find('.dir-items-wrapper').html(srccontent);
-            $("#"+target).find('.dir-items-wrapper').html(targetcontent);
             const srcheight =  $("#"+sourcediv).find('.dir-items').height();
-            const targetheight =  $("#"+target).find('.dir-items').height();
             if($("#"+sourcediv).hasClass("opened-item")){
                 $("#"+sourcediv).find('.dir-items').height(srcheight-42,5);
             }
+
+            } 
+                else{
+                    const srcdir = [];
+                newQuestions.forEach(question =>{
+                    if(!question.chapter){
+                        srcdir.push(question._id)
+                        }
+                    });
+                const srccontent = generateTreeItems(srcdir, questions);
+            $("#unassigned").find('.dir-items-wrapper').html(srccontent);
+            const srcheight =  $("#unassigned").find('.dir-items').height();
+            if($("#unassigned").hasClass("opened-item")){
+            $("#unassigned").find('.dir-items').height(srcheight-42,5);
+            }
+                    
+                }
+                
+            const targetindex = chapters.findIndex(x => x._id ===target);
+            const targetdir = chapters[targetindex].questions;
+            const targetcontent = generateTreeItems(targetdir,questions);
+            $("#"+target).find('.dir-items-wrapper').html(targetcontent);
+            const targetheight =  $("#"+target).find('.dir-items').height();
             if($("#"+target).hasClass("opened-item")){
                 $("#"+target).find('.dir-items').height(targetheight+42,5);
             }
+            
+                
+                
             
         })
 
@@ -140,6 +167,8 @@
     target.append(`<p class="list-item" id="` +qid +`"title="` +content +`" draggable = 'true' ondragstart="drag(event)"><span class="icon"> <i class="fas fa-calendar-minus"></i> </span>` +
                   title +`</p>`)
 }
+            
+
 
     </script>
 </body>
