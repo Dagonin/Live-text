@@ -36,6 +36,12 @@ piszesz npm install -g nodemon
         Teraz jak odpalisz mongod poczekasz kilka sekund, wpiszesz "nodemon" w cmd w folderze z projektem to powinno sie wszystko odpalic. I na http://localhost:8080/ powinna być strona.
         Jest też na http://live-text.ct8.pl/   ale jest zazwyczaj przestarzała i nie możesz tam robić zmian
         
+        
+        W manager.ejs, czyli zarządaj pytaniami, po zalogowaniu się, możesz dodawać pytania i rodziały przez:
+        add("tylul","addopenquestion","tresc");
+        add("tytul","addchapter");
+        po dodaniu najlepiej odswieżyć bo nadal czasami błędy są.
+        
     Jakby coś nie działalo to pisz.
 
 
