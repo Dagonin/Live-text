@@ -3,7 +3,7 @@
 Pliki z html: w folderze views, mają rozszerzenie .ejs jedyne które narazie są warte zaiteresowania to index.ejs i manager.ejs.
 Wszystko co jest w znacznikach <%  %> to kod z backendu który zmienia wyświetlany skrypt na stronie. Najczęściej widać <% if(user){%> i ponizej  <% }%>. wszystko co jest wewnątrz jest pokazywane tylko, jezeli użytkownik jest zalogowany.
 W index.ejs możesz robic dowolnie co chcesz, tylko formy musza zostać nie zmienione (tj. action i method muszą zostać takie same, w inputac name i type musi się nie zmienić i musi byc jakis button zeby wyslac forma lub input submit.)
-W manager.ejs zaczynają się problemy, bo aktualnie połowa htmla jest generowana przez js w zalezności co jest w bazie danych. Stylowanie tego bedzie trudne bo struktuja divów w #tree musi zostać taka sama.
+W manager.ejs zaczynają się problemy, bo aktualnie połowa htmla jest generowana przez js w zalezności co jest w bazie danych. Stylowanie tego bedzie trudne bo struktuja divów w #tree musi zostać taka sama. JS generujący drzewo jest w /static/js/tree.js
 Najlpiej narazie ostylować jakoś pozostałe miejsce na stronie, czyli navbar i środek strony. Na środku prawdopodobnie będzie form to tworzenia pytań lub rozdziałów. 
 Potrzebne rzeczy w formie: 
     - Typ: 
