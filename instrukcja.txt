@@ -1,0 +1,42 @@
+                                        WYJANIENIE!!!!!!!!!!!!!
+
+Pliki z html: w folderze views, mają rozszerzenie .ejs jedyne które narazie są warte zaiteresowania to index.ejs i manager.ejs.
+Wszystko co jest w znacznikach <%  %> to kod z backendu który zmienia wyświetlany skrypt na stronie. Najczęściej widać <% if(user){%> i ponizej  <% }%>. wszystko co jest wewnątrz jest pokazywane tylko, jezeli użytkownik jest zalogowany.
+W index.ejs możesz robic dowolnie co chcesz, tylko formy musza zostać nie zmienione (tj. action i method muszą zostać takie same, w inputac name i type musi się nie zmienić i musi byc jakis button zeby wyslac forma lub input submit.)
+W manager.ejs zaczynają się problemy, bo aktualnie połowa htmla jest generowana przez js w zalezności co jest w bazie danych. Stylowanie tego bedzie trudne bo struktuja divów w #tree musi zostać taka sama.
+Najlpiej narazie ostylować jakoś pozostałe miejsce na stronie, czyli navbar i środek strony. Na środku prawdopodobnie będzie form to tworzenia pytań lub rozdziałów. 
+Potrzebne rzeczy w formie: 
+    - Typ: 
+        + Rozdział
+        + Pytanie otwarte
+        + Pytanie zamknięte
+        + Pytanie wielokrotnego wyboru
+    I potem w zależności od wyboru typu:
+        + Treśc pytania
+        + Nazwa rozdziału
+        + Możliwe odpowiedzi
+        + Poprawne odpowiedzi
+        + Etykieta wyświetlana na drzewku po lewej
+        
+        
+                                        INTALACJA!!!!!!!!!!!!!!!
+        
+Żeby odpalić projekt potrzebujesz:
+MongoDB  https://www.mongodb.com/download-center/community <- nie jestem 100% czy to ten link
+Node.js  https://nodejs.org/en/ 
+I pobrać go z githuba
+jak zainstalujesz mongodb robisz skrót z "mongod", dajesz właściwości i w elemencie docelowym dajesz --dbpatch i scieżke gdzie ma byc baza danych. 
+np: E:\Programy\MongoDB\bin\mongod.exe --dbpath E:\Z_C\programowanie\Node\mongo
+Teraz kalibracja node.js
+W folderze z pobranym projektem (innym niz na baze danych)
+Otwierasz folder w cmd
+piszesz npm install
+piszesz npm install -g nodemon
+        
+        Teraz jak odpalisz mongod poczekasz kilka sekund, wpiszesz "nodemon" w cmd w folderze z projektem to powinno sie wszystko odpalic. I na http://localhost:8080/ powinna być strona.
+        Jest też na http://live-text.ct8.pl/   ale jest zazwyczaj przestarzała i nie możesz tam robić zmian
+        
+    Jakby coś nie działalo to pisz.
+
+
+
