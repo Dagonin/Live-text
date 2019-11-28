@@ -76,6 +76,8 @@
 
         function drop(ev) {
             ev.preventDefault();
+//            console.log(ev.target.parentElement.id);
+            
             if(ev.path[3].className.includes('cont')&& ev.path[1].className.includes('icon')){
                 socket.emit("move",socket.id,srcid,ev.path[3].id,"<%= user.id %>");
             }else if(ev.path[4].className.includes('cont')&& ev.path[2].className.includes('icon')){
@@ -115,8 +117,21 @@
             setClickEventOnTreeItems();
 
         })
+        
+                socket.on('cQuestion', (cQuestion) => {
+                            
+            questions.push(cQuestion);
+//                            console.log(chapters)
+//                            console.log(questions)
+            generateTree(chapters, <%- JSON.stringify(question) %>);
+            setClickEventOnTreeItems();
+
+        })
+        
+        
+        
         socket.on('refreshTree',(src,target,sourcediv,newChapters,newQuestions)=>{
-            console.log(sourcediv);
+            console.log(src,target,sourcediv,newChapters,newQuestions);
             chapters = newChapters;
             questions = newQuestions;
             if(sourcediv!=undefined){
@@ -130,23 +145,22 @@
                 $("#"+sourcediv).find('.dir-items').height(srcheight-42,5);
             }
 
-            } 
-                else{
-                    const srcdir = [];
-                newQuestions.forEach(question =>{
-                    if(!question.chapter){
-                        srcdir.push(question._id)
-                        }
-                    });
-                const srccontent = generateTreeItems(srcdir, questions);
+            } else{
+            const srcdir = [];
+            newQuestions.forEach(question =>{
+            if(!question.chapter){
+                srcdir.push(question._id)
+            }
+            });
+            const srccontent = generateTreeItems(srcdir, questions);
             $("#unassigned").find('.dir-items-wrapper').html(srccontent);
             const srcheight =  $("#unassigned").find('.dir-items').height();
             if($("#unassigned").hasClass("opened-item")){
             $("#unassigned").find('.dir-items').height(srcheight-42,5);
             }
-                    
-                }
-                
+            }
+            
+            if(target!='unassigned'){
             const targetindex = chapters.findIndex(x => x._id ===target);
             const targetdir = chapters[targetindex].questions;
             const targetcontent = generateTreeItems(targetdir,questions);
@@ -155,7 +169,23 @@
             if($("#"+target).hasClass("opened-item")){
                 $("#"+target).find('.dir-items').height(targetheight+42,5);
             }
-            
+            }else{
+            const targetdir = [];
+            newQuestions.forEach(question =>{
+            if(!question.chapter){
+                targetdir.push(question._id)
+            }
+            });
+            const targetcontent = generateTreeItems(targetdir, questions);
+            $("#unassigned").find('.dir-items-wrapper').html(targetcontent);
+            const targetheight =  $("#unassigned").find('.dir-items').height();
+            if($("#unassigned").hasClass("opened-item")){
+            $("#unassigned").find('.dir-items').height(targetheight+42,5);
+            }       
+                
+                
+                
+            }
                 
                 
             

@@ -144,60 +144,8 @@ app.get('/tree', (req, res) => {
 })
 app.post('/tree', (req, res) => {
     if (req.user) {
-        //////////////////////////////////DODAWANIE
-        if (req.body[1] == "addchapter") {
-            Chapters.create({
-                owner: req.user.id,
-                name: req.body[0],
-                content: req.body[2]
-
-            }, (err, cChapter) => {
-                if (err) {
-                    console.log(err);
-                }
-                res.redirect('/tree')
-            })
-        } else if (req.body[1] == "addopenquestion") {
-            Questions.create({
-                owner: req.user.id,
-                type: "open",
-                content: req.body[2],
-                name: req.body[0]
-            }, (err, cQuestion) => {
-                if (err) {
-                    console.log(err)
-                }
-                res.redirect('/tree')
-            })
-        } else if (req.body[1] == "addsinglequestion") {
-            Questions.create({
-                owner: req.user.id,
-                name: req.body[0],
-                content: req.body[2],
-                option: req.body[3],
-                type: 'single'
-            }, (err, cQuestion) => {
-                if (err) {
-                    console.log(err);
-                }
-                res.redirect('/tree')
-            })
-        } else if (req.body[1] == "addmultiquestion") {
-            Questions.create({
-                owner: req.user.id,
-                name: req.body[0],
-                content: req.body[2],
-                option: req.body[3],
-                correct: req.body[4],
-                type: 'multi'
-            }, (err, cQuestion) => {
-                if (err) {
-                    console.log(err);
-                }
-                res.redirect('/tree');
-            })
-            ////////////////////////////////// USUWANie
-        } else if (req.body[1] == "deletequestion") {
+        ////////////////////////////////// USUWANie
+        if (req.body[1] == "deletequestion") {
             Questions.findByIdAndDelete(req.body[0], (err, del) => {
                 if (err) {
                     console.log(err);
@@ -241,83 +189,6 @@ app.post('/tree', (req, res) => {
                 }
 
             }) ////////////////////////////////////////////// Przesuwanie
-        } else if (req.body[1] == 'move') {
-            Questions.findById(req.body[0], (err, fQuestion) => {
-                if (err) {
-                    console.log(err);
-                }
-                if (fQuestion.chapter) {
-
-                    Chapters.findByIdAndUpdate(fQuestion.chapter, {
-                        $pull: {
-                            questions: req.body[0]
-                        }
-                    }, {
-                        new: true
-                    }, (err, fChapter) => {
-                        if (err) {
-                            console.log(err);
-                        }
-                        Chapters.findByIdAndUpdate(req.body[2], {
-                            $push: {
-                                questions: req.body[0]
-                            }
-                        }, (err, ffChapter) => {
-                            if (err) {
-                                console.log(err);
-                            }
-                            fQuestion.updateOne({
-                                chapter: req.body[2]
-                            }, (err, upd) => {
-                                if (err) {
-                                    console.log(err);
-                                }
-                                res.redirect('/tree')
-                            })
-
-                        })
-                    })
-
-                } else {
-                    Chapters.findByIdAndUpdate(req.body[2], {
-                        $push: {
-                            questions: req.body[0]
-                        }
-                    }, {
-                        new: true
-                    }, (err, fChapter) => {
-                        if (err) {
-                            console.log(err);
-                        }
-                        fQuestion.updateOne({
-                            $set: {
-                                chapter: fChapter._id
-                            }
-                        }, {
-                            upsert: true
-                        }, (err, upd) => {
-                            if (err) {
-                                console.log(err);
-                            }
-                            res.redirect('/tree');
-                        })
-                    })
-                }
-            })
-
-
-        } else if (req.body[0] == "ctest") {
-            Tests.create({
-                owner: req.user.id,
-                name: req.body[2],
-                questions: req.body[1].split(',')
-            }, (err, cTest) => {
-                if (err) {
-                    console.log(err);
-                }
-                res.redirect('/tree');
-            })
-
         }
 
     } else {
@@ -598,58 +469,49 @@ io.on('connection', function (socket) {
 
 
             })
-            //        } else if (type == "addopenquestion") {
-            //            Questions.create({
-            //                owner: req.user.id,
-            //                type: "open",
-            //                content: req.body[2],
-            //                name: req.body[0]
-            //            }, (err, cQuestion) => {
-            //                if (err) {
-            //                    console.log(err)
-            //                }
-            //                res.redirect('/tree')
-            //            })
-            //        } else if (type == "addsinglequestion") {
-            //            Questions.create({
-            //                owner: req.user.id,
-            //                name: req.body[0],
-            //                content: req.body[2],
-            //                option: req.body[3],
-            //                type: 'single'
-            //            }, (err, cQuestion) => {
-            //                if (err) {
-            //                    console.log(err);
-            //                }
-            //                res.redirect('/tree')
-            //            })
-            //        } else if (type == "addmultiquestion") {
-            //            Questions.create({
-            //                owner: req.user.id,
-            //                name: req.body[0],
-            //                content: req.body[2],
-            //                option: req.body[3],
-            //                correct: req.body[4],
-            //                type: 'multi'
-            //            }, (err, cQuestion) => {
-            //                if (err) {
-            //                    console.log(err);
-            //                }
-            //                res.redirect('/tree');
-            //            })
-            //
-        } else if (type =="addopenquestion"){
+
+        } else if (type == "addopenquestion") {
             Questions.create({
                 owner: userid,
                 name: name,
                 type: "open",
-                content: content
-            },(err,cQuestion)=>{
-                if(err){
+                content: content,
+            }, (err, cQuestion) => {
+                if (err) {
                     console.log(err);
                 }
-                
+                socket.emit('cQuestion', cQuestion);
             })
+        } else if (type == "addsinglequestion") {
+            Questions.create({
+                owner: userid,
+                name: name,
+                content: content,
+                option: options,
+                correct: correct,
+                type: 'single'
+            }, (err, cQuestion) => {
+                if (err) {
+                    console.log(err);
+                }
+socket.emit('cQuestion', cQuestion);
+            })
+        } else if (type == "addmultiquestion") {
+            Questions.create({
+                owner: userid,
+                name: name,
+                content: content,
+                option: options,
+                correct: correct,
+                type: 'multi'
+            }, (err, cQuestion) => {
+                if (err) {
+                    console.log(err);
+                }
+socket.emit('cQuestion', cQuestion);
+            })
+
+
         }
 
 
@@ -664,58 +526,93 @@ io.on('connection', function (socket) {
             }
             console.log(fQuestion.chapter);
             if (fQuestion.chapter) {
-                if(fQuestion.chapter != target){
-                Chapters.findByIdAndUpdate(fQuestion.chapter, {
-                    $pull: {
-                        questions: src
-                    }
-                }, {
-                    new: true
-                }, (err, fChapter) => {
-                    if (err) {
-                        console.log(err);
-                    }
-                    Chapters.findByIdAndUpdate(target, {
-                        $push: {
+                if (fQuestion.chapter != target) {
+                    Chapters.findByIdAndUpdate(fQuestion.chapter, {
+                        $pull: {
                             questions: src
                         }
-                    }, (err, ffChapter) => {
+                    }, {
+                        new: true
+                    }, (err, fChapter) => {
                         if (err) {
                             console.log(err);
                         }
-                        fQuestion.updateOne({
-                            chapter: target
-                        }, (err, upd) => {
-                            if (err) {
-                                console.log(err);
-                            }
 
+                        if (target != 'unassigned') {
 
-                            Chapters.find({
-                                owner: userid
-                            }, (err, fffChapter) => {
-                                if (err) {
-                                    console.log(err)
+                            Chapters.findByIdAndUpdate(target, {
+                                $push: {
+                                    questions: src
                                 }
-                                Questions.find({
-                                    owner: userid
-                                }, (err, fffQuestion) => {
+                            }, (err, ffChapter) => {
+                                if (err) {
+                                    console.log(err);
+                                }
+                                fQuestion.updateOne({
+                                    chapter: target
+                                }, (err, upd) => {
                                     if (err) {
-                                        console.log(err)
+                                        console.log(err);
                                     }
 
-                                    socket.emit('refreshTree', src, target,fQuestion.chapter,fffChapter,fffQuestion);
 
+                                    Chapters.find({
+                                        owner: userid
+                                    }, (err, fffChapter) => {
+                                        if (err) {
+                                            console.log(err)
+                                        }
+                                        Questions.find({
+                                            owner: userid
+                                        }, (err, fffQuestion) => {
+                                            if (err) {
+                                                console.log(err)
+                                            }
+
+                                            socket.emit('refreshTree', src, target, fQuestion.chapter, fffChapter, fffQuestion);
+
+                                        })
+
+                                    })
                                 })
 
                             })
-                        })
+                        } else {
+                            fQuestion.updateOne({
+                                $set: {
+                                    chapter: undefined
+                                }
+                            }, {
+                                upsert: true
+                            }, (err, upd) => {
+                                if (err) {
+                                    console.log(err);
+                                }
+                                Chapters.find({
+                                    owner: userid
+                                }, (err, fffChapter) => {
+                                    if (err) {
+                                        console.log(err)
+                                    }
+                                    console.log(fChapter);
+                                    Questions.find({
+                                        owner: userid
+                                    }, (err, fffQuestion) => {
+                                        if (err) {
+                                            console.log(err)
+                                        }
+
+                                        socket.emit('refreshTree', src, target, fQuestion.chapter, fffChapter, fffQuestion);
+
+                                    })
+
+                                })
+                            })
+                        }
 
                     })
-                    
-                })
-                    }
-            } else{
+                }
+            } else if (target!='unassigned') {
                 Chapters.findByIdAndUpdate(target, {
                     $push: {
                         questions: src
@@ -750,7 +647,7 @@ io.on('connection', function (socket) {
                                     console.log(err)
                                 }
 
-                                socket.emit('refreshTree',src,target,undefined, fffChapter, fffQuestion);
+                                socket.emit('refreshTree', src, target, undefined, fffChapter, fffQuestion);
 
                             })
 
@@ -759,7 +656,7 @@ io.on('connection', function (socket) {
                 })
             }
         })
-            
+
     })
 
 

@@ -130,7 +130,7 @@ const generateTree = (chaptersList, questionsList) => {
 
     let tempInner =
         `
-    <div class='dir cont list-item' id="unassigned">
+      <div class='dir cont list-item' id="unassigned" ondrop="drop(event, this)" ondragover="allowDrop(event)">
       <div class='dir-header'>
         <span class='icon'><i class='far fa-folder'></i></span> Nieprzypisane
         <span class='icon is-pulled-right arrow'><i class='fas fa-angle-right'></i></span>
@@ -152,10 +152,9 @@ const setClickEventOnTreeItems = () => {
         const treeElementHeader = treeElement.querySelector("div.dir-header");
         const treeElementItems = treeElement.querySelector("div.dir-items");
         if(treeElement.getAttribute('listener') != 'true'){
+        treeElement.setAttribute('listener','true');
         treeElementHeader.addEventListener("click", () => {
             treeElement.classList.toggle("opened-item");
-            treeElement.setAttribute('listener','true');
-                        console.log(treeElement.getAttribute('listener'))
             treeElementItems;
             if (treeElementItems.clientHeight) {
                 treeElementItems.style.height = 0;
