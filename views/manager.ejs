@@ -110,22 +110,71 @@
 
         socket.on('cChapter', (cChapter) => {
                             
-            chapters.push(cChapter);
-//                            console.log(chapters)
-//                            console.log(questions)
-            generateTree(chapters, <%- JSON.stringify(question) %>);
-            setClickEventOnTreeItems();
+            chapters.push(cChapter);         
+                            $(`<div class='dir cont list-item' id="` +
+            cChapter._id +
+            `"ondrop="drop(event, this)" ondragover="allowDrop(event)">
+    <div class='dir-header' db-id=` +
+            cChapter._id +
+            `>
+      <span class='icon'><i class='fas fa-folder'></i></span> ` +
+            cChapter.name +
+            `
+      <span class='icon is-pulled-right arrow'
+        ><i class='fas fa-angle-right'></i
+      ></span>
+    </div>
+    <div class='dir-items'><div class="dir-items-wrapper">
+            </div></div></div>`).insertBefore('div#unassigned')
+
+                            setClickEventOnTreeItems();
+                            
+                            
+                            
 
         })
         
-                socket.on('cQuestion', (cQuestion) => {
-                            
-            questions.push(cQuestion);
-//                            console.log(chapters)
-//                            console.log(questions)
-            generateTree(chapters, <%- JSON.stringify(question) %>);
-            setClickEventOnTreeItems();
-
+                socket.on('cQuestion', (question) => {
+            questions.push(question);
+                            if (question.type == "open") {
+            $('#unassigned').append(
+                `<p class="list-item" id="` +
+                question._id +
+                `"title="` +
+                question.content +
+                `" draggable = 'true' ondragstart="drag(event)">
+      <span class="icon"> <i class="fas fa-calendar-minus"></i> </span
+      >` +
+                question.name +
+                `</p>`
+                )
+        } else if (question.type == "single") {
+            $('#unassigned').append(
+                `<p class="list-item" id="` +
+                question._id +
+                `"title="` +
+                question.content +
+                `" draggable = 'true' ondragstart="drag(event)">
+      <span class="icon"> <i class="fas fa-calendar-check"></i> </span
+      >` +
+                question.name +
+                `</p>`
+                )
+        } else if (question.type == "multi") {
+        $('#unassigned').append(
+                `<p class="list-item" id="` +
+                question._id +
+                `"title="` +
+                question.content +
+                `" draggable = 'true' ondragstart="drag(event)">
+        <span class="icon"> <i class="fas fa-calendar-alt"></i> </span
+        >` +
+                question.name +
+                `</p>`
+            )
+        }
+                    
+                    
         })
         
         

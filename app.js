@@ -470,7 +470,7 @@ io.on('connection', function (socket) {
 
             })
 
-        } else if (type == "addopenquestion") {
+        } else if (type == "open") {
             Questions.create({
                 owner: userid,
                 name: name,
@@ -482,7 +482,7 @@ io.on('connection', function (socket) {
                 }
                 socket.emit('cQuestion', cQuestion);
             })
-        } else if (type == "addsinglequestion") {
+        } else if (type == "single") {
             Questions.create({
                 owner: userid,
                 name: name,
@@ -496,7 +496,7 @@ io.on('connection', function (socket) {
                 }
 socket.emit('cQuestion', cQuestion);
             })
-        } else if (type == "addmultiquestion") {
+        } else if (type == "multi") {
             Questions.create({
                 owner: userid,
                 name: name,

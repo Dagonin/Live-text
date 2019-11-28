@@ -33,6 +33,7 @@ const generateTreeItems = (c, q) => {
                     question.name +
                     `</p>`;
             } else if (question.type == "single") {
+                tree +=
                 `<p class="list-item" id="` +
                 question._id +
                     `"title="` +
@@ -151,18 +152,18 @@ const setClickEventOnTreeItems = () => {
         const treeElement = treeElements[i - 1];
         const treeElementHeader = treeElement.querySelector("div.dir-header");
         const treeElementItems = treeElement.querySelector("div.dir-items");
-        if(treeElement.getAttribute('listener') != 'true'){
-        treeElement.setAttribute('listener','true');
-        treeElementHeader.addEventListener("click", () => {
-            treeElement.classList.toggle("opened-item");
-            treeElementItems;
-            if (treeElementItems.clientHeight) {
-                treeElementItems.style.height = 0;
-            } else {
-                var wrapper = treeElementItems.querySelector("div.dir-items-wrapper");
-                treeElementItems.style.height = wrapper.clientHeight + "px";
-            }
-        });
-            }
+        if (treeElement.getAttribute('listener') != 'true') {
+            treeElement.setAttribute('listener', 'true');
+            treeElementHeader.addEventListener("click", () => {
+                treeElement.classList.toggle("opened-item");
+                treeElementItems;
+                if (treeElementItems.clientHeight) {
+                    treeElementItems.style.height = 0;
+                } else {
+                    var wrapper = treeElementItems.querySelector("div.dir-items-wrapper");
+                    treeElementItems.style.height = wrapper.clientHeight + "px";
+                }
+            });
+        }
     }
 };
