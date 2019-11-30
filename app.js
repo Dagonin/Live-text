@@ -432,7 +432,6 @@ function sleep(time) {
 let timeout = false;
 io.on('connection', function (socket) {
     timeout = false;
-    console.log('dawid');
 
     socket.on('disconnect', function () {
         timeout = true;
@@ -462,7 +461,6 @@ io.on('connection', function (socket) {
                 if (err) {
                     console.log(err);
                 }
-                console.log(socid)
                 socket.emit('cChapter', cChapter);
 
 
@@ -524,7 +522,6 @@ socket.emit('cQuestion', cQuestion);
             if (err) {
                 console.log(err);
             }
-            console.log(fQuestion.chapter);
             if (fQuestion.chapter) {
                 if (fQuestion.chapter != target) {
                     Chapters.findByIdAndUpdate(fQuestion.chapter, {
@@ -594,7 +591,6 @@ socket.emit('cQuestion', cQuestion);
                                     if (err) {
                                         console.log(err)
                                     }
-                                    console.log(fChapter);
                                     Questions.find({
                                         owner: userid
                                     }, (err, fffQuestion) => {
@@ -639,7 +635,6 @@ socket.emit('cQuestion', cQuestion);
                             if (err) {
                                 console.log(err)
                             }
-                            console.log(fChapter);
                             Questions.find({
                                 owner: userid
                             }, (err, fffQuestion) => {

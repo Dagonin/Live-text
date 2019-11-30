@@ -12,106 +12,220 @@
 
 <body>
     <nav class="navbar has-background-info" role="navigation" aria-label="main navigation"></nav>
-    <% if(user){%>
     <div class="columns">
         <div class="column list is-hoverable is-shadowless" id="tree"></div>
-        <% }%>
-        <div class="column is-three-quarters has-background-success"></div>
+        <div class="column is-three-quarters has-background-success">
+            <select onchange="select(this.options[this.selectedIndex].value)">
+                <option value="open">Pytanie otwarte</option>
+                <option value="single">Pytanie pojedyńczego wyboru</option>
+                <option value="chapter">Rozdział</option>
+                <option value="multi">Pytanie wielokrotnego wyboru</option>
+            </select>
+            <div class="selectedcontent">
+
+            </div>
+        </div>
     </div>
-    <script src="/js/tree.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-    <script>
-        let chapters = <%- JSON.stringify(chapter) %> ;
-        let questions = <%- JSON.stringify(question) %> ;
 
-        function add(name, type, content, options, correct) {
-            post("/tree", [name, type, content, options]);
+
+</body>
+<script src="/js/tree.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+    let chapters = <%-JSON.stringify(chapter) %> ;
+    let questions = <%-JSON.stringify(question) %> ;
+
+    generateTree(chapters, questions);
+    setClickEventOnTreeItems();
+
+
+    // DRAG & DROP
+    let srcid;
+
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+
+    function drag(ev) {
+        srcid = ev.srcElement.id;
+    }
+
+    function drop(ev) {
+        ev.preventDefault();
+
+        if (ev.path[3].className.includes('cont') && ev.path[1].className.includes('icon')) {
+            socket.emit("move", socket.id, srcid, ev.path[3].id, `<%= user.id %>`);
+        } else if (ev.path[4].className.includes('cont') && ev.path[2].className.includes('icon')) {
+            socket.emit("move", socket.id, srcid, ev.path[4].id, `<%= user.id %>`);
+        } else if (ev.target.className == "dir-header") {
+            socket.emit("move", socket.id, srcid, ev.target.parentElement.id, `<%= user.id %>`);
+
+        } else if (ev.target.className.includes("cont")) {
+            socket.emit("move", socket.id, srcid, ev.target.id, `<%= user.id %>`);
+        } else if (ev.target.className.includes("list-item")) {
+            socket.emit("move", socket.id, srcid, ev.target.parentElement.parentElement.parentElement.id, `<%= user.id %>`);
         }
-
-        function del(id, type) {
-            post("/tree", [id, type]);
-        }
-
-        function move(id, to) {
-            post("/tree", [id, 'move', to]);
-        }
-
-        function ctest(arrayofquestions, name) {
-            post("/tree", ["ctest", arrayofquestions, name]);
-        }
-
-        function post(path, params, method = "post") {
-            // The rest of this code assumes you are not using a library.
-            // It can be made less wordy if you use one.
-            const form = document.createElement("form");
-            form.method = method;
-            form.action = path;
-            for (const key in params) {
-                if (params.hasOwnProperty(key)) {
-                    const hiddenField = document.createElement("input");
-                    hiddenField.type = "hidden";
-                    hiddenField.name = key;
-                    hiddenField.value = params[key];
-                    form.appendChild(hiddenField);
-                }
-            }
-            document.body.appendChild(form);
-            form.submit();
-        }
-
-        generateTree(chapters,questions);
-        setClickEventOnTreeItems();
+    }
 
 
-        // DRAG & DROP
-        let srcid;
-        function allowDrop(ev) {
-            ev.preventDefault();
-        }
 
-        function drag(ev) {
-            srcid = ev.srcElement.id;
-        }
-
-        function drop(ev) {
-            ev.preventDefault();
-//            console.log(ev.target.parentElement.id);
-            
-            if(ev.path[3].className.includes('cont')&& ev.path[1].className.includes('icon')){
-                socket.emit("move",socket.id,srcid,ev.path[3].id,"<%= user.id %>");
-            }else if(ev.path[4].className.includes('cont')&& ev.path[2].className.includes('icon')){
-                socket.emit("move",socket.id,srcid,ev.path[4].id,"<%= user.id %>");
-            }else if(ev.target.className=="dir-header"){
-            socket.emit("move",socket.id,srcid,ev.target.parentElement.id,"<%= user.id %>");
-                        
-            }else if(ev.target.className.includes("cont")){
-                socket.emit("move",socket.id,srcid,ev.target.id,"<%= user.id %>");
-            }else if (ev.target.className.includes("list-item")){
-                    socket.emit("move",socket.id,srcid,ev.target.parentElement.parentElement.parentElement.id,"<%= user.id %>");
-                }
+    // SELECTMENU
+    function select(selected){
+            let container = $(".selectedcontent");
+            if(selected == 'single'){
+                container.html(`               <div>
+                <label  for="name">Etykieta pytania</label>
+                <input id="singlename" type="text" name="name">  
+                </div>              
+                <div>
+                <label for="content">Treść pytania</label>
+                <input id="singlecontent" type="text" name="content">
+                </div>
+                <div>
+                <label for="first"><input id="first" type="radio" value="first" name="ans" checked>Pierwsza odpowiedź</label>
+                <input class='a' id="firstans" type="text" name="first"> 
+                </div>
+                <div>
+                <label for="second"><input type="radio" id="second" value="second" name="ans">Druga odpowiedź</label>
+                <input class='a' id="secondans" type="text" name="second"> 
+                </div>
+                <button id='possibility' onclick="addpossibility()">Dodaj możliwą odpowiedź</button>
+                <button onclick="addsingle()">Dodaj</button>`);
+            } else if(selected == 'multi'){
+                container.html(`               <div>
+                <label  for="name">Etykieta pytania</label>
+                <input id="multiname" type="text" name="name">  
+                </div>              
+                <div>
+                <label for="content">Treść pytania</label>
+                <input id="multicontent" type="text" name="content">
+                </div>
+                <div>
+                <label for="first"><input id="first" type="checkbox" value="first" name="ans" checked>Pierwsza odpowiedź</label>
+                <input class='a' id="firstans" type="text" name="first"> 
+                </div>
+                <div>
+                <label for="second"><input type="checkbox" id="second" value="second" name="ans">Druga odpowiedź</label>
+                <input class='a' id="secondans" type="text" name="second"> 
+                </div>
+                <button id='possibility' onclick="addpossibility1()">Dodaj możliwą odpowiedź</button>
+                <button onclick="addmulti()">Dodaj</button>`);
+            } else if(selected == 'open'){
+                container.html(`<div><label  for="name">Etykieta pytania</label>
+                <input id="openname" type="text" name="name">                
+                </div><div><label for="content">Treść pytania</label>
+                <input id="opencontent" type="text" name="content"></div>
+                <button onclick="addopen()">Dodaj</button>`);
+            } else if(selected == 'chapter'){
+                container.html(`<div><label  for="name">Nazwa rodziału</label>
+                <input id="chaptername" type="text" name="name">                
+               </div> <div><label for="content">Opis rodziału</label>
+                <input id="chaptercontent" type="text" name="content"></div>
+                <button onclick="addchapter()">Dodaj</button>`)                
             }
                 
-
-
-
-        /////// SOCKET.IO
-
-        const socket = io();
-        socket.on('connect', () => {
-            console.log(socket.id);
-        })
-
-        function add(name, type, content, options, correct) {
-//            post("/tree", [name, type, content, options]);
-                        socket.emit("dodaj", socket.id, name, type, content, options, correct, "<%= user.id %>" );
+                
+                
+            }
+                
+                
+    function addpossibility(){
+        let num = $(".selectedcontent div").length-2;
+        if(num==2){
+            $(`               <div class="third"><label for="third"><input id="third" type="radio" value="third" name="ans">Trzecia odpowiedź </label>
+                <input class='a' id="thirdans" type="text" name="third"><button onclick="del(this.parentElement)">Usuń</button>
+                </div>`).insertBefore('button#possibility')
         }
+        if(num==3){
+                        $(`<div class="fourth"><label for="fourth"><input  id="fourth" type="radio" value="fourth" name="ans">Czwarta odpowiedź</label>
+                <input class='a' id="fourthans" type="text" name="third"><button onclick="del(this.parentElement)">Usuń</button>
+                </div>`).insertBefore('button#possibility')
+        }
+    }
 
+        function addpossibility1(){
+        let num = $(".selectedcontent div").length-2;
+        if(num==2){
+            $(`               <div class="third"><label for="third"><input id="third" type="checkbox" value="third" name="ans">Trzecia odpowiedź </label>
+                <input class='a' id="thirdans" type="text" name="third"><button onclick="del1(this.parentElement)">Usuń</button>
+                </div>`).insertBefore('button#possibility')
+        }
+        if(num==3){
+                        $(`<div class="fourth"><label for="fourth"><input  id="fourth" type="checkbox" value="fourth" name="ans">Czwarta odpowiedź</label>
+                <input class='a' id="fourthans" type="text" name="third"><button onclick="del1(this.parentElement)">Usuń</button>
+                </div>`).insertBefore('button#possibility')
+        }
+    }
 
-        socket.on('cChapter', (cChapter) => {
-                            
-            chapters.push(cChapter);         
-                            $(`<div class='dir cont list-item' id="` +
+    function del(e){
+        if($(".selectedcontent div").length-2==4&&e.className=="third"){
+                        $(`<div class="third"><label for="third"><input id="third" type="radio" value="third" name="ans">Trzecia odpowiedź</label>
+                <input class='a' id="thirdans" value="`+$("#fourthans").val()+`" type="text" name="third"><button onclick="del(this.parentElement)">Usuń</button>
+                </div>`).insertBefore('button#possibility')
+        }
+            $(".fourth").remove();
+            
+        
+        e.remove();
+    }
+    
+        function del1(e){
+        if($(".selectedcontent div").length-2==4&&e.className=="third"){
+                        $(`<div class="third"><label for="third"><input id="third" type="checkbox" value="third" name="ans">Trzecia odpowiedź</label>
+                <input class='a' id="thirdans" value="`+$("#fourthans").val()+`" type="text" name="third"><button onclick="del(this.parentElement)">Usuń</button>
+                </div>`).insertBefore('button#possibility')
+        }
+            $(".fourth").remove();
+            
+        
+        e.remove();
+    }
+    /////// SOCKET.IO
+
+    const socket = io();
+    socket.on('connect', () => {
+        console.log(socket.id);
+    })
+
+    function addchapter(){
+        socket.emit("dodaj", socket.id, $('#chaptername').val(), "addchapter", $('#chaptercontent').val(), undefined, undefined, `<%= user.id %>`);
+                    
+    }
+    
+    function addsingle(){
+        let arr = [];
+        $(".a").each(function(){
+            arr.push(this.value)
+        })
+        let ansid = $("input[name='ans']:checked").attr('id');
+        socket.emit("dodaj", socket.id, $('#singlename').val(), "single", $('#singlecontent').val(), arr, $("#"+ansid+"ans").val(), `<%= user.id %>`);
+    }
+                    
+    function addopen(){
+        socket.emit("dodaj", socket.id, $('#openname').val(), "open",$('#opencontent').val(), undefined, undefined, `<%= user.id %>`);
+                    
+        }
+    function addmulti(){
+        let arr = [];
+        let correct = [];
+        $(".a").each(function(){
+            arr.push(this.value)
+        })
+        $("input[name='ans']:checked").each(function(){
+            correct.push( $("#"+this.value+"ans").val())
+        })
+        socket.emit("dodaj", socket.id, $('#multiname').val(), "multi", $('#multicontent').val(), arr,correct, `<%= user.id %>`);
+    }
+    function add(name, type, content, options, correct) {
+        socket.emit("dodaj", socket.id, name, type, content, options, correct, `<%= user.id %>`);
+                    
+    }
+
+    socket.on('cChapter', (cChapter) => {
+
+        chapters.push(cChapter);
+        $(`<div class='dir cont list-item' id="` +
             cChapter._id +
             `"ondrop="drop(event, this)" ondragover="allowDrop(event)">
     <div class='dir-header' db-id=` +
@@ -127,17 +241,18 @@
     <div class='dir-items'><div class="dir-items-wrapper">
             </div></div></div>`).insertBefore('div#unassigned')
 
-                            setClickEventOnTreeItems();
-                            
-                            
-                            
+        setClickEventOnTreeItems();
 
-        })
-        
-                socket.on('cQuestion', (question) => {
-            questions.push(question);
-                            if (question.type == "open") {
-            $('#unassigned').append(
+
+
+
+    })
+
+    socket.on('cQuestion', (question) => {
+        questions.push(question);
+        let div = $("#unassigned").find('.dir-items-wrapper');
+        if (question.type == "open") {
+           div.append(
                 `<p class="list-item" id="` +
                 question._id +
                 `"title="` +
@@ -147,9 +262,12 @@
       >` +
                 question.name +
                 `</p>`
-                )
+            )
+            if ($("#unassigned").hasClass("opened-item")) {
+                $("#unassigned").find('.dir-items').css('height', '+=42,5');
+            }
         } else if (question.type == "single") {
-            $('#unassigned').append(
+            div.append(
                 `<p class="list-item" id="` +
                 question._id +
                 `"title="` +
@@ -159,9 +277,12 @@
       >` +
                 question.name +
                 `</p>`
-                )
+            )
+            if ($("#unassigned").hasClass("opened-item")) {
+                $("#unassigned").find('.dir-items').css('height', '+=42,5');
+            }
         } else if (question.type == "multi") {
-        $('#unassigned').append(
+            div.append(
                 `<p class="list-item" id="` +
                 question._id +
                 `"title="` +
@@ -173,83 +294,68 @@
                 `</p>`
             )
         }
-                    
-                    
-        })
-        
-        
-        
-        socket.on('refreshTree',(src,target,sourcediv,newChapters,newQuestions)=>{
-            console.log(src,target,sourcediv,newChapters,newQuestions);
-            chapters = newChapters;
-            questions = newQuestions;
-            if(sourcediv!=undefined){
+        if ($("#unassigned").hasClass("opened-item")) {
+            $("#unassigned").find('.dir-items').css('height', '+=42,5');
+        }
 
-            const srcindex = chapters.findIndex(x => x._id ===sourcediv);
+    })
+
+    socket.on('refreshTree', (src, target, sourcediv, newChapters, newQuestions) => {
+        chapters = newChapters;
+        questions = newQuestions;
+        if (sourcediv != undefined) {
+
+            const srcindex = chapters.findIndex(x => x._id === sourcediv);
             const srcdir = chapters[srcindex].questions;
             const srccontent = generateTreeItems(srcdir, questions);
-            $("#"+sourcediv).find('.dir-items-wrapper').html(srccontent);
-            const srcheight =  $("#"+sourcediv).find('.dir-items').height();
-            if($("#"+sourcediv).hasClass("opened-item")){
-                $("#"+sourcediv).find('.dir-items').height(srcheight-42,5);
+            $("#" + sourcediv).find('.dir-items-wrapper').html(srccontent);
+            if ($("#" + sourcediv).hasClass("opened-item")) {
+                $("#" + sourcediv).find('.dir-items').css('height', '-=42,5');
             }
 
-            } else{
+        } else {
             const srcdir = [];
-            newQuestions.forEach(question =>{
-            if(!question.chapter){
-                srcdir.push(question._id)
-            }
+            newQuestions.forEach(question => {
+                if (!question.chapter) {
+                    srcdir.push(question._id)
+                }
             });
             const srccontent = generateTreeItems(srcdir, questions);
             $("#unassigned").find('.dir-items-wrapper').html(srccontent);
-            const srcheight =  $("#unassigned").find('.dir-items').height();
-            if($("#unassigned").hasClass("opened-item")){
-            $("#unassigned").find('.dir-items').height(srcheight-42,5);
+            if ($("#unassigned").hasClass("opened-item")) {
+                $("#unassigned").find('.dir-items').css('height', '-=42,5');
             }
-            }
-            
-            if(target!='unassigned'){
-            const targetindex = chapters.findIndex(x => x._id ===target);
+        }
+
+        if (target != 'unassigned') {
+            const targetindex = chapters.findIndex(x => x._id === target);
             const targetdir = chapters[targetindex].questions;
-            const targetcontent = generateTreeItems(targetdir,questions);
-            $("#"+target).find('.dir-items-wrapper').html(targetcontent);
-            const targetheight =  $("#"+target).find('.dir-items').height();
-            if($("#"+target).hasClass("opened-item")){
-                $("#"+target).find('.dir-items').height(targetheight+42,5);
+            const targetcontent = generateTreeItems(targetdir, questions);
+            $("#" + target).find('.dir-items-wrapper').html(targetcontent);
+            if ($("#" + target).hasClass("opened-item")) {
+                $("#" + target).find('.dir-items').css('height', '+=42,5');
             }
-            }else{
+        } else {
             const targetdir = [];
-            newQuestions.forEach(question =>{
-            if(!question.chapter){
-                targetdir.push(question._id)
-            }
+            newQuestions.forEach(question => {
+                if (!question.chapter) {
+                    targetdir.push(question._id)
+                }
             });
             const targetcontent = generateTreeItems(targetdir, questions);
             $("#unassigned").find('.dir-items-wrapper').html(targetcontent);
-            const targetheight =  $("#unassigned").find('.dir-items').height();
-            if($("#unassigned").hasClass("opened-item")){
-            $("#unassigned").find('.dir-items').height(targetheight+42,5);
-            }       
-                
-                
-                
+            if ($("#unassigned").hasClass("opened-item")) {
+                $("#unassigned").find('.dir-items').css('height', '+=42,5');
             }
-                
-                
-            
-        })
-
-            const addtreequestion = (targetid,qid,content,title,sourcediv)=>{
-                const target = $("#"+targetid);
-                const srcdir = $("#"+sourcediv);
-    target.append(`<p class="list-item" id="` +qid +`"title="` +content +`" draggable = 'true' ondragstart="drag(event)"><span class="icon"> <i class="fas fa-calendar-minus"></i> </span>` +
-                  title +`</p>`)
-}
-            
 
 
-    </script>
-</body>
+
+        }
+
+
+
+    })
+
+</script>
 
 </html>
