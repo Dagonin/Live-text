@@ -5,8 +5,8 @@ const Chapters = require('../models/chapter');
 
 exports = module.exports = function(io){
 
-io.on('connection', function (socket) {
 
+io.on('connection', function (socket) {
     socket.on('disconnect', function () {
 
 

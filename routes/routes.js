@@ -1,9 +1,12 @@
 const router = require('express').Router();
+const Guests = require("../models/guest");
 const Users = require("../models/user");
+const Rooms = require('../models/room');
+const Mailer = require('../helpers/mailer');
+const Answers = require('../models/answer');
 const Questions = require('../models/question');
 const Chapters = require('../models/chapter');
-
-
+const Tests = require('../models/test');
 // Logowanie i rejestracja
 
 router.get('/', (req, res) => {
@@ -93,9 +96,214 @@ router.get('/tree', (req, res) => {
 })
 
 
-router.get("*",(req,res)=>{
-    res.redirect('/');
+
+
+//Pokoje
+router.get('/room', (req, res) => {
+    res.render("room", {
+        user: req.user
+    });
+});
+
+router.get('/create_room', (req, res) => {
+
+    if (req.user) {
+        securePin.generatePin(6, (pin) => {
+            Rooms.findOne({
+                PIN: pin
+            }, (err, fRoom) => {
+                if (err) {
+                    console.log(err);
+                }
+                if (!fRoom) {
+                    Rooms.create({
+                        PIN: pin,
+                        owner: req.user.id
+                    }, (err, cRoom) => {
+                        if (err) {
+                            console.log(err)
+                        };
+                        res.redirect('/room_' + cRoom.PIN)
+                        console.log(pin)
+
+                    })
+                } else {
+                    res.redirect('/');
+                };
+            });
+        });
+    } else(
+        res.send("musisz byc zalogowany")
+    )
+
+});
+
+
+router.post('/join', (req, res) => {
+    Rooms.findOne({
+        PIN: req.body.PIN
+    }, (err, fRoom) => {
+        if (err) {
+            console.log(err)
+        }
+        if (fRoom && fRoom.OPEN != false) {
+            Guests.create({
+                username: req.body.guestname,
+                email: req.body.remail,
+                states: [0, 1]
+            }, (err, cGuest) => {
+                if (err) {
+                    console.log(err)
+                }
+                res.cookie('guestid', cGuest.id)
+                console.log(req.cookies["guestid"])
+                res.redirect('/room_' + req.body.PIN);
+            })
+        } else {
+            res.redirect('/')
+        }
+    })
 })
 
+
+
+
+// POKOJE SIE TU DZIEJĄ ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+router.get('/room_:id', (req, res) => {
+    console.log(req.params.id)
+    let id = req.cookies["guestid"]
+    Rooms.findOne({
+        PIN: req.params.id
+    }, (err, fRoom) => {
+        if (err) {
+            return (err)
+        }
+        if (fRoom == null) {
+            return res.redirect('/')
+        }
+        //        console.log(fRoom + "ASDASDASD")
+        if (req.user) {
+            if (req.user.id == fRoom.owner) {
+                res.render("room_", {
+                    user: req.user,
+                    room: fRoom
+                });
+            } else {
+                res.redirect('/');
+            }
+
+
+        } else {
+
+            let boolean = false;
+            if (fRoom.guests.length != null) {
+                for (let z = 0; z < fRoom.guests.length; z++) {
+                    if (fRoom.guests[z] == id) {
+                        boolean = true;
+                    }
+                }
+            }
+            Guests.findById(
+                id,
+                (err, fGuest) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    if (fGuest == null) {
+                        return res.redirect('/');
+                    }
+                    if (boolean == false && fRoom.complete.indexOf(fGuest._id) == -1) {
+                        fRoom.updateOne({
+                            $push: {
+                                guests: fGuest._id
+                            }
+                        }, (err, upd) => {
+                            if (err) {
+                                return err;
+                            }
+                        })
+
+                    }
+                    res.render("room_", {
+                        user: req.user,
+                        fguest: fGuest,
+                        room: fRoom
+                    });
+                })
+
+            //                        console.log(fRoom.guests)
+            //                        console.log(fGuest.username + "USERNAME");
+            //            res.render("room_", {
+            //                user: req.user,
+            //                room: fRoom
+            //            });
+
+
+
+
+
+        }
+
+
+    })
+})
+router.post('/tree', (req, res) => {
+    if (req.user) {
+        ////////////////////////////////// USUWANie
+        if (req.body[1] == "deletequestion") {
+            Questions.findByIdAndDelete(req.body[0], (err, del) => {
+                if (err) {
+                    console.log(err);
+                }
+                if (del.chapter) {
+                    Chapters.findByIdAndUpdate(
+                        del.chapter, {
+                            $pull: {
+                                questions: req.body[0]
+                            }
+                        }, (err, uChapter) => {
+                            if (err) {
+                                console.log(err);
+                            }
+                            res.redirect('/tree');
+                        }
+
+                    )
+                } else {
+                    res.redirect('/tree');
+                }
+
+            })
+
+        } else if (req.body[1] == "deletechapter") {
+            Chapters.findByIdAndDelete(req.body[0], (err, del) => {
+                if (err) {
+                    console.log(err);
+                }
+                if (del.questions) {
+                    Questions.updateMany({
+                        chapter: del._id
+                    }, {
+                        chapter: undefined
+                    }, (err, upd) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                        res.redirect('/tree');
+                    })
+                }
+
+            }) ////////////////////////////////////////////// Przesuwanie
+        }
+
+    } else {
+        res.redirect('/')
+    }
+})
+
+
+router.get("*", (req, res) => {
+    res.redirect('/');
+})
 
 module.exports = router;
