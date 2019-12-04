@@ -11,25 +11,19 @@
 </head>
 
 <body>
-    <nav class="navbar has-background-info" role="navigation" aria-label="main navigation"></nav>
+    <nav class="navbar has-background-info" role="navigation" aria-label="main navigation">
+        <button id="but" onclick="navselect()">Dodaj Pytanie</button>
+    </nav>
     <div class="columns">
         <div class="column list is-hoverable is-shadowless" id="tree"></div>
-        <div class="column is-three-quarters has-background-success">
-            <select onchange="select(this.options[this.selectedIndex].value)">
-                <option value="open">Pytanie otwarte</option>
-                <option value="single">Pytanie pojedyńczego wyboru</option>
-                <option value="chapter">Rozdział</option>
-                <option value="multi">Pytanie wielokrotnego wyboru</option>
-            </select>
-            <div class="selectedcontent">
-
-            </div>
+        <div class="maincont column is-three-quarters has-background-success">
         </div>
     </div>
 
 
 </body>
 <script src="/js/tree.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.js" integrity="sha256-rVf3H94DblhP4Z6wLSa2mpMwRS5qePBWykE6QWPOaO0=" crossorigin="anonymous"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
@@ -38,7 +32,35 @@
 
     generateTree(chapters, questions);
     setClickEventOnTreeItems();
+    
+    var stop = true;
+    $("p.list-item").on("drag", function (e) {
 
+        stop = true;
+
+        if (e.originalEvent.clientY < 150) {
+            stop = false;
+            scroll(-1)
+        }
+
+        if (e.originalEvent.clientY > ($(window).height() - 150)) {
+            stop = false;
+            scroll(1)
+        }
+
+    });
+
+    $("p.list-item").on("dragend", function (e) {
+         stop = true;
+    });
+
+    var scroll = function (step) {
+        var scrollY = $(window).scrollTop();
+        $(window).scrollTop(scrollY + step);
+        if (!stop) {
+            setTimeout(function () { scroll(step) }, 20);
+        }
+    }
 
     // DRAG & DROP
     let srcid;
@@ -71,6 +93,18 @@
 
 
     // SELECTMENU
+    function navselect(){
+        $(".maincont").html(`<select onchange="select(this.options[this.selectedIndex].value)">
+<option style="display:none" disabled selected value> -- Wybierz -- </option>
+                <option value="open">Pytanie otwarte</option>
+                <option value="single">Pytanie pojedyńczego wyboru</option>
+                <option value="chapter">Rozdział</option>
+                <option value="multi">Pytanie wielokrotnego wyboru</option>
+            </select>
+            <div class="selectedcontent">
+
+            </div>`)
+    }
     function select(selected){
             let container = $(".selectedcontent");
             if(selected == 'single'){
