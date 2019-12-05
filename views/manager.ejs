@@ -167,40 +167,126 @@
 
     /////// SOCKET.IO
 
+//    socid, name, type, content, options, correct, userid
+    
     const socket = io();
     socket.on('connect', () => {
         console.log(socket.id);
     })
 
     function addchapter(){
+        $("#err").html("");
+        let errorcheck = false;
+        let error = [];
+        if($('#chaptername').val()==""){
+            errorcheck = true;
+            error.push("<div>Nazwa rozdziału jest pusta</div>");
+        }
+        if($('#chaptercontent').val()==""){
+            errorcheck = true;
+            error.push("<div>Opisz rozdziału jest pusty</div>");
+        }
+        if(errorcheck==false){
         socket.emit("dodaj", socket.id, $('#chaptername').val(), "addchapter", $('#chaptercontent').val(), undefined, undefined, `<%= user.id %>`);
-                    
+        }else{
+            $("#err").html(error);
+        }
     }
     
-    function addsingle(){
+    function addsingle(){ 
+        $("#err").html("");
+        let errorcheck = false;
+        let error = [];
+        
+        
+        
         let arr = [];
         $(".a").each(function(){
             arr.push(this.value)
+            if(this.value==""&& errorcheck == false){
+            errocheck = true;
+            error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");  
+            }
         })
+                if($('#singlename').val()==""){
+            errorcheck = true;
+            error.push("<div>Etykieta pytania jest pusta</div>");
+        }
+        if($('#singlecontent').val()==""){
+            errorcheck = true;
+            error.push("<div>Treść pytania jest pusta</div>");
+        }
+        
         let ansid = $("input[name='ans']:checked").attr('id');
+        console.log($("#"+ansid+"ans").val(),error)
+        if($("#"+ansid+"ans").val()==undefined){
+            errorcheck = true;
+           error.push("<div>Nie zaznaczono poprawnej odpowiedzi</div>");
+        }
+        
+        if(errorcheck==false){
         socket.emit("dodaj", socket.id, $('#singlename').val(), "single", $('#singlecontent').val(), arr, $("#"+ansid+"ans").val(), `<%= user.id %>`);
+        }else{
+            $("#err").html(error);
+        }
     }
                     
     function addopen(){
+        $("#err").html("");
+        let errorcheck = false;
+        let error = [];
+        if($('#openname').val()==""){
+            errorcheck = true;
+            error.push("<div>Etykieta pytania jest pusta</div>");
+        }
+        if($('#opencontent').val()==""){
+            errorcheck = true;
+            error.push("<div>Treść pytania jest pusta</div>");
+        }
+        if(errorcheck==false){
         socket.emit("dodaj", socket.id, $('#openname').val(), "open",$('#opencontent').val(), undefined, undefined, `<%= user.id %>`);
-                    
+                      }else{
+            $("#err").html(error);
+        }      
         }
     function addmulti(){
+        $("#err").html("");
+         let errorcheck = false;
+        let error = [];
         let arr = [];
         let correct = [];
         $(".a").each(function(){
-            arr.push(this.value)
+            arr.push(this.value);
+            if(this.value==""&& errorcheck == false){
+            errocheck = true;
+            error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");  
+            }
         })
+        if($('#multiname').val()==""){
+            errorcheck = true;
+            error.push("<div>Etykieta pytania jest pusta</div>");
+        }
+        if($('#multicontent').val()==""){
+            errorcheck = true;
+            error.push("<div>Treść pytania jest pusta</div>");
+        }
+        
         $("input[name='ans']:checked").each(function(){
             correct.push( $("#"+this.value+"ans").val())
+            
         })
+        if(correct == ""){
+            errorcheck = true;
+            error.push("<div>Nie zaznaczono poprawnej odpowiedzi</div>");
+        }
+        if(errorcheck==false){
         socket.emit("dodaj", socket.id, $('#multiname').val(), "multi", $('#multicontent').val(), arr,correct, `<%= user.id %>`);
+                }else{
+            $("#err").html(error);
+        }
+        
     }
+    
     function add(name, type, content, options, correct) {
         socket.emit("dodaj", socket.id, name, type, content, options, correct, `<%= user.id %>`);
                     

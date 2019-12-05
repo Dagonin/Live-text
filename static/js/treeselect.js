@@ -11,8 +11,10 @@
             </div>`)
     }
     function select(selected){
+        $("#err").html("");
             let container = $(".selectedcontent");
             if(selected == 'single'){
+                
                 container.html(`               <div>
                 <label  for="name">Etykieta pytania</label>
                 <input id="singlename" type="text" name="name">  
@@ -30,7 +32,7 @@
                 <input class='a' id="secondans" type="text" name="second"> 
                 </div>
                 <button id='possibility' onclick="addpossibility()">Dodaj możliwą odpowiedź</button>
-                <button onclick="addsingle()">Dodaj</button>`);
+                <button onclick="addsingle()">Dodaj</button> <div id="err"></div>`);
             } else if(selected == 'multi'){
                 container.html(`               <div>
                 <label  for="name">Etykieta pytania</label>
@@ -49,19 +51,19 @@
                 <input class='a' id="secondans" type="text" name="second"> 
                 </div>
                 <button id='possibility' onclick="addpossibility1()">Dodaj możliwą odpowiedź</button>
-                <button onclick="addmulti()">Dodaj</button>`);
+                <button onclick="addmulti()">Dodaj</button> <div id="err"></div>`);
             } else if(selected == 'open'){
                 container.html(`<div><label  for="name">Etykieta pytania</label>
                 <input id="openname" type="text" name="name">                
                 </div><div><label for="content">Treść pytania</label>
                 <input id="opencontent" type="text" name="content"></div>
-                <button onclick="addopen()">Dodaj</button>`);
+                <button onclick="addopen()">Dodaj</button> <div id="err"></div>`);
             } else if(selected == 'chapter'){
                 container.html(`<div><label  for="name">Nazwa rodziału</label>
                 <input id="chaptername" type="text" name="name">                
                </div> <div><label for="content">Opis rodziału</label>
                 <input id="chaptercontent" type="text" name="content"></div>
-                <button onclick="addchapter()">Dodaj</button>`)                
+                <button onclick="addchapter()">Dodaj</button> <div id="err"></div>`)                
             }
                 
                 
