@@ -15,3 +15,7 @@ div.dir > div.dir-items {
     height: 0;
     overflow: hidden;
 }
+
+p.list-item:hover{
+    background-color: gray;
+}

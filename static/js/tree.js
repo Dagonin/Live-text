@@ -27,7 +27,7 @@ const generateTreeItems = (c, q) => {
                     question._id +
                     `"title="` +
                     question.content +
-                    `"draggable="true" ondragstart="drag(event)">
+                    `"draggable="true" ondragstart="drag(event)" onclick="showq(this)">
       <span class="icon"> <i class="fas fa-calendar-minus"></i> </span
       >` +
                     question.name +
@@ -38,7 +38,7 @@ const generateTreeItems = (c, q) => {
                 question._id +
                     `"title="` +
                     question.content +
-                    `"draggable="true" ondragstart="drag(event)">
+                    `"draggable="true" ondragstart="drag(event)" onclick="showq(this)">
       <span class="icon"> <i class="fas fa-calendar-check"></i> </span
       >` +
                     question.name +
@@ -49,7 +49,7 @@ const generateTreeItems = (c, q) => {
                     question._id +
                     `"title="` +
                     question.content +
-                    `"draggable="true" ondragstart="drag(event)">
+                    `"draggable="true" ondragstart="drag(event)" onclick="showq(this)">
         <span class="icon"> <i class="fas fa-calendar-alt"></i> </span
         >` +
                     question.name +
@@ -70,7 +70,7 @@ const generateUnassignedItems = q => {
                 question._id +
                 `"title="` +
                 question.content +
-                `" draggable = 'true' ondragstart="drag(event)">
+                `" draggable = 'true' ondragstart="drag(event)" onclick="showq(this)">
       <span class="icon"> <i class="fas fa-calendar-minus"></i> </span
       >` +
                 question.name +
@@ -81,7 +81,7 @@ const generateUnassignedItems = q => {
                 question._id +
                 `"title="` +
                 question.content +
-                `" draggable = 'true' ondragstart="drag(event)">
+                `" draggable = 'true' ondragstart="drag(event)" onclick="showq(this)">
       <span class="icon"> <i class="fas fa-calendar-check"></i> </span
       >` +
                 question.name +
@@ -92,7 +92,7 @@ const generateUnassignedItems = q => {
                 question._id +
                 `"title="` +
                 question.content +
-                `" draggable = 'true' ondragstart="drag(event)">
+                `" draggable = 'true' ondragstart="drag(event)" onclick="showq(this)">
         <span class="icon"> <i class="fas fa-calendar-alt"></i> </span
         >` +
                 question.name +
