@@ -13,13 +13,17 @@
 <body>
     <nav class="navbar has-background-info" role="navigation" aria-label="main navigation">
         <button onclick="navselect()">Dodaj Pytanie</button>
+        <button onclick="block()">block</button>
+        <button onclick="unblock()">unblock</button>
+        <button onclick="rem()">rem</button>
     </nav>
     <div class="columns">
         <div class="column list is-hoverable is-shadowless" id="tree"></div>
         <div class="maincont column is-three-quarters has-background-success">
-        <div class="showq">
-        </div>
-        
+            <div class="showq">
+            </div>
+
+
         </div>
     </div>
 
@@ -27,98 +31,158 @@
 </body>
 <script src="/js/tree.js"></script>
 <script src="/js/treeselect.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.js" integrity="sha256-rVf3H94DblhP4Z6wLSa2mpMwRS5qePBWykE6QWPOaO0=" crossorigin="anonymous"></script>
-<script src="/socket.io/socket.io.js"></script>
-<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-<script>
-    let chapters = <%-JSON.stringify(chapter) %> ;
-    let questions = <%-JSON.stringify(question) %> ;
-    let allquestions = <%-JSON.stringify(question) %> ;
 
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+
+<script>
+    let chapters = <%-JSON.stringify(chapter)%> ;
+    let questions = <%-JSON.stringify(question)%> ;
+    let allquestions = <%-JSON.stringify(question)%> ;
+    let rembool = false;
     generateTree(chapters, questions);
     setClickEventOnTreeItems();
+
+    
+    
+    
     
 
     
     
     
-    function showq(e){
-        let cont = $(".maincont");
-        let result = $.grep(allquestions, function(ev){ return ev._id == e.id; })[0];
+    //Wyświetlanie i edytowanie pytania
+
+    function editq(e) {
+        let cont = $(".showq");
+        let eid = cont.attr("id");
+        let result = $.grep(allquestions, function(ev) {
+            return ev._id == eid;
+        })[0];
         console.log(result)
-        if(result.type=="open"){
+        
+
+    }
+
+
+    function showq(e) {
+
+        console.log(e.target.id)
+        let cont = $(".maincont");
+        let result = $.grep(allquestions, function(ev) {
+            return ev._id == e.target.id;
+        })[0];
+        if (result.type == "open") {
             cont.html(`<div class="showq">
             <div>Etykieta pytania</div>
-            <div>`+result.name+`</div>
+            <div>` + result.name + `</div>
             <div>Treść pytania</div>
-            <div>`+result.content+`</div>            
-        </div>`)
-            
-        }else if(result.type=="single"){
+            <div>` + result.content + `</div>            
+        <button onclick="editq(this)">Edytuj</button></div>`)
+
+        } else if (result.type == "single") {
             let ans = '';
             let correct = "";
-         for(let i = 0;i<result.option.length;i++){
-            if(result.option[i]==result.correct){
-                  correct = "   --Poprawna odpowiedź--";
-              }else{
-                  correct = "";
-              }
-              ans += `<div>Opdpowiedź `+(i+1)+`.</div>
-             <div>`+result.option[i]+correct+`</div>`;
+            for (let i = 0; i < result.option.length; i++) {
+                if (result.option[i] == result.correct) {
+                    correct = "   --Poprawna odpowiedź--";
+                } else {
+                    correct = "";
+                }
+                ans += `<div>Opdpowiedź ` + (i + 1) + `.</div>
+             <div>` + result.option[i] + correct + `</div>`;
 
-         }
+            }
             cont.html(`<div class="showq">
             <div>Etykieta pytania</div>
-            <div>`+result.name+`</div>
+            <div>` + result.name + `</div>
             <div>Treść pytania</div>
-            <div>`+result.content+`</div>            
-            `+ans+`</div>`)
-            
-        } else if(result.type=="multi"){
-            console.log()
+            <div>` + result.content + `</div>            
+            ` + ans + `<button onclick="editq(this)">Edytuj</button></div>`)
+
+        } else if (result.type == "multi") {
             let ans = '';
             let correct = "";
-         for(let i = 0;i<result.option.length;i++){
-            if(jQuery.inArray(result.option[i],result.correct)!=-1){
-                  correct = "   --Poprawna odpowiedź--";
-              }else{
-                  correct = "";
-              }
-             console.log(correct)
-              ans += `<div>Opdpowiedź `+(i+1)+`.</div>
-             <div>`+result.option[i]+correct+`</div>`;
+            for (let i = 0; i < result.option.length; i++) {
+                if (jQuery.inArray(result.option[i], result.correct) != -1) {
+                    correct = "   --Poprawna odpowiedź--";
+                } else {
+                    correct = "";
+                }
+                ans += `<div>Opdpowiedź ` + (i + 1) + `.</div>
+             <div>` + result.option[i] + correct + `</div>`;
 
-         }
+            }
             cont.html(`<div class="showq">
             <div>Etykieta pytania</div>
-            <div>`+result.name+`</div>
+            <div>` + result.name + `</div>
             <div>Treść pytania</div>
-            <div>`+result.content+`</div>            
-            `+ans+`</div>`)
+            <div>` + result.content + `</div>            
+            ` + ans + `<button onclick="editq(this)">Edytuj</button></div>`)
+        }
+        $(".showq").attr("id", e.id);
+    }
+
+
+    function block(){
+        $("p.list-item").off("click");
+        $("p.list-item").attr("draggable","false");
+        $("p.list-item").off("dragstart",drag);
+        $(".cont").off("dragover",allowDrop);
+
+    }
+    function unblock(){
+        block();
+        $("p.list-item").on("click",this,showq);
+        $("p.list-item").attr("draggable","true");
+        $("p.list-item").on("dragstart",drag);
+        $(".cont").on("dragover",allowDrop);
+        $("input").remove();
+        rembool = false;
+    }
+    function rem(){
+        if(rembool==false){
+        rembool =true;
+        block();
+        $("p.list-item").append("<input type='checkbox'>");
+        $("input").css("float","right");
+        $("p.list-item").on("click",(e)=>{
+           let input = e.target.lastChild ;
+            if(input.checked == false){
+                input.checked = true;
+            }else{
+                input.checked = false;
+            }
+            remarr();
+        });
         }
     }
+
+    unblock();
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    var scroll = function (step) {
+    function remarr(){
+        $(".maincont").html("")
+    $("input:checked").each(function(){
+                 $(".maincont").append("<div>"+this.parentElement.innerText+"</div>")
+     });
+    }
+
+
+
+    var scroll = function(step) {
         var scrollY = $(window).scrollTop();
         $(window).scrollTop(scrollY + step);
         if (!stop) {
-            setTimeout(function () { scroll(step) }, 20);
+            setTimeout(function() {
+                scroll(step)
+            }, 20);
         }
     }
 
     // DRAG & DROP
-        var stop = true;
-    $("p.list-item").on("drag", function (e) {
+    var stop = true;
+    $("p.list-item").on("drag", function(e) {
 
         stop = true;
 
@@ -134,10 +198,10 @@
 
     });
 
-    $("p.list-item").on("dragend", function (e) {
-         stop = true;
+    $("p.list-item").on("dragend", function(e) {
+        stop = true;
     });
-    
+
     let srcid;
 
     function allowDrop(ev) {
@@ -145,7 +209,8 @@
     }
 
     function drag(ev) {
-        srcid = ev.srcElement.id;
+        console.log(ev);
+        srcid = ev.target.id;
     }
 
     function drop(ev) {
@@ -167,129 +232,130 @@
 
     /////// SOCKET.IO
 
-//    socid, name, type, content, options, correct, userid
-    
+    //    socid, name, type, content, options, correct, userid
+
     const socket = io();
     socket.on('connect', () => {
         console.log(socket.id);
     })
 
-    function addchapter(){
+    function addchapter() {
         $("#err").html("");
         let errorcheck = false;
         let error = [];
-        if($('#chaptername').val()==""){
+        if ($('#chaptername').val() == "") {
             errorcheck = true;
             error.push("<div>Nazwa rozdziału jest pusta</div>");
         }
-        if($('#chaptercontent').val()==""){
+        if ($('#chaptercontent').val() == "") {
             errorcheck = true;
             error.push("<div>Opisz rozdziału jest pusty</div>");
         }
-        if(errorcheck==false){
-        socket.emit("dodaj", socket.id, $('#chaptername').val(), "addchapter", $('#chaptercontent').val(), undefined, undefined, `<%= user.id %>`);
-        }else{
+        if (errorcheck == false) {
+            socket.emit("dodaj", socket.id, $('#chaptername').val(), "addchapter", $('#chaptercontent').val(), undefined, undefined, `<%= user.id %>`);
+        } else {
             $("#err").html(error);
         }
     }
-    
-    function addsingle(){ 
+
+    function addsingle() {
         $("#err").html("");
         let errorcheck = false;
         let error = [];
-        
-        
-        
+
+
+
         let arr = [];
-        $(".a").each(function(){
+        $(".a").each(function() {
             arr.push(this.value)
-            if(this.value==""&& errorcheck == false){
-            errocheck = true;
-            error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");  
+            if (this.value == "" && errorcheck == false) {
+                errocheck = true;
+                error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");
             }
         })
-                if($('#singlename').val()==""){
+        if ($('#singlename').val() == "") {
             errorcheck = true;
             error.push("<div>Etykieta pytania jest pusta</div>");
         }
-        if($('#singlecontent').val()==""){
+        if ($('#singlecontent').val() == "") {
             errorcheck = true;
             error.push("<div>Treść pytania jest pusta</div>");
         }
-        
+
         let ansid = $("input[name='ans']:checked").attr('id');
-        console.log($("#"+ansid+"ans").val(),error)
-        if($("#"+ansid+"ans").val()==undefined){
-            errorcheck = true;
-           error.push("<div>Nie zaznaczono poprawnej odpowiedzi</div>");
-        }
-        
-        if(errorcheck==false){
-        socket.emit("dodaj", socket.id, $('#singlename').val(), "single", $('#singlecontent').val(), arr, $("#"+ansid+"ans").val(), `<%= user.id %>`);
-        }else{
-            $("#err").html(error);
-        }
-    }
-                    
-    function addopen(){
-        $("#err").html("");
-        let errorcheck = false;
-        let error = [];
-        if($('#openname').val()==""){
-            errorcheck = true;
-            error.push("<div>Etykieta pytania jest pusta</div>");
-        }
-        if($('#opencontent').val()==""){
-            errorcheck = true;
-            error.push("<div>Treść pytania jest pusta</div>");
-        }
-        if(errorcheck==false){
-        socket.emit("dodaj", socket.id, $('#openname').val(), "open",$('#opencontent').val(), undefined, undefined, `<%= user.id %>`);
-                      }else{
-            $("#err").html(error);
-        }      
-        }
-    function addmulti(){
-        $("#err").html("");
-         let errorcheck = false;
-        let error = [];
-        let arr = [];
-        let correct = [];
-        $(".a").each(function(){
-            arr.push(this.value);
-            if(this.value==""&& errorcheck == false){
-            errocheck = true;
-            error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");  
-            }
-        })
-        if($('#multiname').val()==""){
-            errorcheck = true;
-            error.push("<div>Etykieta pytania jest pusta</div>");
-        }
-        if($('#multicontent').val()==""){
-            errorcheck = true;
-            error.push("<div>Treść pytania jest pusta</div>");
-        }
-        
-        $("input[name='ans']:checked").each(function(){
-            correct.push( $("#"+this.value+"ans").val())
-            
-        })
-        if(correct == ""){
+        console.log($("#" + ansid + "ans").val(), error)
+        if ($("#" + ansid + "ans").val() == undefined) {
             errorcheck = true;
             error.push("<div>Nie zaznaczono poprawnej odpowiedzi</div>");
         }
-        if(errorcheck==false){
-        socket.emit("dodaj", socket.id, $('#multiname').val(), "multi", $('#multicontent').val(), arr,correct, `<%= user.id %>`);
-                }else{
+
+        if (errorcheck == false) {
+            socket.emit("dodaj", socket.id, $('#singlename').val(), "single", $('#singlecontent').val(), arr, $("#" + ansid + "ans").val(), `<%= user.id %>`);
+        } else {
             $("#err").html(error);
         }
-        
     }
-    
+
+    function addopen() {
+        $("#err").html("");
+        let errorcheck = false;
+        let error = [];
+        if ($('#openname').val() == "") {
+            errorcheck = true;
+            error.push("<div>Etykieta pytania jest pusta</div>");
+        }
+        if ($('#opencontent').val() == "") {
+            errorcheck = true;
+            error.push("<div>Treść pytania jest pusta</div>");
+        }
+        if (errorcheck == false) {
+            socket.emit("dodaj", socket.id, $('#openname').val(), "open", $('#opencontent').val(), undefined, undefined, `<%= user.id %>`);
+        } else {
+            $("#err").html(error);
+        }
+    }
+
+    function addmulti() {
+        $("#err").html("");
+        let errorcheck = false;
+        let error = [];
+        let arr = [];
+        let correct = [];
+        $(".a").each(function() {
+            arr.push(this.value);
+            if (this.value == "" && errorcheck == false) {
+                errocheck = true;
+                error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");
+            }
+        })
+        if ($('#multiname').val() == "") {
+            errorcheck = true;
+            error.push("<div>Etykieta pytania jest pusta</div>");
+        }
+        if ($('#multicontent').val() == "") {
+            errorcheck = true;
+            error.push("<div>Treść pytania jest pusta</div>");
+        }
+
+        $("input[name='ans']:checked").each(function() {
+            correct.push($("#" + this.value + "ans").val())
+
+        })
+        if (correct == "") {
+            errorcheck = true;
+            error.push("<div>Nie zaznaczono poprawnej odpowiedzi</div>");
+        }
+        if (errorcheck == false) {
+            socket.emit("dodaj", socket.id, $('#multiname').val(), "multi", $('#multicontent').val(), arr, correct, `<%= user.id %>`);
+        } else {
+            $("#err").html(error);
+        }
+
+    }
+
     function add(name, type, content, options, correct) {
         socket.emit("dodaj", socket.id, name, type, content, options, correct, `<%= user.id %>`);
-                    
+
     }
 
     socket.on('cChapter', (cChapter) => {
@@ -322,7 +388,7 @@
         questions.push(question);
         let div = $("#unassigned").find('.dir-items-wrapper');
         if (question.type == "open") {
-           div.append(
+            div.append(
                 `<p class="list-item" id="` +
                 question._id +
                 `"title="` +
@@ -424,8 +490,8 @@
 
 
 
-        
-        
+
+     unblock();
 
     })
 

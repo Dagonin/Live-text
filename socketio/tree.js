@@ -89,6 +89,7 @@ socket.emit('cQuestion', cQuestion);
             if (err) {
                 console.log(err);
             }
+            if(fQuestion){
             if (fQuestion.chapter) {
                 if (fQuestion.chapter != target) {
                     Chapters.findByIdAndUpdate(fQuestion.chapter, {
@@ -217,7 +218,7 @@ socket.emit('cQuestion', cQuestion);
                     })
                 })
             }
-        })
+        }})
 
     })
 

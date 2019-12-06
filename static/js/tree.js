@@ -27,7 +27,7 @@ const generateTreeItems = (c, q) => {
                     question._id +
                     `"title="` +
                     question.content +
-                    `"draggable="true" ondragstart="drag(event)" onclick="showq(this)">
+                    `"draggable="true"  >
       <span class="icon"> <i class="fas fa-calendar-minus"></i> </span
       >` +
                     question.name +
@@ -38,7 +38,7 @@ const generateTreeItems = (c, q) => {
                 question._id +
                     `"title="` +
                     question.content +
-                    `"draggable="true" ondragstart="drag(event)" onclick="showq(this)">
+                    `"draggable="true" >
       <span class="icon"> <i class="fas fa-calendar-check"></i> </span
       >` +
                     question.name +
@@ -49,7 +49,7 @@ const generateTreeItems = (c, q) => {
                     question._id +
                     `"title="` +
                     question.content +
-                    `"draggable="true" ondragstart="drag(event)" onclick="showq(this)">
+                    `"draggable="true" >
         <span class="icon"> <i class="fas fa-calendar-alt"></i> </span
         >` +
                     question.name +
@@ -57,6 +57,7 @@ const generateTreeItems = (c, q) => {
             }
         }
     });
+    unblock();
     return tree;
 };
 
@@ -70,7 +71,7 @@ const generateUnassignedItems = q => {
                 question._id +
                 `"title="` +
                 question.content +
-                `" draggable = 'true' ondragstart="drag(event)" onclick="showq(this)">
+                `" draggable = 'true' >
       <span class="icon"> <i class="fas fa-calendar-minus"></i> </span
       >` +
                 question.name +
@@ -81,7 +82,7 @@ const generateUnassignedItems = q => {
                 question._id +
                 `"title="` +
                 question.content +
-                `" draggable = 'true' ondragstart="drag(event)" onclick="showq(this)">
+                `" draggable = 'true'  >
       <span class="icon"> <i class="fas fa-calendar-check"></i> </span
       >` +
                 question.name +
@@ -92,13 +93,14 @@ const generateUnassignedItems = q => {
                 question._id +
                 `"title="` +
                 question.content +
-                `" draggable = 'true' ondragstart="drag(event)" onclick="showq(this)">
+                `" draggable = 'true' >
         <span class="icon"> <i class="fas fa-calendar-alt"></i> </span
         >` +
                 question.name +
                 `</p>`;
         }
     });
+    unblock();
     return tree;
 };
 
@@ -112,7 +114,7 @@ const generateTree = (chaptersList, questionsList) => {
         let tempInner =
             `<div class='dir cont list-item' id="` +
             chapter._id +
-            `"ondrop="drop(event, this)" ondragover="allowDrop(event)">
+            `"ondrop="drop(event, this)" >
     <div class='dir-header' db-id=` +
             chapter._id +
             `>
@@ -127,11 +129,12 @@ const generateTree = (chaptersList, questionsList) => {
             generateTreeItems(chapterQuestions, questions) +
             `</div></div></div>`;
         tree.innerHTML += tempInner;
+        unblock();
     });
 
     let tempInner =
         `
-      <div class='dir cont list-item' id="unassigned" ondrop="drop(event, this)" ondragover="allowDrop(event)">
+      <div class='dir cont list-item' id="unassigned" ondrop="drop(event, this)" >
       <div class='dir-header'>
         <span class='icon'><i class='far fa-folder'></i></span> Nieprzypisane
         <span class='icon is-pulled-right arrow'><i class='fas fa-angle-right'></i></span>
@@ -147,6 +150,7 @@ const generateTree = (chaptersList, questionsList) => {
 };
 
 const setClickEventOnTreeItems = () => {
+    unblock();
     const treeElements = tree.getElementsByClassName("dir");
     for (let i = 1; i <= treeElements.length; i++) {
         const treeElement = treeElements[i - 1];
