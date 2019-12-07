@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet">
+	<script src="js/button.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link href="/css/fontawesome/css/all.css" rel="stylesheet"> <!--load all styles -->
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
       integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -14,110 +18,134 @@
       integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
       crossorigin="anonymous"
     ></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.css"
-      integrity="sha256-ujE/ZUB6CMZmyJSgQjXGCF4sRRneOimQplBVLu8OU5w="
-      crossorigin="anonymous"
-    />
     <title>Text Live</title>
   </head>
 
   <body>
+  
     <% if(!user){%>
-    <div class="container">
-      <div class="columns">
-        <div class="column">
-          <form action="/join" method="post">
-            <div class="row justify-content-center">
-              <input
-                class="input"
-                type="number"
-                placeholder="Kod Klasy"
-                name="PIN"
-                required
-              />
-              <input
-                class="input"
-                type="text"
-                placeholder="Twoja Nazwa"
-                name="guestname"
-                required
-              />
-            </div>
-            <div class="row justify-content-center">
-              <input
-                class="input"
-                type="email"
-                placeholder="Twój Email"
-                name="remail"
-                required
-              />
-            </div>
-            <button class="button is-info">
-              Dołącz
-            </button>
-          </form>
-        </div>
-        <div class="column">
-          <form action="/login" method="post">
-            <div class="row justify-content-center">
-              <input
-                class="input"
-                name="username"
-                placeholder="Login"
-                type="text"
-                required
-              />
-            </div>
-            <div class="row justify-content-center">
-              <input
-                class="input"
-                name="password"
-                placeholder="Hasło"
-                type="password"
-                required
-              />
-            </div>
+	<div id="content">
 
-            <button class="button is-info">
-              Zaloguj
-            </button>
-          </form>
-          Nie masz konta?
-          <a href="/register" class="alert-link">Utwórz konto</a>
-        </div>
-      </div>
-    </div>
+	<div id="header" class="center-div">
+		<div id="left-side">
+			<div class="logo">
+				<span class="title">Witamy na platformie!</span></h1> <br>
+				Aby dowiedzieć się wiecej o naszej platformie kliknij w poniższy przycisk.
+				<br><br><br>
+				<center><span class="sign-in">O platformie</span></center>
+			</div>
+		</div>
+		<div id="right-side" style="border-right:1px solid rgba(0,0,0,0.1);">
+			<div class="text">
+				<center>
+				<span class="title">Dołącz do gry</span>
+				<form action="/join" method="post">
+					<input
+						class="input"
+						type="number"
+						placeholder="Kod Klasy"
+						name="PIN"
+						required
+					/><br>
+					<input
+						class="input"
+						type="text"
+						placeholder="Twoja Nazwa"
+						name="guestname"
+						required
+					/>
+					<input
+						class="input"
+						type="email"
+						placeholder="Twój Email"
+						name="remail"
+						required
+					/>
+					<br><br>
+					<button class="button is-info join-class" style="margin-top:20px;">
+					Dołącz
+					</button>
+				</form>
+				</center>
+			</div>
+		</div>
+		<div id="right-side">
+			<div class="text">
+				<center>
+					<div id="panel">
+						<div id="registerp"><a href="javascript:void(0);" id="link1" onclick="register()">Rejestracja</a></div>
+						<div style="height:30px;width:1px;background:#ddd;float:left;"></div>
+						<div id="loginp"><a href="javascript:void(0);" id="link2" onclick="login()">Panel użytkownika</a></div>
+					</div>
+				</center>
+				<center>
+				<form action="/login" method="post" id="loginform" style="display:block">
+					<span class="title" style="margin-bottom:10px;display:block;margin-top:10px;">Panel użytkownika</span>
+					<input
+						class="input"
+						name="username"
+						placeholder="Login"
+						type="text"
+						required
+					/>
+					<br>
+					<input
+						class="input"
+						name="password"
+						placeholder="Hasło"
+						type="password"
+						required
+					/>
+					<br>
+					<span style="font-size:14px;">Nie masz jeszcze konta? <a href="javascript:void(0);" id="link2" onclick="register()">Utwórz konto</a>.</span><br>
+					<button class="button is-info join-class" style="margin-top:20px;">
+					Zaloguj
+					</button>
+				</form>
+				<form id="registerform" style="display:none">
+					<span class="title" style="margin-bottom:10px;margin-top:10px;display:block">Rejestracja</span>
+					<input type="text" placeholder="Login" name="login"><br>
+					<input type="text" placeholder="E-mail" name="email"><br>
+					<input type="password" placeholder="Hasło" name="password"><br>
+					<input type="password" placeholder="Powtórz hasło" name="repeatpassword"><br>
+					<span style="font-size:14px;">Posiadasz już konto? <a href="javascript:void(0);" id="link1" onclick="login()">Zaloguj się</a>.</span><br><br>
+					<button type="submit" name="dolacz" class="join-class">Zarejestruj</button>
+				</form>
+				</center>
+			</div>
+		</div>
+	</div>
+	</div>
+
     <% } %> <% if(user){ console.log(user) %>
-    <div class="container">
-      <section class="hero is-dark">
-        <div class="hero-body">
-          <div class="container">
-            <h1 class="title">
-              Witaj, <%= user.username %>!
-            </h1>
-            <h2 class="subtitle">
-              Wygląda na to, że nie posiadasz żadnego utworzonego pokoju 😪 Użyj
-              przycisku poniżej, aby utworzyć pokój!
+	
+
+<div id="content">
+
+	<div id="header" class="center-div">
+		<div id="left-side">
+			<div class="logo">
+				<span class="title">Witaj, <%= user.username %>!</span> <br>
+				Dziękujemy, że skorzystałeś z naszej platformy
+			</div>
+		</div>
+		<div id="right-side" style="width:66%;padding:50px;box-sizing:border-box">
+              <div class="info">Wygląda na to, że nie posiadasz żadnego utworzonego pokoju<br> Użyj
+              przycisku poniżej, aby utworzyć pokój!</div>
+			  <br>
               <form action="/create_room" method="get">
-                <div class="columns">
-                  <div class="column" style="margin-top: 0.75rem; ">
-                    <button class="button is-primary">Utwórz pokój</button>
-                    <a href="/tree" class="button is-info"
-                      >Zarządzaj pytaniami</a
+                    <button class="button is-primary panel_button pb_active"><i class="fas fa-plus icon_mg"></i> Utwórz pokój</button>
+                    <a href="/tree" class="button is-info panel_button"
+                      ><i class="fas fa-cog icon_mg"></i> Zarządzaj pytaniami</a
                     >
-                    <a href="/logout" class="button is-primary is-outlined"
-                      >Wyloguj</a
+                    <a href="/logout" class="button is-primary is-outlined panel_button"
+                      ><i class="fas fa-sign-out-alt icon_mg"></i> Wyloguj</a
                     >
-                  </div>
-                </div>
               </form>
-            </h2>
-          </div>
-        </div>
-      </section>
-    </div>
+		</div>
+	</div>
+</div>
+
     <% } %>
   </body>
 </html>
