@@ -41,6 +41,9 @@
     let questions = <%-JSON.stringify(question)%> ;
     let allquestions = <%-JSON.stringify(question)%> ;
     let rembool = false;
+    let refreshbool = false;
+    let remarrayq = [];
+    let remarrayc = [];
     generateTree(chapters, questions);
     setClickEventOnTreeItems();
 
@@ -68,7 +71,6 @@
 
     function showq(e) {
 
-        console.log(e.target.id)
         let cont = $(".maincont");
         let result = $.grep(allquestions, function(ev) {
             return ev._id == e.target.id;
@@ -124,6 +126,7 @@
         $(".showq").attr("id", e.id);
     }
 
+    // USUWANIE PYTAŃ I RODZIAŁÓW
 
     function block(){
         $("p.list-item").off("click");
@@ -156,17 +159,60 @@
             }
             remarr();
         });
+        $(".cont").append("<input onclick='remc(this)' type='checkbox'> XD nie umiem tego checkboxa dobrze ustawic");
+
         }
     }
 
+    function remc(e){
+        let thisid = e.parentElement.id
+        if(e.checked==true){
+            $("#"+thisid).find("input").prop('checked', true);
+        }else{
+            $("#"+thisid).find("input").prop('checked', false);
+        }
+        remarr();
+    }
     unblock();
     
     function remarr(){
-        $(".maincont").html("")
+    remarrayq = [];
+    remarrayc = [];
+    $(".maincont").html("")
     $("input:checked").each(function(){
-                 $(".maincont").append("<div>"+this.parentElement.innerText+"</div>")
+        if(this.parentElement.tagName=="P"){
+        remarrayq.push(this.parentElement.id);
+        }else{
+        remarrayc.push(this.parentElement.id);
+        }
+    $(".maincont").append("<div>"+this.parentElement.innerText+"</div>")
      });
+    $(".maincont").append("<button onclick='deletethem(remarrayq,remarrayc)'>Usuń!</button>")
     }
+    
+        function deletethem(arrq,arrc){
+        for( let i = 0; i < arrc.length; i++){ 
+            if ( arrc[i] === "unassigned") {
+                arrc.splice(i, 1); 
+            }
+        }
+        for( let i = 0; i < arrc.length; i++){
+            socket.emit("treedeletechapter",socket.id,arrc[i],`<%= user.id %>`);
+        }
+            
+               for( let i = 0; i < arrq.length; i++){
+            socket.emit("treedeletequestion",socket.id,arrq[i],`<%= user.id %>`);
+        }
+            if(refreshbool == false){
+                refreshbool = true;
+                setTimeout(function(){
+                    refreshbool = false;
+                    socket.emit("gettree",socket.id,`<%= user.id %>`);
+                },3500)
+            }
+            
+            
+        }
 
 
 
@@ -209,7 +255,6 @@
     }
 
     function drag(ev) {
-        console.log(ev);
         srcid = ev.target.id;
     }
 
@@ -229,16 +274,12 @@
             socket.emit("move", socket.id, srcid, ev.target.parentElement.parentElement.parentElement.id, `<%= user.id %>`);
         }
     }
+    
+    
+    
+    
 
-    /////// SOCKET.IO
-
-    //    socid, name, type, content, options, correct, userid
-
-    const socket = io();
-    socket.on('connect', () => {
-        console.log(socket.id);
-    })
-
+    
     function addchapter() {
         $("#err").html("");
         let errorcheck = false;
@@ -256,6 +297,13 @@
         } else {
             $("#err").html(error);
         }
+                    if(refreshbool == false){
+                refreshbool = true;
+                setTimeout(function(){
+                    refreshbool = false;
+                    socket.emit("gettree",socket.id,`<%= user.id %>`);
+                },3500)
+            }
     }
 
     function addsingle() {
@@ -294,6 +342,13 @@
         } else {
             $("#err").html(error);
         }
+                    if(refreshbool == false){
+                refreshbool = true;
+                setTimeout(function(){
+                    refreshbool = false;
+                    socket.emit("gettree",socket.id,`<%= user.id %>`);
+                },3500)
+            }
     }
 
     function addopen() {
@@ -313,6 +368,13 @@
         } else {
             $("#err").html(error);
         }
+                    if(refreshbool == false){
+                refreshbool = true;
+                setTimeout(function(){
+                    refreshbool = false;
+                    socket.emit("gettree",socket.id,`<%= user.id %>`);
+                },3500)
+            }
     }
 
     function addmulti() {
@@ -350,13 +412,35 @@
         } else {
             $("#err").html(error);
         }
+                    if(refreshbool == false){
+                refreshbool = true;
+                setTimeout(function(){
+                    refreshbool = false;
+                    socket.emit("gettree",socket.id,`<%= user.id %>`);
+                },3500)
+            }
 
     }
 
-    function add(name, type, content, options, correct) {
-        socket.emit("dodaj", socket.id, name, type, content, options, correct, `<%= user.id %>`);
+    /////// SOCKET.IO /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    }
+    //    socid, name, type, content, options, correct, userid
+
+    const socket = io();
+    socket.on('connect', () => {
+        console.log(socket.id);
+    })
+
+    socket.on("newtree",(nchapters,nquestions)=>{
+        chapters = nchapters;
+        questions = nquestions;
+        allquestions = nquestions;
+    })
+    
+    
+    socket.on("treedelete",(treeid)=>{
+        $("#"+treeid).remove();
+    })
 
     socket.on('cChapter', (cChapter) => {
 
@@ -439,6 +523,7 @@
     socket.on('refreshTree', (src, target, sourcediv, newChapters, newQuestions) => {
         chapters = newChapters;
         questions = newQuestions;
+        allquestions = newQuestions;
         if (sourcediv != undefined) {
 
             const srcindex = chapters.findIndex(x => x._id === sourcediv);
