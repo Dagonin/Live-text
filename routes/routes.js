@@ -248,57 +248,9 @@ router.get('/room_:id', (req, res) => {
     })
 })
 router.post('/tree', (req, res) => {
-    if (req.user) {
-        ////////////////////////////////// USUWANie
-        if (req.body[1] == "deletequestion") {
-            Questions.findByIdAndDelete(req.body[0], (err, del) => {
-                if (err) {
-                    console.log(err);
-                }
-                if (del.chapter) {
-                    Chapters.findByIdAndUpdate(
-                        del.chapter, {
-                            $pull: {
-                                questions: req.body[0]
-                            }
-                        }, (err, uChapter) => {
-                            if (err) {
-                                console.log(err);
-                            }
-                            res.redirect('/tree');
-                        }
 
-                    )
-                } else {
-                    res.redirect('/tree');
-                }
-
-            })
-
-        } else if (req.body[1] == "deletechapter") {
-            Chapters.findByIdAndDelete(req.body[0], (err, del) => {
-                if (err) {
-                    console.log(err);
-                }
-                if (del.questions) {
-                    Questions.updateMany({
-                        chapter: del._id
-                    }, {
-                        chapter: undefined
-                    }, (err, upd) => {
-                        if (err) {
-                            console.log(err);
-                        }
-                        res.redirect('/tree');
-                    })
-                }
-
-            }) ////////////////////////////////////////////// Przesuwanie
-        }
-
-    } else {
         res.redirect('/')
-    }
+    
 })
 
 
