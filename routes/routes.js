@@ -105,6 +105,11 @@ router.get('/room', (req, res) => {
     });
 });
 
+
+router.get('/test', (req, res) => {
+    res.render("test");
+});
+
 router.get('/create_room', (req, res) => {
 
     if (req.user) {
