@@ -159,10 +159,43 @@
             }
             remarr();
         });
-        $(".cont").append("<input onclick='remc(this)' type='checkbox'> XD nie umiem tego checkboxa dobrze ustawic");
+        $(".cont").append("<input onclick='remc(this)' type='checkbox'> ");
 
         }
     }
+    
+    
+        function test(){
+        if(rembool==false){
+        rembool =true;
+        block();
+        $("p.list-item").append("<input type='checkbox'>");
+        $("input").css("float","right");
+        $("p.list-item").on("click",(e)=>{
+           let input = e.target.lastChild ;
+            if(input.checked == false){
+                input.checked = true;
+            }else{
+                input.checked = false;
+            }
+            remarr();
+        });
+        $(".cont").append("<input onclick='ctest(this)' type='checkbox'> ");
+
+        }
+    }
+        function ctest(e){
+        let thisid = e.parentElement.id
+        if(e.checked==true){
+            $("#"+thisid).find("input").prop('checked', true);
+        }else{
+            $("#"+thisid).find("input").prop('checked', false);
+        }
+        testarr();
+    }
+    
+    testarr()
+    
 
     function remc(e){
         let thisid = e.parentElement.id
