@@ -8,15 +8,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css" />
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <link rel="stylesheet" href="/css/tree.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet">
+	<link href="/css/fontawesome/css/all.css" rel="stylesheet"> <!--load all styles -->
 </head>
 
 <body>
     <nav class="navbar has-background-info" role="navigation" aria-label="main navigation">
+		<div style="width:20%;background:#141414;height:52px;line-height:52px;float:left;color:#999;padding-left:30px;box-sizing:border-box;"><i class="fas fa-angle-left icon_mg" style="color:#3273dc"></i> Powrót do menu</div>
         <button onclick="navselect()">Dodaj Pytanie</button>
         <button onclick="block()">block</button>
         <button onclick="unblock()">unblock</button>
         <button onclick="rem()">rem</button>
     </nav>
+	
+	
+<!--
     <div class="columns">
         <div class="column list is-hoverable is-shadowless" id="tree"></div>
         <div class="maincont column is-three-quarters has-background-success">
@@ -26,7 +33,43 @@
 
         </div>
     </div>
-
+-->
+	
+<div id="m-header">
+	<div id="m-tree">
+		<nav class="navbar has-background-info" role="navigation" aria-label="main navigation" style="display:none"></nav>
+		<!--<div id="nav-side"><i class="fas fa-cog icon_mg"></i> Menadżer pytań</div>-->
+        <div class="column list is-hoverable is-shadowless" id="tree" style="margin-top:40px;"></div>
+	</div>
+	<div id="m-rightside">
+        <div class="maincont column is-three-quarters">
+			<!-- Brak pytan -->
+			<span style="font-size:30px" class="f200"><i class="far fa-meh icon_mg"></i> Wygląda na to, że nie utworzyłeś jeszcze żadnynch pytań.</span><br>
+			
+			<a href="" class="link-button f300">Uruchom Kreator Pytań</a>
+			<a href="" class="link-button f300" style="margin-left:10px">Załaduj testową bazę pytań</a>
+			
+			<br><br><br>
+			
+			<span class="f25 f200">Skorzystaj z pomocy jeśli nie wiesz jak utworzyć pytanie.</span><br><br>
+			
+			<!-- Zawartosc opcjonalna, mozna go umiescic jesli przygotujemy poradniki/dzial pomocy w pelnej wersji strony -->
+			<div class="showq block-video">
+				<!-- Bulma nadpisuje wysokosc, ktos cos? -->
+				<iframe width="100%" height="315" style="height:315px" src="https://www.youtube.com/embed/-2LtZRi6Q0s" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>			
+			</div>
+			
+			<div class="showq block-tutorial">
+				<span class="f25 f300">(2.0) Tworzenie pytań - Wprowadzenie</span><br>
+				<span class="f20">Tworzenie pytań przedstawione krok po kroku.</span><br><br>	
+				Poradnik stworzony w wersji pisemnej z zdjęciami dla osób, które mają pierwszy raz styczność z naszą platformą i mogą nie wiedzieć jak z niej korzystać. W tej części wytłumaczymy jak stworzyć
+				pytanie krok po kroku i umieścić je w wybranej kategorii, tak aby osoby znajdujące się w twoim pokoju mogłyby na nie odpowiadać.
+				<br>
+				<span class="tutorial-button-run f300"><i class="far fa-play-circle icon_mg"></i> Uruchom poradnik</span><br>
+			</div>
+		</div>
+	</div>
+</div>
 
 </body>
 <script src="/js/tree.js"></script>

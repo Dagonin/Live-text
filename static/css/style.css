@@ -13,6 +13,7 @@ html, body {
     transform: translate(-50%, -50%)	
 }
 
+
 #content {
 	width:100%;
 	margin:auto;
@@ -181,7 +182,7 @@ input[type="submit"] {
 
 
 .info {
-	font-size:10px;
+	fonnt-size:10px;
 	background:linear-gradient(to bottom,#66CC33,#339900);
 	color:#fff;
 	border-radius:4px;
@@ -219,5 +220,123 @@ background:#ffffff;
 .icon_mg {
 	margin-right:5px;
 }
+
+/* Manager.ejs */
+
+#m-header {
+	width:100%;
+	height:calc(100% - 52px);
+	background:#e9f0f8;
+	float:left;
+}
+
+#m-tree {
+	float: left;
+    width: 20%;
+    background: #222;
+    height: 100%;
+    position: relative;
+}
+
+#m-rightside {
+	float: left;
+    position: relative;
+    width: 80%;
+	padding:50px;
+	box-sizing:border-box;
+    height: 100%;
+}
+
+.list-item:not(a) {
+	color:#fff;
+}
+
+.list {
+background:none;
+}
+
+.list-item:not(:last-child) {
+    border-bottom: 1px solid #333;
+}
+
+.showq {
+	width:100%;
+	background:#fff;
+	box-shadow: 0px 0px 5px #ccc;
+	padding:20px;
+	box-sizing:border-box;
+}
+
+
+.column.is-three-quarters, .column.is-three-quarters-tablet {
+	width:100%;
+}
+
+button {
+background: none;
+padding:8px 12px;
+border:0;
+border-radius:3px;
+color:#999;
+font-size:1em;
+}
+
+.navbar {
+	background-color:#141414;
+}
+
+.has-background-info {
+	background-color: #141414!important;
+}
+
+.list-item:first-child {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+.list-item:last-child {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.block-video {
+width:45%;float:left;margin-right:5%;
+}
+
+.block-tutorial {
+width:45%;float:left;margin-right:5%;font-weight:200;
+}
+
+.link-button {
+padding:6px 12px;border:1px solid #888;margin-top:20px;display:inline-block;border-radius:3px;
+}
+
+.tutorial-button-run {
+padding:6px 12px;margin-top:20px;display:inline-block;border-radius:3px;color:#fff;background:#1D2671;
+}
+
+/* Fonts weight */
+
+.f300 {
+	font-weight:300;
+}
+
+.f200 {
+	font-weight:200;
+}
+
+.f25 {
+	font-size:25px;
+}
+
+.f30 {
+	font-size:30px;
+}
+
+.f20 {
+	font-size:20px;
+}
+
+
 
 
