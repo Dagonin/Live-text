@@ -1,0 +1,17 @@
+Upgrade 
+
+
+
+	Menu rozwijane / select
+		dodac css - > wyglad (szary) -> Ikona z fontawesome
+		
+	Przyciski
+		.add-button, .tutorial-button-run - > nowy wyglad - > maybe gradient
+		
+Ideas 
+
+	Tworzenie pytań
+	
+		Po utworzeniu czegokolwiek przechodzenie do pytania lub kategorii ( w przypadku pustej brak pytań, info );
+		
+		Komunikat pop-up > Akcja wykonana pomyślnie

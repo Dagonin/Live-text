@@ -308,10 +308,10 @@ width:45%;float:left;margin-right:5%;font-weight:200;
 }
 
 .link-button {
-padding:6px 12px;border:1px solid #888;margin-top:20px;display:inline-block;border-radius:3px;
+padding:6px 12px;border:1px solid #888;margin-top:20px;display:inline-block;border-radius:3px;color:#555;
 }
 
-.tutorial-button-run {
+.tutorial-button-run, .add-button{
 padding:6px 12px;margin-top:20px;display:inline-block;border-radius:3px;color:#fff;background:#1D2671;
 }
 
@@ -335,6 +335,41 @@ padding:6px 12px;margin-top:20px;display:inline-block;border-radius:3px;color:#f
 
 .f20 {
 	font-size:20px;
+}
+
+
+a:visited.menu {
+	color:#999;
+}
+
+/* tworzenie pytan */
+
+.etykieta {
+    font-size: 30px;
+    font-weight: 200;
+    width: 100%;
+}
+
+input.question {
+    font-size: 16px;
+    border-radius: 3px;
+    padding: 6px 12px;
+    margin: 10px 0px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(0,0,0,0.2);
+}
+
+.num {
+	margin-top:30px;
+}
+
+#singlecontent {
+	margin-bottom:30px;
+}
+
+label.a {
+	margin-bottom:30px;
+	display:inline-block;
 }
 
 

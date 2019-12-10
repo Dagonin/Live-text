@@ -27,12 +27,13 @@ p.list-item:hover {
     height: 375px;
 }
 
+/*
 .ql-toolbar {
     position: absolute;
     top: 0px;
     left: 0px;
 }
-
+*/
 #quil1 {
     z-index: 10;
 }

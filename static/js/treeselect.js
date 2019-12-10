@@ -1,11 +1,21 @@
  function navselect() {
-     $(".maincont").html(`<select onchange="select(this.options[this.selectedIndex].value)">
-<option style="display:none" disabled selected value> -- Wybierz -- </option>
+     $(".maincont").html(`
+	 
+    
+    <span style="font-size:30px" class="f200"><svg class="svg-inline--fa fa-layer-group fa-w-16 icon_mg" aria-hidden="true" data-prefix="fas" data-icon="layer-group" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M12.41 148.02l232.94 105.67c6.8 3.09 14.49 3.09 21.29 0l232.94-105.67c16.55-7.51 16.55-32.52 0-40.03L266.65 2.31a25.607 25.607 0 0 0-21.29 0L12.41 107.98c-16.55 7.51-16.55 32.53 0 40.04zm487.18 88.28l-58.09-26.33-161.64 73.27c-7.56 3.43-15.59 5.17-23.86 5.17s-16.29-1.74-23.86-5.17L70.51 209.97l-58.1 26.33c-16.55 7.5-16.55 32.5 0 40l232.94 105.59c6.8 3.08 14.49 3.08 21.29 0L499.59 276.3c16.55-7.5 16.55-32.5 0-40zm0 127.8l-57.87-26.23-161.86 73.37c-7.56 3.43-15.59 5.17-23.86 5.17s-16.29-1.74-23.86-5.17L70.29 337.87 12.41 364.1c-16.55 7.5-16.55 32.5 0 40l232.94 105.59c6.8 3.08 14.49 3.08 21.29 0L499.59 404.1c16.55-7.5 16.55-32.5 0-40z"></path></svg><!-- <i class="fas fa-layer-group icon_mg"></i> --><!-- <i class="fas fa-exclamation-circle icon_mg"></i> --> Wybierz typ pytania, które chcesz utworzyć.</span><br>
+    
+    <select onchange="select(this.options[this.selectedIndex].value)" style="
+    margin-bottom: 40px;
+    margin-top: 30px;
+">
+<option style="display:none" disabled="" selected="" value=""> -- Wybierz -- </option>
                 <option value="open">Pytanie otwarte</option>
                 <option value="single">Pytanie pojedyńczego wyboru</option>
                 <option value="chapter">Rozdział</option>
                 <option value="multi">Pytanie wielokrotnego wyboru</option>
             </select>
+			
+			
             <div class="selectedcontent">
 
             </div>`)
@@ -24,27 +34,28 @@
      if (selected == 'single') {
 
          container.html(`               <div>
-                <label  for="name">Etykieta pytania</label>
-                <input id="singlename" type="text" name="name">  
+                <label  for="name" class="etykieta">Etykieta pytania</label><br>
+                <input id="singlename" type="text" name="name" class="question">  <br>
                 </div>              
                 <div id="singlecontent">
                 </div>
+				<label  for="name" class="etykieta">Możliwe odpowiedzi</label><br>
                 <div class="num">
-                <label class="a" for="single1"><input id="single1" type="radio" value="1" name="ans" checked>Pierwsza odpowiedź</label>
+                <label class="a" for="single1"><input id="single1" type="radio" value="1" name="ans" class="icon_mg" checked>Pierwsza odpowiedź</label>
                 <div id="single1ans">
                 </div>                
                 </div>
                 <div>
                 <div class="num">
-                <label class="a" for="single2"><input id="single2" type="radio" value="2" name="ans" checked>Druga odpowiedź</label>
+                <label class="a" for="single2"><input id="single2" type="radio" value="2" name="ans" class="icon_mg" checked>Druga odpowiedź</label>
                 <div id="single2ans">
 
                 </div>
                 
                 </div>
                 </div>
-                <button id='possibility' onclick="addpossibility()">Dodaj możliwą odpowiedź</button>
-                <button onclick="addsingle()">Dodaj</button> <div id="err"></div>`);
+                <button id='possibility' onclick="addpossibility()" class="link-button f300">Dodaj możliwą odpowiedź</button>
+                <button onclick="addsingle()" class="add-button">Dodaj</button> <div id="err"></div>`);
          quil1("singlecontent");
          quil2("single1ans");
          quil3("single2ans");
@@ -52,43 +63,45 @@
 
      } else if (selected == 'multi') {
          container.html(`               <div>
-                <label  for="name">Etykieta pytania</label>
-                <input id="multiname" type="text" name="name">  
+                <label  for="name" class="etykieta">Etykieta pytania</label><br>
+                <input id="multiname" type="text" name="name" class="question"><br>
                 </div>              
                 <div id="multicontent">
                 </div>
+				<br>
+				<label  for="name" class="etykieta">Możliwe odpowiedzi</label><br>
                 <div class="num">
-                <label class="a" for="multi1"><input id="multi1" type="checkbox" value="1" name="ans" checked>Pierwsza odpowiedź</label>
+                <label class="a" for="multi1"><input id="multi1" type="checkbox" value="1" name="ans" class="icon_mg" checked>Pierwsza odpowiedź</label>
                 <div id="multi1ans">
                 </div>                
                 </div>
                 <div>
                 <div class="num">
-                <label class="a" for="multi2"><input id="multi2" type="checkbox" value="2" name="ans" checked>Druga odpowiedź</label>
+                <label class="a" for="multi2"><input id="multi2" type="checkbox" value="2" name="ans" class="icon_mg" checked>Druga odpowiedź</label>
                 <div id="multi2ans">
 
                 </div>
                 
                 </div>
                 </div>
-                <button id='possibility' onclick="addpossibility1()">Dodaj możliwą odpowiedź</button>
-                <button onclick="addmulti()">Dodaj</button> <div id="err"></div>`);
+                <button id='possibility' onclick="addpossibility1()" class="link-button f300">Dodaj możliwą odpowiedź</button>
+                <button onclick="addmulti()" class="add-button">Dodaj</button> <div id="err"></div>`);
          quil1("multicontent");
          quil2("multi1ans");
          quil3("multi2ans");
          quilleditor();
      } else if (selected == 'open') {
-         container.html(`<div><label  for="name">Etykieta pytania</label>
-                <input id="openname" type="text" name="name">                
+         container.html(`<div><label  for="name" class="etykieta">Etykieta pytania</label><br>
+                <input id="openname" type="text" name="name" class="question">                
                 </div><div id="opencontent"></div>
-                <button onclick="addopen()">Dodaj</button> <div id="err"></div>`);
+                <button onclick="addopen()" class="add-button">Dodaj</button> <div id="err"></div>`);
          quil1("opencontent");
      } else if (selected == 'chapter') {
-         container.html(`<div><label  for="name">Nazwa rodziału</label>
-                <input id="chaptername" type="text" name="name">                
-               </div> <div><label for="content">Opis rodziału</label>
-                <input id="chaptercontent" type="text" name="content"></div>
-                <button onclick="addchapter()">Dodaj</button> <div id="err"></div>`)
+         container.html(`<div><label  for="name" class="f200 f30">Nazwa rodziału</label><br>
+                <input id="chaptername" type="text" name="name" class="question">         
+               </div> <div><label for="content" class="f200 f30">Opis rodziału</label><br>
+                <input id="chaptercontent" type="text" name="content" class="question"></div>
+                <button onclick="addchapter()" class="add-button">Dodaj</button> <div id="err"></div>`)
      }
 
 
