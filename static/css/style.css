@@ -227,26 +227,23 @@ background:#ffffff;
 
 #m-header {
 	width:100%;
-	height:calc(100% - 52px);
 	background:#e9f0f8;
-	float:left;
+	display:flex;
+	min-height:calc(100% - 52px);
 }
 
 #m-tree {
 	float: left;
-    width: 20%;
     background: #222;
-    min-height: 100%;
-    position: relative;
+	flex:1;
 }
 
 #m-rightside {
 	float: left;
-    position: relative;
-    width: 80%;
 	padding:50px;
 	box-sizing:border-box;
-    height:100%;
+	background:#e9f0f8;
+	flex:4;
 }
 
 .list-item:not(a) {
@@ -373,6 +370,7 @@ label.a {
 	margin-bottom:30px;
 	display:inline-block;
 }
+
 
 
 
