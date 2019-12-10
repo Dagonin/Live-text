@@ -225,7 +225,7 @@ background:#ffffff;
 
 #m-header {
 	width:100%;
-	height:calc(100% - 52px);
+	min-height:calc(100% - 52px);
 	background:#e9f0f8;
 	float:left;
 }
