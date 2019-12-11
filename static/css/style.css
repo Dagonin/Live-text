@@ -376,5 +376,9 @@ label.a {
 	display:inline-block;
 }
 
+.dir-header:hover {
+	cursor:pointer;
+}
+
 
 
