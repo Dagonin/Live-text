@@ -63,32 +63,36 @@ exports = module.exports = function (io) {
 
 
         })
+        socket.on("treechapterupdate", (socid, chapter, upd, userid) => {
+
+            Chapters.findByIdAndUpdate(chapter, {
+                $pull: {
+                    questions: upd
+                }
+            }, {
+                new: true
+            }, (err, fChapter) => {
+                if (err) {
+                    console.log(err)
+                }
+            })
+
+
+        })
 
         socket.on("treedeletequestion", (socid, question, userid) => {
 
-            Questions.findByIdAndDelete(question, (err, del) => {
+            Questions.deleteMany({
+                '_id': {
+                    $in: question
+                }
+            }, (err, dquestions) => {
                 if (err) {
-                    console.log(err);
+                    console.log(err)
                 }
-                if (del.chapter) {
-                    Chapters.findByIdAndUpdate(
-                        del.chapter, {
-                            $pull: {
-                                questions: question
-                            }
-                        }, (err, uChapter) => {
-                            if (err) {
-                                console.log(err);
-                            } else {
-                                socket.emit("treedelete", question);
-                            }
-                        }
-
-                    )
-                } else {
-                    socket.emit("treedelete", question);
-                }
+                socket.emit("treedelete", question);
             })
+
 
 
         })
