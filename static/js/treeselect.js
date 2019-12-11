@@ -40,17 +40,17 @@
                 <div id="singlecontent">
                 </div>
 				<label  for="name" class="etykieta">Możliwe odpowiedzi</label><br>
-                <div class="num">
+                <div class="num firstans">
                 <label class="a" for="single1"><input id="single1" type="radio" value="1" name="ans" class="icon_mg" checked>Pierwsza odpowiedź</label>
                 <div id="single1ans">
                 </div>                
                 </div>
-                <div>
-                <div class="num">
+                
+                <div class="num secondans">
                 <label class="a" for="single2"><input id="single2" type="radio" value="2" name="ans" class="icon_mg" checked>Druga odpowiedź</label>
                 <div id="single2ans">
 
-                </div>
+                
                 
                 </div>
                 </div>
@@ -70,17 +70,17 @@
                 </div>
 				<br>
 				<label  for="name" class="etykieta">Możliwe odpowiedzi</label><br>
-                <div class="num">
+                <div class="num firstans">
                 <label class="a" for="multi1"><input id="multi1" type="checkbox" value="1" name="ans" class="icon_mg" checked>Pierwsza odpowiedź</label>
                 <div id="multi1ans">
                 </div>                
                 </div>
-                <div>
-                <div class="num">
+                
+                <div class="num secondans">
                 <label class="a" for="multi2"><input id="multi2" type="checkbox" value="2" name="ans" class="icon_mg" checked>Druga odpowiedź</label>
                 <div id="multi2ans">
 
-                </div>
+               
                 
                 </div>
                 </div>
@@ -114,8 +114,9 @@
  function addpossibility() {
      let num = $(".num").length;
      if (num == 2) {
-         $(`                <div class="num">
+         $(`                <div class="num thirdans">
                 <label class="a" for="single3"><input id="single3" type="radio" value="3" name="ans" checked>Trzecia odpowiedź</label>
+                <button onclick="del(this)">Usuń</button>
                 <div id="single3ans">
                 </div>                
                 </div>`).insertBefore('button#possibility');
@@ -123,8 +124,9 @@
          quilleditor();
      }
      if (num == 3) {
-         $(`                <div class="num">
+         $(`                <div class="num fourthans">
                 <label class="a" for="single4"><input id="single4" type="radio" value="4" name="ans" checked>Czwarta odpowiedź</label>
+                <button onclick="del(this)">Usuń</button>
                 <div id="single4ans">
                 </div>                
                 </div>`).insertBefore('button#possibility');
@@ -136,8 +138,9 @@
  function addpossibility1() {
      let num = $(".num").length;
      if (num == 2) {
-         $(`                <div class="num">
+         $(`                <div class="num thirdans">
                 <label class="a" for="multi3"><input id="multi3" type="checkbox" value="3" name="ans" checked>Trzecia odpowiedź</label>
+                <button onclick="del(this)">Usuń</button>
                 <div id="multi3ans">
                 </div>                
                 </div>`).insertBefore('button#possibility');
@@ -145,8 +148,9 @@
          quilleditor();
      }
      if (num == 3) {
-         $(`                <div class="num">
+         $(`                <div class="num fourthans">
                 <label class="a" for="multi4"><input id="multi4" type="checkbox" value="4" name="ans" checked>Czwarta odpowiedź</label>
+                <button onclick="del(this)">Usuń</button>
                 <div id="multi4ans">
                 </div>                
                 </div>`).insertBefore('button#possibility');
@@ -155,31 +159,18 @@
      }
  }
 
-
- // NIE SPRAEDZONE!!!!
  function del(e) {
-     if ($(".selectedcontent div").length - 2 == 4 && e.className == "third") {
-         $(`<div class="third"><label for="third"><input id="third" type="radio" value="third" name="ans">Trzecia odpowiedź</label>
-                <input class='a' id="thirdans" value="` + $("#fourthans").val() + `" type="text" name="third"><button onclick="del(this.parentElement)">Usuń</button>
-                </div>`).insertBefore('button#possibility')
+     let num = $(".num").length
+     if (num == 4 && e.parentElement.className.includes("thirdans")) {
+         window.quill4.container.firstChild.innerHTML = window.quill5.container.firstChild.innerHTML;
+         $(".fourthans").remove();
+     }else if(num == 3 && e.parentElement.className.includes("thirdans")){
+         $(".thirdans").remove();
+     }else if(num==4&&e.parentElement.className.includes("fourthans")){
+         $(".fourthans").remove();
      }
-     $(".fourth").remove();
-
-
-     e.remove();
  }
 
- function del1(e) {
-     if ($(".selectedcontent div").length - 2 == 4 && e.className == "third") {
-         $(`<div class="third"><label for="third"><input id="third" type="checkbox" value="third" name="ans">Trzecia odpowiedź</label>
-                <input class='a' id="thirdans" value="` + $("#fourthans").val() + `" type="text" name="third"><button onclick="del(this.parentElement)">Usuń</button>
-                </div>`).insertBefore('button#possibility')
-     }
-     $(".fourth").remove();
-
-
-     e.remove();
- }
 
  var toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'], // toggled buttons

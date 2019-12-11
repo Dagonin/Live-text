@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const bcrypt = require('bcryptjs');
 const Guests = require("../models/guest");
 const Users = require("../models/user");
 const Rooms = require('../models/room');

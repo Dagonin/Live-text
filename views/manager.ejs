@@ -23,8 +23,6 @@
         <button onclick="unblock()">unblock</button>
         <button onclick="rem()">rem</button>
     </nav>
-	
-	
 <!--
     <div class="columns">
         <div class="column list is-hoverable is-shadowless" id="tree"></div>
@@ -189,14 +187,14 @@
         $("p.list-item").attr("draggable","true");
         $("p.list-item").on("dragstart",drag);
         $(".cont").on("dragover",allowDrop);
-        $("input").remove();
+        $("input[name=rem]").remove();
         rembool = false;
     }
     function rem(){
         if(rembool==false){
         rembool =true;
         block();
-        $("p.list-item").append("<input type='checkbox'>");
+        $("p.list-item").append("<input name='rem' type='checkbox'>");
         $("input").css("float","right");
         $("p.list-item").on("click",(e)=>{
            let input = e.target.lastChild ;
@@ -207,7 +205,7 @@
             }
             remarr();
         });
-        $(".cont").append("<input onclick='remc(this)' type='checkbox'> ");
+        $(".cont").append("<input name='rem' onclick='remc(this)' type='checkbox'> ");
 
         }
     }
@@ -385,6 +383,7 @@
                     socket.emit("gettree",socket.id,`<%= user.id %>`);
                 },3500)
             }
+        select("chapter");
     }
 
     function addsingle() {
@@ -475,6 +474,7 @@
                 },2000)
             }
         unblock();
+        select("single");
     }
 
     function addopen() {
@@ -502,6 +502,7 @@
                 },2000)
             }
         unblock();
+        select("open");
     }
 
     function addmulti() {
@@ -596,51 +597,7 @@
                 },2000)
             }
         unblock();
-        
-        
-        
-//        $("#err").html("");
-//        let errorcheck = false;
-//        let error = [];
-//        let arr = [];
-//        let correct = [];
-//        $(".a").each(function() {
-//            arr.push(this.value);
-//            if (this.value == "" && errorcheck == false) {
-//                errocheck = true;
-//                error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");
-//            }
-//        })
-//        if ($('#multiname').val() == "") {
-//            errorcheck = true;
-//            error.push("<div>Etykieta pytania jest pusta</div>");
-//        }
-//        if (window.quill1.container.firstChild.innerHTML == "") {
-//            errorcheck = true;
-//            error.push("<div>Treść pytania jest pusta</div>");
-//        }
-//
-//        $("input[name='ans']:checked").each(function() {
-//            correct.push($("#" + this.value + "ans").val())
-//
-//        })
-//        if (correct == "") {
-//            errorcheck = true;
-//            error.push("<div>Nie zaznaczono poprawnej odpowiedzi</div>");
-//        }
-//        if (errorcheck == false) {
-//            socket.emit("dodaj", socket.id, $('#multiname').val(), "multi", window.quill1.container.firstChild.innerHTML, arr, correct,);
-//        } else {
-//            $("#err").html(error);
-//        }
-//                    if(refreshbool == false){
-//                refreshbool = true;
-//                setTimeout(function(){
-//                    refreshbool = false;
-//                    socket.emit("gettree",socket.id,`
-//                },2000)
-//            }
-//        unblock();
+        select("multi")
     }
 
     /////// SOCKET.IO /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
