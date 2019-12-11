@@ -55,6 +55,8 @@
                 </div>
                 </div>
                 <button id='possibility' onclick="addpossibility()" class="link-button f300">Dodaj możliwą odpowiedź</button>
+				<label  for="name" class="etykieta mg30">Załączniki</label><br>
+				<button>Wybierz plik</button><br>
                 <button onclick="addsingle()" class="add-button">Dodaj</button> <div id="err"></div>`);
          quil1("singlecontent");
          quil2("single1ans");
@@ -84,7 +86,9 @@
                 
                 </div>
                 </div>
-                <button id='possibility' onclick="addpossibility1()" class="link-button f300">Dodaj możliwą odpowiedź</button>
+                <button id='possibility' onclick="addpossibility1()" class="link-button f300">Dodaj możliwą odpowiedź</button><br>
+				<label  for="name" class="etykieta mg30">Załączniki</label><br>
+				<button>Wybierz plik</button><br>
                 <button onclick="addmulti()" class="add-button">Dodaj</button> <div id="err"></div>`);
          quil1("multicontent");
          quil2("multi1ans");
@@ -94,6 +98,8 @@
          container.html(`<div><label  for="name" class="etykieta">Etykieta pytania</label><br>
                 <input id="openname" type="text" name="name" class="question">                
                 </div><div id="opencontent"></div>
+				<label  for="name" class="etykieta mg30">Załączniki</label><br>
+				<button>Wybierz plik</button><br>
                 <button onclick="addopen()" class="add-button">Dodaj</button> <div id="err"></div>`);
          quil1("opencontent");
      } else if (selected == 'chapter') {
