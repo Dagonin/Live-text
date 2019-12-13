@@ -53,9 +53,13 @@ exports = module.exports = function (io) {
                         if (err) {
                             console.log(err);
                         } else {
-                            socket.emit("treedelete", chapter);
+                            console.log("ASDASDASDAD"+ chapter)
+                            socket.emit("treedelete", [chapter]);
                         }
                     })
+                }else {
+                    console.log("?????????????????????"+ chapter)
+                    socket.emit("treedelete", [chapter]);
                 }
 
             })
@@ -67,7 +71,9 @@ exports = module.exports = function (io) {
 
             Chapters.findByIdAndUpdate(chapter, {
                 $pull: {
-                    questions: upd
+                    questions: {
+                        $in: upd
+                    }
                 }
             }, {
                 new: true

@@ -650,7 +650,10 @@ E:/Z_C/programowanie/live-text/serwer
     
     
     socket.on("treedelete",(treeid)=>{
-//        $("#"+treeid).remove();
+        console.log(treeid)
+        for(let i =0;i<treeid.length;i++){
+            $("#"+treeid[i]).remove();
+        }
     })
 
     socket.on('cChapter', (cChapter) => {
