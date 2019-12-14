@@ -19,9 +19,8 @@
     <nav class="navbar has-background-info" role="navigation" aria-label="main navigation">
 		<div style="width:20%;background:#141414;height:52px;line-height:52px;float:left;color:#999;padding-left:30px;box-sizing:border-box;"><a href="/tree" class="menu"><i class="fas fa-angle-left icon_mg" style="color:#3273dc"></i> Powrót do menu</a></div>
         <button onclick="navselect()">Dodaj Pytanie</button>
-        <button onclick="block()">block</button>
-        <button onclick="unblock()">unblock</button>
-        <button onclick="rem()">rem</button>
+        <button onclick="rem()">Usuń</button>
+        <button onclick="test()">Stwórz test</button>
     </nav>
 <!--
     <div class="columns">
@@ -34,6 +33,7 @@ E:/Z_C/programowanie/live-text/serwer
         </div>
     </div>
 -->
+
 	
 <div id="m-header">
 	<div id="m-tree">
@@ -88,11 +88,27 @@ E:/Z_C/programowanie/live-text/serwer
     let refreshbool = false;
     let remarrayq = [];
     let remarrayc = [];
+    let testarr=[];
     generateTree(chapters, questions);
     setClickEventOnTreeItems();
 
     
-    
+        function block(){
+        $("p.list-item").off("click");
+        $("p.list-item").attr("draggable","false");
+        $("p.list-item").off("dragstart",drag);
+        $(".cont").off("dragover",allowDrop);
+
+    }
+    function unblock(){
+        block();
+        $("p.list-item").on("click",this,showq);
+        $("p.list-item").attr("draggable","true");
+        $("p.list-item").on("dragstart",drag);
+        $(".cont").on("dragover",allowDrop);
+        $("input[name=rem]").remove();
+        rembool = false;
+    }
     
     
 
@@ -170,25 +186,63 @@ E:/Z_C/programowanie/live-text/serwer
         }
         $(".showq").attr("id", e.id);
     }
+    // TWORZENIE TESTU
+    
+    
+   function test(){
+        if(rembool==false){
+        rembool =true;
+        block();
+        $("p.list-item").append("<input name='rem' type='checkbox'>");
+        $("input").css("float","right");
+        $("p.list-item").on("click",(e)=>{
+           let input = e.target.lastChild ;
+            if(input.checked == false){
+                input.checked = true;
+            }else{
+                input.checked = false;
+            }
+            testar();
+        });
+        $(".cont").append("<input name='rem' onclick='testc(this)' type='checkbox'> ");
 
+        }
+    }
+    
+    
+
+    
+
+    function testc(e){
+        let thisid = e.parentElement.id
+        if(e.checked==true){
+            $("#"+thisid).find("input").prop('checked', true);
+        }else{
+            $("#"+thisid).find("input").prop('checked', false);
+        }
+        testar();
+    }
+    unblock();
+    
+    function testar(){ 
+        testarr=[];
+    $(".maincont").html("")
+    $("input:checked").each(function(){
+        if(this.parentElement.tagName=="P"){
+        testarr.push(this.parentElement.id);
+            $(".maincont").append("<div>"+this.parentElement.innerText+"</div>")
+        }
+     });
+    $(".maincont").append("<input placeholder='Podaj nazwe testu' type='text' id='testname'>")
+    $(".maincont").append("<button onclick='createtest(testarr)'>Stwórz!</button>")
+    }
+    
+    function createtest(testarr){
+        socket.emit("ctest",socket.id,testarr,$("#testname").val(),`<%= user.id %> `);
+    }
     // USUWANIE PYTAŃ I RODZIAŁÓW
 
-    function block(){
-        $("p.list-item").off("click");
-        $("p.list-item").attr("draggable","false");
-        $("p.list-item").off("dragstart",drag);
-        $(".cont").off("dragover",allowDrop);
 
-    }
-    function unblock(){
-        block();
-        $("p.list-item").on("click",this,showq);
-        $("p.list-item").attr("draggable","true");
-        $("p.list-item").on("dragstart",drag);
-        $(".cont").on("dragover",allowDrop);
-        $("input[name=rem]").remove();
-        rembool = false;
-    }
     function rem(){
         if(rembool==false){
         rembool =true;
@@ -210,36 +264,7 @@ E:/Z_C/programowanie/live-text/serwer
     }
     
     
-        function test(){
-        if(rembool==false){
-        rembool =true;
-        block();
-        $("p.list-item").append("<input type='checkbox'>");
-        $("input").css("float","right");
-        $("p.list-item").on("click",(e)=>{
-           let input = e.target.lastChild ;
-            if(input.checked == false){
-                input.checked = true;
-            }else{
-                input.checked = false;
-            }
-            remarr();
-        });
-        $(".cont").append("<input onclick='ctest(this)' type='checkbox'> ");
 
-        }
-    }
-        function ctest(e){
-        let thisid = e.parentElement.id
-        if(e.checked==true){
-            $("#"+thisid).find("input").prop('checked', true);
-        }else{
-            $("#"+thisid).find("input").prop('checked', false);
-        }
-//        testarr();
-    }
-    
-//    testarr()
     
 
     function remc(e){
@@ -253,7 +278,7 @@ E:/Z_C/programowanie/live-text/serwer
     }
     unblock();
     
-    function remarr(){
+    function remarr(){ 
     remarrayq = [];
     remarrayc = [];
     $(".maincont").html("")
@@ -412,7 +437,7 @@ E:/Z_C/programowanie/live-text/serwer
                 setTimeout(function(){
                     refreshbool = false;
                     socket.emit("gettree",socket.id,`<%= user.id %>`);
-                },3500)
+                },1000)
             }
         select("chapter");
     }
@@ -625,7 +650,7 @@ E:/Z_C/programowanie/live-text/serwer
                 setTimeout(function(){
                     refreshbool = false;
                     socket.emit("gettree",socket.id,`<%= user.id %>`);
-                },2000)
+                },1000)
             }
         unblock();
         select("multi")
@@ -698,7 +723,7 @@ E:/Z_C/programowanie/live-text/serwer
                 `</p>`
             )
             if ($("#unassigned").hasClass("opened-item")) {
-                $("#unassigned").find('.dir-items').css('height', '+=42,5');
+                $("#unassigned").find('.dir-items').css('height', '+=43');
             }
         } else if (question.type == "single") {
             div.append(
@@ -713,7 +738,7 @@ E:/Z_C/programowanie/live-text/serwer
                 `</p>`
             )
             if ($("#unassigned").hasClass("opened-item")) {
-                $("#unassigned").find('.dir-items').css('height', '+=42,5');
+                $("#unassigned").find('.dir-items').css('height', '+=43');
             }
         } else if (question.type == "multi") {
             div.append(
@@ -729,7 +754,7 @@ E:/Z_C/programowanie/live-text/serwer
             )
         }
         if ($("#unassigned").hasClass("opened-item")) {
-            $("#unassigned").find('.dir-items').css('height', '+=42,5');
+            $("#unassigned").find('.dir-items').css('height', '+=43');
         }
 
     })
@@ -746,7 +771,7 @@ E:/Z_C/programowanie/live-text/serwer
             const srccontent = generateTreeItems(srcdir, questions);
             $("#" + sourcediv).find('.dir-items-wrapper').html(srccontent);
             if ($("#" + sourcediv).hasClass("opened-item")) {
-                $("#" + sourcediv).find('.dir-items').css('height', '-=42,5');
+                $("#" + sourcediv).find('.dir-items').css('height', '-=43');
             }
 
         } else {
@@ -759,7 +784,7 @@ E:/Z_C/programowanie/live-text/serwer
             const srccontent = generateTreeItems(srcdir, questions);
             $("#unassigned").find('.dir-items-wrapper').html(srccontent);
             if ($("#unassigned").hasClass("opened-item")) {
-                $("#unassigned").find('.dir-items').css('height', '-=42,5');
+                $("#unassigned").find('.dir-items').css('height', '-=43');
             }
         }
 
@@ -769,7 +794,7 @@ E:/Z_C/programowanie/live-text/serwer
             const targetcontent = generateTreeItems(targetdir, questions);
             $("#" + target).find('.dir-items-wrapper').html(targetcontent);
             if ($("#" + target).hasClass("opened-item")) {
-                $("#" + target).find('.dir-items').css('height', '+=42,5');
+                $("#" + target).find('.dir-items').css('height', '+=43');
             }
         } else {
             const targetdir = [];
@@ -781,7 +806,7 @@ E:/Z_C/programowanie/live-text/serwer
             const targetcontent = generateTreeItems(targetdir, questions);
             $("#unassigned").find('.dir-items-wrapper').html(targetcontent);
             if ($("#unassigned").hasClass("opened-item")) {
-                $("#unassigned").find('.dir-items').css('height', '+=42,5');
+                $("#unassigned").find('.dir-items').css('height', '+=43');
             }
 
 
@@ -790,11 +815,16 @@ E:/Z_C/programowanie/live-text/serwer
 
 
 
+
         
      unblock();
         
         socket.emit("gettree",socket.id,`<%= user.id %>`);
     })
+            socket.on('newtest',(test)=>{
+            console.log("asd")
+            console.log(test)
+        })
 </script>
 
 </html>

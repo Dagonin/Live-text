@@ -160,14 +160,24 @@ const setClickEventOnTreeItems = () => {
             treeElement.setAttribute('listener', 'true');
             treeElementHeader.addEventListener("click", () => {
                 treeElement.classList.toggle("opened-item");
+                wys(treeElementHeader);
                 treeElementItems;
-                if (treeElementItems.clientHeight) {
-                    treeElementItems.style.height = 0;
-                } else {
-                    var wrapper = treeElementItems.querySelector("div.dir-items-wrapper");
-                    treeElementItems.style.height = wrapper.clientHeight + "px";
-                }
             });
         }
     }
 };
+
+
+function wys(e){
+    
+    let did = $(e).attr("db-id");
+    if(!did){
+        did="unassigned";
+    }
+    if($(e.parentElement).hasClass("opened-item")){
+        let h = $("#"+did+" .dir-items-wrapper p").length *43;
+        $("#"+did+" .dir-items").height(h)
+    }else{
+        $("#"+did+" .dir-items").height(0)
+    }
+}

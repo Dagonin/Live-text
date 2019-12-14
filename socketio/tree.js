@@ -2,6 +2,7 @@ var socketio = require('socket.io')
 const Users = require("../models/user");
 const Questions = require('../models/question');
 const Chapters = require('../models/chapter');
+const Tests = require('../models/test');
 
 exports = module.exports = function (io) {
 
@@ -15,6 +16,27 @@ exports = module.exports = function (io) {
 
 
         //////////////////////////////////// MANAGER
+
+
+        socket.on("ctest", (socid, testarr, nname, userid) => {
+
+            Tests.create({
+                owner: userid,
+                name: nname,
+                questions: testarr,
+
+            }, (err, cTest) => {
+                if (err) {
+                    console.log(err);
+                }
+                console.log("ASD", cTest)
+                socket.emit('newtest', cTest);
+
+            })
+
+
+
+        })
 
 
         socket.on("gettree", (socid, userid) => {
@@ -53,12 +75,10 @@ exports = module.exports = function (io) {
                         if (err) {
                             console.log(err);
                         } else {
-                            console.log("ASDASDASDAD"+ chapter)
                             socket.emit("treedelete", [chapter]);
                         }
                     })
-                }else {
-                    console.log("?????????????????????"+ chapter)
+                } else {
                     socket.emit("treedelete", [chapter]);
                 }
 
