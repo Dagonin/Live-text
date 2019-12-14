@@ -122,7 +122,7 @@
      if (num == 2) {
          $(`                <div class="num thirdans">
                 <label class="a" for="single3"><input id="single3" type="radio" value="3" name="ans" checked>Trzecia odpowiedź</label>
-                <button onclick="del(this)">Usuń</button>
+                <button onclick="del(this)" class="del-more-answ">Usuń</button>
                 <div id="single3ans">
                 </div>                
                 </div>`).insertBefore('button#possibility');
@@ -132,7 +132,7 @@
      if (num == 3) {
          $(`                <div class="num fourthans">
                 <label class="a" for="single4"><input id="single4" type="radio" value="4" name="ans" checked>Czwarta odpowiedź</label>
-                <button onclick="del(this)">Usuń</button>
+                <button onclick="del(this)" class="del-more-answ">Usuń</button>
                 <div id="single4ans">
                 </div>                
                 </div>`).insertBefore('button#possibility');
@@ -146,7 +146,7 @@
      if (num == 2) {
          $(`                <div class="num thirdans">
                 <label class="a" for="multi3"><input id="multi3" type="checkbox" value="3" name="ans" checked>Trzecia odpowiedź</label>
-                <button onclick="del(this)">Usuń</button>
+                <button onclick="del(this)" class="del-more-answ">Usuń</button>
                 <div id="multi3ans">
                 </div>                
                 </div>`).insertBefore('button#possibility');
@@ -156,7 +156,7 @@
      if (num == 3) {
          $(`                <div class="num fourthans">
                 <label class="a" for="multi4"><input id="multi4" type="checkbox" value="4" name="ans" checked>Czwarta odpowiedź</label>
-                <button onclick="del(this)">Usuń</button>
+                <button onclick="del(this)" class="del-more-answ">Usuń</button>
                 <div id="multi4ans">
                 </div>                
                 </div>`).insertBefore('button#possibility');

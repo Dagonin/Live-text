@@ -223,8 +223,6 @@ background:#ffffff;
 
 /* Manager.ejs */
 
-/* BLAD */
-
 #m-header {
 	width:100%;
 	background:#e9f0f8;
@@ -378,6 +376,28 @@ label.a {
 
 .dir-header:hover {
 	cursor:pointer;
+}
+
+/* usuwanie odpowiedzi */
+
+.del-more-answ {
+	color:#555;
+	font-size:15px;
+}
+
+.del-more-answ:hover {
+	cursor:pointer;
+	color:red;
+}
+
+.edit-question {
+	color:#555;
+	font-size:15px;
+}
+
+.edit-question:hover {
+	cursor:pointer;
+	color:#333;
 }
 
 

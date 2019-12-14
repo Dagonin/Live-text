@@ -142,7 +142,7 @@ E:/Z_C/programowanie/live-text/serwer
             <div>` + result.name + `</div>
             <div>Treść pytania</div>
             <div>` + result.content + `</div>            
-        <button onclick="editq(this)">Edytuj</button></div>`)
+        <button onclick="editq(this)" class="edit-question">Edytuj</button></div>`)
 
         } else if (result.type == "single") {
             let ans = '';
@@ -162,7 +162,7 @@ E:/Z_C/programowanie/live-text/serwer
             <div>` + result.name + `</div>
             <div>Treść pytania</div>
             <div>` + result.content + `</div>            
-            ` + ans + `<button onclick="editq(this)">Edytuj</button></div>`)
+            ` + ans + `<button onclick="editq(this)" class="edit-question">Edytuj</button></div>`)
 
         } else if (result.type == "multi") {
             let ans = '';
@@ -182,7 +182,7 @@ E:/Z_C/programowanie/live-text/serwer
             <div>` + result.name + `</div>
             <div>Treść pytania</div>
             <div>` + result.content + `</div>            
-            ` + ans + `<button onclick="editq(this)">Edytuj</button></div>`)
+            ` + ans + `<button onclick="editq(this)" class="edit-question">Edytuj</button></div>`)
         }
         $(".showq").attr("id", e.id);
     }
