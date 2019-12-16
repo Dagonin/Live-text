@@ -3,7 +3,8 @@
 //Socket.io
 //req.session
 const express = require('express'),
-    app = express(),
+    siofu = require("socketio-file-upload"),
+    app = express().use(siofu.router),
     server = require('http').createServer(app),
     body_parser = require('body-parser'),
     mongoose = require('mongoose'),

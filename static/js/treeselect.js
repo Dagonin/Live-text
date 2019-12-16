@@ -33,7 +33,9 @@
 
      if (selected == 'single') {
 
-         container.html(`               <div>
+         container.html(`               
+                <div id='qimg'> </div>
+                <div>
                 <label  for="name" class="etykieta">Etykieta pytania</label><br>
                 <input id="singlename" type="text" name="name" class="question">  <br>
                 </div>              
@@ -55,8 +57,9 @@
                 </div>
                 </div>
                 <button id='possibility' onclick="addpossibility()" class="link-button f300">Dodaj możliwą odpowiedź</button>
-				<label  for="name" class="etykieta mg30">Załączniki</label><br>
-				<button>Wybierz plik</button><br>
+                <input type="file" id="siofu_input" style="display:none;"/>
+                <label class="etykieta mg30" for="siofu_input">Wybierz plik</label><br>
+                <span>Możliwe rozszerzenia: png, jpg, jpeg, bmp, pdf </span><br>
                 <button onclick="addsingle()" class="add-button">Dodaj</button> <div id="err"></div>`);
          quil1("singlecontent");
          quil2("single1ans");
@@ -64,7 +67,7 @@
          quilleditor();
 
      } else if (selected == 'multi') {
-         container.html(`               <div>
+         container.html(`               <div id='qimg'> </div><div>
                 <label  for="name" class="etykieta">Etykieta pytania</label><br>
                 <input id="multiname" type="text" name="name" class="question"><br>
                 </div>              
@@ -87,19 +90,21 @@
                 </div>
                 </div>
                 <button id='possibility' onclick="addpossibility1()" class="link-button f300">Dodaj możliwą odpowiedź</button><br>
-				<label  for="name" class="etykieta mg30">Załączniki</label><br>
-				<button>Wybierz plik</button><br>
+                <input type="file" id="siofu_input" style="display:none;"/>
+                <label class="etykieta mg30" for="siofu_input">Wybierz plik</label><br>
+                <span>Możliwe rozszerzenia: png, jpg, jpeg, bmp, pdf </span><br>
                 <button onclick="addmulti()" class="add-button">Dodaj</button> <div id="err"></div>`);
          quil1("multicontent");
          quil2("multi1ans");
          quil3("multi2ans");
          quilleditor();
      } else if (selected == 'open') {
-         container.html(`<div><label  for="name" class="etykieta">Etykieta pytania</label><br>
+         container.html(`<div id='qimg'> </div><div><label  for="name" class="etykieta">Etykieta pytania</label><br>
                 <input id="openname" type="text" name="name" class="question">                
                 </div><div id="opencontent"></div>
-				<label  for="name" class="etykieta mg30">Załączniki</label><br>
-				<button>Wybierz plik</button><br>
+                <input type="file" id="siofu_input" style="display:none;"/>
+                <label class="etykieta mg30" for="siofu_input">Wybierz plik</label><br>
+                <span>Możliwe rozszerzenia: png, jpg, jpeg, bmp, pdf </span><br>
                 <button onclick="addopen()" class="add-button">Dodaj</button> <div id="err"></div>`);
          quil1("opencontent");
      } else if (selected == 'chapter') {
@@ -110,8 +115,20 @@
                 <button onclick="addchapter()" class="add-button">Dodaj</button> <div id="err"></div>`)
      }
 
-
-
+     let src;
+     var uploader = new SocketIOFileUpload(socket);
+     uploader.maxFileSize = 300000;
+     uploader.listenOnInput(document.getElementById("siofu_input"));
+     uploader.addEventListener("error", function (data) {
+         if (data.code === 1) {
+             alert("Don't upload such a big file");
+         }
+     });
+     uploader.addEventListener("start", function (event) {
+         if (event.file.type != "image/png" && event.file.type != "image/jpeg" && event.file.type != "image/bmp") {
+             return false;
+         }
+     });
  }
 
 
@@ -170,9 +187,9 @@
      if (num == 4 && e.parentElement.className.includes("thirdans")) {
          window.quill4.container.firstChild.innerHTML = window.quill5.container.firstChild.innerHTML;
          $(".fourthans").remove();
-     }else if(num == 3 && e.parentElement.className.includes("thirdans")){
+     } else if (num == 3 && e.parentElement.className.includes("thirdans")) {
          $(".thirdans").remove();
-     }else if(num==4&&e.parentElement.className.includes("fourthans")){
+     } else if (num == 4 && e.parentElement.className.includes("fourthans")) {
          $(".fourthans").remove();
      }
  }

@@ -3,17 +3,23 @@ const Users = require("../models/user");
 const Questions = require('../models/question');
 const Chapters = require('../models/chapter');
 const Tests = require('../models/test');
+const siofu = require("socketio-file-upload");
 
 exports = module.exports = function (io) {
 
 
     io.on('connection', function (socket) {
+        var uploader = new siofu();
+        uploader.dir = "static/uploads/qimages";
+        uploader.listen(socket);
         socket.on('disconnect', function () {
 
 
         });
 
-
+        uploader.on("saved", function (event) {
+            socket.emit('uploaded', event);
+        });
 
         //////////////////////////////////// MANAGER
 
@@ -124,7 +130,7 @@ exports = module.exports = function (io) {
         })
 
 
-        socket.on("dodaj", (socid, name, type, content, options, correct, userid) => {
+        socket.on("dodaj", (socid, name, type, content, options, correct, userid,src) => {
             if (type == "addchapter") {
                 Chapters.create({
                     owner: userid,
@@ -148,6 +154,7 @@ exports = module.exports = function (io) {
                     name: name,
                     type: "open",
                     content: content,
+                    zdj: src
                 }, (err, cQuestion) => {
                     if (err) {
                         console.log(err);
@@ -161,7 +168,8 @@ exports = module.exports = function (io) {
                     content: content,
                     option: options,
                     correct: correct,
-                    type: 'single'
+                    type: 'single',
+                    zdj: src
                 }, (err, cQuestion) => {
                     if (err) {
                         console.log(err);
@@ -175,7 +183,8 @@ exports = module.exports = function (io) {
                     content: content,
                     option: options,
                     correct: correct,
-                    type: 'multi'
+                    type: 'multi',
+                    zdj: src
                 }, (err, cQuestion) => {
                     if (err) {
                         console.log(err);
