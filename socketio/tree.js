@@ -129,7 +129,71 @@ exports = module.exports = function (io) {
 
         })
 
-
+        socket.on("edit",(socid, name, type, content, options, correct, userid,src,qid) =>{
+            if(type=="single"){
+                Questions.findByIdAndUpdate(qid,{
+                    owner: userid,
+                    name: name,
+                    content: content,
+                    option: options,
+                    correct: correct,
+                    type: 'single',
+                    zdj: src
+                },{
+                    new:true
+                },(err,nquestion)=>{
+                    if(err){
+                        console.log(err)
+                    }
+                    
+                    console.log(nquestion);
+                    
+                })
+            }else if(type=="open"){
+                Questions.findByIdAndUpdate(qid,{
+                    owner: userid,
+                    name: name,
+                    type: "open",
+                    content: content,
+                    zdj: src
+                },{
+                    new:true
+                },(err,nquestion)=>{
+                    if(err){
+                        console.log(err)
+                    }
+                    
+                    console.log(nquestion);
+                    
+                })
+                
+                
+                
+            } else if(type=="multi"){
+                    Questions.findByIdAndUpdate(qid,{
+                    owner: userid,
+                    name: name,
+                    content: content,
+                    option: options,
+                    correct: correct,
+                    type: 'multi',
+                    zdj: src
+                },{
+                    new:true
+                },(err,nquestion)=>{
+                    if(err){
+                        console.log(err)
+                    }
+                    
+                    console.log(nquestion);
+                    
+                })
+            }
+            
+            
+            
+        })
+        
         socket.on("dodaj", (socid, name, type, content, options, correct, userid,src) => {
             if (type == "addchapter") {
                 Chapters.create({

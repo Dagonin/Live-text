@@ -16,9 +16,7 @@
             </select>
 			
 			
-            <div class="selectedcontent">
-
-            </div>`)
+            <div class="selectedcontent"></div>`)
  }
 
  function select(selected) {
@@ -60,7 +58,7 @@
                 <input type="file" id="siofu_input" style="display:none;"/>
                 <label class="etykieta mg30" for="siofu_input">Wybierz plik</label><br>
                 <span>Możliwe rozszerzenia: png, jpg, jpeg, bmp, pdf </span><br>
-                <button onclick="addsingle()" class="add-button">Dodaj</button> <div id="err"></div>`);
+                <button onclick="addsingle('add')" class="add-button">Dodaj</button> <div id="err"></div>`);
          quil1("singlecontent");
          quil2("single1ans");
          quil3("single2ans");
@@ -93,7 +91,7 @@
                 <input type="file" id="siofu_input" style="display:none;"/>
                 <label class="etykieta mg30" for="siofu_input">Wybierz plik</label><br>
                 <span>Możliwe rozszerzenia: png, jpg, jpeg, bmp, pdf </span><br>
-                <button onclick="addmulti()" class="add-button">Dodaj</button> <div id="err"></div>`);
+                <button onclick="addmulti('add')" class="add-button">Dodaj</button> <div id="err"></div>`);
          quil1("multicontent");
          quil2("multi1ans");
          quil3("multi2ans");
@@ -105,7 +103,7 @@
                 <input type="file" id="siofu_input" style="display:none;"/>
                 <label class="etykieta mg30" for="siofu_input">Wybierz plik</label><br>
                 <span>Możliwe rozszerzenia: png, jpg, jpeg, bmp, pdf </span><br>
-                <button onclick="addopen()" class="add-button">Dodaj</button> <div id="err"></div>`);
+                <button onclick="addopen('add')" class="add-button">Dodaj</button> <div id="err"></div>`);
          quil1("opencontent");
      } else if (selected == 'chapter') {
          container.html(`<div><label  for="name" class="f200 f30">Nazwa rodziału</label><br>
@@ -130,6 +128,152 @@
          }
      });
  }
+
+
+
+
+ function eselect(ev,qid) {
+     let selected = ev.type;
+     window.quill1 = "";
+     window.quill2 = "";
+     window.quill3 = "";
+     window.quill4 = "";
+     window.quill5 = "";
+     $("#err").html("");
+     $(".maincont").html(`<div class="selectedcontent"></div>`)
+     let container = $(".selectedcontent");
+     container.html("");
+
+     if (selected == 'single') {
+         let i =1;
+         container.html(`               
+                <div id='qimg'>`+(ev.zdj ? `<img src="`+ev.zdj+`" alt="">`:"")+` </div>
+                <div>
+                <label  for="name" class="etykieta">Etykieta pytania</label><br>
+                <input value="`+ev.name+`" id="singlename" type="text" name="name" class="question">  <br>
+                </div>              
+                <div id="singlecontent">`+ev.content+`
+                </div>
+				<label  for="name" class="etykieta">Możliwe odpowiedzi</label><br>
+                <div class="num firstans">
+                <label class="a" for="single1"><input id="single1" type="radio" value="1" name="ans" class="icon_mg" checked>Pierwsza odpowiedź</label>
+                <div id="single1ans">`+ev.option[0]+`
+                </div>                
+                </div>
+                
+                <div class="num secondans">
+                <label class="a" for="single2"><input id="single2" type="radio" value="2" name="ans" class="icon_mg" checked>Druga odpowiedź</label>
+                <div id="single2ans">`+ev.option[1]+`
+                </div>
+                </div>
+                `+(ev.option[2] ? `<div class="num thirdans">
+                <label class="a" for="single3"><input id="single3" type="radio" value="3" name="ans" class="icon_mg" checked>Trzecia odpowiedź</label><button onclick="del(this)" class="del-more-answ">Usuń</button>
+                <div id="single3ans">`+ev.option[2]+`
+                </div>
+                </div>`: '')+
+                (ev.option[3] ? `<div class="num fourthans">
+                <label class="a" for="single4"><input id="single4" type="radio" value="4" name="ans" class="icon_mg" checked>Czwarta odpowiedź</label><button onclick="del(this)" class="del-more-answ">Usuń</button>
+                <div id="single4ans">`+ev.option[3]+`
+                </div>
+                </div>`: '')+`
+                
+                <button id='possibility' onclick="addpossibility()" class="link-button f300">Dodaj możliwą odpowiedź</button>
+                <input type="file" id="siofu_input" style="display:none;"/>
+                <label class="etykieta mg30" for="siofu_input">Wybierz plik</label><br>
+                <span>Możliwe rozszerzenia: png, jpg, jpeg, bmp, pdf </span><br>
+                <button onclick="addsingle('edit','`+qid+`')" class="add-button">Zapisz</button> <div id="err"></div>`);
+         quil1("singlecontent");
+         quil2("single1ans");
+         quil3("single2ans");
+         quil4("single3ans");
+         quil5("single4ans");
+         quilleditor();
+
+     } else if (selected == 'multi') {
+         container.html(`               <div id='qimg'>`+(ev.zdj ? `<img src="`+ev.zdj+`" alt="">`:"")+`</div><div>
+                <label  for="name" class="etykieta">Etykieta pytania</label><br>
+                <input value="`+ev.name+`" id="multiname" type="text" name="name" class="question"><br>
+                </div>              
+                <div id="multicontent">`+ev.content+`
+                </div>
+				<br>
+				<label  for="name" class="etykieta">Możliwe odpowiedzi</label><br>
+                <div class="num firstans">
+                <label class="a" for="multi1"><input id="multi1" type="checkbox" value="1" name="ans" class="icon_mg" checked>Pierwsza odpowiedź</label>
+                <div id="multi1ans">`+ev.option[0]+`
+                </div>                
+                </div>
+                
+                <div class="num secondans">
+                <label class="a" for="multi2"><input id="multi2" type="checkbox" value="2" name="ans" class="icon_mg" checked>Druga odpowiedź</label>
+                <div id="multi2ans">`+ev.option[1]+`    
+                </div>
+                </div>
+                `+(ev.option[2]? `<div class="num thirdans">
+                <label class="a" for="multi3"><input id="multi3" type="checkbox" value="3" name="ans" class="icon_mg" checked>Trzecia odpowiedź</label><button onclick="del(this)" class="del-more-answ">Usuń</button>
+                <div id="multi3ans">`+ev.option[2]+`
+                </div>                
+                </div>`: "")+(ev.option[3]? `<div class="num fourthans">
+                <label class="a" for="multi4"><input id="multi4" type="checkbox" value="4" name="ans" class="icon_mg" checked>Czwarta odpowiedź</label><button onclick="del(this)" class="del-more-answ">Usuń</button>
+                <div id="multi4ans">`+ev.option[3]+`
+                </div>                
+                </div>`: "")+`
+
+
+                    
+                <button id='possibility' onclick="addpossibility1()" class="link-button f300">Dodaj możliwą odpowiedź</button><br>
+                <input type="file" id="siofu_input" style="display:none;"/>
+                <label class="etykieta mg30" for="siofu_input">Wybierz plik</label><br>
+                <span>Możliwe rozszerzenia: png, jpg, jpeg, bmp, pdf </span><br>
+                <button onclick="addmulti('edit','`+qid+`')" class="add-button">Zapisz</button> <div id="err"></div>`);
+         quil1("multicontent");
+         quil2("multi1ans");
+         quil3("multi2ans");
+         quil4("multi3ans");
+         quil5("multi4ans");
+         quilleditor();
+     } else if (selected == 'open') {
+         container.html(`<div id='qimg'>`+(ev.zdj ? `<img src="`+ev.zdj+`" alt="">`:"")+` </div><div><label  for="name" class="etykieta">Etykieta pytania</label><br>
+                <input value="`+ev.name+`" id="openname" type="text" name="name" class="question">                
+                </div><div id="opencontent">`+ev.content+` </div>
+                <input type="file" id="siofu_input" style="display:none;"/>
+                <label class="etykieta mg30" for="siofu_input">Wybierz plik</label><br>
+                <span>Możliwe rozszerzenia: png, jpg, jpeg, bmp, pdf </span><br>
+                <button onclick="addopen('edit','`+qid+`')" class="add-button">Zapisz</button> <div id="err"></div>`);
+         quil1("opencontent");
+     } 
+//         else if (selected == 'chapter') {
+//         container.html(`<div><label  for="name" class="f200 f30">Nazwa rodziału</label><br>
+//                <input id="chaptername" type="text" name="name" class="question">         
+//               </div> <div><label for="content" class="f200 f30">Opis rodziału</label><br>
+//                <input id="chaptercontent" type="text" name="content" class="question"></div>
+//                <button onclick="addchapter()" class="add-button">Dodaj</button> <div id="err"></div>`)
+//     }
+
+     let src;
+     var uploader = new SocketIOFileUpload(socket);
+     uploader.maxFileSize = 300000;
+     uploader.listenOnInput(document.getElementById("siofu_input"));
+     uploader.addEventListener("error", function (data) {
+         if (data.code === 1) {
+             alert("Don't upload such a big file");
+         }
+     });
+     uploader.addEventListener("start", function (event) {
+         if (event.file.type != "image/png" && event.file.type != "image/jpeg" && event.file.type != "image/bmp") {
+             return false;
+         }
+     });
+ }
+
+
+
+
+
+
+
+
+
 
 
 

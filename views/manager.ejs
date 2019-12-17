@@ -95,7 +95,11 @@ E:/Z_C/programowanie/live-text/serwer
 
     
     
-    
+    function GenerateAll(){
+    generateTree(chapters, questions);
+    setClickEventOnTreeItems();   
+    socket.emit("gettree",socket.id,`<%= user.id %>`);
+    }
     
     
     
@@ -127,13 +131,13 @@ E:/Z_C/programowanie/live-text/serwer
     //Wyświetlanie i edytowanie pytania
 
     function editq(e) {
-        let cont = $(".showq");
-        let eid = cont.attr("id");
+        let cont = $(".maincont");
+         console.log($(e).attr("db-id"))
         let result = $.grep(allquestions, function(ev) {
-            return ev._id == eid;
+            return ev._id == $(e).attr("db-id");
         })[0];
-        console.log(result)
-        
+       
+        eselect(result,$(e).attr("db-id"));
 
     }
 
@@ -152,7 +156,7 @@ E:/Z_C/programowanie/live-text/serwer
             <div>` + result.name + `</div>
             <div>Treść pytania</div>
             <div>` + result.content + `</div>            
-        <button onclick="editq(this)" class="edit-question">Edytuj</button></div>`)
+        <button db-id="`+result._id+`" onclick="editq(this)" class="edit-question">Edytuj</button></div>`)
 
         } else if (result.type == "single") {
             let ans = '';
@@ -173,7 +177,7 @@ E:/Z_C/programowanie/live-text/serwer
             <div>` + result.name + `</div>
             <div>Treść pytania</div>
             <div>` + result.content + `</div>            
-            ` + ans + `<button onclick="editq(this)" class="edit-question">Edytuj</button></div>`)
+            ` + ans + `<button db-id="`+result._id+`" onclick="editq(this)" class="edit-question">Edytuj</button></div>`)
 
         } else if (result.type == "multi") {
             let ans = '';
@@ -194,7 +198,7 @@ E:/Z_C/programowanie/live-text/serwer
             <div>` + result.name + `</div>
             <div>Treść pytania</div>
             <div>` + result.content + `</div>            
-            ` + ans + `<button onclick="editq(this)" class="edit-question">Edytuj</button></div>`)
+            ` + ans + `<button db-id="`+result._id+`" onclick="editq(this)" class="edit-question">Edytuj</button></div>`)
         }
         $(".showq").attr("id", e.id);
     }
@@ -454,7 +458,7 @@ E:/Z_C/programowanie/live-text/serwer
         select("chapter");
     }
 
-    function addsingle() {
+    function addsingle(check,qid) {
         let src;
         if($("#qimgsrc")){
             src = $("#qimgsrc").attr("src");
@@ -534,7 +538,12 @@ E:/Z_C/programowanie/live-text/serwer
         }
 
         if (errorcheck == false) {
-            socket.emit("dodaj", socket.id, $('#singlename').val(), "single", window.quill1.container.firstChild.innerHTML, arr, corr, `<%= user.id %>`,src);
+            if(check=="add"){
+                socket.emit("dodaj", socket.id, $('#singlename').val(), "single", window.quill1.container.firstChild.innerHTML, arr, corr, `<%= user.id %>`,src);
+            }else if(check=="edit"){
+                socket.emit("edit", socket.id, $('#singlename').val(), "single", window.quill1.container.firstChild.innerHTML, arr, corr, `<%= user.id %>`,src,qid)
+            }
+            
         } else {
             $("#err").html(error);
             console.log(arr)
@@ -544,13 +553,21 @@ E:/Z_C/programowanie/live-text/serwer
                 setTimeout(function(){
                     refreshbool = false;
                     socket.emit("gettree",socket.id,`<%= user.id %>`);
-                },2000)
+                    setTimeout(function(){
+                        GenerateAll();
+                    },400);
+                },300)
+                        
             }
         unblock();
         select("single");
     }
 
-    function addopen() {
+    
+    
+    
+    
+    function addopen(check,qid) {
         let src;
         if($("#qimgsrc")){
             src = $("#qimgsrc").attr("src");
@@ -568,7 +585,11 @@ E:/Z_C/programowanie/live-text/serwer
             error.push("<div>Treść pytania jest pusta</div>");
         }
         if (errorcheck == false) {
+            if(check=="add"){
             socket.emit("dodaj", socket.id, $('#openname').val(), "open", window.quill1.container.firstChild.innerHTML, undefined, undefined, `<%= user.id %>`,src);
+                }else if(check=="edit"){
+                   socket.emit("edit", socket.id, $('#openname').val(), "open", window.quill1.container.firstChild.innerHTML, undefined, undefined, `<%= user.id %>`,src,qid); 
+                }
         } else {
             $("#err").html(error);
         }
@@ -577,13 +598,17 @@ E:/Z_C/programowanie/live-text/serwer
                 setTimeout(function(){
                     refreshbool = false;
                     socket.emit("gettree",socket.id,`<%= user.id %>`);
-                },2000)
+                    setTimeout(function(){
+                        GenerateAll();
+                    },400);
+                },300)
+                        
             }
         unblock();
         select("open");
     }
 
-    function addmulti() {
+    function addmulti(check,qid) {
                 let src;
         if($("#qimgsrc")){
             src = $("#qimgsrc").attr("src");
@@ -665,7 +690,11 @@ E:/Z_C/programowanie/live-text/serwer
 
         
         if (errorcheck == false) {
+            if(check=="add"){
             socket.emit("dodaj", socket.id, $('#multiname').val(), "multi", window.quill1.container.firstChild.innerHTML, arr, corr, `<%= user.id %>`,src);
+            } else if(check=="edit"){
+                socket.emit("edit", socket.id, $('#multiname').val(), "multi", window.quill1.container.firstChild.innerHTML, arr, corr, `<%= user.id %>`,src,qid);
+            }
         } else {
             $("#err").html(error);
             console.log(arr)
@@ -675,7 +704,11 @@ E:/Z_C/programowanie/live-text/serwer
                 setTimeout(function(){
                     refreshbool = false;
                     socket.emit("gettree",socket.id,`<%= user.id %>`);
-                },1000)
+                    setTimeout(function(){
+                        GenerateAll();
+                    },400);
+                },300)
+                        
             }
         unblock();
         select("multi")
