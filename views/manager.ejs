@@ -22,7 +22,7 @@
         <button onclick="rem()">Usuń</button>
         <button onclick="test()">Stwórz test</button>
     </nav>
-
+    
     
 <!--
     <div class="columns">
@@ -84,6 +84,7 @@ E:/Z_C/programowanie/live-text/serwer
 <script>
     let chapters = <%-JSON.stringify(chapter)%> ;
     let questions = <%-JSON.stringify(question)%> ;
+    let tests;
     let allquestions = <%-JSON.stringify(question)%> ;
     let rembool = false;
     let refreshbool = false;
@@ -93,17 +94,6 @@ E:/Z_C/programowanie/live-text/serwer
     generateTree(chapters, questions);
     setClickEventOnTreeItems();
 
-    
-    
-    function GenerateAll(){
-    generateTree(chapters, questions);
-    setClickEventOnTreeItems();   
-    socket.emit("gettree",socket.id,`<%= user.id %>`);
-    }
-    
-    
-    
-    
     
     
         function block(){
@@ -205,8 +195,9 @@ E:/Z_C/programowanie/live-text/serwer
     // TWORZENIE TESTU
     
     
-   function test(){
+   function test(e){
         if(rembool==false){
+        
         rembool =true;
         block();
         $("p.list-item").append("<input name='rem' type='checkbox'>");
@@ -220,6 +211,13 @@ E:/Z_C/programowanie/live-text/serwer
             }
             testar();
         });
+            console.log(e)
+            if(e&&typeof e == "object"){
+                for(let i =0;i<e.length;i++){
+                    $("#"+e[i]).find("input").prop('checked', true);
+                }
+            }
+            testar();
         $(".cont").append("<input name='rem' onclick='testc(this)' type='checkbox'> ");
 
         }
@@ -254,7 +252,7 @@ E:/Z_C/programowanie/live-text/serwer
     }
     
     function createtest(testarr){
-        socket.emit("ctest",socket.id,testarr,$("#testname").val(),`<%= user.id %> `);
+        socket.emit("ctest",socket.id,testarr,$("#testname").val(),`<%=user.id%>`);
     }
     // USUWANIE PYTAŃ I RODZIAŁÓW
 
@@ -541,7 +539,8 @@ E:/Z_C/programowanie/live-text/serwer
             if(check=="add"){
                 socket.emit("dodaj", socket.id, $('#singlename').val(), "single", window.quill1.container.firstChild.innerHTML, arr, corr, `<%= user.id %>`,src);
             }else if(check=="edit"){
-                socket.emit("edit", socket.id, $('#singlename').val(), "single", window.quill1.container.firstChild.innerHTML, arr, corr, `<%= user.id %>`,src,qid)
+                socket.emit("edit", socket.id, $('#singlename').val(), "single", window.quill1.container.firstChild.innerHTML, arr, corr, `<%= user.id %>`,src,qid);
+               $("#"+qid).html(`<span class="icon"> <svg class="svg-inline--fa fa-calendar-check fa-w-14" aria-hidden="true" data-prefix="fas" data-icon="calendar-check" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M436 160H12c-6.627 0-12-5.373-12-12v-36c0-26.51 21.49-48 48-48h48V12c0-6.627 5.373-12 12-12h40c6.627 0 12 5.373 12 12v52h128V12c0-6.627 5.373-12 12-12h40c6.627 0 12 5.373 12 12v52h48c26.51 0 48 21.49 48 48v36c0 6.627-5.373 12-12 12zM12 192h424c6.627 0 12 5.373 12 12v260c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V204c0-6.627 5.373-12 12-12zm333.296 95.947l-28.169-28.398c-4.667-4.705-12.265-4.736-16.97-.068L194.12 364.665l-45.98-46.352c-4.667-4.705-12.266-4.736-16.971-.068l-28.397 28.17c-4.705 4.667-4.736 12.265-.068 16.97l82.601 83.269c4.667 4.705 12.265 4.736 16.97.068l142.953-141.805c4.705-4.667 4.736-12.265.068-16.97z"></path></svg><!-- <i class="fas fa-calendar-check"></i> --> </span>`+$('#singlename').val())
             }
             
         } else {
@@ -553,9 +552,6 @@ E:/Z_C/programowanie/live-text/serwer
                 setTimeout(function(){
                     refreshbool = false;
                     socket.emit("gettree",socket.id,`<%= user.id %>`);
-                    setTimeout(function(){
-                        GenerateAll();
-                    },400);
                 },300)
                         
             }
@@ -564,7 +560,7 @@ E:/Z_C/programowanie/live-text/serwer
     }
 
     
-    
+
     
     
     function addopen(check,qid) {
@@ -588,7 +584,8 @@ E:/Z_C/programowanie/live-text/serwer
             if(check=="add"){
             socket.emit("dodaj", socket.id, $('#openname').val(), "open", window.quill1.container.firstChild.innerHTML, undefined, undefined, `<%= user.id %>`,src);
                 }else if(check=="edit"){
-                   socket.emit("edit", socket.id, $('#openname').val(), "open", window.quill1.container.firstChild.innerHTML, undefined, undefined, `<%= user.id %>`,src,qid); 
+                   socket.emit("edit", socket.id, $('#openname').val(), "open", window.quill1.container.firstChild.innerHTML, undefined, undefined, `<%= user.id %>`,src,qid);
+                    $("#"+qid).html(`<span class="icon"> <svg class="svg-inline--fa fa-calendar-minus fa-w-14" aria-hidden="true" data-prefix="fas" data-icon="calendar-minus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M436 160H12c-6.6 0-12-5.4-12-12v-36c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48v36c0 6.6-5.4 12-12 12zM12 192h424c6.6 0 12 5.4 12 12v260c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V204c0-6.6 5.4-12 12-12zm304 192c6.6 0 12-5.4 12-12v-40c0-6.6-5.4-12-12-12H132c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h184z"></path></svg><!-- <i class="fas fa-calendar-minus"></i> --> </span>`+$('#openname').val())
                 }
         } else {
             $("#err").html(error);
@@ -598,9 +595,6 @@ E:/Z_C/programowanie/live-text/serwer
                 setTimeout(function(){
                     refreshbool = false;
                     socket.emit("gettree",socket.id,`<%= user.id %>`);
-                    setTimeout(function(){
-                        GenerateAll();
-                    },400);
                 },300)
                         
             }
@@ -694,6 +688,7 @@ E:/Z_C/programowanie/live-text/serwer
             socket.emit("dodaj", socket.id, $('#multiname').val(), "multi", window.quill1.container.firstChild.innerHTML, arr, corr, `<%= user.id %>`,src);
             } else if(check=="edit"){
                 socket.emit("edit", socket.id, $('#multiname').val(), "multi", window.quill1.container.firstChild.innerHTML, arr, corr, `<%= user.id %>`,src,qid);
+                $("#"+qid).html(`<span class="icon"> <svg class="svg-inline--fa fa-calendar-alt fa-w-14" aria-hidden="true" data-prefix="fas" data-icon="calendar-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M436 160H12c-6.6 0-12-5.4-12-12v-36c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48v36c0 6.6-5.4 12-12 12zM12 192h424c6.6 0 12 5.4 12 12v260c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V204c0-6.6 5.4-12 12-12zm116 204c0-6.6-5.4-12-12-12H76c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12H76c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm128 128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm128 128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40z"></path></svg><!-- <i class="fas fa-calendar-alt"></i> --> </span>`+$('#multiname').val())
             }
         } else {
             $("#err").html(error);
@@ -704,9 +699,6 @@ E:/Z_C/programowanie/live-text/serwer
                 setTimeout(function(){
                     refreshbool = false;
                     socket.emit("gettree",socket.id,`<%= user.id %>`);
-                    setTimeout(function(){
-                        GenerateAll();
-                    },400);
                 },300)
                         
             }
@@ -729,7 +721,7 @@ E:/Z_C/programowanie/live-text/serwer
     socket.on("uploaded",(ev)=>{
         console.log(ev.file)
         if($("#qimg")){
-            $("#qimg").html(`<img id='qimgsrc' src="`+ev.file.pathName.substr(6)+`" alt="">`)
+            $("#qimg").html(`<img id='qimgsrc' src="`+ev.file.pathName.substr(6)+`" alt=""><button  onclick="deleteimage()">Usuń obraz</button>`)
         }
     })
 
@@ -741,6 +733,28 @@ E:/Z_C/programowanie/live-text/serwer
         console.log("NEW "+ allquestions)
     })
     
+    socket.on("newtests",(ntests,nquestions)=>{
+        tests = ntests;
+        questions = nquestions;
+        allquestions = nquestions;
+        unblock();
+        generateTree(tests, questions);
+        setClickEventOnTreeItems();
+        console.log(questions)
+        $("#unassigned").remove()
+    })
+    
+    
+    function loadtest(){
+        socket.emit("gettests",socket.id,`<%=user.id%>`);
+    }
+    
+    function edittest(e){
+        socket.emit("gettree",socket.id,`<%= user.id %>`);
+        generateTree(chapters, questions);
+        setClickEventOnTreeItems();
+        test(tests[tests.findIndex(x=>x._id===e)].questions)
+    }
     
     socket.on("treedelete",(treeid)=>{
         console.log(treeid)

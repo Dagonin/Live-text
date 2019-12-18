@@ -147,7 +147,7 @@
      if (selected == 'single') {
          let i =1;
          container.html(`               
-                <div id='qimg'>`+(ev.zdj ? `<img src="`+ev.zdj+`" alt="">`:"")+` </div>
+                <div id='qimg'>`+(ev.zdj ? `<img src="`+ev.zdj+`" alt=""><button  onclick="deleteimage()">Usuń obraz</button>`:"")+` </div>
                 <div>
                 <label  for="name" class="etykieta">Etykieta pytania</label><br>
                 <input value="`+ev.name+`" id="singlename" type="text" name="name" class="question">  <br>
@@ -190,7 +190,7 @@
          quilleditor();
 
      } else if (selected == 'multi') {
-         container.html(`               <div id='qimg'>`+(ev.zdj ? `<img src="`+ev.zdj+`" alt="">`:"")+`</div><div>
+         container.html(`               <div id='qimg'>`+(ev.zdj ? `<img src="`+ev.zdj+`" alt=""><button  onclick="deleteimage()">Usuń obraz</button>`:"")+`</div><div>
                 <label  for="name" class="etykieta">Etykieta pytania</label><br>
                 <input value="`+ev.name+`" id="multiname" type="text" name="name" class="question"><br>
                 </div>              
@@ -233,7 +233,7 @@
          quil5("multi4ans");
          quilleditor();
      } else if (selected == 'open') {
-         container.html(`<div id='qimg'>`+(ev.zdj ? `<img src="`+ev.zdj+`" alt="">`:"")+` </div><div><label  for="name" class="etykieta">Etykieta pytania</label><br>
+         container.html(`<div id='qimg'>`+(ev.zdj ? `<img src="`+ev.zdj+`" alt=""><button  onclick="deleteimage()">Usuń obraz</button>`:"")+` </div><div><label  for="name" class="etykieta">Etykieta pytania</label><br>
                 <input value="`+ev.name+`" id="openname" type="text" name="name" class="question">                
                 </div><div id="opencontent">`+ev.content+` </div>
                 <input type="file" id="siofu_input" style="display:none;"/>
@@ -338,6 +338,9 @@
      }
  }
 
+function deleteimage(){
+    $("#qimg").html("");
+}
 
  var toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'], // toggled buttons

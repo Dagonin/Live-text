@@ -19,7 +19,9 @@ const express = require('express'),
         pingTimeout: 5000,
         pingInterval: 25000
     }),
+    fs = require('fs-extra'),
     socketio = require('./socketio/tree.js')(io);
+
 
 require('events').EventEmitter.defaultMaxListeners = 100;
 

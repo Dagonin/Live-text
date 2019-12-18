@@ -4,6 +4,7 @@ const Questions = require('../models/question');
 const Chapters = require('../models/chapter');
 const Tests = require('../models/test');
 const siofu = require("socketio-file-upload");
+const fs = require('fs-extra')
 
 exports = module.exports = function (io) {
 
@@ -43,7 +44,27 @@ exports = module.exports = function (io) {
 
 
         })
+        
+        socket.on("gettests", (socid, userid) => {
+            Tests.find({
+                owner: userid
+            }, (err, fTests) => {
+                if (err) {
+                    console.log(err)
+                }
+                Questions.find({
+                    owner: userid
+                }, (err, fQuestion) => {
+                    if (err) {
+                        console.log(err)
+                    }
+                    console.log(fTests,userid);
+                    socket.emit('newtests', fTests, fQuestion);
 
+                })
+
+            })
+        })
 
         socket.on("gettree", (socid, userid) => {
             Chapters.find({
