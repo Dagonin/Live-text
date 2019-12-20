@@ -1,4 +1,6 @@
  function navselect() {
+     if(statequestion==true){
+     unblock();
      $(".maincont").html(`
 	 
     
@@ -17,6 +19,7 @@
 			
 			
             <div class="selectedcontent"></div>`)
+         }
  }
 
  function select(selected) {

@@ -18,9 +18,10 @@
 <body>
     <nav class="navbar has-background-info" role="navigation" aria-label="main navigation">
 		<div style="width:20%;background:#141414;height:52px;line-height:52px;float:left;color:#999;padding-left:30px;box-sizing:border-box;"><a href="/tree" class="menu"><i class="fas fa-angle-left icon_mg" style="color:#3273dc"></i> Powrót do menu</a></div>
-        <button onclick="navselect()">Dodaj Pytanie</button>
-        <button onclick="rem()">Usuń</button>
-        <button onclick="test()">Stwórz test</button>
+        <button id="changestate" onclick="loadtest()">Wyświetl testy</button>
+        <button class="navbut" onclick="navselect()">Dodaj Pytanie</button>
+        <button class="navbut" onclick="rem()">Usuń</button>
+        <button  class="navbut"onclick="test()">Stwórz test</button>
     </nav>
     
     
@@ -82,6 +83,7 @@ E:/Z_C/programowanie/live-text/serwer
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 
 <script>
+    const socket = io();
     let chapters = <%-JSON.stringify(chapter)%> ;
     let questions = <%-JSON.stringify(question)%> ;
     let tests;
@@ -91,6 +93,8 @@ E:/Z_C/programowanie/live-text/serwer
     let remarrayq = [];
     let remarrayc = [];
     let testarr=[];
+    let testbool = '';
+    let statequestion = true;
     generateTree(chapters, questions);
     setClickEventOnTreeItems();
 
@@ -111,6 +115,7 @@ E:/Z_C/programowanie/live-text/serwer
         $(".cont").on("dragover",allowDrop);
         $("input[name=rem]").remove();
         rembool = false;
+        
     }
     
     
@@ -195,30 +200,31 @@ E:/Z_C/programowanie/live-text/serwer
     // TWORZENIE TESTU
     
     
-   function test(e){
+   function test(ev){
+       unblock();
         if(rembool==false){
         
         rembool =true;
         block();
         $("p.list-item").append("<input name='rem' type='checkbox'>");
         $("input").css("float","right");
-        $("p.list-item").on("click",(e)=>{
-           let input = e.target.lastChild ;
+        $("p.list-item").on("click",(ev)=>{
+           let input = ev.target.lastChild ;
             if(input.checked == false){
                 input.checked = true;
             }else{
                 input.checked = false;
             }
-            testar();
+            testar(ev);
         });
-            console.log(e)
-            if(e&&typeof e == "object"){
-                for(let i =0;i<e.length;i++){
-                    $("#"+e[i]).find("input").prop('checked', true);
+            console.log(ev)
+            if(ev&&typeof ev == "object"){
+                for(let i =0;i<ev.length;i++){
+                    $("#"+ev[i]).find("input").prop('checked', true);
                 }
             }
-            testar();
-        $(".cont").append("<input name='rem' onclick='testc(this)' type='checkbox'> ");
+            testar(ev);
+            $(".cont").append("<input name='rem' onclick='testc(this)' type='checkbox'> ");
 
         }
     }
@@ -237,8 +243,8 @@ E:/Z_C/programowanie/live-text/serwer
         testar();
     }
     unblock();
-    
-    function testar(){ 
+    socket.emit("gettree",socket.id,`<%= user.id %>`);
+    function testar(ev){ 
         testarr=[];
     $(".maincont").html("")
     $("input:checked").each(function(){
@@ -248,16 +254,28 @@ E:/Z_C/programowanie/live-text/serwer
         }
      });
     $(".maincont").append("<input placeholder='Podaj nazwe testu' type='text' id='testname'>")
+        if(testbool==''){
     $(".maincont").append("<button onclick='createtest(testarr)'>Stwórz!</button>")
+            }else{
+                $(".maincont").append("<button onclick='etest(testarr)'>Edytuj!</button>")
+            }
     }
     
     function createtest(testarr){
         socket.emit("ctest",socket.id,testarr,$("#testname").val(),`<%=user.id%>`);
+        test()
+    }
+        function etest(testarr){
+        socket.emit("etest",socket.id,testarr,$("#testname").val(),`<%=user.id%>`,testbool);
+        testbool='';
+            test()
     }
     // USUWANIE PYTAŃ I RODZIAŁÓW
 
 
     function rem(){
+        if(statequestion==true){
+        unblock();
         if(rembool==false){
         rembool =true;
         block();
@@ -274,6 +292,7 @@ E:/Z_C/programowanie/live-text/serwer
         });
         $(".cont").append("<input name='rem' onclick='remc(this)' type='checkbox'> ");
 
+        }
         }
     }
     
@@ -556,6 +575,7 @@ E:/Z_C/programowanie/live-text/serwer
                         
             }
         unblock();
+        socket.emit("gettree",socket.id,`<%= user.id %>`);
         select("single");
     }
 
@@ -599,6 +619,7 @@ E:/Z_C/programowanie/live-text/serwer
                         
             }
         unblock();
+        socket.emit("gettree",socket.id,`<%= user.id %>`);
         select("open");
     }
 
@@ -703,6 +724,7 @@ E:/Z_C/programowanie/live-text/serwer
                         
             }
         unblock();
+        socket.emit("gettree",socket.id,`<%= user.id %>`);
         select("multi")
     }
 
@@ -710,13 +732,22 @@ E:/Z_C/programowanie/live-text/serwer
 
     //    socid, name, type, content, options, correct, userid
 
-    const socket = io();
+    
     // UPLOADOWANIE ZDJĘĆ
 
     socket.on('connect', () => {
         console.log(socket.id);
     })
     
+    socket.on("reloadtree",(nchapters,nquestions)=>{
+        chapters = nchapters;
+        questions = nquestions;
+        allquestions = nquestions;
+        unblock();
+        generateTree(chapters, questions);
+        setClickEventOnTreeItems();
+        socket.emit("gettree",socket.id,`<%= user.id %>`);
+    })
     
     socket.on("uploaded",(ev)=>{
         console.log(ev.file)
@@ -738,21 +769,43 @@ E:/Z_C/programowanie/live-text/serwer
         questions = nquestions;
         allquestions = nquestions;
         unblock();
-        generateTree(tests, questions);
-        setClickEventOnTreeItems();
-        console.log(questions)
-        $("#unassigned").remove()
+//        generateTree(tests, questions);
+//        setClickEventOnTreeItems();
+//        console.log(questions)
+//        $("#unassigned").remove()
     })
     
     
     function loadtest(){
+        if(statequestion == true){
+        $(".navbut").hide();
+        testbool="";
+        unblock();
         socket.emit("gettests",socket.id,`<%=user.id%>`);
+        socket.emit("gettree",socket.id,`<%= user.id %>`);
+        statequestion = false;
+        $("#changestate").text("Wyświetl pytania")
+        setTimeout(function(){
+        $("p.list-item").attr("draggable","false");
+        $("p.list-item").off("dragstart",drag);
+        $(".cont").off("dragover",allowDrop);
+        },200)
+        }else{
+            unblock()
+            $(".navbut").show();
+            testbool="";
+            console.log("a")
+            socket.emit("rtree",socket.id,`<%= user.id %>`);
+            $("#changestate").text("Wyświetl testy");
+            statequestion = true;
+        }
+        
     }
     
     function edittest(e){
-        socket.emit("gettree",socket.id,`<%= user.id %>`);
         generateTree(chapters, questions);
         setClickEventOnTreeItems();
+        testbool = e;
         test(tests[tests.findIndex(x=>x._id===e)].questions)
     }
     
@@ -900,7 +953,6 @@ E:/Z_C/programowanie/live-text/serwer
 
         
      unblock();
-        
         socket.emit("gettree",socket.id,`<%= user.id %>`);
     })
             socket.on('newtest',(test)=>{

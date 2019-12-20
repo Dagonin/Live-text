@@ -44,7 +44,22 @@ exports = module.exports = function (io) {
 
 
         })
-        
+        socket.on("etest", (socid, testarr, nname, userid, tid) => {
+            Tests.findByIdAndUpdate(tid, {
+                name: nname,
+                questions: testarr
+            }, {
+                new: true
+            },(err,etest)=>{
+                if(err){
+                    console.log(err);
+                }
+                console.log(etest)
+            })
+        })
+
+
+
         socket.on("gettests", (socid, userid) => {
             Tests.find({
                 owner: userid
@@ -58,7 +73,7 @@ exports = module.exports = function (io) {
                     if (err) {
                         console.log(err)
                     }
-                    console.log(fTests,userid);
+                    console.log(fTests, userid);
                     socket.emit('newtests', fTests, fQuestion);
 
                 })
@@ -87,6 +102,30 @@ exports = module.exports = function (io) {
             })
         })
 
+        
+        socket.on("rtree", (socid, userid) => {
+            Chapters.find({
+                owner: userid
+            }, (err, fChapter) => {
+                if (err) {
+                    console.log(err)
+                }
+                Questions.find({
+                    owner: userid
+                }, (err, fQuestion) => {
+                    if (err) {
+                        console.log(err)
+                    }
+
+                    socket.emit('reloadtree', fChapter, fQuestion);
+
+                })
+
+            })
+        })
+        
+        
+        
         socket.on("treedeletechapter", (socid, chapter, userid) => {
 
             Chapters.findByIdAndDelete(chapter, (err, del) => {
@@ -150,9 +189,9 @@ exports = module.exports = function (io) {
 
         })
 
-        socket.on("edit",(socid, name, type, content, options, correct, userid,src,qid) =>{
-            if(type=="single"){
-                Questions.findByIdAndUpdate(qid,{
+        socket.on("edit", (socid, name, type, content, options, correct, userid, src, qid) => {
+            if (type == "single") {
+                Questions.findByIdAndUpdate(qid, {
                     owner: userid,
                     name: name,
                     content: content,
@@ -160,38 +199,38 @@ exports = module.exports = function (io) {
                     correct: correct,
                     type: 'single',
                     zdj: src
-                },{
-                    new:true
-                },(err,nquestion)=>{
-                    if(err){
+                }, {
+                    new: true
+                }, (err, nquestion) => {
+                    if (err) {
                         console.log(err)
                     }
-                    
+
                     console.log(nquestion);
-                    
+
                 })
-            }else if(type=="open"){
-                Questions.findByIdAndUpdate(qid,{
+            } else if (type == "open") {
+                Questions.findByIdAndUpdate(qid, {
                     owner: userid,
                     name: name,
                     type: "open",
                     content: content,
                     zdj: src
-                },{
-                    new:true
-                },(err,nquestion)=>{
-                    if(err){
+                }, {
+                    new: true
+                }, (err, nquestion) => {
+                    if (err) {
                         console.log(err)
                     }
-                    
+
                     console.log(nquestion);
-                    
+
                 })
-                
-                
-                
-            } else if(type=="multi"){
-                    Questions.findByIdAndUpdate(qid,{
+
+
+
+            } else if (type == "multi") {
+                Questions.findByIdAndUpdate(qid, {
                     owner: userid,
                     name: name,
                     content: content,
@@ -199,23 +238,23 @@ exports = module.exports = function (io) {
                     correct: correct,
                     type: 'multi',
                     zdj: src
-                },{
-                    new:true
-                },(err,nquestion)=>{
-                    if(err){
+                }, {
+                    new: true
+                }, (err, nquestion) => {
+                    if (err) {
                         console.log(err)
                     }
-                    
+
                     console.log(nquestion);
-                    
+
                 })
             }
-            
-            
-            
+
+
+
         })
-        
-        socket.on("dodaj", (socid, name, type, content, options, correct, userid,src) => {
+
+        socket.on("dodaj", (socid, name, type, content, options, correct, userid, src) => {
             if (type == "addchapter") {
                 Chapters.create({
                     owner: userid,

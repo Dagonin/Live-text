@@ -1,5 +1,5 @@
 const tree = document.getElementById("tree");
-
+///////////////////// Pytania
 const getChapterQuestions = (c, q) => {
     let elements = [];
     c.forEach(chapterQuestionId => {
@@ -34,8 +34,8 @@ const generateTreeItems = (c, q) => {
                     `</p>`;
             } else if (question.type == "single") {
                 tree +=
-                `<p class="list-item" id="` +
-                question._id +
+                    `<p class="list-item" id="` +
+                    question._id +
                     `"title="` +
                     question.content +
                     `"draggable="true" >
@@ -168,16 +168,97 @@ const setClickEventOnTreeItems = () => {
 };
 
 
-function wys(e){
-    
+function wys(e) {
+
     let did = $(e).attr("db-id");
-    if(!did){
-        did="unassigned";
+    if (!did) {
+        did = "unassigned";
     }
-    if($(e.parentElement).hasClass("opened-item")){
-        let h = $("#"+did+" .dir-items-wrapper p").length *43;
-        $("#"+did+" .dir-items").height(h)
-    }else{
-        $("#"+did+" .dir-items").height(0)
+    if ($(e.parentElement).hasClass("opened-item")) {
+        let h = $("#" + did + " .dir-items-wrapper p").length * 43;
+        $("#" + did + " .dir-items").height(h)
+    } else {
+        $("#" + did + " .dir-items").height(0)
     }
+}
+
+
+//////////// TESTY
+
+function generateTestTree(tests, questions) {
+    tree.innerHTML = "";
+
+    tests.forEach(test => {
+        let tempInner = `<div class='dir cont list-item' id="` +
+            test._id +
+            `"ondrop="drop(event, this)" >
+    <div class='dir-header' db-id=` +
+            test._id +
+            `>
+      <span class='icon'><i class='fas fa-folder'></i></span> ` +
+            test.name +
+            `
+      <span class='icon is-pulled-right arrow'
+        ><i class='fas fa-angle-right'></i
+      ></span>
+    </div>
+    <div class='dir-items'><div class="dir-items-wrapper">` +
+            generateTestItems(test) +
+            `</div></div></div>`;
+
+        tree.innerHTML += tempInner;
+        //        console.log(tree);
+
+
+
+    })
+    setClickEventOnTreeItems();
+}
+
+function generateTestItems(test) {
+    let tr = "";
+    test.questions.forEach(qid => {
+        
+        let question = $.grep(questions, function (ev) {
+            return ev._id == qid;
+        })[0];
+        
+        if (question.type == "open") {
+            tr +=
+                `<p class="list-item" id="` +
+                question._id +
+                `"title="` +
+                question.content +
+                `" draggable = 'true' >
+      <span class="icon"> <i class="fas fa-calendar-minus"></i> </span
+      >` +
+                question.name +
+                `</p>`;
+        } else if (question.type == "single") {
+            tr +=
+                `<p class="list-item" id="` +
+                question._id +
+                `"title="` +
+                question.content +
+                `" draggable = 'true'  >
+      <span class="icon"> <i class="fas fa-calendar-check"></i> </span
+      >` +
+                question.name +
+                `</p>`;
+        } else if (question.type == "multi") {
+            tr +=
+                `<p class="list-item" id="` +
+                question._id +
+                `"title="` +
+                question.content +
+                `" draggable = 'true' >
+        <span class="icon"> <i class="fas fa-calendar-alt"></i> </span
+        >` +
+                question.name +
+                `</p>`;
+        }
+
+    })
+    console.log(tr)
+    return tr;
 }
