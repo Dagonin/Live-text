@@ -227,7 +227,7 @@ background:#ffffff;
 	width:100%;
 	background:#e9f0f8;
 	display:flex;
-	min-height:calc(100% - 52px);
+	min-height:100%;
 }
 
 #m-tree {
