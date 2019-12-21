@@ -238,7 +238,6 @@ background:#ffffff;
 
 #m-rightside {
 	float: left;
-	padding:50px;
 	box-sizing:border-box;
 	background:#e9f0f8;
 	flex:4;
@@ -266,7 +265,9 @@ background:none;
 
 
 .column.is-three-quarters, .column.is-three-quarters-tablet {
+	float:left;
 	width:100%;
+	padding:50px;
 }
 
 button {
@@ -280,6 +281,24 @@ font-size:1em;
 
 .navbar {
 	background-color:#141414;
+}
+
+#changestate:hover, .navbut:hover {
+	background:#333;
+	cursor:pointer;
+	transition: background-color 0.5s ease;
+	
+}
+.nav-left {
+	width:100%;height:52px;line-height:52px;float:left;color:#999;padding-left:30px;box-sizing:border-box;margin-bottom:50px;
+}
+
+#m-rightbuttons {
+	width:100%;height:52px;line-height:52px;float:left;color:#999;box-sizing:border-box;
+}
+
+#m-rightbuttons button{
+	height:52px;line-height:52px;padding:0 16px;
 }
 
 .has-background-info {
@@ -305,7 +324,14 @@ width:45%;float:left;margin-right:5%;font-weight:200;
 }
 
 .link-button {
-padding:6px 12px;border:1px solid #888;margin-top:20px;display:inline-block;border-radius:3px;color:#555;
+	padding: 6px 12px;
+    margin-top: 20px;
+    box-shadow: 0px 1px 2px #ccc;
+    display: inline-block;
+    border-radius: 3px;
+    color: #555;
+	background:#fff;
+	cursor:pointer;
 }
 
 .tutorial-button-run, .add-button{
