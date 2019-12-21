@@ -126,6 +126,7 @@ E:/Z_C/programowanie/live-text/serwer
     //Wyświetlanie i edytowanie pytania
 
     function editq(e) {
+        if(statequestion = true){
         let cont = $(".maincont");
          console.log($(e).attr("db-id"))
         let result = $.grep(allquestions, function(ev) {
@@ -133,7 +134,7 @@ E:/Z_C/programowanie/live-text/serwer
         })[0];
        
         eselect(result,$(e).attr("db-id"));
-
+}
     }
 
 
@@ -270,7 +271,7 @@ E:/Z_C/programowanie/live-text/serwer
         testbool='';
             test()
     }
-    // USUWANIE PYTAŃ I RODZIAŁÓW
+    // USUWANIE PYTAŃ I RODZIAŁÓW ORAZ TESTÓW
 
 
     function rem(){
@@ -296,10 +297,31 @@ E:/Z_C/programowanie/live-text/serwer
         }
     }
     
+    function testrem(){
+        if(statequestion==false){
+            block();
+            $(".cont").append("<input name='rem' onclick='testr(this)' type='checkbox'> ");
+        }
+    }
     
 
-    
+    function testr(){
+        tremarr=[];
+        $(".maincont").html("")
+        $("input:checked").each(function(){
+        $(".maincont").append("<div>"+this.parentElement.innerText+"</div>")
+        tremarr.push(this.parentElement.id);
+     });
+        $(".maincont").append("<button onclick='testdel(tremarr)'>Usuń!</button>")
+    }
 
+    
+    
+    function testdel(tremarr){
+        socket.emit("treedeletetest",socket.id,tremarr)
+    }
+    
+    
     function remc(e){
         let thisid = e.parentElement.id
         if(e.checked==true){
@@ -310,6 +332,10 @@ E:/Z_C/programowanie/live-text/serwer
         remarr();
     }
     unblock();
+    
+    
+    
+    
     
     function remarr(){ 
     remarrayq = [];
@@ -364,13 +390,9 @@ E:/Z_C/programowanie/live-text/serwer
         }
                 console.log(chapterarr)
                    console.log(updatearr)
-            for(let i  =0;i<chapterarr.length;i++){
-                socket.emit("treechapterupdate",socket.id,chapterarr[i],updatearr[i],`<%= user.id %> `)
-                
-            }
-            
             socket.emit("treedeletequestion",socket.id,arrq,`<%= user.id %> `);
-            
+            socket.emit("treetestupdate",socket.id,arrq,`<%= user.id %>`)
+            socket.emit("treechapterupdate",socket.id,arrq,`<%= user.id %>`)
             if(refreshbool == false){
                 refreshbool = true;
                 setTimeout(function(){
@@ -769,7 +791,7 @@ E:/Z_C/programowanie/live-text/serwer
         questions = nquestions;
         allquestions = nquestions;
         unblock();
-//        generateTree(tests, questions);
+        generateTestTree(tests, questions);
 //        setClickEventOnTreeItems();
 //        console.log(questions)
 //        $("#unassigned").remove()
@@ -794,7 +816,6 @@ E:/Z_C/programowanie/live-text/serwer
             unblock()
             $(".navbut").show();
             testbool="";
-            console.log("a")
             socket.emit("rtree",socket.id,`<%= user.id %>`);
             $("#changestate").text("Wyświetl testy");
             statequestion = true;

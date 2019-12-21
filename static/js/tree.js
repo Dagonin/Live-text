@@ -19,14 +19,13 @@ const generateTreeItems = (c, q) => {
     let tree = "";
     const chapterQuestions = getChapterQuestions(c, q);
     chapterQuestions.forEach(question => {
+        
         if (question) {
-
+                console.log(question)
             if (question.type == "open") {
                 tree +=
                     `<p class="list-item" id="` +
                     question._id +
-                    `"title="` +
-                    question.content +
                     `"draggable="true"  >
       <span class="icon"> <i class="fas fa-calendar-minus"></i> </span
       >` +
@@ -36,8 +35,6 @@ const generateTreeItems = (c, q) => {
                 tree +=
                     `<p class="list-item" id="` +
                     question._id +
-                    `"title="` +
-                    question.content +
                     `"draggable="true" >
       <span class="icon"> <i class="fas fa-calendar-check"></i> </span
       >` +
@@ -47,8 +44,6 @@ const generateTreeItems = (c, q) => {
                 tree +=
                     `<p class="list-item" id="` +
                     question._id +
-                    `"title="` +
-                    question.content +
                     `"draggable="true" >
         <span class="icon"> <i class="fas fa-calendar-alt"></i> </span
         >` +
@@ -69,8 +64,6 @@ const generateUnassignedItems = q => {
             tree +=
                 `<p class="list-item" id="` +
                 question._id +
-                `"title="` +
-                question.content +
                 `" draggable = 'true' >
       <span class="icon"> <i class="fas fa-calendar-minus"></i> </span
       >` +
@@ -80,8 +73,6 @@ const generateUnassignedItems = q => {
             tree +=
                 `<p class="list-item" id="` +
                 question._id +
-                `"title="` +
-                question.content +
                 `" draggable = 'true'  >
       <span class="icon"> <i class="fas fa-calendar-check"></i> </span
       >` +
@@ -91,8 +82,6 @@ const generateUnassignedItems = q => {
             tree +=
                 `<p class="list-item" id="` +
                 question._id +
-                `"title="` +
-                question.content +
                 `" draggable = 'true' >
         <span class="icon"> <i class="fas fa-calendar-alt"></i> </span
         >` +
@@ -227,8 +216,6 @@ function generateTestItems(test) {
             tr +=
                 `<p class="list-item" id="` +
                 question._id +
-                `"title="` +
-                question.content +
                 `" draggable = 'true' >
       <span class="icon"> <i class="fas fa-calendar-minus"></i> </span
       >` +
@@ -238,8 +225,6 @@ function generateTestItems(test) {
             tr +=
                 `<p class="list-item" id="` +
                 question._id +
-                `"title="` +
-                question.content +
                 `" draggable = 'true'  >
       <span class="icon"> <i class="fas fa-calendar-check"></i> </span
       >` +
@@ -249,8 +234,6 @@ function generateTestItems(test) {
             tr +=
                 `<p class="list-item" id="` +
                 question._id +
-                `"title="` +
-                question.content +
                 `" draggable = 'true' >
         <span class="icon"> <i class="fas fa-calendar-alt"></i> </span
         >` +

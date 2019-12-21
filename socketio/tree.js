@@ -50,8 +50,8 @@ exports = module.exports = function (io) {
                 questions: testarr
             }, {
                 new: true
-            },(err,etest)=>{
-                if(err){
+            }, (err, etest) => {
+                if (err) {
                     console.log(err);
                 }
                 console.log(etest)
@@ -102,7 +102,7 @@ exports = module.exports = function (io) {
             })
         })
 
-        
+
         socket.on("rtree", (socid, userid) => {
             Chapters.find({
                 owner: userid
@@ -123,9 +123,9 @@ exports = module.exports = function (io) {
 
             })
         })
-        
-        
-        
+
+
+
         socket.on("treedeletechapter", (socid, chapter, userid) => {
 
             Chapters.findByIdAndDelete(chapter, (err, del) => {
@@ -153,20 +153,57 @@ exports = module.exports = function (io) {
 
 
         })
-        socket.on("treechapterupdate", (socid, chapter, upd, userid) => {
-
-            Chapters.findByIdAndUpdate(chapter, {
+        socket.on("treechapterupdate", (socid, qs, userid) => {
+            Chapters.updateMany({
+                owner: userid
+            }, {
                 $pull: {
                     questions: {
-                        $in: upd
+                        $in: qs
                     }
                 }
-            }, {
+            },{
                 new: true
-            }, (err, fChapter) => {
+            },(err,uchapter)=>{
+                if(err){
+                    console.log(err);
+                }
+                console.log(uchapter)
+            })
+
+        })
+        
+        socket.on('treedeletetest',(socid,testarr)=>{
+            
+            Tests.deleteMany({
+                '_id': {
+                    $in: testarr
+                }
+            }, (err, utest) => {
                 if (err) {
                     console.log(err)
                 }
+            })
+
+
+        })
+
+        socket.on('treetestupdate', (socid, qs, userid) => {
+            Tests.updateMany({
+                owner: userid
+            }, {
+                $pull: {
+                    questions: {
+                        $in: qs
+                    }
+                }
+            },{
+                new: true
+            },(err,utest)=>{
+                if(err){
+                    console.log(err);
+                }
+                console.log(utest)
             })
 
 
