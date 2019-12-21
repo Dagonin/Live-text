@@ -149,10 +149,10 @@ E:/Z_C/programowanie/live-text/serwer
         if (result.type == "open") {
             cont.html(`<div class="showq">
             <img src="`+result.zdj+`" alt="">
-            <div>Etykieta pytania</div>
-            <div>` + result.name + `</div>
-            <div>Treść pytania</div>
-            <div>` + result.content + `</div>            
+            <div class="etykieta">Etykieta pytania</div>
+            <div>` + result.name + `</div><br>
+            <div class="etykieta">Treść pytania</div>
+            <div>` + result.content + `</div><br>            
         <button db-id="`+result._id+`" onclick="editq(this)" class="edit-question">Edytuj</button></div>`)
 
         } else if (result.type == "single") {
@@ -170,10 +170,10 @@ E:/Z_C/programowanie/live-text/serwer
             }
             cont.html(`<div class="showq">
             <img src="`+result.zdj+`" alt="">
-            <div>Etykieta pytania</div>
-            <div>` + result.name + `</div>
-            <div>Treść pytania</div>
-            <div>` + result.content + `</div>            
+            <div class="etykieta">Etykieta pytania</div>
+            <div>` + result.name + `</div><br>
+            <div class="etykieta">Treść pytania</div>
+            <div>` + result.content + `</div><br>            
             ` + ans + `<button db-id="`+result._id+`" onclick="editq(this)" class="edit-question">Edytuj</button></div>`)
 
         } else if (result.type == "multi") {
@@ -191,10 +191,10 @@ E:/Z_C/programowanie/live-text/serwer
             }
             cont.html(`<div class="showq">
             <img src="`+result.zdj+`" alt="">
-            <div>Etykieta pytania</div>
-            <div>` + result.name + `</div>
-            <div>Treść pytania</div>
-            <div>` + result.content + `</div>            
+            <div class="etykieta">Etykieta pytania</div>
+            <div>` + result.name + `</div><br>
+            <div class="etykieta">Treść pytania</div>
+            <div>` + result.content + `</div><br>            
             ` + ans + `<button db-id="`+result._id+`" onclick="editq(this)" class="edit-question">Edytuj</button></div>`)
         }
         $(".showq").attr("id", e.id);
