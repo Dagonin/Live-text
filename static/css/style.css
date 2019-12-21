@@ -334,8 +334,12 @@ width:45%;float:left;margin-right:5%;font-weight:200;
 	cursor:pointer;
 }
 
-.tutorial-button-run, .add-button{
-padding:6px 12px;margin-top:20px;display:inline-block;border-radius:3px;color:#fff;background:#1D2671;
+.tutorial-button-run, .add-button, .edit-question{
+padding:6px 12px;margin-top:20px;display:inline-block;border-radius:3px;color:#fff;background:#1D2671;cursor:pointer;
+}
+
+a.edit-question {
+	color:#fff;
 }
 
 /* Fonts weight */
@@ -416,15 +420,6 @@ label.a {
 	color:red;
 }
 
-.edit-question {
-	color:#555;
-	font-size:15px;
-}
-
-.edit-question:hover {
-	cursor:pointer;
-	color:#333;
-}
 
 
 
