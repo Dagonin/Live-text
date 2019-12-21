@@ -779,12 +779,14 @@ E:/Z_C/programowanie/live-text/serwer
         }
     })
 
-    socket.on("newtree",(nchapters,nquestions)=>{
+    socket.on("newtree",(nchapters,nquestions,ntests)=>{
         chapters = nchapters;
         questions = nquestions;
         allquestions = nquestions;
+        tests = ntests;
         unblock();
         console.log("NEW "+ allquestions)
+         setClickEventOnTreeItems();
     })
     
     socket.on("newtests",(ntests,nquestions)=>{
@@ -866,13 +868,12 @@ E:/Z_C/programowanie/live-text/serwer
 
     socket.on('cQuestion', (question) => {
         questions.push(question);
+        allquestions.push(question);
         let div = $("#unassigned").find('.dir-items-wrapper');
         if (question.type == "open") {
             div.append(
                 `<p class="list-item" id="` +
                 question._id +
-                `"title="` +
-                question.content +
                 `" draggable = 'true' ondragstart="drag(event)">
       <span class="icon"> <i class="fas fa-calendar-minus"></i> </span
       >` +
@@ -883,11 +884,10 @@ E:/Z_C/programowanie/live-text/serwer
                 $("#unassigned").find('.dir-items').css('height', '+=43');
             }
         } else if (question.type == "single") {
+            console.log(question)
             div.append(
                 `<p class="list-item" id="` +
                 question._id +
-                `"title="` +
-                question.content +
                 `" draggable = 'true' ondragstart="drag(event)">
       <span class="icon"> <i class="fas fa-calendar-check"></i> </span
       >` +
@@ -901,8 +901,6 @@ E:/Z_C/programowanie/live-text/serwer
             div.append(
                 `<p class="list-item" id="` +
                 question._id +
-                `"title="` +
-                question.content +
                 `" draggable = 'true' ondragstart="drag(event)">
         <span class="icon"> <i class="fas fa-calendar-alt"></i> </span
         >` +
@@ -913,7 +911,10 @@ E:/Z_C/programowanie/live-text/serwer
         if ($("#unassigned").hasClass("opened-item")) {
             $("#unassigned").find('.dir-items').css('height', '+=43');
         }
-
+        
+        
+        socket.emit("gettree",socket.id,`<%= user.id %>`);
+        setClickEventOnTreeItems();
     })
 
     socket.on('refreshTree', (src, target, sourcediv, newChapters, newQuestions) => {

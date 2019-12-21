@@ -95,7 +95,15 @@ exports = module.exports = function (io) {
                         console.log(err)
                     }
 
-                    socket.emit('newtree', fChapter, fQuestion);
+                    Tests.find({
+                        owner: userid
+                    },(err,fTest)=>{
+                        if(err){
+                            console.log(err);
+                             socket.emit('newtree', fChapter, fQuestion,fTest);
+                        }
+                    })
+                    
 
                 })
 
