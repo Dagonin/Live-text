@@ -101,7 +101,7 @@ E:/Z_C/programowanie/live-text/serwer
 
     
     
-        function block(){
+    function block(){
         $("p.list-item").off("click");
         $("p.list-item").attr("draggable","false");
         $("p.list-item").off("dragstart",drag);
@@ -119,7 +119,12 @@ E:/Z_C/programowanie/live-text/serwer
         
     }
     
-    
+    function treeheight(){
+        $(".opened-item").each(function(){
+         let count = $(this).find(".dir-items-wrapper p").length;
+            $(this).find(".dir-items").css('height', count*43+"px")
+        })
+    }
 
     
     
@@ -399,7 +404,7 @@ E:/Z_C/programowanie/live-text/serwer
                 setTimeout(function(){
                     refreshbool = false;
                     socket.emit("gettree",socket.id,`<%= user.id %>`);
-                },3500)
+                },200)
             }
             
             
@@ -493,7 +498,7 @@ E:/Z_C/programowanie/live-text/serwer
                 setTimeout(function(){
                     refreshbool = false;
                     socket.emit("gettree",socket.id,`<%= user.id %>`);
-                },1000)
+                },200)
             }
         select("chapter");
     }
@@ -594,7 +599,7 @@ E:/Z_C/programowanie/live-text/serwer
                 setTimeout(function(){
                     refreshbool = false;
                     socket.emit("gettree",socket.id,`<%= user.id %>`);
-                },300)
+                },200)
                         
             }
         unblock();
@@ -638,7 +643,7 @@ E:/Z_C/programowanie/live-text/serwer
                 setTimeout(function(){
                     refreshbool = false;
                     socket.emit("gettree",socket.id,`<%= user.id %>`);
-                },300)
+                },200)
                         
             }
         unblock();
@@ -743,7 +748,7 @@ E:/Z_C/programowanie/live-text/serwer
                 setTimeout(function(){
                     refreshbool = false;
                     socket.emit("gettree",socket.id,`<%= user.id %>`);
-                },300)
+                },200)
                         
             }
         unblock();
@@ -836,6 +841,9 @@ E:/Z_C/programowanie/live-text/serwer
         for(let i =0;i<treeid.length;i++){
             $("#"+treeid[i]).remove();
         }
+        
+        
+        treeheight()
     })
 
     socket.on('cChapter', (cChapter) => {
