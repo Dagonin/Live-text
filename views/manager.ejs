@@ -9,15 +9,16 @@
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <link rel="stylesheet" href="/css/tree.css" />
     <link rel="stylesheet" href="/css/style.css" />
-	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet">
-	<link href="/css/fontawesome/css/all.css" rel="stylesheet"> <!--load all styles -->
-	<link href="//cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
-<link href="//cdn.quilljs.com/1.0.0/quill.bubble.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet">
+    <link href="/css/fontawesome/css/all.css" rel="stylesheet">
+    <!--load all styles -->
+    <link href="//cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
+    <link href="//cdn.quilljs.com/1.0.0/quill.bubble.css" rel="stylesheet">
 </head>
 
 <body>
-    
-<!--
+
+    <!--
     <div class="columns">
         <div class="column list is-hoverable is-shadowless" id="tree"></div>
         <div class="maincont column is-three-quarters has-background-success">
@@ -29,50 +30,52 @@ E:/Z_C/programowanie/live-text/serwer
     </div>
 -->
 
-	
-<div id="m-header">
-	<div id="m-tree">
-		<div class="nav-left navbar"><a href="/tree" class="menu"><i class="fas fa-angle-left icon_mg" style="color:#3273dc"></i> Powrót do menu</a></div>
-		
-		<nav class="navbar has-background-info" role="navigation" aria-label="main navigation" style="display:none"></nav>
-		<!--<div id="nav-side"><i class="fas fa-cog icon_mg"></i> Menadżer pytań</div>-->
-        <div class="column list is-hoverable is-shadowless" id="tree" style="margin-top:40px;"></div>
-	</div>
-	<div id="m-rightside">
-		<!-- przyciski -->
-		<div id="m-rightbuttons" class="navbar">
-		<button id="changestate" onclick="loadtest()">Wyświetl testy</button>
-        <button class="navbut" onclick="navselect()">Dodaj Pytanie</button>
-        <button class="navbut" onclick="rem()">Usuń</button>
-        <button  class="navbut"onclick="test()">Stwórz test</button>
-		</div>
-        <div class="maincont column is-three-quarters">
-			<!-- Brak pytan -->
-			<span style="font-size:30px" class="f200"><i class="fas fa-exclamation-circle icon_mg"></i> Wygląda na to, że nie utworzyłeś jeszcze żadnynch pytań.</span><br>
-			
-			<a href="" class="link-button f300">Uruchom Kreator Pytań</a> <!-- Trzeba podpiac zeby dzialalo tak jak "Dodaj pytanie" -->
-			<a href="" class="link-button f300" style="margin-left:10px">Załaduj testową bazę pytań</a>
-			
-			<br><br><br>
-			
-			<span class="f25 f200">Skorzystaj z pomocy jeśli nie wiesz jak utworzyć pytanie.</span><br><br>
-			<!-- Zawartosc opcjonalna, mozna go umiescic jesli przygotujemy poradniki/dzial pomocy w pelnej wersji strony -->
-			<div class="showq block-video">
-				<!-- Bulma nadpisuje wysokosc, ktos cos? -->
-				<iframe width="100%" height="315" style="height:315px" src="https://www.youtube.com/embed/-2LtZRi6Q0s" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>			
-			</div>
-			
-			<div class="showq block-tutorial">
-				<span class="f25 f300">(2.0) Tworzenie pytań - Wprowadzenie</span><br>
-				<span class="f20">Tworzenie pytań przedstawione krok po kroku.</span><br><br>	
-				Poradnik stworzony w wersji pisemnej z zdjęciami dla osób, które mają pierwszy raz styczność z naszą platformą i mogą nie wiedzieć jak z niej korzystać. W tej części wytłumaczymy jak stworzyć
-				pytanie krok po kroku i umieścić je w wybranej kategorii, tak aby osoby znajdujące się w twoim pokoju mogłyby na nie odpowiadać.
-				<br>
-				<span class="tutorial-button-run f300"><i class="far fa-play-circle icon_mg"></i> Uruchom poradnik</span><br>
-			</div>
-		</div>
-	</div>
-</div>
+
+
+    <div id="m-header">
+        <div id="m-tree">
+            <div class="nav-left navbar"><a href="/tree" class="menu"><i class="fas fa-angle-left icon_mg" style="color:#3273dc"></i> Powrót do menu</a></div>
+
+            <nav class="navbar has-background-info" role="navigation" aria-label="main navigation" style="display:none"></nav>
+            <!--<div id="nav-side"><i class="fas fa-cog icon_mg"></i> Menadżer pytań</div>-->
+            <div class="column list is-hoverable is-shadowless" id="tree" style="margin-top:40px;"></div>
+        </div>
+        <div id="m-rightside">
+            <!-- przyciski -->
+            <div id="m-rightbuttons" class="navbar">
+                <button id="changestate" onclick="loadtest()">Wyświetl testy</button>
+                <button class="navbut" onclick="navselect()">Dodaj Pytanie</button>
+                <button class="navbut" onclick="rem()">Usuń</button>
+                <button class="navbut" onclick="test()">Stwórz test</button>
+                <button class="navbut1" onclick="room()">Stwórz pokój</button>
+            </div>
+            <div class="maincont column is-three-quarters">
+                <!-- Brak pytan -->
+                <span style="font-size:30px" class="f200"><i class="fas fa-exclamation-circle icon_mg"></i> Wygląda na to, że nie utworzyłeś jeszcze żadnynch pytań.</span><br>
+
+                <a href="" class="link-button f300">Uruchom Kreator Pytań</a> <!-- Trzeba podpiac zeby dzialalo tak jak "Dodaj pytanie" -->
+                <a href="" class="link-button f300" style="margin-left:10px">Załaduj testową bazę pytań</a>
+
+                <br><br><br>
+
+                <span class="f25 f200">Skorzystaj z pomocy jeśli nie wiesz jak utworzyć pytanie.</span><br><br>
+                <!-- Zawartosc opcjonalna, mozna go umiescic jesli przygotujemy poradniki/dzial pomocy w pelnej wersji strony -->
+                <div class="showq block-video">
+                    <!-- Bulma nadpisuje wysokosc, ktos cos? -->
+                    <iframe width="100%" height="315" style="height:315px" src="https://www.youtube.com/embed/-2LtZRi6Q0s" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+
+                <div class="showq block-tutorial">
+                    <span class="f25 f300">(2.0) Tworzenie pytań - Wprowadzenie</span><br>
+                    <span class="f20">Tworzenie pytań przedstawione krok po kroku.</span><br><br>
+                    Poradnik stworzony w wersji pisemnej z zdjęciami dla osób, które mają pierwszy raz styczność z naszą platformą i mogą nie wiedzieć jak z niej korzystać. W tej części wytłumaczymy jak stworzyć
+                    pytanie krok po kroku i umieścić je w wybranej kategorii, tak aby osoby znajdujące się w twoim pokoju mogłyby na nie odpowiadać.
+                    <br>
+                    <span class="tutorial-button-run f300"><i class="far fa-play-circle icon_mg"></i> Uruchom poradnik</span><br>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 <script src="/js/tree.js"></script>
 <script src="/js/treeselect.js"></script>
@@ -93,59 +96,123 @@ E:/Z_C/programowanie/live-text/serwer
     let refreshbool = false;
     let remarrayq = [];
     let remarrayc = [];
-    let testarr=[];
+    let testarr = []; 
+    let roomarray=[];
     let testbool = '';
     let statequestion = true;
     generateTree(chapters, questions);
     setClickEventOnTreeItems();
 
-    
-    
-    function block(){
+
+        $(".navbut1").hide();
+
+    function block() {
         $("p.list-item").off("click");
-        $("p.list-item").attr("draggable","false");
-        $("p.list-item").off("dragstart",drag);
-        $(".cont").off("dragover",allowDrop);
+        $("p.list-item").attr("draggable", "false");
+        $("p.list-item").off("dragstart", drag);
+        $(".cont").off("dragover", allowDrop);
 
     }
-    function unblock(){
+
+    function unblock() {
         block();
-        $("p.list-item").on("click",this,showq);
-        $("p.list-item").attr("draggable","true");
-        $("p.list-item").on("dragstart",drag);
-        $(".cont").on("dragover",allowDrop);
+        $("p.list-item").on("click", this, showq);
+        $("p.list-item").attr("draggable", "true");
+        $("p.list-item").on("dragstart", drag);
+        $(".cont").on("dragover", allowDrop);
         $("input[name=rem]").remove();
         rembool = false;
-        
+
     }
-    
-    function treeheight(){
-        $(".opened-item").each(function(){
-         let count = $(this).find(".dir-items-wrapper p").length;
-            $(this).find(".dir-items").css('height', count*43+"px")
+
+    function treeheight() {
+        $(".opened-item").each(function() {
+            let count = $(this).find(".dir-items-wrapper p").length;
+            $(this).find(".dir-items").css('height', count * 43 + "px")
         })
     }
 
+
+    //TWORZENIE POKOJU
     
+   function room(){
+        $(".maincont").html(`<div class="namelist"></div>
+    <input placeholder='Podaj nazwe testu' type='text' id='testname'><br>
+    <select onchange="selecttime(this.options[this.selectedIndex].value)">
+                <option value="all">Czas całkowity</option>
+                <option value="single">Dla każdego pytania</option>
+            </select><br>
+            <div id="timediv">
+                <div>Podaj czas w minutach dla całego testu</div>
+                <input class="timeinput" type="number" >
+            </div>            
+            <button onclick='createroom(roomarray)'>Stwórz!</button>`);
+        if (rembool == false) {
+            rembool = true;
+            block();
+            $(".cont").append("<input name='rem' onclick='roomarr()' type='checkbox'> ");
+            roomarr();
+            
+
+        }
+    }
     
+    function selecttime(e){
+        if(e=="single"){
+            $("#timediv").html(`<div>Podaj czas na odpowiedź na pytania otwarte (Sekundy)</div>
+                <input class="timeinput" type="number">                
+                <div>Podaj czas na odpowiedź na pytania zamknięte (Sekundy)</div>
+                <input class="timeinput" type="number">`)
+        }else if(e=="all"){
+            $("#timediv").html(`<div>Podaj czas w minutach</div>
+                <input class="timeinput" type="number">`)
+        }
+    }
     
+    function roomarr(){
+        roomarray=[];
+        $(".namelist").html("");
+                $("input:checked").each(function() {
+                $(this.parentElement).find('p').each(function(){
+                   roomarray.push(this.id);
+                })
+                $(".namelist").append("<div>" + $(this.parentElement).find(".dir-header")[0].innerText + "</div>")
+        if(!document.getElementById("testname")){
+        $(".maincont").append("<input placeholder='Podaj nazwe testu' type='text' id='testname'><br>")
+        $(".maincont").append("<input type='number'><br>")
+        $(".maincont").append("<button onclick='createroom(roomarray)'>Stwórz!</button>")
+
+            }
+        });
+    }
+    
+    function createroom(arr){
+        if(Array.isArray(arr)){
+     if($(".timeinput").length==1&&$(".timeinput")[0].value>0){
+         socket.emit("createroom",socket.id,$('#testname').val(),null,null,$(".timeinput")[0].value,arr,`<%=user.id%>`)
+     }else if($(".timeinput").length==2&&$(".timeinput")[0].value>0&&$(".timeinput")[1].value>0){
+         socket.emit("createroom",socket.id,$('#testname').val(),$(".timeinput")[0].value,$(".timeinput")[1].value,null,arr,`<%=user.id%>`)
+     }
+    }
+    }
+
     //Wyświetlanie i edytowanie pytania
 
     function editq(e) {
-        if(statequestion = true){
-        let cont = $(".maincont");
-         console.log($(e).attr("db-id"))
-        let result = $.grep(allquestions, function(ev) {
-            return ev._id == $(e).attr("db-id");
-        })[0];
-       
-        eselect(result,$(e).attr("db-id"));
-}
+        if (statequestion = true) {
+            let cont = $(".maincont");
+            console.log($(e).attr("db-id"))
+            let result = $.grep(allquestions, function(ev) {
+                return ev._id == $(e).attr("db-id");
+            })[0];
+
+            eselect(result, $(e).attr("db-id"));
+        }
     }
 
 
     function showq(e) {
-        
+
         let cont = $(".maincont");
         console.log(allquestions)
         let result = $.grep(allquestions, function(ev) {
@@ -153,12 +220,12 @@ E:/Z_C/programowanie/live-text/serwer
         })[0];
         if (result.type == "open") {
             cont.html(`<div class="showq">
-            <img src="`+result.zdj+`" alt="">
+            <img src="` + result.zdj + `" alt="">
             <div class="etykieta">Etykieta pytania</div>
             <div>` + result.name + `</div><br>
             <div class="etykieta">Treść pytania</div>
             <div>` + result.content + `</div><br>            
-        <button db-id="`+result._id+`" onclick="editq(this)" class="edit-question">Edytuj</button></div>`)
+        <button db-id="` + result._id + `" onclick="editq(this)" class="edit-question">Edytuj</button></div>`)
 
         } else if (result.type == "single") {
             let ans = '';
@@ -174,12 +241,12 @@ E:/Z_C/programowanie/live-text/serwer
 
             }
             cont.html(`<div class="showq">
-            <img src="`+result.zdj+`" alt="">
+            <img src="` + result.zdj + `" alt="">
             <div class="etykieta">Etykieta pytania</div>
             <div>` + result.name + `</div><br>
             <div class="etykieta">Treść pytania</div>
             <div>` + result.content + `</div><br>            
-            ` + ans + `<button db-id="`+result._id+`" onclick="editq(this)" class="edit-question">Edytuj</button></div>`)
+            ` + ans + `<button db-id="` + result._id + `" onclick="editq(this)" class="edit-question">Edytuj</button></div>`)
 
         } else if (result.type == "multi") {
             let ans = '';
@@ -195,39 +262,40 @@ E:/Z_C/programowanie/live-text/serwer
 
             }
             cont.html(`<div class="showq">
-            <img src="`+result.zdj+`" alt="">
+            <img src="` + result.zdj + `" alt="">
             <div class="etykieta">Etykieta pytania</div>
             <div>` + result.name + `</div><br>
             <div class="etykieta">Treść pytania</div>
             <div>` + result.content + `</div><br>            
-            ` + ans + `<button db-id="`+result._id+`" onclick="editq(this)" class="edit-question">Edytuj</button></div>`)
+            ` + ans + `<button db-id="` + result._id + `" onclick="editq(this)" class="edit-question">Edytuj</button></div>`)
         }
         $(".showq").attr("id", e.id);
     }
     // TWORZENIE TESTU
-    
-    
-   function test(ev){
-       unblock();
-        if(rembool==false){
-        
-        rembool =true;
-        block();
-        $("p.list-item").append("<input name='rem' type='checkbox'>");
-        $("input").css("float","right");
-        $("p.list-item").on("click",(ev)=>{
-           let input = ev.target.lastChild ;
-            if(input.checked == false){
-                input.checked = true;
-            }else{
-                input.checked = false;
-            }
-            testar(ev);
-        });
+
+
+    function test(ev) {
+        unblock();
+        $(".maincont").html(`<div class="namelist"></div>`);
+        if (rembool == false) {
+
+            rembool = true;
+            block();
+            $("p.list-item").append("<input name='rem' type='checkbox'>");
+            $("input").css("float", "right");
+            $("p.list-item").on("click", (ev) => {
+                let input = ev.target.lastChild;
+                if (input.checked == false) {
+                    input.checked = true;
+                } else {
+                    input.checked = false;
+                }
+                testar(ev);
+            });
             console.log(ev)
-            if(ev&&typeof ev == "object"){
-                for(let i =0;i<ev.length;i++){
-                    $("#"+ev[i]).find("input").prop('checked', true);
+            if (ev && Array.isArray(ev)) {
+                for (let i = 0; i < ev.length; i++) {
+                    $("#" + ev[i]).find("input").prop('checked', true);
                 }
             }
             testar(ev);
@@ -235,180 +303,187 @@ E:/Z_C/programowanie/live-text/serwer
 
         }
     }
-    
-    
 
-    
 
-    function testc(e){
+
+
+
+    function testc(e) {
         let thisid = e.parentElement.id
-        if(e.checked==true){
-            $("#"+thisid).find("input").prop('checked', true);
-        }else{
-            $("#"+thisid).find("input").prop('checked', false);
+        if (e.checked == true) {
+            $("#" + thisid).find("input").prop('checked', true);
+        } else {
+            $("#" + thisid).find("input").prop('checked', false);
         }
         testar();
     }
     unblock();
-    socket.emit("gettree",socket.id,`<%= user.id %>`);
-    function testar(ev){ 
-        testarr=[];
-    $(".maincont").html("")
-    $("input:checked").each(function(){
-        if(this.parentElement.tagName=="P"){
-        testarr.push(this.parentElement.id);
-            $(".maincont").append("<div>"+this.parentElement.innerText+"</div>")
+    socket.emit("gettree", socket.id, `<%= user.id %>`);
+
+    function testar(ev) {
+        testarr = [];
+        $(".namelist").html("")
+        $("input:checked").each(function() {
+            if (this.parentElement.tagName == "P") {
+                testarr.push(this.parentElement.id);
+
+                $(".namelist").append("<div>" + this.parentElement.innerText + "</div>")
+
+            }
+        });
+        if(!document.getElementById("testname")){
+        $(".maincont").append("<input placeholder='Podaj nazwe testu' type='text' id='testname'>")
+        
+        if (testbool == '') {
+            $(".maincont").append("<button onclick='createtest(testarr)'>Stwórz!</button>")
+        } else {
+            $(".maincont").append("<button onclick='etest(testarr)'>Edytuj!</button>")
         }
-     });
-    $(".maincont").append("<input placeholder='Podaj nazwe testu' type='text' id='testname'>")
-        if(testbool==''){
-    $(".maincont").append("<button onclick='createtest(testarr)'>Stwórz!</button>")
-            }else{
-                $(".maincont").append("<button onclick='etest(testarr)'>Edytuj!</button>")
             }
     }
-    
-    function createtest(testarr){
-        socket.emit("ctest",socket.id,testarr,$("#testname").val(),`<%=user.id%>`);
+
+    function createtest(testarr) {
+        socket.emit("ctest", socket.id, testarr, $("#testname").val(), `<%=user.id%>`);
         test()
     }
-        function etest(testarr){
-        socket.emit("etest",socket.id,testarr,$("#testname").val(),`<%=user.id%>`,testbool);
-        testbool='';
-            test()
+
+    function etest(testarr) {
+        socket.emit("etest", socket.id, testarr, $("#testname").val(), `<%=user.id%>`, testbool);
+        testbool = '';
+        test()
     }
     // USUWANIE PYTAŃ I RODZIAŁÓW ORAZ TESTÓW
 
 
-    function rem(){
-        if(statequestion==true){
-        unblock();
-        if(rembool==false){
-        rembool =true;
-        block();
-        $("p.list-item").append("<input name='rem' type='checkbox'>");
-        $("input").css("float","right");
-        $("p.list-item").on("click",(e)=>{
-           let input = e.target.lastChild ;
-            if(input.checked == false){
-                input.checked = true;
-            }else{
-                input.checked = false;
-            }
-            remarr();
-        });
-        $(".cont").append("<input name='rem' onclick='remc(this)' type='checkbox'> ");
+    function rem() {
+        if (statequestion == true) {
+            unblock();
+            if (rembool == false) {
+                rembool = true;
+                block();
+                $("p.list-item").append("<input name='rem' type='checkbox'>");
+                $("input").css("float", "right");
+                $("p.list-item").on("click", (e) => {
+                    let input = e.target.lastChild;
+                    if (input.checked == false) {
+                        input.checked = true;
+                    } else {
+                        input.checked = false;
+                    }
+                    remarr();
+                });
+                $(".cont").append("<input name='rem' onclick='remc(this)' type='checkbox'> ");
 
-        }
+            }
         }
     }
-    
-    function testrem(){
-        if(statequestion==false){
+
+    function testrem() {
+        if (statequestion == false) {
             block();
             $(".cont").append("<input name='rem' onclick='testr(this)' type='checkbox'> ");
         }
     }
-    
 
-    function testr(){
-        tremarr=[];
+
+    function testr() {
+        tremarr = [];
         $(".maincont").html("")
-        $("input:checked").each(function(){
-        $(".maincont").append("<div>"+this.parentElement.innerText+"</div>")
-        tremarr.push(this.parentElement.id);
-     });
+        $("input:checked").each(function() {
+            $(".maincont").append("<div>" + this.parentElement.innerText + "</div>")
+            tremarr.push(this.parentElement.id);
+        });
         $(".maincont").append("<button onclick='testdel(tremarr)'>Usuń!</button>")
     }
 
-    
-    
-    function testdel(tremarr){
-        socket.emit("treedeletetest",socket.id,tremarr)
+
+
+    function testdel(tremarr) {
+        socket.emit("treedeletetest", socket.id, tremarr)
     }
-    
-    
-    function remc(e){
+
+
+    function remc(e) {
         let thisid = e.parentElement.id
-        if(e.checked==true){
-            $("#"+thisid).find("input").prop('checked', true);
-        }else{
-            $("#"+thisid).find("input").prop('checked', false);
+        if (e.checked == true) {
+            $("#" + thisid).find("input").prop('checked', true);
+        } else {
+            $("#" + thisid).find("input").prop('checked', false);
         }
         remarr();
     }
     unblock();
-    
-    
-    
-    
-    
-    function remarr(){ 
-    remarrayq = [];
-    remarrayc = [];
-    $(".maincont").html("")
-    $("input:checked").each(function(){
-        if(this.parentElement.tagName=="P"){
-        remarrayq.push(this.parentElement.id);
-        }else{
-        remarrayc.push(this.parentElement.id);
-        }
-    $(".maincont").append("<div>"+this.parentElement.innerText+"</div>")
-     });
-    $(".maincont").append("<button onclick='deletethem(remarrayq,remarrayc)'>Usuń!</button>")
+
+
+
+
+
+    function remarr() {
+        remarrayq = [];
+        remarrayc = [];
+        $(".maincont").html("")
+        $("input:checked").each(function() {
+            if (this.parentElement.tagName == "P") {
+                remarrayq.push(this.parentElement.id);
+            } else {
+                remarrayc.push(this.parentElement.id);
+            }
+            $(".maincont").append("<div>" + this.parentElement.innerText + "</div>")
+        });
+        $(".maincont").append("<button onclick='deletethem(remarrayq,remarrayc)'>Usuń!</button>")
     }
-    
-        function deletethem(arrq,arrc){
-        for( let i = 0; i < arrc.length; i++){ 
-            if ( arrc[i] === "unassigned") {
-                arrc.splice(i, 1); 
+
+    function deletethem(arrq, arrc) {
+        for (let i = 0; i < arrc.length; i++) {
+            if (arrc[i] === "unassigned") {
+                arrc.splice(i, 1);
             }
         }
-        for( let i = 0; i < arrc.length; i++){
-            socket.emit("treedeletechapter",socket.id,arrc[i],`<%= user.id %> `);
+        for (let i = 0; i < arrc.length; i++) {
+            socket.emit("treedeletechapter", socket.id, arrc[i], `<%= user.id %> `);
         }
-            let updatearr = [];
-            let chapterarr = [];
-    console.log(arrc,arrq)
-    console.log(allquestions)
-               for( let i = 0; i < arrq.length; i++){
-                   
-                   let thisq = $.grep(allquestions, function(ev) {
+        let updatearr = [];
+        let chapterarr = [];
+        console.log(arrc, arrq)
+        console.log(allquestions)
+        for (let i = 0; i < arrq.length; i++) {
+
+            let thisq = $.grep(allquestions, function(ev) {
                 return ev._id == arrq[i];
-                    })[0];
-                   if(jQuery.inArray(thisq.chapter, arrc)==-1){
-                   if(jQuery.inArray(thisq.chapter, chapterarr)==-1){
-                       chapterarr.push(thisq.chapter);
-                       let index = jQuery.inArray(thisq.chapter, chapterarr);
-                       if(updatearr[index]==undefined){
-                           updatearr[index] = [];
-                           updatearr[index].push(thisq._id);
-                       }else{
-                           updatearr[index].push(thisq._id);
-                       }
-                       
-                   }else{
-                       let index = jQuery.inArray(thisq.chapter, chapterarr);
-                       updatearr[index].push(thisq._id);
-                   }
-                       }
-                   
-        }
-                console.log(chapterarr)
-                   console.log(updatearr)
-            socket.emit("treedeletequestion",socket.id,arrq,`<%= user.id %> `);
-            socket.emit("treetestupdate",socket.id,arrq,`<%= user.id %>`)
-            socket.emit("treechapterupdate",socket.id,arrq,`<%= user.id %>`)
-            if(refreshbool == false){
-                refreshbool = true;
-                setTimeout(function(){
-                    refreshbool = false;
-                    socket.emit("gettree",socket.id,`<%= user.id %>`);
-                },200)
+            })[0];
+            if (jQuery.inArray(thisq.chapter, arrc) == -1) {
+                if (jQuery.inArray(thisq.chapter, chapterarr) == -1) {
+                    chapterarr.push(thisq.chapter);
+                    let index = jQuery.inArray(thisq.chapter, chapterarr);
+                    if (updatearr[index] == undefined) {
+                        updatearr[index] = [];
+                        updatearr[index].push(thisq._id);
+                    } else {
+                        updatearr[index].push(thisq._id);
+                    }
+
+                } else {
+                    let index = jQuery.inArray(thisq.chapter, chapterarr);
+                    updatearr[index].push(thisq._id);
+                }
             }
-            
-            
+
         }
+        console.log(chapterarr)
+        console.log(updatearr)
+        socket.emit("treedeletequestion", socket.id, arrq, `<%= user.id %> `);
+        socket.emit("treetestupdate", socket.id, arrq, `<%= user.id %>`)
+        socket.emit("treechapterupdate", socket.id, arrq, `<%= user.id %>`)
+        if (refreshbool == false) {
+            refreshbool = true;
+            setTimeout(function() {
+                refreshbool = false;
+                socket.emit("gettree", socket.id, `<%= user.id %>`);
+            }, 200)
+        }
+
+
+    }
 
 
 
@@ -470,12 +545,12 @@ E:/Z_C/programowanie/live-text/serwer
             socket.emit("move", socket.id, srcid, ev.target.parentElement.parentElement.parentElement.id, `<%= user.id %>`);
         }
     }
-    
-    
-    
-    
 
-    
+
+
+// DODAWANIE PYTAŃ
+
+
     function addchapter() {
         $("#err").html("");
         let errorcheck = false;
@@ -493,19 +568,19 @@ E:/Z_C/programowanie/live-text/serwer
         } else {
             $("#err").html(error);
         }
-                    if(refreshbool == false){
-                refreshbool = true;
-                setTimeout(function(){
-                    refreshbool = false;
-                    socket.emit("gettree",socket.id,`<%= user.id %>`);
-                },200)
-            }
+        if (refreshbool == false) {
+            refreshbool = true;
+            setTimeout(function() {
+                refreshbool = false;
+                socket.emit("gettree", socket.id, `<%= user.id %>`);
+            }, 200)
+        }
         select("chapter");
     }
 
-    function addsingle(check,qid) {
+    function addsingle(check, qid) {
         let src;
-        if($("#qimgsrc")){
+        if ($("#qimgsrc")) {
             src = $("#qimgsrc").attr("src");
         }
         console.log(src);
@@ -516,55 +591,55 @@ E:/Z_C/programowanie/live-text/serwer
         let corr = "";
         let ansid = parseInt($("input[name='ans']:checked").attr('value'));
         let arr = [];
-        console.log(ansid+1);
-        
+        console.log(ansid + 1);
+
         $(".a").each(function() {
             x++;
             console.log(x);
-            if(x==2){
-                if(window.quill2.container.firstChild.innerHTML!=""){
-                arr.push(window.quill2.container.firstChild.innerHTML)
-                    if(ansid+1==x){
+            if (x == 2) {
+                if (window.quill2.container.firstChild.innerHTML != "") {
+                    arr.push(window.quill2.container.firstChild.innerHTML)
+                    if (ansid + 1 == x) {
                         corr = window.quill2.container.firstChild.innerHTML;
-                        console.log(corr,x);
+                        console.log(corr, x);
                     }
-                }else{
-                errocheck = true;
-                error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");
+                } else {
+                    errocheck = true;
+                    error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");
                 }
-            }            
-            if(x==3){
-                if(window.quill3.container.firstChild.innerHTML!=""){
-                arr.push(window.quill3.container.firstChild.innerHTML);
-                    if(ansid+1==x){
+            }
+            if (x == 3) {
+                if (window.quill3.container.firstChild.innerHTML != "") {
+                    arr.push(window.quill3.container.firstChild.innerHTML);
+                    if (ansid + 1 == x) {
                         corr = window.quill3.container.firstChild.innerHTML;
-                        console.log(corr,x);
+                        console.log(corr, x);
                     }
-                }else{
-                errocheck = true;
-                error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");
+                } else {
+                    errocheck = true;
+                    error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");
                 }
-            }            
-            if(x==4){
-                if(window.quill4.container.firstChild.innerHTML!=""){
-                arr.push(window.quill4.container.firstChild.innerHTML)
-                    if(ansid+=1==x){
+            }
+            if (x == 4) {
+                if (window.quill4.container.firstChild.innerHTML != "") {
+                    arr.push(window.quill4.container.firstChild.innerHTML)
+                    if (ansid += 1 == x) {
                         corr = window.quill4.container.firstChild.innerHTML;
                     }
-                }else{
-                errocheck = true;
-                error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");
+                } else {
+                    errocheck = true;
+                    error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");
                 }
-            }            
-            if(x==5){
-                if(window.quill5.container.firstChild.innerHTML!=""){
-                arr.push(window.quill5.container.firstChild.innerHTML);
-                if(ansid+=1==x){
+            }
+            if (x == 5) {
+                if (window.quill5.container.firstChild.innerHTML != "") {
+                    arr.push(window.quill5.container.firstChild.innerHTML);
+                    if (ansid += 1 == x) {
                         corr = window.quill5.container.firstChild.innerHTML;
                     }
-                }else{
-                errocheck = true;
-                error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");
+                } else {
+                    errocheck = true;
+                    error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");
                 }
             }
         })
@@ -583,37 +658,37 @@ E:/Z_C/programowanie/live-text/serwer
         }
 
         if (errorcheck == false) {
-            if(check=="add"){
-                socket.emit("dodaj", socket.id, $('#singlename').val(), "single", window.quill1.container.firstChild.innerHTML, arr, corr, `<%= user.id %>`,src);
-            }else if(check=="edit"){
-                socket.emit("edit", socket.id, $('#singlename').val(), "single", window.quill1.container.firstChild.innerHTML, arr, corr, `<%= user.id %>`,src,qid);
-               $("#"+qid).html(`<span class="icon"> <svg class="svg-inline--fa fa-calendar-check fa-w-14" aria-hidden="true" data-prefix="fas" data-icon="calendar-check" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M436 160H12c-6.627 0-12-5.373-12-12v-36c0-26.51 21.49-48 48-48h48V12c0-6.627 5.373-12 12-12h40c6.627 0 12 5.373 12 12v52h128V12c0-6.627 5.373-12 12-12h40c6.627 0 12 5.373 12 12v52h48c26.51 0 48 21.49 48 48v36c0 6.627-5.373 12-12 12zM12 192h424c6.627 0 12 5.373 12 12v260c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V204c0-6.627 5.373-12 12-12zm333.296 95.947l-28.169-28.398c-4.667-4.705-12.265-4.736-16.97-.068L194.12 364.665l-45.98-46.352c-4.667-4.705-12.266-4.736-16.971-.068l-28.397 28.17c-4.705 4.667-4.736 12.265-.068 16.97l82.601 83.269c4.667 4.705 12.265 4.736 16.97.068l142.953-141.805c4.705-4.667 4.736-12.265.068-16.97z"></path></svg><!-- <i class="fas fa-calendar-check"></i> --> </span>`+$('#singlename').val())
+            if (check == "add") {
+                socket.emit("dodaj", socket.id, $('#singlename').val(), "single", window.quill1.container.firstChild.innerHTML, arr, corr, `<%= user.id %>`, src);
+            } else if (check == "edit") {
+                socket.emit("edit", socket.id, $('#singlename').val(), "single", window.quill1.container.firstChild.innerHTML, arr, corr, `<%= user.id %>`, src, qid);
+                $("#" + qid).html(`<span class="icon"> <svg class="svg-inline--fa fa-calendar-check fa-w-14" aria-hidden="true" data-prefix="fas" data-icon="calendar-check" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M436 160H12c-6.627 0-12-5.373-12-12v-36c0-26.51 21.49-48 48-48h48V12c0-6.627 5.373-12 12-12h40c6.627 0 12 5.373 12 12v52h128V12c0-6.627 5.373-12 12-12h40c6.627 0 12 5.373 12 12v52h48c26.51 0 48 21.49 48 48v36c0 6.627-5.373 12-12 12zM12 192h424c6.627 0 12 5.373 12 12v260c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V204c0-6.627 5.373-12 12-12zm333.296 95.947l-28.169-28.398c-4.667-4.705-12.265-4.736-16.97-.068L194.12 364.665l-45.98-46.352c-4.667-4.705-12.266-4.736-16.971-.068l-28.397 28.17c-4.705 4.667-4.736 12.265-.068 16.97l82.601 83.269c4.667 4.705 12.265 4.736 16.97.068l142.953-141.805c4.705-4.667 4.736-12.265.068-16.97z"></path></svg><!-- <i class="fas fa-calendar-check"></i> --> </span>` + $('#singlename').val())
             }
-            
+
         } else {
             $("#err").html(error);
             console.log(arr)
         }
-                    if(refreshbool == false){
-                refreshbool = true;
-                setTimeout(function(){
-                    refreshbool = false;
-                    socket.emit("gettree",socket.id,`<%= user.id %>`);
-                },200)
-                        
-            }
+        if (refreshbool == false) {
+            refreshbool = true;
+            setTimeout(function() {
+                refreshbool = false;
+                socket.emit("gettree", socket.id, `<%= user.id %>`);
+            }, 200)
+
+        }
         unblock();
-        socket.emit("gettree",socket.id,`<%= user.id %>`);
+        socket.emit("gettree", socket.id, `<%= user.id %>`);
         select("single");
     }
 
-    
 
-    
-    
-    function addopen(check,qid) {
+
+
+
+    function addopen(check, qid) {
         let src;
-        if($("#qimgsrc")){
+        if ($("#qimgsrc")) {
             src = $("#qimgsrc").attr("src");
         }
         $("#err").html("");
@@ -629,72 +704,72 @@ E:/Z_C/programowanie/live-text/serwer
             error.push("<div>Treść pytania jest pusta</div>");
         }
         if (errorcheck == false) {
-            if(check=="add"){
-            socket.emit("dodaj", socket.id, $('#openname').val(), "open", window.quill1.container.firstChild.innerHTML, undefined, undefined, `<%= user.id %>`,src);
-                }else if(check=="edit"){
-                   socket.emit("edit", socket.id, $('#openname').val(), "open", window.quill1.container.firstChild.innerHTML, undefined, undefined, `<%= user.id %>`,src,qid);
-                    $("#"+qid).html(`<span class="icon"> <svg class="svg-inline--fa fa-calendar-minus fa-w-14" aria-hidden="true" data-prefix="fas" data-icon="calendar-minus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M436 160H12c-6.6 0-12-5.4-12-12v-36c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48v36c0 6.6-5.4 12-12 12zM12 192h424c6.6 0 12 5.4 12 12v260c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V204c0-6.6 5.4-12 12-12zm304 192c6.6 0 12-5.4 12-12v-40c0-6.6-5.4-12-12-12H132c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h184z"></path></svg><!-- <i class="fas fa-calendar-minus"></i> --> </span>`+$('#openname').val())
-                }
+            if (check == "add") {
+                socket.emit("dodaj", socket.id, $('#openname').val(), "open", window.quill1.container.firstChild.innerHTML, undefined, undefined, `<%= user.id %>`, src);
+            } else if (check == "edit") {
+                socket.emit("edit", socket.id, $('#openname').val(), "open", window.quill1.container.firstChild.innerHTML, undefined, undefined, `<%= user.id %>`, src, qid);
+                $("#" + qid).html(`<span class="icon"> <svg class="svg-inline--fa fa-calendar-minus fa-w-14" aria-hidden="true" data-prefix="fas" data-icon="calendar-minus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M436 160H12c-6.6 0-12-5.4-12-12v-36c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48v36c0 6.6-5.4 12-12 12zM12 192h424c6.6 0 12 5.4 12 12v260c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V204c0-6.6 5.4-12 12-12zm304 192c6.6 0 12-5.4 12-12v-40c0-6.6-5.4-12-12-12H132c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h184z"></path></svg><!-- <i class="fas fa-calendar-minus"></i> --> </span>` + $('#openname').val())
+            }
         } else {
             $("#err").html(error);
         }
-                    if(refreshbool == false){
-                refreshbool = true;
-                setTimeout(function(){
-                    refreshbool = false;
-                    socket.emit("gettree",socket.id,`<%= user.id %>`);
-                },200)
-                        
-            }
+        if (refreshbool == false) {
+            refreshbool = true;
+            setTimeout(function() {
+                refreshbool = false;
+                socket.emit("gettree", socket.id, `<%= user.id %>`);
+            }, 200)
+
+        }
         unblock();
-        socket.emit("gettree",socket.id,`<%= user.id %>`);
+        socket.emit("gettree", socket.id, `<%= user.id %>`);
         select("open");
     }
 
-    function addmulti(check,qid) {
-                let src;
-        if($("#qimgsrc")){
+    function addmulti(check, qid) {
+        let src;
+        if ($("#qimgsrc")) {
             src = $("#qimgsrc").attr("src");
         }
-                $("#err").html("");
+        $("#err").html("");
         let errorcheck = false;
         let error = [];
         let x = 1;
         let corr = [];
         let arr = [];
-        
+
         $(".a").each(function() {
             x++;
-            if(x==2){
-                if(window.quill2.container.firstChild.innerHTML!=""){
-                arr.push(window.quill2.container.firstChild.innerHTML)
-                }else{
-                errocheck = true;
-                error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");
+            if (x == 2) {
+                if (window.quill2.container.firstChild.innerHTML != "") {
+                    arr.push(window.quill2.container.firstChild.innerHTML)
+                } else {
+                    errocheck = true;
+                    error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");
                 }
-            }            
-            if(x==3){
-                if(window.quill3.container.firstChild.innerHTML!=""){
-                arr.push(window.quill3.container.firstChild.innerHTML);
-                }else{
-                errocheck = true;
-                error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");
+            }
+            if (x == 3) {
+                if (window.quill3.container.firstChild.innerHTML != "") {
+                    arr.push(window.quill3.container.firstChild.innerHTML);
+                } else {
+                    errocheck = true;
+                    error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");
                 }
-            }            
-            if(x==4){
-                if(window.quill4.container.firstChild.innerHTML!=""){
-                arr.push(window.quill4.container.firstChild.innerHTML)
-                }else{
-                errocheck = true;
-                error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");
+            }
+            if (x == 4) {
+                if (window.quill4.container.firstChild.innerHTML != "") {
+                    arr.push(window.quill4.container.firstChild.innerHTML)
+                } else {
+                    errocheck = true;
+                    error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");
                 }
-            }            
-            if(x==5){
-                if(window.quill5.container.firstChild.innerHTML!=""){
-                arr.push(window.quill5.container.firstChild.innerHTML);
-                }else{
-                errocheck = true;
-                error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");
+            }
+            if (x == 5) {
+                if (window.quill5.container.firstChild.innerHTML != "") {
+                    arr.push(window.quill5.container.firstChild.innerHTML);
+                } else {
+                    errocheck = true;
+                    error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");
                 }
             }
         })
@@ -709,50 +784,50 @@ E:/Z_C/programowanie/live-text/serwer
 
 
         $("input[name='ans']:checked").each(function() {
-            let ansid = parseInt(this.value)+1;
-            if(ansid==2){
-             corr.push(window.quill2.container.firstChild.innerHTML);      
-            }            
-            if(ansid==3){
-             corr.push(window.quill3.container.firstChild.innerHTML);      
-            }            
-            if(ansid==4){
-             corr.push(window.quill4.container.firstChild.innerHTML);      
-            }            
-            if(ansid==5){
-             corr.push(window.quill5.container.firstChild.innerHTML);      
+            let ansid = parseInt(this.value) + 1;
+            if (ansid == 2) {
+                corr.push(window.quill2.container.firstChild.innerHTML);
+            }
+            if (ansid == 3) {
+                corr.push(window.quill3.container.firstChild.innerHTML);
+            }
+            if (ansid == 4) {
+                corr.push(window.quill4.container.firstChild.innerHTML);
+            }
+            if (ansid == 5) {
+                corr.push(window.quill5.container.firstChild.innerHTML);
             }
 
 
         })
-        
-                if (corr == "") {
+
+        if (corr == "") {
             errorcheck = true;
             error.push("<div>Nie zaznaczono poprawnej odpowiedzi</div>");
         }
 
-        
+
         if (errorcheck == false) {
-            if(check=="add"){
-            socket.emit("dodaj", socket.id, $('#multiname').val(), "multi", window.quill1.container.firstChild.innerHTML, arr, corr, `<%= user.id %>`,src);
-            } else if(check=="edit"){
-                socket.emit("edit", socket.id, $('#multiname').val(), "multi", window.quill1.container.firstChild.innerHTML, arr, corr, `<%= user.id %>`,src,qid);
-                $("#"+qid).html(`<span class="icon"> <svg class="svg-inline--fa fa-calendar-alt fa-w-14" aria-hidden="true" data-prefix="fas" data-icon="calendar-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M436 160H12c-6.6 0-12-5.4-12-12v-36c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48v36c0 6.6-5.4 12-12 12zM12 192h424c6.6 0 12 5.4 12 12v260c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V204c0-6.6 5.4-12 12-12zm116 204c0-6.6-5.4-12-12-12H76c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12H76c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm128 128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm128 128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40z"></path></svg><!-- <i class="fas fa-calendar-alt"></i> --> </span>`+$('#multiname').val())
+            if (check == "add") {
+                socket.emit("dodaj", socket.id, $('#multiname').val(), "multi", window.quill1.container.firstChild.innerHTML, arr, corr, `<%= user.id %>`, src);
+            } else if (check == "edit") {
+                socket.emit("edit", socket.id, $('#multiname').val(), "multi", window.quill1.container.firstChild.innerHTML, arr, corr, `<%= user.id %>`, src, qid);
+                $("#" + qid).html(`<span class="icon"> <svg class="svg-inline--fa fa-calendar-alt fa-w-14" aria-hidden="true" data-prefix="fas" data-icon="calendar-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M436 160H12c-6.6 0-12-5.4-12-12v-36c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48v36c0 6.6-5.4 12-12 12zM12 192h424c6.6 0 12 5.4 12 12v260c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V204c0-6.6 5.4-12 12-12zm116 204c0-6.6-5.4-12-12-12H76c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12H76c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm128 128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm128 128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40z"></path></svg><!-- <i class="fas fa-calendar-alt"></i> --> </span>` + $('#multiname').val())
             }
         } else {
             $("#err").html(error);
             console.log(arr)
         }
-                    if(refreshbool == false){
-                refreshbool = true;
-                setTimeout(function(){
-                    refreshbool = false;
-                    socket.emit("gettree",socket.id,`<%= user.id %>`);
-                },200)
-                        
-            }
+        if (refreshbool == false) {
+            refreshbool = true;
+            setTimeout(function() {
+                refreshbool = false;
+                socket.emit("gettree", socket.id, `<%= user.id %>`);
+            }, 200)
+
+        }
         unblock();
-        socket.emit("gettree",socket.id,`<%= user.id %>`);
+        socket.emit("gettree", socket.id, `<%= user.id %>`);
         select("multi")
     }
 
@@ -760,89 +835,91 @@ E:/Z_C/programowanie/live-text/serwer
 
     //    socid, name, type, content, options, correct, userid
 
-    
+
     // UPLOADOWANIE ZDJĘĆ
 
     socket.on('connect', () => {
         console.log(socket.id);
     })
-    
-    socket.on("reloadtree",(nchapters,nquestions)=>{
+
+    socket.on("reloadtree", (nchapters, nquestions) => {
         chapters = nchapters;
         questions = nquestions;
         allquestions = nquestions;
         unblock();
         generateTree(chapters, questions);
         setClickEventOnTreeItems();
-        socket.emit("gettree",socket.id,`<%= user.id %>`);
+        socket.emit("gettree", socket.id, `<%= user.id %>`);
     })
-    
-    socket.on("uploaded",(ev)=>{
+
+    socket.on("uploaded", (ev) => {
         console.log(ev.file)
-        if($("#qimg")){
-            $("#qimg").html(`<img id='qimgsrc' src="`+ev.file.pathName.substr(6)+`" alt=""><button  onclick="deleteimage()">Usuń obraz</button>`)
+        if ($("#qimg")) {
+            $("#qimg").html(`<img id='qimgsrc' src="` + ev.file.pathName.substr(6) + `" alt=""><button  onclick="deleteimage()">Usuń obraz</button>`)
         }
     })
 
-    socket.on("newtree",(nchapters,nquestions)=>{
+    socket.on("newtree", (nchapters, nquestions) => {
         chapters = nchapters;
         questions = nquestions;
         allquestions = nquestions;
         unblock();
-        console.log("NEW "+ allquestions)
+        console.log("NEW " + allquestions)
     })
-    
-    socket.on("newtests",(ntests,nquestions)=>{
+
+    socket.on("newtests", (ntests, nquestions) => {
         tests = ntests;
         questions = nquestions;
         allquestions = nquestions;
         unblock();
         generateTestTree(tests, questions);
-//        setClickEventOnTreeItems();
-//        console.log(questions)
-//        $("#unassigned").remove()
+        //        setClickEventOnTreeItems();
+        //        console.log(questions)
+        //        $("#unassigned").remove()
     })
-    
-    
-    function loadtest(){
-        if(statequestion == true){
-        $(".navbut").hide();
-        testbool="";
-        unblock();
-        socket.emit("gettests",socket.id,`<%=user.id%>`);
-        socket.emit("gettree",socket.id,`<%= user.id %>`);
-        statequestion = false;
-        $("#changestate").text("Wyświetl pytania")
-        setTimeout(function(){
-        $("p.list-item").attr("draggable","false");
-        $("p.list-item").off("dragstart",drag);
-        $(".cont").off("dragover",allowDrop);
-        },200)
-        }else{
+
+
+    function loadtest() {
+        if (statequestion == true) {
+            $(".navbut1").show();
+            $(".navbut").hide();
+            testbool = "";
+            unblock();
+            socket.emit("gettests", socket.id, `<%=user.id%>`);
+            socket.emit("gettree", socket.id, `<%= user.id %>`);
+            statequestion = false;
+            $("#changestate").text("Wyświetl pytania")
+            setTimeout(function() {
+                $("p.list-item").attr("draggable", "false");
+                $("p.list-item").off("dragstart", drag);
+                $(".cont").off("dragover", allowDrop);
+            }, 200)
+        } else {
             unblock()
             $(".navbut").show();
-            testbool="";
-            socket.emit("rtree",socket.id,`<%= user.id %>`);
+            $(".navbut1").hide();
+            testbool = "";
+            socket.emit("rtree", socket.id, `<%= user.id %>`);
             $("#changestate").text("Wyświetl testy");
             statequestion = true;
         }
-        
+
     }
-    
-    function edittest(e){
+
+    function edittest(e) {
         generateTree(chapters, questions);
         setClickEventOnTreeItems();
         testbool = e;
-        test(tests[tests.findIndex(x=>x._id===e)].questions)
+        test(tests[tests.findIndex(x => x._id === e)].questions)
     }
-    
-    socket.on("treedelete",(treeid)=>{
+
+    socket.on("treedelete", (treeid) => {
         console.log(treeid)
-        for(let i =0;i<treeid.length;i++){
-            $("#"+treeid[i]).remove();
+        for (let i = 0; i < treeid.length; i++) {
+            $("#" + treeid[i]).remove();
         }
-        
-        
+
+
         treeheight()
     })
 
@@ -927,7 +1004,7 @@ E:/Z_C/programowanie/live-text/serwer
     socket.on('refreshTree', (src, target, sourcediv, newChapters, newQuestions) => {
         chapters = newChapters;
         questions = newQuestions;
-        
+
         allquestions = newQuestions;
         if (sourcediv != undefined) {
 
@@ -981,14 +1058,19 @@ E:/Z_C/programowanie/live-text/serwer
 
 
 
-        
-     unblock();
-        socket.emit("gettree",socket.id,`<%= user.id %>`);
+
+        unblock();
+        socket.emit("gettree", socket.id, `<%= user.id %>`);
     })
-            socket.on('newtest',(test)=>{
-            console.log("asd")
-            console.log(test)
-        })
+    socket.on('newtest', (test) => {
+        console.log("asd")
+        console.log(test)
+    })
+    
+    socket.on('redirect',(path)=>{
+        window.location.href = path;
+    })
+
 </script>
 
 </html>

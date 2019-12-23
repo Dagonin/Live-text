@@ -1,7 +1,7 @@
 const mongoose = require('mongoose'),
     Users = require('./user');
 const roomSchema = new mongoose.Schema({
-    PIN: Number,
+    PIN: String,
     OPEN: Boolean,
     owner: {
         type: mongoose.Schema.Types.ObjectId,
@@ -11,15 +11,13 @@ const roomSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Guest'
         }],
-    complete: [{
+    questions: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Guest'
         }],
-    answers: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Guest'
-        }],
-    test: String
+    opentime: Number,
+    closedtime: Number,
+    time: Number
 })
 
 module.exports = mongoose.model('Room', roomSchema);
