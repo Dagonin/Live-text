@@ -154,14 +154,14 @@ router.post('/join', (req, res) => {
         if (fRoom && fRoom.OPEN != false) {
             Guests.create({
                 username: req.body.guestname,
-                email: req.body.remail,
-                states: [0, 1]
+                email: req.body.remail
             }, (err, cGuest) => {
                 if (err) {
                     console.log(err)
                 }
+                fRoom.guests.push(cGuest.id)
+                fRoom.save();
                 res.cookie('guestid', cGuest.id)
-                console.log(req.cookies["guestid"])
                 res.redirect('/room_' + req.body.PIN);
             })
         } else {
@@ -177,6 +177,7 @@ router.post('/join', (req, res) => {
 router.get('/room_:id', (req, res) => {
     console.log(req.params.id)
     let id = req.cookies["guestid"]
+    console.log(id)
     Rooms.findOne({
         PIN: req.params.id
     }, (err, fRoom) => {
@@ -199,54 +200,30 @@ router.get('/room_:id', (req, res) => {
 
 
         } else {
+            if (fRoom.OPEN == true) {
+                Guests.findById(
+                    id,
+                    (err, fGuest) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                        if (!fGuest) {
+                            return res.redirect('/');
+                        }
+                        if (fRoom.guests.includes(fGuest._id)) {
+                            res.render("room_", {
+                                user: req.user,
+                                fguest: fGuest,
+                                room: fRoom
+                            });
+                        }else {
+                            res.redirect('/');
+                        }
 
-            let boolean = false;
-            if (fRoom.guests.length != null) {
-                for (let z = 0; z < fRoom.guests.length; z++) {
-                    if (fRoom.guests[z] == id) {
-                        boolean = true;
-                    }
-                }
+                    })
+            } else {
+                res.redirect('/');
             }
-            Guests.findById(
-                id,
-                (err, fGuest) => {
-                    if (err) {
-                        console.log(err);
-                    }
-                    if (fGuest == null) {
-                        return res.redirect('/');
-                    }
-                    if (boolean == false && fRoom.complete.indexOf(fGuest._id) == -1) {
-                        fRoom.updateOne({
-                            $push: {
-                                guests: fGuest._id
-                            }
-                        }, (err, upd) => {
-                            if (err) {
-                                return err;
-                            }
-                        })
-
-                    }
-                    res.render("room_", {
-                        user: req.user,
-                        fguest: fGuest,
-                        room: fRoom
-                    });
-                })
-
-            //                        console.log(fRoom.guests)
-            //                        console.log(fGuest.username + "USERNAME");
-            //            res.render("room_", {
-            //                user: req.user,
-            //                room: fRoom
-            //            });
-
-
-
-
-
         }
 
 
@@ -254,8 +231,8 @@ router.get('/room_:id', (req, res) => {
 })
 router.post('/tree', (req, res) => {
 
-        res.redirect('/')
-    
+    res.redirect('/')
+
 })
 
 
