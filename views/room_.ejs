@@ -17,22 +17,19 @@
 <script>
     let room;
     let guestlist;
+    
     const socket = io();
             socket.on('connect', () => {
-                socket.emit('joinroom',<%= room.PIN %>,<%= room.OPEN %>)
+                console.log(socket.id)
+                <% if(!user){ %>
+                socket.emit('addSocketIDToGuest','<%= fguest._id %>',socket.id);
+                <% } %>
+                socket.emit('joinroom',"<%= room.PIN %>",<%= room.OPEN %>);
+
         });
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
     
     
@@ -46,9 +43,25 @@
         guestlist = fGuests;
         $("#guestlist").html("")
         $.each(guestlist,function(){
-            $("#guestlist").append(`<div>`+this.username+`</div>`)
+            $("#guestlist").append(`<div>`+this.username+ <% if(user){ %>   `<button onclick="deleteguest(this)" db-id="`+this._id+`">Usuń!</button> ` +  <% } %> `</div>`)
             
         })
+    })
+    
+    
+
+    
+    //Wyrzucenie guesta z pokoju
+    <% if(user){ %> 
+    function deleteguest(e){
+        socket.emit('deleteguest',$(e).attr('db-id'),"<%= room.PIN %>");
+    }
+
+    <% } %>
+    socket.on('leaveroom',(e)=>{
+        socket.emit('leaveroom1',"<%= room.PIN %>");
+        location.reload();
+        
     })
 </script>
 

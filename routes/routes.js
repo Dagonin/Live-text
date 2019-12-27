@@ -175,9 +175,7 @@ router.post('/join', (req, res) => {
 
 // POKOJE SIE TU DZIEJĄ ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 router.get('/room_:id', (req, res) => {
-    console.log(req.params.id)
     let id = req.cookies["guestid"]
-    console.log(id)
     Rooms.findOne({
         PIN: req.params.id
     }, (err, fRoom) => {
@@ -187,7 +185,6 @@ router.get('/room_:id', (req, res) => {
         if (fRoom == null) {
             return res.redirect('/')
         }
-        //        console.log(fRoom + "ASDASDASD")
         if (req.user) {
             if (req.user.id == fRoom.owner) {
                 res.render("room_", {

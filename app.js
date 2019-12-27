@@ -23,6 +23,7 @@ const express = require('express'),
     socketiotree = require('./socketio/tree.js')(io),
     socketioroom = require('./socketio/room.js')(io);
 
+mongoose.set('useFindAndModify', false);
 
 require('events').EventEmitter.defaultMaxListeners = 100;
 

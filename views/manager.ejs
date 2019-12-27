@@ -48,6 +48,7 @@ E:/Z_C/programowanie/live-text/serwer
                 <button class="navbut" onclick="rem()">Usuń</button>
                 <button class="navbut" onclick="test()">Stwórz test</button>
                 <button class="navbut1" onclick="room()">Stwórz pokój</button>
+                <button class="navbut1" onclick="testrem()">Usuń test</button>
             </div>
             <div class="maincont column is-three-quarters">
                 <!-- Brak pytan -->
@@ -136,6 +137,7 @@ E:/Z_C/programowanie/live-text/serwer
     //TWORZENIE POKOJU
     
    function room(){
+       unblock();
         $(".maincont").html(`<div class="namelist"></div>
     <input placeholder='Podaj nazwe testu' type='text' id='testname'><br>
     <select onchange="selecttime(this.options[this.selectedIndex].value)">
@@ -173,8 +175,11 @@ E:/Z_C/programowanie/live-text/serwer
         roomarray=[];
         $(".namelist").html("");
                 $("input:checked").each(function() {
+                    if(this.id){
                 $(this.parentElement).find('p').each(function(){
+                    
                    roomarray.push(this.id);
+                        
                 })
                 $(".namelist").append("<div>" + $(this.parentElement).find(".dir-header")[0].innerText + "</div>")
         if(!document.getElementById("testname")){
@@ -183,6 +188,7 @@ E:/Z_C/programowanie/live-text/serwer
         $(".maincont").append("<button onclick='createroom(roomarray)'>Stwórz!</button>")
 
             }
+                        }
         });
     }
     
@@ -380,6 +386,7 @@ E:/Z_C/programowanie/live-text/serwer
 
     function testrem() {
         if (statequestion == false) {
+            unblock();
             block();
             $(".cont").append("<input name='rem' onclick='testr(this)' type='checkbox'> ");
         }
@@ -389,10 +396,12 @@ E:/Z_C/programowanie/live-text/serwer
     function testr() {
         tremarr = [];
         $(".maincont").html("")
-        $("input:checked").each(function() {
-            $(".maincont").append("<div>" + this.parentElement.innerText + "</div>")
+        $("input:checked").each(function() { 
+        $(".maincont").append("<div>" + $(this.parentElement).find(".dir-header")[0].innerText + "</div>")
+
             tremarr.push(this.parentElement.id);
         });
+          
         $(".maincont").append("<button onclick='testdel(tremarr)'>Usuń!</button>")
     }
 
@@ -907,10 +916,11 @@ E:/Z_C/programowanie/live-text/serwer
     }
 
     function edittest(e) {
+        e= $(e).attr("db-id");
         generateTree(chapters, questions);
         setClickEventOnTreeItems();
         testbool = e;
-        test(tests[tests.findIndex(x => x._id === e)].questions)
+        test(tests[tests.findIndex(x => x._id === e)].questions);
     }
 
     socket.on("treedelete", (treeid) => {
@@ -1063,7 +1073,6 @@ E:/Z_C/programowanie/live-text/serwer
         socket.emit("gettree", socket.id, `<%= user.id %>`);
     })
     socket.on('newtest', (test) => {
-        console.log("asd")
         console.log(test)
     })
     

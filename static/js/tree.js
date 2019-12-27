@@ -242,6 +242,7 @@ function generateTestItems(test) {
         }
 
     })
+    tr+=`<p><button db-id="`+test._id+`" onclick="edittest(this)">Edytuj</button></p>`;
     console.log(tr)
     return tr;
 }
