@@ -7,9 +7,19 @@
 </head>
 
 <body>
+
+
+
+<!--Numer pokoju -->
+<% if(room.OPEN==true && user){ %>
+<div id="pinpokoju"> KOD KLASY: <%= room.PIN %> </div>
+<button onclick="startgame()">ROZPOCZNIJ</button>
 <!--Lista guestów-->
 <div id="guestlist"></div>
-
+<% }else if(room.OPEN){ %>
+<!--Lista guestów-->
+<div id="guestlist"></div>
+<% } %>
 
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
@@ -17,7 +27,8 @@
 <script>
     let room;
     let guestlist;
-    
+    let questions;
+    let guest;
     const socket = io();
             socket.on('connect', () => {
                 console.log(socket.id)
@@ -38,14 +49,25 @@
     
     
     //Lista guestów
-    socket.on('reloadlist',(fRoom,fGuests)=>{
+    socket.on('reloadlist',(fRoom,fGuests,fQuestions)=>{
+        <% if(room.OPEN==true){ %>
         room = fRoom;
         guestlist = fGuests;
+        questions = fQuestions;
         $("#guestlist").html("")
         $.each(guestlist,function(){
             $("#guestlist").append(`<div>`+this.username+ <% if(user){ %>   `<button onclick="deleteguest(this)" db-id="`+this._id+`">Usuń!</button> ` +  <% } %> `</div>`)
             
         })
+        <% }else{ %>
+        room = fRoom;
+        guestlist = fGuests;
+        questions = fQuestions;
+        <% } %>
+    })
+    
+    socket.on('Nguest',(g)=>{
+        guest = g;
     })
     
     
@@ -63,6 +85,34 @@
         location.reload();
         
     })
+    
+    
+    //Rozpoczęcie gry
+    <% if(room.OPEN==true){ %>
+    function startgame(){
+        <% room.OPEN=false %>
+        socket.emit('startgame',"<%= room.PIN %>","<%= room.id %>")
+            
+    }
+    <% } %>
+                    
+                    
+    socket.on('lastload',(nRoom,fQuestions)=>{
+            room = nRoom;
+            questions = fQuestions;
+            $('body').html('<div id="timer"></div>');
+        })    
+        
+        
+        
+    //Zmiana pytania
+        function nextquestions(){
+            if(guest.index==-1){
+                guest.index = 0;
+                console.log(questions[guest.index]);
+            }
+        }
+        
 </script>
 
 </html>

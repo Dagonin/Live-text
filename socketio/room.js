@@ -13,6 +13,7 @@ exports = module.exports = function (io) {
 
     io.on('connection', function (socket) {
 
+        //Wchodzenie do pokoju
         socket.on('joinroom', (PIN, open) => {
             if (open == true) {
                 socket.join('room_' + PIN)
@@ -39,8 +40,55 @@ exports = module.exports = function (io) {
 
                 })
 
+            } else {
+                socket.join('room_' + PIN)
+                Rooms.findOne({
+                    PIN: PIN
+                }, (err, fRoom) => {
+                    if (err) {
+                        return (err);
+                    }
+                    if (fRoom) {
+                        Guests.find({
+                            '_id': {
+                                $in: fRoom.guests
+                            }
+                        }, (err, fGuests) => {
+                            if (err) {
+                                console.log(err)
+                            }
+                            Questions.find({
+                                '_id': {
+                                    $in: fRoom.questions
+                                }
+                            }, (err, fQuestions) => {
+                                if (err) {
+                                    console.log(err);
+                                }
+                                console.log("Asd")
+                                io.to('room_' + PIN).emit('reloadlist', fRoom, fGuests, fQuestions);
+                            })
+
+                        })
+                    } else {
+
+                    }
+
+                })
+
+
+
             }
         })
+
+
+
+
+
+
+
+
+
         socket.on('addSocketIDToGuest', (gid, sid) => {
             console.log(gid, sid)
             Guests.findByIdAndUpdate(gid, {
@@ -51,12 +99,13 @@ exports = module.exports = function (io) {
                 if (err) {
                     console.log(err);
                 }
-                console.log(nGuest)
+                socket.emit("Nguest", nGuest);
             })
         })
 
 
-        socket.on('deleteguest', (gid,PIN) => {
+        //usuwanie z pokoju
+        socket.on('deleteguest', (gid, PIN) => {
             Guests.findById(gid, (err, fGuest) => {
                 if (err) {
                     console.log(err);
@@ -103,7 +152,31 @@ exports = module.exports = function (io) {
 
 
 
+        //Rozpoczęcie gry
+        socket.on('startgame', (PIN, RID) => {
+            Rooms.findByIdAndUpdate(RID, {
+                OPEN: false
+            }, {
+                new: true
+            }, (err, nRoom) => {
+                if (err) {
+                    console.log(err);
+                }
+                Questions.find({
+                    '_id': {
+                        $in: nRoom.questions
+                    }
+                }, (err, fQuestions) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    console.log(nRoom, fQuestions)
+                    io.in('room_' + PIN).emit('lastload', nRoom, fQuestions);
+                })
 
+
+            })
+        })
 
 
 

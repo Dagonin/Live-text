@@ -17,7 +17,14 @@ const roomSchema = new mongoose.Schema({
         }],
     opentime: Number,
     closedtime: Number,
-    time: Number
+    time: Number,
+    answers: [{
+        index: Number,
+        answer: {
+            guest: String,
+            hisanswer: Object
+        }
+    }]
 })
 
 module.exports = mongoose.model('Room', roomSchema);

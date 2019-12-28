@@ -175,9 +175,9 @@ E:/Z_C/programowanie/live-text/serwer
         roomarray=[];
         $(".namelist").html("");
                 $("input:checked").each(function() {
-                    if(this.id){
-                $(this.parentElement).find('p').each(function(){
-                    
+
+                $(this.parentElement).find('.list-item').each(function(){
+                    console.log(this)
                    roomarray.push(this.id);
                         
                 })
@@ -188,7 +188,7 @@ E:/Z_C/programowanie/live-text/serwer
         $(".maincont").append("<button onclick='createroom(roomarray)'>Stwórz!</button>")
 
             }
-                        }
+                        
         });
     }
     
