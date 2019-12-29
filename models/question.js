@@ -7,7 +7,8 @@ const questionSchema = new mongoose.Schema({
     option: Array,
     correct: Array,
     chapter: mongoose.Schema.Types.ObjectId,
-    name: String
+    name: String,
+    points: Number
     
     
 });
