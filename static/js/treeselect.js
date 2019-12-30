@@ -160,6 +160,8 @@
                 <div>
                 <label  for="name" class="etykieta">Etykieta pytania</label><br>
                 <input value="`+ev.name+`" id="singlename" type="text" name="name" class="question">  <br>
+                <label for="points">Ilość punktów za pytanie</label><br>
+                <input value="`+ev.points+`" id="numberofpoints" type="number"> <br>
                 </div>              
                 <div id="singlecontent">`+ev.content+`
                 </div>
@@ -202,6 +204,8 @@
          container.html(`               <div id='qimg'>`+(ev.zdj ? `<img src="`+ev.zdj+`" alt=""><button  onclick="deleteimage()">Usuń obraz</button>`:"")+`</div><div>
                 <label  for="name" class="etykieta">Etykieta pytania</label><br>
                 <input value="`+ev.name+`" id="multiname" type="text" name="name" class="question"><br>
+                <label for="points">Ilość punktów za pytanie</label><br>
+                <input value="`+ev.points+`" id="numberofpoints" type="number"> <br>
                 </div>              
                 <div id="multicontent">`+ev.content+`
                 </div>
@@ -243,7 +247,8 @@
          quilleditor();
      } else if (selected == 'open') {
          container.html(`<div id='qimg'>`+(ev.zdj ? `<img src="`+ev.zdj+`" alt=""><button  onclick="deleteimage()">Usuń obraz</button>`:"")+` </div><div><label  for="name" class="etykieta">Etykieta pytania</label><br>
-                <input value="`+ev.name+`" id="openname" type="text" name="name" class="question">                
+                <input value="`+ev.name+`" id="openname" type="text" name="name" class="question">          <label for="points">Ilość punktów za pytanie</label><br>
+                <input value="`+ev.points+`" id="numberofpoints" type="number"> <br>
                 </div><div id="opencontent">`+ev.content+` </div>
                 <input type="file" id="siofu_input" style="display:none;"/>
                 <label class="etykieta mg30" for="siofu_input">Wybierz plik</label><br>

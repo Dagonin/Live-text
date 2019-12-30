@@ -296,7 +296,7 @@ exports = module.exports = function (io) {
 
         })
 
-        socket.on("edit", (socid, name, type, content, options, correct, userid, src, qid) => {
+        socket.on("edit", (socid, name, type, content, options, correct, userid, src, qid,points) => {
             if (type == "single") {
                 Questions.findByIdAndUpdate(qid, {
                     owner: userid,
@@ -305,7 +305,8 @@ exports = module.exports = function (io) {
                     option: options,
                     correct: correct,
                     type: 'single',
-                    zdj: src
+                    zdj: src,
+                    points: points
                 }, {
                     new: true
                 }, (err, nquestion) => {
@@ -322,7 +323,8 @@ exports = module.exports = function (io) {
                     name: name,
                     type: "open",
                     content: content,
-                    zdj: src
+                    zdj: src,
+                    points:points
                 }, {
                     new: true
                 }, (err, nquestion) => {
@@ -344,7 +346,8 @@ exports = module.exports = function (io) {
                     option: options,
                     correct: correct,
                     type: 'multi',
-                    zdj: src
+                    zdj: src,
+                    points:points
                 }, {
                     new: true
                 }, (err, nquestion) => {
@@ -361,7 +364,7 @@ exports = module.exports = function (io) {
 
         })
 
-        socket.on("dodaj", (socid, name, type, content, options, correct, userid, src) => {
+        socket.on("dodaj", (socid, name, type, content, options, correct, userid, src,points) => {
             if (type == "addchapter") {
                 Chapters.create({
                     owner: userid,
@@ -385,7 +388,8 @@ exports = module.exports = function (io) {
                     name: name,
                     type: "open",
                     content: content,
-                    zdj: src
+                    zdj: src,
+                    points: points
                 }, (err, cQuestion) => {
                     if (err) {
                         console.log(err);
@@ -400,7 +404,8 @@ exports = module.exports = function (io) {
                     option: options,
                     correct: correct,
                     type: 'single',
-                    zdj: src
+                    zdj: src,
+                    points: points
                 }, (err, cQuestion) => {
                     if (err) {
                         console.log(err);
@@ -415,7 +420,8 @@ exports = module.exports = function (io) {
                     option: options,
                     correct: correct,
                     type: 'multi',
-                    zdj: src
+                    zdj: src,
+                    points: points
                 }, (err, cQuestion) => {
                     if (err) {
                         console.log(err);
