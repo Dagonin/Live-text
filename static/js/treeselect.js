@@ -35,7 +35,6 @@
      if (selected == 'single') {
 
          container.html(`
-                <div id='qimg'> </div>
 				<div class="etykieta" style="font-size:25px"><i class="fas fa-info icon_mg"></i> Informacje o pytaniu</div><br>
 				<div class="quest-info">
                 <label  for="name" class="etykieta">Etykieta pytania</label><br>
@@ -65,6 +64,7 @@
                 <button id='possibility' onclick="addpossibility()" class="link-button f300">Dodaj możliwą odpowiedź</button>
                 <input type="file" id="siofu_input" style="display:none;"/>
                 <label class="etykieta mg30" for="siofu_input">Wybierz plik</label><br>
+				<div id='qimg' style='max-width:800px'> </div>
                 <span>Możliwe rozszerzenia: png, jpg, jpeg, bmp, pdf </span><br>
                 <button onclick="addsingle('add')" class="add-button">Dodaj</button> <div id="err"></div>`);
          quil1("singlecontent");
