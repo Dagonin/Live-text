@@ -3,7 +3,7 @@
      unblock();
      $(".maincont").html(`
 	 
-    
+    <div class="showq">
     <span style="font-size:30px" class="f200"><svg class="svg-inline--fa fa-layer-group fa-w-16 icon_mg" aria-hidden="true" data-prefix="fas" data-icon="layer-group" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M12.41 148.02l232.94 105.67c6.8 3.09 14.49 3.09 21.29 0l232.94-105.67c16.55-7.51 16.55-32.52 0-40.03L266.65 2.31a25.607 25.607 0 0 0-21.29 0L12.41 107.98c-16.55 7.51-16.55 32.53 0 40.04zm487.18 88.28l-58.09-26.33-161.64 73.27c-7.56 3.43-15.59 5.17-23.86 5.17s-16.29-1.74-23.86-5.17L70.51 209.97l-58.1 26.33c-16.55 7.5-16.55 32.5 0 40l232.94 105.59c6.8 3.08 14.49 3.08 21.29 0L499.59 276.3c16.55-7.5 16.55-32.5 0-40zm0 127.8l-57.87-26.23-161.86 73.37c-7.56 3.43-15.59 5.17-23.86 5.17s-16.29-1.74-23.86-5.17L70.29 337.87 12.41 364.1c-16.55 7.5-16.55 32.5 0 40l232.94 105.59c6.8 3.08 14.49 3.08 21.29 0L499.59 404.1c16.55-7.5 16.55-32.5 0-40z"></path></svg><!-- <i class="fas fa-layer-group icon_mg"></i> --><!-- <i class="fas fa-exclamation-circle icon_mg"></i> --> Wybierz typ pytania, które chcesz utworzyć.</span><br>
     
     <select onchange="select(this.options[this.selectedIndex].value)" style="
@@ -18,7 +18,7 @@
             </select>
 			
 			
-            <div class="selectedcontent"></div>`)
+            <div class="selectedcontent"></div></div>`)
          }
  }
 
@@ -34,17 +34,19 @@
 
      if (selected == 'single') {
 
-         container.html(`               
+         container.html(`
                 <div id='qimg'> </div>
-                <div>
+				<div class="etykieta" style="font-size:25px"><i class="fas fa-info icon_mg"></i> Informacje o pytaniu</div><br>
+				<div class="quest-info">
                 <label  for="name" class="etykieta">Etykieta pytania</label><br>
                 <input id="singlename" type="text" name="name" class="question">  <br>
-                <label for="points">Ilość punktów za pytanie</label><br>
-                <input id="numberofpoints" type="number"> <br>
-                </div>              
-                <div id="singlecontent">
+                <label for="points" class="etykieta">Ilość punktów za pytanie</label><br>
+                <input id="numberofpoints" type="number" class="question"> <br>
+				<label for="tresc" class="etykieta" style="display:block">Treść pytania</label><br>
+                <div id="singlecontent"></div>
                 </div>
-				<label  for="name" class="etykieta">Możliwe odpowiedzi</label><br>
+				<div class="etykieta" style="font-size:25px;"><i class="far fa-clone icon_mg"></i> Możliwe odpowiedzi</div><br>
+				<div class="quest-info">
                 <div class="num firstans">
                 <label class="a" for="single1"><input id="single1" type="radio" value="1" name="ans" class="icon_mg" checked>Pierwsza odpowiedź</label>
                 <div id="single1ans">
@@ -59,6 +61,7 @@
                 
                 </div>
                 </div>
+				</div>
                 <button id='possibility' onclick="addpossibility()" class="link-button f300">Dodaj możliwą odpowiedź</button>
                 <input type="file" id="siofu_input" style="display:none;"/>
                 <label class="etykieta mg30" for="siofu_input">Wybierz plik</label><br>

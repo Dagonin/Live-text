@@ -259,8 +259,9 @@ background:none;
 	width:100%;
 	background:#fff;
 	box-shadow: 0px 0px 5px #ccc;
-	padding:20px;
+	padding:60px;
 	box-sizing:border-box;
+	border-radius:3px;
 }
 
 
@@ -372,7 +373,7 @@ a:visited.menu {
 /* tworzenie pytan */
 
 .etykieta {
-    font-size: 30px;
+    font-size: 17px;
     font-weight: 200;
     width: 100%;
 }
@@ -418,6 +419,21 @@ label.a {
 .del-more-answ:hover {
 	cursor:pointer;
 	color:red;
+}
+
+.ql-toolbar.ql-snow {
+	background:rgba(0,0,0,0.05)!important;
+}
+
+.ql-editor {
+	background:rgba(0,0,0,0.01)!important;
+}
+
+.quest-info {
+	padding:30px;
+	box-shadow:0px 0px 5px rgba(0,0,0,0.27);
+	border-radius:3px;
+	margin-bottom:30px;
 }
 
 
