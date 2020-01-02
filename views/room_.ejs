@@ -8,8 +8,8 @@
 
 <body>
 
-
-
+<!--Timer-->
+<div id="timer"></div>
 <!--Numer pokoju -->
 <% if(room.OPEN==true && user){ %>
 <div id="pinpokoju"> KOD KLASY: <%= room.PIN %> </div>
@@ -19,8 +19,17 @@
 <% }else if(room.OPEN){ %>
 <!--Lista guestów-->
 <div id="guestlist"></div>
-<% } %>
 
+
+
+<% } %>
+<!--Treść pytania-->
+<% if(!user){ %>
+<div id="question"></div>
+
+<button onclick="changequestion(-1)">Poprzednie pytanie</button>
+<button onclick="changequestion(1)">Następne pytanie</button>
+<% } %>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
 <script src="/socket.io/socket.io.js"></script>
@@ -29,6 +38,7 @@
     let guestlist;
     let questions;
     let guest;
+    let timerinverval;
     const socket = io();
             socket.on('connect', () => {
                 console.log(socket.id)
@@ -100,19 +110,72 @@
     socket.on('lastload',(nRoom,fQuestions)=>{
             room = nRoom;
             questions = fQuestions;
-            $('body').html('<div id="timer"></div>');
         })    
         
         
         
     //Zmiana pytania
-        function nextquestions(){
-            if(guest.index==-1){
+        function changequestion(num){
+            guest.index += num;
+            if(guest.index<0){
                 guest.index = 0;
-                console.log(questions[guest.index]);
             }
+            if(guest.index>=questions.length){
+                <% if(room.time){ %>
+                guest.index = questions.length-1;
+                <%}else{ %>
+                console.log('koniec');
+                return "xd";
+                <% } %>
+            }
+            console.log(questions[guest.index]);
+            //WYŚWITLANIE PYTANIA                         WĄŻŃĘ////////////////////////////////////////////
+            $("#question").html(questions[guest.index].content);
+            <% if(!room.time){ %>
+               if(questions[guest.index].type=='open'){
+                   timer(<%= room.opentime %>)
+               }else{
+                   timer(<%= room.closedtime %>)
+               }
+            <% } %>
+            
+            
+            socket.emit("changeindex","<%= fguest.id %>",guest.index)
         }
         
+    //Timer
+        function timer(time){
+                console.log(time)
+                function changetime(){
+                let min = Math.floor(time/60);
+                let sec = time%60;
+                $("#timer").text(min+":"+sec) 
+                
+                if(time==0){
+                    timeout();
+//                    clearInterval(timerinverval)
+                }  
+                    time--;
+                }
+                
+                if(timerinverval){
+                clearInterval(timerinverval);
+                timerinverval=undefined;
+                }
+                
+                timerinverval = setInterval(changetime,1000,time);
+            }
+            
+        function timeout(){
+
+            <% if(room.time){ %>
+            // KONIEC TESTU
+            <%}else{ %>
+            clearInterval(timerinverval)
+            changequestion(1)
+            
+            <% } %>
+        }
 </script>
 
 </html>

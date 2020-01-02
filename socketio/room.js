@@ -179,11 +179,24 @@ exports = module.exports = function (io) {
         })
 
 
+        //Zmiana pytania
 
+        socket.on('changeindex', (gid, index) => {
+            Guests.findByIdAndUpdate(gid, {
+                index: index
+            }, {
+                new: true
+            }, (err, nGuest) => {
+                if (err) {
+                    console.log(err);
+                }
+                   socket.emit("Nguest", nGuest); 
+                
+            })
+        })
 
 
     })
-
 
 
 
