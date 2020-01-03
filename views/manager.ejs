@@ -14,6 +14,8 @@
     <!--load all styles -->
     <link href="//cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
     <link href="//cdn.quilljs.com/1.0.0/quill.bubble.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
 </head>
 
 <body>
@@ -884,7 +886,7 @@ E:/Z_C/programowanie/live-text/serwer
     socket.on("uploaded", (ev) => {
         console.log(ev.file)
         if ($("#qimg")) {
-            $("#qimg").html(`<img id='qimgsrc' src="` + ev.file.pathName.substr(6) + `" alt=""><button  onclick="deleteimage()">Usuń obraz</button>`)
+            $("#qimg").html(`<img id='qimgsrc' src="` + ev.file.pathName.substr(6) + `" alt=""><button  class="remove-img" onclick="deleteimage()"><i class="fas fa-times" style="text-align:left;margin-right:20px;"></i><span style="height:100%;width:1px;background:#fff"></span> Usuń obraz</button>`)
         }
     })
 

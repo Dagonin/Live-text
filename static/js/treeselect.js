@@ -7,7 +7,6 @@
     <span style="font-size:30px" class="f200"><svg class="svg-inline--fa fa-layer-group fa-w-16 icon_mg" aria-hidden="true" data-prefix="fas" data-icon="layer-group" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M12.41 148.02l232.94 105.67c6.8 3.09 14.49 3.09 21.29 0l232.94-105.67c16.55-7.51 16.55-32.52 0-40.03L266.65 2.31a25.607 25.607 0 0 0-21.29 0L12.41 107.98c-16.55 7.51-16.55 32.53 0 40.04zm487.18 88.28l-58.09-26.33-161.64 73.27c-7.56 3.43-15.59 5.17-23.86 5.17s-16.29-1.74-23.86-5.17L70.51 209.97l-58.1 26.33c-16.55 7.5-16.55 32.5 0 40l232.94 105.59c6.8 3.08 14.49 3.08 21.29 0L499.59 276.3c16.55-7.5 16.55-32.5 0-40zm0 127.8l-57.87-26.23-161.86 73.37c-7.56 3.43-15.59 5.17-23.86 5.17s-16.29-1.74-23.86-5.17L70.29 337.87 12.41 364.1c-16.55 7.5-16.55 32.5 0 40l232.94 105.59c6.8 3.08 14.49 3.08 21.29 0L499.59 404.1c16.55-7.5 16.55-32.5 0-40z"></path></svg><!-- <i class="fas fa-layer-group icon_mg"></i> --><!-- <i class="fas fa-exclamation-circle icon_mg"></i> --> Wybierz typ pytania, które chcesz utworzyć.</span><br>
     
     <select onchange="select(this.options[this.selectedIndex].value)" style="
-    margin-bottom: 40px;
     margin-top: 30px;
 ">
 <option style="display:none" disabled="" selected="" value=""> -- Wybierz -- </option>
@@ -35,7 +34,7 @@
      if (selected == 'single') {
 
          container.html(`
-				<div class="etykieta" style="font-size:25px"><i class="fas fa-info icon_mg"></i> Informacje o pytaniu</div><br>
+				<div class="etykieta f25" style="margin-top:40px;"><i class="fas fa-info icon_mg"></i> Informacje o pytaniu</div><br>
 				<div class="quest-info">
                 <label  for="name" class="etykieta">Etykieta pytania</label><br>
                 <input id="singlename" type="text" name="name" class="question">  <br>
@@ -44,16 +43,16 @@
 				<label for="tresc" class="etykieta" style="display:block">Treść pytania</label><br>
                 <div id="singlecontent"></div>
                 </div>
-				<div class="etykieta" style="font-size:25px;"><i class="far fa-clone icon_mg"></i> Możliwe odpowiedzi</div><br>
+				<div class="etykieta f25"><i class="far fa-clone icon_mg"></i> Możliwe odpowiedzi</div><br>
 				<div class="quest-info">
                 <div class="num firstans">
-                <label class="a" for="single1"><input id="single1" type="radio" value="1" name="ans" class="icon_mg" checked>Pierwsza odpowiedź</label>
+                <label class="a" for="single1"><input id="single1" type="radio" value="1" name="ans" class="radio-c" checked><span class="checkmark"></span>Pierwsza odpowiedź</label>
                 <div id="single1ans">
                 </div>                
                 </div>
                 
                 <div class="num secondans">
-                <label class="a" for="single2"><input id="single2" type="radio" value="2" name="ans" class="icon_mg" checked>Druga odpowiedź</label>
+                <label class="a mg30" for="single2"><input id="single2" type="radio" value="2" name="ans" class="radio-c" checked><span class="checkmark"></span>Druga odpowiedź</label>
                 <div id="single2ans">
 
                 
@@ -63,7 +62,7 @@
 				</div>
                 <button id='possibility' onclick="addpossibility()" class="link-button f300">Dodaj możliwą odpowiedź</button>
                 <input type="file" id="siofu_input" style="display:none;"/>
-                <label class="etykieta mg30" for="siofu_input">Wybierz plik</label><br>
+                <label class="etykieta mg30 f25 pointer" for="siofu_input"><i class="fas fa-cloud-upload-alt icon_mg"></i> Wybierz plik</label><br>
 				<div id='qimg' style='max-width:800px'> </div>
                 <span>Możliwe rozszerzenia: png, jpg, jpeg, bmp, pdf </span><br>
                 <button onclick="addsingle('add')" class="add-button">Dodaj</button> <div id="err"></div>`);
@@ -159,7 +158,7 @@
      if (selected == 'single') {
          let i =1;
          container.html(`               
-                <div id='qimg'>`+(ev.zdj ? `<img src="`+ev.zdj+`" alt=""><button  onclick="deleteimage()">Usuń obraz</button>`:"")+` </div>
+                <div id='qimg'>`+(ev.zdj ? `<img src="`+ev.zdj+`" alt=""><button  class="remove-img" onclick="deleteimage()"><i class="fas fa-trash icon_mg fontg_red"></i> Usuń obraz</button>`:"")+` </div>
                 <div>
                 <label  for="name" class="etykieta">Etykieta pytania</label><br>
                 <input value="`+ev.name+`" id="singlename" type="text" name="name" class="question">  <br>
@@ -204,7 +203,7 @@
          quilleditor();
 
      } else if (selected == 'multi') {
-         container.html(`               <div id='qimg'>`+(ev.zdj ? `<img src="`+ev.zdj+`" alt=""><button  onclick="deleteimage()">Usuń obraz</button>`:"")+`</div><div>
+         container.html(`               <div id='qimg'>`+(ev.zdj ? `<img src="`+ev.zdj+`" alt=""><button  class="remove-img" onclick="deleteimage()"><i class="fas fa-trash icon_mg fontg_red"></i> Usuń obraz</button>`:"")+`</div><div>
                 <label  for="name" class="etykieta">Etykieta pytania</label><br>
                 <input value="`+ev.name+`" id="multiname" type="text" name="name" class="question"><br>
                 <label for="points">Ilość punktów za pytanie</label><br>
@@ -249,7 +248,7 @@
          quil5("multi4ans");
          quilleditor();
      } else if (selected == 'open') {
-         container.html(`<div id='qimg'>`+(ev.zdj ? `<img src="`+ev.zdj+`" alt=""><button  onclick="deleteimage()">Usuń obraz</button>`:"")+` </div><div><label  for="name" class="etykieta">Etykieta pytania</label><br>
+         container.html(`<div id='qimg'>`+(ev.zdj ? `<img src="`+ev.zdj+`" alt=""><button  class="remove-img" onclick="deleteimage()"><i class="fas fa-trash icon_mg fontg_red"></i> Usuń obraz</button>`:"")+` </div><div><label  for="name" class="etykieta">Etykieta pytania</label><br>
                 <input value="`+ev.name+`" id="openname" type="text" name="name" class="question">          <label for="points">Ilość punktów za pytanie</label><br>
                 <input value="`+ev.points+`" id="numberofpoints" type="number"> <br>
                 </div><div id="opencontent">`+ev.content+` </div>
