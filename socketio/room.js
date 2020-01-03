@@ -181,7 +181,7 @@ exports = module.exports = function (io) {
 
         //Zmiana pytania
 
-        socket.on('changeindex', (gid, index) => {
+        socket.on('changeindex', (gid, index, type, opentime, closedtime, time) => {
             Guests.findByIdAndUpdate(gid, {
                 index: index
             }, {
@@ -190,8 +190,20 @@ exports = module.exports = function (io) {
                 if (err) {
                     console.log(err);
                 }
-                   socket.emit("Nguest", nGuest); 
+                console.log(gid, index, type, opentime, closedtime, time)
+                socket.emit("Nguest", nGuest);
                 
+                if (type == "open") {
+                   setTimeout(function (inx) {
+                        socket.emit("timeout",inx)
+                    }, opentime * 1000,nGuest.index);
+                } else {
+                   setTimeout(function (inx) {
+                        socket.emit("timeout",inx)
+                        
+                    }, closedtime * 1000,nGuest.index);
+                }
+
             })
         })
 
