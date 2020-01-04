@@ -40,12 +40,16 @@
     let questions;
     let guest;
     let timerinverval;
+    let checktimeinterval;
     const socket = io();
             socket.on('connect', () => {
                 console.log(socket.id)
                 <% if(!user){ %>
                 socket.emit('addSocketIDToGuest','<%= fguest._id %>',socket.id);
-                <% } %>
+                <% }if(!user && room.OPEN == false){ %>
+                checktimeinterval = setInterval(checktime,1000)
+                timer(<%= fguest.time %>-timeremaining())
+                <% }%>
                 socket.emit('joinroom',"<%= room.PIN %>",<%= room.OPEN %>);
 
         });
@@ -115,6 +119,7 @@
             $("#gamequestions").html(`<div id="question"></div>
     <button onclick="changequestion(-1)">Poprzednie pytanie</button>
     <button onclick="changequestion(1)">Następne pytanie</button>`);
+            
             <% } %>
         })    
         
@@ -131,8 +136,10 @@
                 <% if(room.time){ %>
                 guest.index = questions.length-1;
                 <%}else{ %>
-                console.log('koniec');
-                return "xd";
+                // KONIEC Testu
+                    clearInterval(checktimeinterval);
+                    clearInterval(timerinverval)
+                    return false;
                 <% } %>
             }
             console.log(questions[guest.index]);
@@ -157,8 +164,8 @@
                 let sec = time%60;
                 $("#timer").text(min+":"+sec) 
                 
-                if(time==0){
-//                    timeout();
+                if(time<=0){
+                    timeout();
                     clearInterval(timerinverval)
                 }  
                     time--;
@@ -172,26 +179,27 @@
                 timerinverval = setInterval(changetime,1000,time);
             }
             
+        function checktime(){
+            if(timeremaining() >guest.time){
+                timeout();
+            }
+        }    
+            
+        function timeremaining(){
+            let currentdate = new Date();
+            return currentdate.getHours()*3600+currentdate.getMinutes()*60+currentdate.getSeconds();
+        }
+            
         function timeout(){
 
 //            <% if(room.time){ %>
 //            // KONIEC TESTU
 //            <%}else{ %>
-//            clearInterval(timerinverval)
-//            changequestion(1)
-//            
-//            <% } %>
-        }
-        socket.on('timeout',(index)=>{
-            <% if(room.time){ %>
-            // KONIEC TESTU
-            <%}else{ %>
-            if(index==guest.index){
             clearInterval(timerinverval)
             changequestion(1)
-            }
+            
             <% } %>
-        })
+        }
 
 </script>
 

@@ -7,7 +7,8 @@ const guestSchema = new mongoose.Schema({
 //        question: Object
 //    }],
     socket: String,
-    index: Number
+    index: Number,
+    time:Number
     
 });
 module.exports = mongoose.model('Guest', guestSchema);

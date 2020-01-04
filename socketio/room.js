@@ -182,27 +182,34 @@ exports = module.exports = function (io) {
         //Zmiana pytania
 
         socket.on('changeindex', (gid, index, type, opentime, closedtime, time) => {
+            let date = new Date();
+            let addtime;
+            if(type=="open"){
+                addtime = opentime;
+            }else{
+                addtime = closedtime;
+            }
             Guests.findByIdAndUpdate(gid, {
-                index: index
+                index: index,
+                time: date.getHours()*3600+date.getMinutes()*60+date.getSeconds() + parseInt(addtime)
             }, {
                 new: true
             }, (err, nGuest) => {
                 if (err) {
                     console.log(err);
                 }
-                console.log(gid, index, type, opentime, closedtime, time)
                 socket.emit("Nguest", nGuest);
                 
-                if (type == "open") {
-                   setTimeout(function (inx) {
-                        socket.emit("timeout",inx)
-                    }, opentime * 1000,nGuest.index);
-                } else {
-                   setTimeout(function (inx) {
-                        socket.emit("timeout",inx)
-                        
-                    }, closedtime * 1000,nGuest.index);
-                }
+//                if (type == "open") {
+//                   setTimeout(function (inx) {
+//                        socket.emit("timeout",inx)
+//                    }, opentime * 1000,nGuest.index);
+//                } else {
+//                   setTimeout(function (inx) {
+//                        socket.emit("timeout",inx)
+//                        
+//                    }, closedtime * 1000,nGuest.index);
+//                }
 
             })
         })
