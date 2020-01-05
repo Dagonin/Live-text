@@ -181,17 +181,46 @@ exports = module.exports = function (io) {
 
         //Zmiana pytania
 
-        socket.on('changeindex', (gid, index, type, opentime, closedtime, time) => {
+        socket.on('changeindex', (gid, index, type, opentime, closedtime, roomtime) => {
             let date = new Date();
             let addtime;
-            if(type=="open"){
-                addtime = opentime;
-            }else{
-                addtime = closedtime;
+            if (!roomtime) {
+                if (type == "open") {
+                    addtime = opentime;
+                } else {
+                    addtime = closedtime;
+                }
+                Guests.findByIdAndUpdate(gid, {
+                    index: index,
+                    time: date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds() + parseInt(addtime)
+                }, {
+                    new: true
+                }, (err, nGuest) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    socket.emit("Nguest", nGuest);
+                })
+            } else {
+                Guests.findByIdAndUpdate(gid, {
+                    index: index
+                }, {
+                    new: true
+                }, (err, nGuest) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    socket.emit("Nguest", nGuest);
+                })
             }
+
+        })
+
+        socket.on('addtimeguest', (gid, roomtime) => {
+            let date = new Date();
+            let addtime;
             Guests.findByIdAndUpdate(gid, {
-                index: index,
-                time: date.getHours()*3600+date.getMinutes()*60+date.getSeconds() + parseInt(addtime)
+                time: date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds() + (parseInt(roomtime)*60)
             }, {
                 new: true
             }, (err, nGuest) => {
@@ -199,21 +228,9 @@ exports = module.exports = function (io) {
                     console.log(err);
                 }
                 socket.emit("Nguest", nGuest);
-                
-//                if (type == "open") {
-//                   setTimeout(function (inx) {
-//                        socket.emit("timeout",inx)
-//                    }, opentime * 1000,nGuest.index);
-//                } else {
-//                   setTimeout(function (inx) {
-//                        socket.emit("timeout",inx)
-//                        
-//                    }, closedtime * 1000,nGuest.index);
-//                }
-
             })
-        })
 
+        })
 
     })
 

@@ -27,7 +27,9 @@
 <div id="gamequestions">
 <% if(!user && room.OPEN == false){ %>
 <div id="question"></div>
+<% if(room.time){ %>
 <button onclick="changequestion(-1)">Poprzednie pytanie</button>
+<% } %>
 <button onclick="changequestion(1)">Następne pytanie</button>
 <% } %>
 </div>
@@ -116,10 +118,31 @@
             room = nRoom;
             questions = fQuestions;
             <% if(!user){ %>
+            <% if(room.time){%>
             $("#gamequestions").html(`<div id="question"></div>
     <button onclick="changequestion(-1)">Poprzednie pytanie</button>
     <button onclick="changequestion(1)">Następne pytanie</button>`);
-            
+            $("#guestlist").remove();
+            socket.emit('addtimeguest',"<%= fguest.id %>",'<%= room.time %>');
+            changequestion(0);
+            checktimeinterval = setInterval(checktime,1000)
+            timer((<%= room.time %>*60))
+            <% }else{%>
+            $("#gamequestions").html(`<div id="question"></div>
+    <button onclick="changequestion(1)">Następne pytanie</button>`);
+            $("#guestlist").remove();
+            let type = questions[0].type;
+            let starttime;
+            if(type=="open"){
+                starttime = <%= room.opentime %>+"";
+            }else if(type=="multi"||type=="single"){
+                starttime = <%= room.closedtime %>+"";
+            }
+            changequestion(0);
+            checktimeinterval = setInterval(checktime,1000)
+            timer(starttime);
+            <% }%>
+
             <% } %>
         })    
         
@@ -128,6 +151,11 @@
     //Zmiana pytania
         <% if(!user){ %>
         function changequestion(num){
+            <% if(!room.time){%>
+                if(num<0){
+                    num = num*-1;
+                }
+            <% }%>
             guest.index += num;
             if(guest.index<0){
                 guest.index = 0;
@@ -139,6 +167,7 @@
                 // KONIEC Testu
                     clearInterval(checktimeinterval);
                     clearInterval(timerinverval)
+                    $("#gamequestions").html('')
                     return false;
                 <% } %>
             }
@@ -193,10 +222,11 @@
         function timeout(){
 
 //            <% if(room.time){ %>
-//            // KONIEC TESTU
+                    clearInterval(timerinverval)
+                    $("#gamequestions").html('')
 //            <%}else{ %>
-            clearInterval(timerinverval)
-            changequestion(1)
+            clearInterval(timerinverval);
+            changequestion(1);
             
             <% } %>
         }
