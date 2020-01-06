@@ -72,33 +72,38 @@
          quilleditor();
 
      } else if (selected == 'multi') {
-         container.html(`               <div id='qimg'> </div><div>
+         container.html(` 
+                <div class="etykieta f25" style="margin-top:40px;"><i class="fas fa-info icon_mg"></i> Informacje o pytaniu</div><br>
+				<div class="quest-info">
                 <label  for="name" class="etykieta">Etykieta pytania</label><br>
                 <input id="multiname" type="text" name="name" class="question"><br>
-                <label for="points">Ilość punktów za pytanie</label><br>
-                <input id="numberofpoints" type="number"> <br>
-                </div>              
+				<label for="points" class="etykieta">Ilość punktów za pytanie</label><br>
+                <input id="numberofpoints" type="number" class="question"> <br>   
+                <label class="etykieta" style="display:block;">Treść pytania</label><br>				
                 <div id="multicontent">
-                </div>
+                </div></div>
 				<br>
-				<label  for="name" class="etykieta">Możliwe odpowiedzi</label><br>
+				<div class="etykieta f25"><i class="far fa-clone icon_mg"></i> Możliwe odpowiedzi</div><br>
+				<div class="quest-info">
                 <div class="num firstans">
-                <label class="a" for="multi1"><input id="multi1" type="checkbox" value="1" name="ans" class="icon_mg" checked>Pierwsza odpowiedź</label>
+                <label class="a" for="multi1"><input id="multi1" type="checkbox" value="1" name="ans" class="icon_mg radio-c" checked><span class="checkmark"></span>Pierwsza odpowiedź</label>
                 <div id="multi1ans">
                 </div>                
                 </div>
                 
                 <div class="num secondans">
-                <label class="a" for="multi2"><input id="multi2" type="checkbox" value="2" name="ans" class="icon_mg" checked>Druga odpowiedź</label>
+                <label class="a mg30" for="multi2"><input id="multi2" type="checkbox" value="2" name="ans" class="icon_mg radio-c" checked><span class="checkmark"></span>Druga odpowiedź</label>
                 <div id="multi2ans">
 
                
-                
+			   
+                </div>
                 </div>
                 </div>
                 <button id='possibility' onclick="addpossibility1()" class="link-button f300">Dodaj możliwą odpowiedź</button><br>
                 <input type="file" id="siofu_input" style="display:none;"/>
-                <label class="etykieta mg30" for="siofu_input">Wybierz plik</label><br>
+                <label class="etykieta mg30 f25 pointer" for="siofu_input"><i class="fas fa-cloud-upload-alt icon_mg"></i> Wybierz plik</label><br>
+				<div id='qimg'> </div>
                 <span>Możliwe rozszerzenia: png, jpg, jpeg, bmp, pdf </span><br>
                 <button onclick="addmulti('add')" class="add-button">Dodaj</button> <div id="err"></div>`);
          quil1("multicontent");
@@ -106,20 +111,28 @@
          quil3("multi2ans");
          quilleditor();
      } else if (selected == 'open') {
-         container.html(`<div id='qimg'> </div><div><label  for="name" class="etykieta">Etykieta pytania</label><br>
-                <input id="openname" type="text" name="name" class="question">
-                <label for="points">Ilość punktów za pytanie</label><br>
-                <input id="numberofpoints" name="points" type="number"> <br>
-                </div><div id="opencontent"></div>
+         container.html(`
+                <div class="etykieta f25" style="margin-top:40px;"><i class="fas fa-info icon_mg"></i> Informacje o pytaniu</div><br>
+				<div class="quest-info">
+                <label  for="name" class="etykieta">Etykieta pytania</label><br>				
+                <input id="openname" type="text" name="name" class="question"><br>
+				<label for="points" class="etykieta">Ilość punktów za pytanie</label><br>
+                <input id="numberofpoints" type="number" class="question"> <br>
+                </div>
+				<div class="etykieta f25"><i class="far fa-clone icon_mg"></i> Treść pytania</div><br>
+				<div class="quest-info">
+				<div id="opencontent"></div></div></div>
                 <input type="file" id="siofu_input" style="display:none;"/>
-                <label class="etykieta mg30" for="siofu_input">Wybierz plik</label><br>
+                <label class="etykieta mg30 f25 pointer" for="siofu_input"><i class="fas fa-cloud-upload-alt icon_mg"></i> Wybierz plik</label><br>
+				<div id='qimg'> </div>
                 <span>Możliwe rozszerzenia: png, jpg, jpeg, bmp, pdf </span><br>
                 <button onclick="addopen('add')" class="add-button">Dodaj</button> <div id="err"></div>`);
          quil1("opencontent");
      } else if (selected == 'chapter') {
-         container.html(`<div><label  for="name" class="f200 f30">Nazwa rodziału</label><br>
-                <input id="chaptername" type="text" name="name" class="question">         
-               </div> <div><label for="content" class="f200 f30">Opis rodziału</label><br>
+         container.html(`<div class="etykieta f25" style="margin-top:40px;"><i class="fas fa-info icon_mg"></i> Informacje o rozdziale</div><br>
+				<div class="quest-info"><label  for="name" class="etykieta">Nazwa rodziału</label><br>
+                <input id="chaptername" type="text" name="name" class="question"><br>     
+				<label for="content" class="etykieta">Opis rodziału</label><br>
                 <input id="chaptercontent" type="text" name="content" class="question"></div>
                 <button onclick="addchapter()" class="add-button">Dodaj</button> <div id="err"></div>`)
      }

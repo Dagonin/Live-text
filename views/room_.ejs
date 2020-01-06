@@ -4,6 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link rel="stylesheet" href="/css/room.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet">
+    <link href="/css/fontawesome/css/all.css" rel="stylesheet">
 </head>
 
 <body>
@@ -12,14 +17,18 @@
 <div id="timer"></div>
 <!--Numer pokoju -->
 <% if(room.OPEN==true && user){ %>
-<div id="pinpokoju"> KOD KLASY: <%= room.PIN %> </div>
-<button onclick="startgame()">ROZPOCZNIJ</button>
+<div class="room">
+<div class="room-title"><i class="fas fa-cog icon_mg"></i> Zarządzanie pokojem</div>
+<div id="pinpokoju" class="etykieta"> Kod Klasy <br><br>
+<span class="room-pin"><%= room.PIN %></span> </div><br>
 <!--Lista guestów-->
-<div id="guestlist"></div>
+<div class="etykieta"><i class="fas fa-user-friends icon_mg"></i></i> Lista gości</div><br>
+<div id="guestlist"></div><br>
+<button onclick="startgame()" class="startgame"><i class="fas fa-play icon_mg"></i> ROZPOCZNIJ</button>
 <% }else if(room.OPEN){ %>
 <!--Lista guestów-->
 <div id="guestlist"></div>
-
+</div>
 
 
 <% } %>
@@ -73,7 +82,7 @@
         questions = fQuestions;
         $("#guestlist").html("")
         $.each(guestlist,function(){
-            $("#guestlist").append(`<div>`+this.username+ <% if(user){ %>   `<button onclick="deleteguest(this)" db-id="`+this._id+`">Usuń!</button> ` +  <% } %> `</div>`)
+            $("#guestlist").append(`<div>`+this.username+ <% if(user){ %>   `<button onclick="deleteguest(this)" db-id="`+this._id+`"><i class="fas fa-times"></i></button> ` +  <% } %> `</div>`)
             
         })
         <% }else{ %>

@@ -53,6 +53,8 @@ E:/Z_C/programowanie/live-text/serwer
                 <button class="navbut1" onclick="testrem()">Usuń test</button>
             </div>
             <div class="maincont column is-three-quarters">
+				<!-- Domyslne menu
+				<a class="link-menu"><i class="fas fa-folder-plus menu-icon"></i><br>Dodaj rozdział</a><br><br> -->
                 <!-- Brak pytan -->
                 <span style="font-size:30px" class="f200"><i class="fas fa-exclamation-circle icon_mg"></i> Wygląda na to, że nie utworzyłeś jeszcze żadnynch pytań.</span><br>
 
@@ -140,17 +142,21 @@ E:/Z_C/programowanie/live-text/serwer
     
    function room(){
        unblock();
-        $(".maincont").html(`<div class="namelist"></div>
-    <input placeholder='Podaj nazwe testu' type='text' id='testname'><br>
-    <select onchange="selecttime(this.options[this.selectedIndex].value)">
+        $(".maincont").html(`<div class="showq"><div class="etykieta f25"><i class="fas fa-info icon_mg"></i> Tworzenie pokoju</div><br>
+			<div class="quest-info">
+			<div class="namelist"></div>
+			<label class="etykieta">Podaj nazwe testu</label><br>
+			<input type='text' id='testname' class='question'><br>
+			<label class="etykieta">Podaj limit czasu</label><br>
+			<select onchange="selecttime(this.options[this.selectedIndex].value)" class="question">
                 <option value="all">Czas całkowity</option>
                 <option value="single">Dla każdego pytania</option>
-            </select><br>
+            </select><br><br>
             <div id="timediv">
-                <div>Podaj czas w minutach dla całego testu</div>
+                <div class="etykieta">Podaj czas w minutach dla całego testu</div>
                 <input class="timeinput" type="number" >
             </div>            
-            <button onclick='createroom(roomarray)'>Stwórz!</button>`);
+            </div><button onclick='createroom(roomarray)' class='add-button'>Stwórz pokój</button></div>`);
         if (rembool == false) {
             rembool = true;
             block();
@@ -163,12 +169,12 @@ E:/Z_C/programowanie/live-text/serwer
     
     function selecttime(e){
         if(e=="single"){
-            $("#timediv").html(`<div>Podaj czas na odpowiedź na pytania otwarte (Sekundy)</div>
+            $("#timediv").html(`<div class="etykieta">Podaj czas na odpowiedź na pytania otwarte (Sekundy)</div>
                 <input class="timeinput" type="number">                
-                <div>Podaj czas na odpowiedź na pytania zamknięte (Sekundy)</div>
+                <div class="etykieta">Podaj czas na odpowiedź na pytania zamknięte (Sekundy)</div>
                 <input class="timeinput" type="number">`)
         }else if(e=="all"){
-            $("#timediv").html(`<div>Podaj czas w minutach</div>
+            $("#timediv").html(`<div class="etykieta">Podaj czas w minutach</div>
                 <input class="timeinput" type="number">`)
         }
     }
