@@ -36,6 +36,7 @@
 <div id="gamequestions">
 <% if(!user && room.OPEN == false){ %>
 <div id="question"></div>
+<div id="answers"></div>
 <% if(room.time){ %>
 <button onclick="changequestion(-1)">Poprzednie pytanie</button>
 <% } %>
@@ -128,7 +129,7 @@
             questions = fQuestions;
             <% if(!user){ %>
             <% if(room.time){%>
-            $("#gamequestions").html(`<div id="question"></div>
+            $("#gamequestions").html(`<div id="question"></div><div id="answers"></div>
     <button onclick="changequestion(-1)">Poprzednie pytanie</button>
     <button onclick="changequestion(1)">Następne pytanie</button>`);
             $("#guestlist").remove();
@@ -183,6 +184,16 @@
             console.log(questions[guest.index]);
             //WYŚWITLANIE PYTANIA                         WĄŻŃĘ////////////////////////////////////////////
             $("#question").html(questions[guest.index].content);
+            if(questions[guest.index].type!="open"){
+                $("#answers").html("");
+                let optionindex=0;
+                questions[guest.index].option.forEach(option=>{
+                    $("#answers").append("<div onclick=check(this,'"+questions[guest.index].type+"') id="+optionindex+">"+option+"</div>");
+                    optionindex++;
+                }) 
+            }else{
+                $("#answers").html(`<textarea rows="4" cols="50">Tu bedzie quill</textarea>`);
+            }
             <% if(!room.time){ %>
                if(questions[guest.index].type=='open'){
                    timer(<%= room.opentime %>)
@@ -239,6 +250,15 @@
             
             <% } %>
         }
+            
+            function check(e,type){    
+                if(type=="single"&& $(".toggle").length==1){
+                    $(".toggle").toggleClass("toggle");
+                }
+                e.classList.toggle("toggle")
+            }
+            
+            
 
 </script>
 
