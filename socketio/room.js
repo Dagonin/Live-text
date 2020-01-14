@@ -181,7 +181,7 @@ exports = module.exports = function (io) {
 
         //Zmiana pytania
 
-        socket.on('changeindex', (gid, index, type, opentime, closedtime, roomtime) => {
+        socket.on('changeindex', (gid, index, type, opentime, closedtime, roomtime, qid, answer) => {
             let date = new Date();
             let addtime;
             if (!roomtime) {
@@ -190,27 +190,49 @@ exports = module.exports = function (io) {
                 } else {
                     addtime = closedtime;
                 }
-                Guests.findByIdAndUpdate(gid, {
-                    index: index,
-                    time: date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds() + parseInt(addtime)
-                }, {
-                    new: true
-                }, (err, nGuest) => {
+                Questions.findById(qid, (err, fquestion) => {
                     if (err) {
-                        console.log(err);
+                        console.log(err)
                     }
-                    socket.emit("Nguest", nGuest);
+                    console.log(fquestion)
+                    Guests.findByIdAndUpdate(gid, {
+                        index: index,
+                        time: date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds() + parseInt(addtime),
+                        roomquestions: {
+                            answer: answer
+                        }
+                    }, {
+                        new: true
+                    }, (err, nGuest) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                        socket.emit("Nguest", nGuest);
+                    })
                 })
+
             } else {
-                Guests.findByIdAndUpdate(gid, {
-                    index: index
-                }, {
-                    new: true
-                }, (err, nGuest) => {
+                Questions.findById(qid, (err, fquestion) => {
                     if (err) {
-                        console.log(err);
+                        console.log(err)
                     }
-                    socket.emit("Nguest", nGuest);
+                    console.log(fquestion)
+
+
+
+                    Guests.findByIdAndUpdate(gid, {
+                        index: index,
+                        roomquestions: {
+                            answer: answer
+                        }
+                    }, {
+                        new: true
+                    }, (err, nGuest) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                        socket.emit("Nguest", nGuest);
+                    })
                 })
             }
 
@@ -220,7 +242,7 @@ exports = module.exports = function (io) {
             let date = new Date();
             let addtime;
             Guests.findByIdAndUpdate(gid, {
-                time: date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds() + (parseInt(roomtime)*60)
+                time: date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds() + (parseInt(roomtime) * 60)
             }, {
                 new: true
             }, (err, nGuest) => {

@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="/css/style.css" />
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet">
     <link href="/css/fontawesome/css/all.css" rel="stylesheet">
+    <link href="//cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
+    <link href="//cdn.quilljs.com/1.0.0/quill.bubble.css" rel="stylesheet">
 </head>
 
 <body>
@@ -46,6 +48,8 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
 <script src="/socket.io/socket.io.js"></script>
+<script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+<script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
 <script>
     let room;
     let guestlist;
@@ -53,6 +57,11 @@
     let guest;
     let timerinverval;
     let checktimeinterval;
+    <% if( fguest.roomquestions.answer!=""){ %>
+    let answers = <%-JSON.stringify(fguest.roomquestions.answer) %>;
+    <% }else{ %>
+    let answers = [];
+    <% } %>
     const socket = io();
             socket.on('connect', () => {
                 console.log(socket.id)
@@ -90,11 +99,13 @@
         room = fRoom;
         guestlist = fGuests;
         questions = fQuestions;
+        changequestion(0);
         <% } %>
     })
     
     socket.on('Nguest',(g)=>{
         guest = g;
+        
     })
     
     
@@ -160,7 +171,26 @@
         
     //Zmiana pytania
         <% if(!user){ %>
+
+        
+        // Zmiana indexu pytania
         function changequestion(num){
+    //            Odpowiedź
+            let ans
+            if(questions[guest.index]){
+            if(questions[guest.index].type=="open"){
+                if(window.quill){
+                    ans = window.quill.container.firstChild.innerHTML
+                    }
+            }else if(questions[guest.index].type=="single"||questions[guest.index].type=="multi"){
+                 ans = [];
+                $(".toggle").each(function(){
+                    ans.push(this.id)
+                })
+            }}
+            if(ans){
+                answers[guest.index] = ans;
+            }
             <% if(!room.time){%>
                 if(num<0){
                     num = num*-1;
@@ -190,10 +220,22 @@
                 questions[guest.index].option.forEach(option=>{
                     $("#answers").append("<div onclick=check(this,'"+questions[guest.index].type+"') id="+optionindex+">"+option+"</div>");
                     optionindex++;
-                }) 
+                })
+                if(answers[guest.index]){
+                    answers[guest.index].forEach(qid=>{
+                        $("#"+qid).addClass("toggle");
+                    })
+                }
             }else{
-                $("#answers").html(`<textarea rows="4" cols="50">Tu bedzie quill</textarea>`);
+                
+                if(answers[guest.index]){
+                    $("#answers").html(`<div id='quillopen'>`+answers[guest.index]+`</div>`);
+                }else{
+                    $("#answers").html(`<div id='quillopen'></div>`);
+                }
+                quil("quillopen");
             }
+//            Timer
             <% if(!room.time){ %>
                if(questions[guest.index].type=='open'){
                    timer(<%= room.opentime %>)
@@ -202,7 +244,11 @@
                }
             <% } %>
             
-            socket.emit("changeindex","<%= fguest.id %>",guest.index,questions[guest.index].type,'<%= room.opentime %>','<%= room.closedtime %>','<%= room.time %>')
+
+            
+            
+            
+            socket.emit("changeindex","<%= fguest.id %>",guest.index,questions[guest.index].type,'<%= room.opentime %>','<%= room.closedtime %>','<%= room.time %>',questions[guest.index]._id,answers)
             
         }
         <% } %>
@@ -260,6 +306,68 @@
             
             
 
+     //////////////////////////////////////////////QUILL.JS       
+            
+             var toolbarOptions = [
+        ['bold', 'italic', 'underline', 'strike'], // toggled buttons
+        ['blockquote', 'code-block'],
+
+        [{
+         'header': 1
+        }, {
+         'header': 2
+        }], // custom button values
+        [{
+         'list': 'ordered'
+        }, {
+         'list': 'bullet'
+        }],
+        [{
+         'script': 'sub'
+        }, {
+         'script': 'super'
+        }], // superscript/subscript
+        [{
+         'indent': '-1'
+        }, {
+         'indent': '+1'
+        }], // outdent/indent
+        [{
+         'direction': 'rtl'
+        }], // text direction
+
+        [{
+         'size': ['small', false, 'large', 'huge']
+        }], // custom dropdown
+        [{
+         'header': [1, 2, 3, 4, 5, 6, false]
+        }],
+
+        [{
+         'color': []
+        }, {
+         'background': []
+        }], // dropdown with defaults from theme
+        [{
+         'font': []
+        }],
+        [{
+         'align': []
+        }],
+
+        ['clean'] // remove formatting button
+    ];
+
+    function quil(e) {
+     var cont = document.getElementById(e)
+     window.quill = new Quill(cont, {
+         modules: {
+             toolbar: toolbarOptions
+         },
+         theme: 'snow'
+     });
+ }
+            
 </script>
 
 </html>
