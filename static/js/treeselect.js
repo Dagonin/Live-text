@@ -164,48 +164,51 @@
      window.quill4 = "";
      window.quill5 = "";
      $("#err").html("");
-     $(".maincont").html(`<div class="selectedcontent"></div>`)
+     $(".maincont").html(`<div class="showq"><div class="selectedcontent"></div></div>`)
      let container = $(".selectedcontent");
      container.html("");
 
      if (selected == 'single') {
          let i =1;
-         container.html(`               
-                <div id='qimg'>`+(ev.zdj ? `<img src="`+ev.zdj+`" alt=""><button  class="remove-img" onclick="deleteimage()"><i class="fas fa-trash icon_mg fontg_red"></i> Usuń obraz</button>`:"")+` </div>
-                <div>
+         container.html(`
+				<div class="etykieta f25"><i class="fas fa-info icon_mg"></i> Edytowanie pytania</div><br>		 
+                <div class="quest-info">
                 <label  for="name" class="etykieta">Etykieta pytania</label><br>
                 <input value="`+ev.name+`" id="singlename" type="text" name="name" class="question">  <br>
-                <label for="points">Ilość punktów za pytanie</label><br>
-                <input value="`+ev.points+`" id="numberofpoints" type="number"> <br>
-                </div>              
+                <label for="points" class="etykieta">Ilość punktów za pytanie</label><br>
+                <input value="`+ev.points+`" id="numberofpoints" type="number" class="question"> <br> 
+				<label  for="name" class="etykieta">Treść pytania</label><br><br>				
                 <div id="singlecontent">`+ev.content+`
-                </div>
-				<label  for="name" class="etykieta">Możliwe odpowiedzi</label><br>
+                </div></div>
+				<div class="etykieta f25"><i class="far fa-clone icon_mg"></i> Możliwe odpowiedzi</div><br>
+				<div class="quest-info">
                 <div class="num firstans">
-                <label class="a" for="single1"><input id="single1" type="radio" value="1" name="ans" class="icon_mg" checked>Pierwsza odpowiedź</label>
+                <label class="a" for="single1"><input id="single1" type="radio" value="1" name="ans" class="icon_mg radio-c" checked><span class="checkmark"></span>Pierwsza odpowiedź</label>
                 <div id="single1ans">`+ev.option[0]+`
                 </div>                
                 </div>
                 
                 <div class="num secondans">
-                <label class="a" for="single2"><input id="single2" type="radio" value="2" name="ans" class="icon_mg" checked>Druga odpowiedź</label>
+                <label class="a mg30" for="single2"><input id="single2" type="radio" value="2" name="ans" class="icon_mg radio-c" checked><span class="checkmark"></span>Druga odpowiedź</label>
                 <div id="single2ans">`+ev.option[1]+`
                 </div>
                 </div>
                 `+(ev.option[2] ? `<div class="num thirdans">
-                <label class="a" for="single3"><input id="single3" type="radio" value="3" name="ans" class="icon_mg" checked>Trzecia odpowiedź</label><button onclick="del(this)" class="del-more-answ">Usuń</button>
+                <label class="a mg30" for="single3"><input id="single3" type="radio" value="3" name="ans" class="icon_mg radio-c" checked><span class="checkmark"></span>Trzecia odpowiedź</label><button onclick="del(this)" class="del-more-answ">Usuń</button>
                 <div id="single3ans">`+ev.option[2]+`
                 </div>
                 </div>`: '')+
                 (ev.option[3] ? `<div class="num fourthans">
-                <label class="a" for="single4"><input id="single4" type="radio" value="4" name="ans" class="icon_mg" checked>Czwarta odpowiedź</label><button onclick="del(this)" class="del-more-answ">Usuń</button>
+                <label class="a mg30" for="single4"><input id="single4" type="radio" value="4" name="ans" class="icon_mg radio-c" checked><span class="checkmark"></span>Czwarta odpowiedź</label><button onclick="del(this)" class="del-more-answ">Usuń</button>
                 <div id="single4ans">`+ev.option[3]+`
                 </div>
                 </div>`: '')+`
                 
                 <button id='possibility' onclick="addpossibility()" class="link-button f300">Dodaj możliwą odpowiedź</button>
+				</div>
                 <input type="file" id="siofu_input" style="display:none;"/>
-                <label class="etykieta mg30" for="siofu_input">Wybierz plik</label><br>
+				<div id='qimg'>`+(ev.zdj ? `<img src="`+ev.zdj+`" alt=""><button  class="remove-img" onclick="deleteimage()"><i class="fas fa-trash icon_mg fontg_red"></i> Usuń obraz</button>`:"")+` </div>
+                <label class="etykieta mg30 f25 pointer" for="siofu_input"><i class="fas fa-cloud-upload-alt icon_mg"></i> Wybierz plik</label><br>
                 <span>Możliwe rozszerzenia: png, jpg, jpeg, bmp, pdf </span><br>
                 <button onclick="addsingle('edit','`+qid+`')" class="add-button">Zapisz</button> <div id="err"></div>`);
          quil1("singlecontent");
@@ -216,42 +219,46 @@
          quilleditor();
 
      } else if (selected == 'multi') {
-         container.html(`               <div id='qimg'>`+(ev.zdj ? `<img src="`+ev.zdj+`" alt=""><button  class="remove-img" onclick="deleteimage()"><i class="fas fa-trash icon_mg fontg_red"></i> Usuń obraz</button>`:"")+`</div><div>
+         container.html(`
+				<div class="etykieta f25"><i class="fas fa-info icon_mg"></i> Edytowanie pytania</div><br>
+				<div class="quest-info">		 
                 <label  for="name" class="etykieta">Etykieta pytania</label><br>
                 <input value="`+ev.name+`" id="multiname" type="text" name="name" class="question"><br>
-                <label for="points">Ilość punktów za pytanie</label><br>
-                <input value="`+ev.points+`" id="numberofpoints" type="number"> <br>
-                </div>              
-                <div id="multicontent">`+ev.content+`
-                </div>
+                <label for="points" class="etykieta">Ilość punktów za pytanie</label><br>
+                <input value="`+ev.points+`" id="numberofpoints" type="number" class="question"> <br>             
+                <label  for="name" class="etykieta">Treść pytania</label><br><br>
+				<div id="multicontent">`+ev.content+`
+                </div></div>
 				<br>
-				<label  for="name" class="etykieta">Możliwe odpowiedzi</label><br>
+				<div class="etykieta f25"><i class="far fa-clone icon_mg"></i> Możliwe odpowiedzi</div><br>
+				<div class="quest-info">
                 <div class="num firstans">
-                <label class="a" for="multi1"><input id="multi1" type="checkbox" value="1" name="ans" class="icon_mg" checked>Pierwsza odpowiedź</label>
+                <label class="a" for="multi1"><input id="multi1" type="checkbox" value="1" name="ans" class="icon_mg radio-c" checked><span class="checkmark"></span>Pierwsza odpowiedź</label>
                 <div id="multi1ans">`+ev.option[0]+`
                 </div>                
                 </div>
                 
                 <div class="num secondans">
-                <label class="a" for="multi2"><input id="multi2" type="checkbox" value="2" name="ans" class="icon_mg" checked>Druga odpowiedź</label>
+                <label class="a mg30" for="multi2"><input id="multi2" type="checkbox" value="2" name="ans" class="icon_mg radio-c" checked><span class="checkmark"></span>Druga odpowiedź</label>
                 <div id="multi2ans">`+ev.option[1]+`    
                 </div>
                 </div>
                 `+(ev.option[2]? `<div class="num thirdans">
-                <label class="a" for="multi3"><input id="multi3" type="checkbox" value="3" name="ans" class="icon_mg" checked>Trzecia odpowiedź</label><button onclick="del(this)" class="del-more-answ">Usuń</button>
+                <label class="a mg30" for="multi3"><input id="multi3" type="checkbox" value="3" name="ans" class="icon_mg radio-c" checked><span class="checkmark"></span>Trzecia odpowiedź</label><button onclick="del(this)" class="del-more-answ">Usuń</button>
                 <div id="multi3ans">`+ev.option[2]+`
                 </div>                
                 </div>`: "")+(ev.option[3]? `<div class="num fourthans">
-                <label class="a" for="multi4"><input id="multi4" type="checkbox" value="4" name="ans" class="icon_mg" checked>Czwarta odpowiedź</label><button onclick="del(this)" class="del-more-answ">Usuń</button>
+                <label class="a mg30" for="multi4"><input id="multi4" type="checkbox" value="4" name="ans" class="icon_mg radio-c" checked><span class="checkmark"></span>Czwarta odpowiedź</label><button onclick="del(this)" class="del-more-answ">Usuń</button>
                 <div id="multi4ans">`+ev.option[3]+`
                 </div>                
                 </div>`: "")+`
-
+				</div>
 
                     
                 <button id='possibility' onclick="addpossibility1()" class="link-button f300">Dodaj możliwą odpowiedź</button><br>
                 <input type="file" id="siofu_input" style="display:none;"/>
-                <label class="etykieta mg30" for="siofu_input">Wybierz plik</label><br>
+				<div id='qimg'>`+(ev.zdj ? `<img src="`+ev.zdj+`" alt=""><button  class="remove-img" onclick="deleteimage()"><i class="fas fa-trash icon_mg fontg_red"></i> Usuń obraz</button>`:"")+`</div><div>
+                <label class="etykieta mg30 f25 pointer" for="siofu_input"><i class="fas fa-cloud-upload-alt icon_mg"></i> Wybierz plik</label><br>
                 <span>Możliwe rozszerzenia: png, jpg, jpeg, bmp, pdf </span><br>
                 <button onclick="addmulti('edit','`+qid+`')" class="add-button">Zapisz</button> <div id="err"></div>`);
          quil1("multicontent");
@@ -261,12 +268,21 @@
          quil5("multi4ans");
          quilleditor();
      } else if (selected == 'open') {
-         container.html(`<div id='qimg'>`+(ev.zdj ? `<img src="`+ev.zdj+`" alt=""><button  class="remove-img" onclick="deleteimage()"><i class="fas fa-trash icon_mg fontg_red"></i> Usuń obraz</button>`:"")+` </div><div><label  for="name" class="etykieta">Etykieta pytania</label><br>
-                <input value="`+ev.name+`" id="openname" type="text" name="name" class="question">          <label for="points">Ilość punktów za pytanie</label><br>
-                <input value="`+ev.points+`" id="numberofpoints" type="number"> <br>
-                </div><div id="opencontent">`+ev.content+` </div>
+         container.html(`
+				<div class="etykieta f25"><i class="fas fa-info icon_mg"></i> Edytowanie pytania</div><br>
+				<div class="quest-info">
+				<label  for="name" class="etykieta">Etykieta pytania</label><br>
+                <input value="`+ev.name+`" id="openname" type="text" name="name" class="question"><br>
+				<label for="points" class="etykieta">Ilość punktów za pytanie</label><br>
+                <input value="`+ev.points+`" id="numberofpoints" type="number" class="question"> <br>
+                </div>
+				<div class="etykieta f25"><i class="far fa-clone icon_mg"></i> Treść pytania</div><br>
+				<div class="quest-info">
+				<div id="opencontent">`+ev.content+` </div></div>
+				
                 <input type="file" id="siofu_input" style="display:none;"/>
-                <label class="etykieta mg30" for="siofu_input">Wybierz plik</label><br>
+				<div id='qimg'>`+(ev.zdj ? `<img src="`+ev.zdj+`" alt=""><button  class="remove-img" onclick="deleteimage()"><i class="fas fa-trash icon_mg fontg_red"></i> Usuń obraz</button>`:"")+` </div>
+                <label class="etykieta mg30 f25 pointer" for="siofu_input"><i class="fas fa-cloud-upload-alt icon_mg"></i> Wybierz plik</label><br>
                 <span>Możliwe rozszerzenia: png, jpg, jpeg, bmp, pdf </span><br>
                 <button onclick="addopen('edit','`+qid+`')" class="add-button">Zapisz</button> <div id="err"></div>`);
          quil1("opencontent");
@@ -310,9 +326,10 @@
  function addpossibility() {
      let num = $(".num").length;
      if (num == 2) {
-         $(`                <div class="num thirdans">
-                <label class="a" for="single3"><input id="single3" type="radio" value="3" name="ans" checked>Trzecia odpowiedź</label>
-                <button onclick="del(this)" class="del-more-answ">Usuń</button>
+         $(`   	
+				<div class="num thirdans">
+                <label class="a mg30" for="single3"><input id="single3" type="radio" value="3" name="ans" class="radio-c" checked><span class="checkmark"></span>Trzecia odpowiedź
+                <button onclick="del(this)" class="del-more-answ"><span class="del-qst"><i class="fas fa-times icon_mg"></i> Usuń pytanie</span></button></label>
                 <div id="single3ans">
                 </div>                
                 </div>`).insertBefore('button#possibility');
@@ -320,9 +337,9 @@
          quilleditor();
      }
      if (num == 3) {
-         $(`                <div class="num fourthans">
-                <label class="a" for="single4"><input id="single4" type="radio" value="4" name="ans" checked>Czwarta odpowiedź</label>
-                <button onclick="del(this)" class="del-more-answ">Usuń</button>
+         $(`    <div class="num fourthans">
+                <label class="a mg30" for="single4"><input id="single4" type="radio" value="4" name="ans" class="radio-c" checked><span class="checkmark"></span>Czwarta odpowiedź
+                <button onclick="del(this)" class="del-more-answ"><span class="del-qst"><i class="fas fa-times icon_mg"></i> Usuń pytanie</span></button></label>
                 <div id="single4ans">
                 </div>                
                 </div>`).insertBefore('button#possibility');
@@ -338,8 +355,8 @@
                 <label class="a" for="multi3"><input id="multi3" type="checkbox" value="3" name="ans" checked>Trzecia odpowiedź</label>
                 <button onclick="del(this)" class="del-more-answ">Usuń</button>
                 <div id="multi3ans">
-                </div>                
-                </div>`).insertBefore('button#possibility');
+                                
+                </div></div>`).insertBefore('button#possibility');
          quil4("multi3ans");
          quilleditor();
      }

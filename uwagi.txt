@@ -1,0 +1,6 @@
+Przy edytowaniu poprawne odpowiedzi nie są zaznaczane tak jak zostały wybrane, tylko tak jak zostało ustawione domyślnie
+(Single = Druga odpowiedz poprawna), (Multi = Pierwsza i Druga)
+
+Przy usuwaniu odpowiedzi 3 i 4 JEŚLi są 4 odpowiedzi,
+przycisk usuń dla 3 odpowiedzi usuwa 4 odpowiedz // powinien usunac 3, a pytanie 4 przeniesc na pozycje 3
+przycisk usuń dla 4 odpowiedzi usuwa 4 odpowiedz // dobrze dziala

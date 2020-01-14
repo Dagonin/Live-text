@@ -539,6 +539,19 @@ button.remove-img {
 max-width:800px;
 }
 
+.del-qst {
+    color: #fff;
+    line-height: 20px;
+    font-size: 13px;
+    padding: 3px 8px;
+    display: inline-block;
+    position: absolute;
+    margin-top: -18px;
+    border-radius: 3px;
+    background: #ff3333;
+    text-align: center;
+}
+
 
 
 
