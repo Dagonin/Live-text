@@ -155,7 +155,11 @@ router.post('/join', (req, res) => {
             Guests.create({
                 username: req.body.guestname,
                 email: req.body.remail,
-                index: -1
+                index: 0,
+                roomquestions: {
+                    answer: [],
+                    question: []
+                }
             }, (err, cGuest) => {
                 if (err) {
                     console.log(err)
@@ -198,26 +202,26 @@ router.get('/room_:id', (req, res) => {
 
 
         } else {
-                Guests.findById(
-                    id,
-                    (err, fGuest) => {
-                        if (err) {
-                            console.log(err);
-                        }
-                        if (!fGuest) {
-                            return res.redirect('/');
-                        }
-                        if (fRoom.guests.includes(fGuest._id)) {
-                            res.render("room_", {
-                                user: req.user,
-                                fguest: fGuest,
-                                room: fRoom
-                            });
-                        }else {
-                            res.redirect('/');
-                        }
+            Guests.findById(
+                id,
+                (err, fGuest) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    if (!fGuest) {
+                        return res.redirect('/');
+                    }
+                    if (fRoom.guests.includes(fGuest._id)) {
+                        res.render("room_", {
+                            user: req.user,
+                            fguest: fGuest,
+                            room: fRoom
+                        });
+                    } else {
+                        res.redirect('/');
+                    }
 
-                    })
+                })
 
         }
 
