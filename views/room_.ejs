@@ -57,11 +57,13 @@
     let guest;
     let timerinverval;
     let checktimeinterval;
+    let questionidlist = [];
+    <% if(!user){ %>
     <% if( fguest.roomquestions.answer!=""){ %>
     let answers = <%-JSON.stringify(fguest.roomquestions.answer) %>;
     <% }else{ %>
     let answers = [];
-    <% } %>
+    <% }}%>
     const socket = io();
             socket.on('connect', () => {
                 console.log(socket.id)
@@ -90,6 +92,10 @@
         room = fRoom;
         guestlist = fGuests;
         questions = fQuestions;
+        questionsidlist = [];
+        questions.forEach(q =>{
+            questionidlist.push(q._id);
+        })
         $("#guestlist").html("")
         $.each(guestlist,function(){
             $("#guestlist").append(`<div>`+this.username+ <% if(user){ %>   `<button onclick="deleteguest(this)" db-id="`+this._id+`"><i class="fas fa-times"></i></button> ` +  <% } %> `</div>`)
@@ -99,6 +105,10 @@
         room = fRoom;
         guestlist = fGuests;
         questions = fQuestions;
+        questionsidlist = [];
+        questions.forEach(q =>{
+        questionidlist.push(q._id);
+        })
         changequestion(0);
         <% } %>
     })
@@ -248,7 +258,7 @@
             
             
             
-            socket.emit("changeindex","<%= fguest.id %>",guest.index,questions[guest.index].type,'<%= room.opentime %>','<%= room.closedtime %>','<%= room.time %>',questions[guest.index]._id,answers)
+            socket.emit("changeindex","<%= fguest.id %>",guest.index,questions[guest.index].type,'<%= room.opentime %>','<%= room.closedtime %>','<%= room.time %>',questionidlist,answers)
             
         }
         <% } %>

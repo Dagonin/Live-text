@@ -199,7 +199,8 @@ exports = module.exports = function (io) {
                         index: index,
                         time: date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds() + parseInt(addtime),
                         roomquestions: {
-                            answer: answer
+                            answer: answer,
+                            question: qid
                         }
                     }, {
                         new: true
@@ -223,7 +224,8 @@ exports = module.exports = function (io) {
                     Guests.findByIdAndUpdate(gid, {
                         index: index,
                         roomquestions: {
-                            answer: answer
+                            answer: answer,
+                            question: qid
                         }
                     }, {
                         new: true
