@@ -93,9 +93,12 @@
         guestlist = fGuests;
         questions = fQuestions;
         questionsidlist = [];
+        if(questions){
         questions.forEach(q =>{
             questionidlist.push(q._id);
+            console.log("a")
         })
+        }
         $("#guestlist").html("")
         $.each(guestlist,function(){
             $("#guestlist").append(`<div>`+this.username+ <% if(user){ %>   `<button onclick="deleteguest(this)" db-id="`+this._id+`"><i class="fas fa-times"></i></button> ` +  <% } %> `</div>`)
@@ -106,16 +109,18 @@
         guestlist = fGuests;
         questions = fQuestions;
         questionsidlist = [];
+        console.log(questionidlist)
         questions.forEach(q =>{
         questionidlist.push(q._id);
+            
         })
+        <% if(!user){ %>
         changequestion(0);
-        <% } %>
+        <% }} %>
     })
     
     socket.on('Nguest',(g)=>{
         guest = g;
-        
     })
     
     
@@ -144,7 +149,7 @@
     }
     <% } %>
                     
-                    
+  // Ładowanie wszystkiego                  
     socket.on('lastload',(nRoom,fQuestions)=>{
             room = nRoom;
             questions = fQuestions;
@@ -257,8 +262,8 @@
 
             
             
-            
-            socket.emit("changeindex","<%= fguest.id %>",guest.index,questions[guest.index].type,'<%= room.opentime %>','<%= room.closedtime %>','<%= room.time %>',questionidlist,answers)
+    // Emit
+            socket.emit("changeindex","<%= fguest.id %>",guest.index,questions[guest.index].type,'<%= room.opentime %>','<%= room.closedtime %>','<%= room.time %>',questionidlist,answers,"<%= room.PIN %>")
             
         }
         <% } %>
@@ -297,22 +302,36 @@
             
         function timeout(){
 
-//            <% if(room.time){ %>
+            <% if(room.time){ %>
                     clearInterval(timerinverval)
                     $("#gamequestions").html('')
-//            <%}else{ %>
+           <%}else{ %>
             clearInterval(timerinverval);
             changequestion(1);
             
             <% } %>
         }
-            
+            // Zaznaczanie dobrej odpowiedzi
             function check(e,type){    
                 if(type=="single"&& $(".toggle").length==1){
                     $(".toggle").toggleClass("toggle");
                 }
                 e.classList.toggle("toggle")
             }
+            
+            
+            // Obiekt guest
+            
+            socket.on('nguestlist',(ng)=>{
+                <% if(user){ %>
+                
+                guestlist[(guestlist.findIndex(x => x._id === ng._id))]= ng;
+                <% } %>
+            })
+            
+            
+            
+            
             
             
 

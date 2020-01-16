@@ -66,7 +66,8 @@ exports = module.exports = function (io) {
                                     console.log(err);
                                 }
                                 console.log("Asd")
-                                io.to('room_' + PIN).emit('reloadlist', fRoom, fGuests, fQuestions);
+//                                io.to('room_' + PIN).emit('reloadlist', fRoom, fGuests, fQuestions);
+                                socket.emit('reloadlist', fRoom, fGuests, fQuestions)
                             })
 
                         })
@@ -181,7 +182,8 @@ exports = module.exports = function (io) {
 
         //Zmiana pytania
 
-        socket.on('changeindex', (gid, index, type, opentime, closedtime, roomtime, qid, answer) => {
+        socket.on('changeindex', (gid, index, type, opentime, closedtime, roomtime, qid, answer, PIN) => {
+            console.log(PIN + "PIN")
             let date = new Date();
             let addtime;
             if (!roomtime) {
@@ -209,6 +211,7 @@ exports = module.exports = function (io) {
                             console.log(err);
                         }
                         socket.emit("Nguest", nGuest);
+                        io.in('room_' + PIN).emit("nguestlist", nGuest);
                     })
                 })
 
@@ -217,7 +220,7 @@ exports = module.exports = function (io) {
                     if (err) {
                         console.log(err)
                     }
-                    console.log(fquestion)
+                    //                    console.log(fquestion)
 
 
 
@@ -233,7 +236,9 @@ exports = module.exports = function (io) {
                         if (err) {
                             console.log(err);
                         }
+                        console.log('room_' + PIN)
                         socket.emit("Nguest", nGuest);
+                        io.in('room_' + PIN).emit("nguestlist", nGuest);
                     })
                 })
             }
