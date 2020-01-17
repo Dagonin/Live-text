@@ -31,6 +31,11 @@ Edytuj: znowu wraca do formularza z wypełnionymi polami
 Zapisz pytanie: zapisz pytanie
 
 
+
+Przy tworzeniu pytania opcja feedback, po ukończeniu testu gdzie pojawią się poprawne i niepoprawne odpowiedzi
+Będzie tekst wpisany w feedback np. "Masz rację... Coś tam", lub "Nie masz racji... coś tam "
+
+
 Przycisk duplikuj pytanie (jesli wyświetlasz jakieś pytanie) z pop-up gdzie jest etykieta duplikowanego pytania i input dla etykiety jaką ma mieć kopia tego pytania
 
 
@@ -47,7 +52,8 @@ Co jest krótkie     samochód/stół/opona
 Można zrobić najprościej za pomocą selecta lub ciężej drag and drop z cisco ( dzięki temu będzie można łączyć np obrazki)
 Można też dodać opcje jak mają być liczone punkty
 
-
+Nowy typ pytania "prawda fałsz" Bo są idioci którzy nie będą wiedzieli że można to zrobić za pomocą pytania z jedną możliwa odpowiedzia
+Tylko musieliby wpisać w treść odpowiedzi "prawda" w pierwszej i potem "fałsz"
 
 Do pytań oprócz zdjęć można dodawać video, audio, dokumenty, *linki
 
