@@ -1,6 +1,63 @@
+Do poprawienia:
+
 Przy edytowaniu poprawne odpowiedzi nie są zaznaczane tak jak zostały wybrane, tylko tak jak zostało ustawione domyślnie
 (Single = Druga odpowiedz poprawna), (Multi = Pierwsza i Druga)
 
 Przy usuwaniu odpowiedzi 3 i 4 JEŚLi są 4 odpowiedzi,
 przycisk usuń dla 3 odpowiedzi usuwa 4 odpowiedz // powinien usunac 3, a pytanie 4 przeniesc na pozycje 3
 przycisk usuń dla 4 odpowiedzi usuwa 4 odpowiedz // dobrze dziala
+
+Do zrobienia:
+
+Strona główna (czemu jeszcze tego nie zrobiłem) 
+
+Ulepszyć poruszanie się po menadżerze pytań, według mnie teraz jest strasznie ciężko szczególnie
+Przełaczając się między pytaniami, a testami
+Dodać belkę z nawigacją i bardziej zaznaczyć gdzie się aktualnie znajdujemy
+
+
+Co mozna dodać kiedyś:
+
+
+Dział pomocy (jak będę miał czas zacznę robić bo mam pomysł) 
+
+
+Ikonki z znakami zapytania tłumaczące daną rzecz po najechaniu (np. przy tworzeniu pytań) (easy bro) 
+
+
+
+Podczas tworzenia pytania na samym końcu formularza przycisk PREVIEW gdzie formularz / cały div zamieniałby się widok tego pytania z opcjami:
+Edytuj: znowu wraca do formularza z wypełnionymi polami
+Zapisz pytanie: zapisz pytanie
+
+
+Przycisk duplikuj pytanie (jesli wyświetlasz jakieś pytanie) z pop-up gdzie jest etykieta duplikowanego pytania i input dla etykiety jaką ma mieć kopia tego pytania
+
+
+
+Przy tworzeniu pytania opcja dotycząca wyświetlania się kolejności odpowiedzi
+Kolejność ustawiona
+Lub kolejność losowa
+
+
+
+Nowy typ pytania "dopasuj"
+Co jest długie      samochód/stół/opona
+Co jest krótkie     samochód/stół/opona
+Można zrobić najprościej za pomocą selecta lub ciężej drag and drop z cisco ( dzięki temu będzie można łączyć np obrazki)
+Można też dodać opcje jak mają być liczone punkty
+
+
+
+Do pytań oprócz zdjęć można dodawać video, audio, dokumenty, *linki
+
+
+
+Możliwość zaliczenia testu do jakiejś kategorii (Kategorie podane z góry) 
+Ma sens tylko jeśli będzie baza testów i będzie można je udostępniać i wyszukiwać
+
+Eksport i import testow i pytań no a jak normalnie tak wiesz jak się usuwa to checkboxami zaznaczasz które pytania chcesz eksportować i gotowe tylko jakiś skrypt jak na php z zapisem do pliku
+
+Najlepiej skopiuj moodle bo zaczne wypisywać tu wszystkie opcje z silników forumowych
+
+
