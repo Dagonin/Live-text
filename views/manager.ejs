@@ -37,7 +37,7 @@ E:/Z_C/programowanie/live-text/serwer
     <div id="m-header">
         <div id="m-tree">
             <div class="nav-left navbar"><a href="/tree" class="menu"><i class="fas fa-angle-left icon_mg" style="color:#3273dc"></i> Powrót do menu</a></div>
-
+			<div class="subnav-left">Menedżer <i class="fas fa-angle-right navicon"></i> Lista rozdziałów i pytań</a></div>
             <nav class="navbar has-background-info" role="navigation" aria-label="main navigation" style="display:none"></nav>
             <!--<div id="nav-side"><i class="fas fa-cog icon_mg"></i> Menadżer pytań</div>-->
             <div class="column list is-hoverable is-shadowless" id="tree" style="margin-top:40px;"></div>
@@ -52,6 +52,7 @@ E:/Z_C/programowanie/live-text/serwer
                 <button class="navbut1" onclick="room()">Stwórz pokój</button>
                 <button class="navbut1" onclick="testrem()">Usuń test</button>
             </div>
+			<div class="subnav-right"></a></div>
             <div class="maincont column is-three-quarters">
 				<!-- Domyslne menu
 				<a class="link-menu"><i class="fas fa-folder-plus menu-icon"></i><br>Dodaj rozdział</a><br><br> -->
@@ -62,11 +63,38 @@ E:/Z_C/programowanie/live-text/serwer
                 <a href="" class="link-button f300" style="margin-left:10px">Załaduj testową bazę pytań</a>
 
                 <br><br><br>
-
+				
+				<span style="font-size:30px" class="f200"><i class="fas fa-exclamation-dsafads icon_mg"></i> Menedżer</span><br><br>
+				
+				<div class="manage-col">
+				<span class="manage-h1"><i class="far fa-hdd manage-icon manage-grey"></i> <span class="manage-title">Kokpit</span><br></span>
+				<a href="/tree" class="manage-link"><i class="fas fa-columns manage-sicon"></i>Strona główna</a><br>
+				</div>
+				
+				<div class="manage-col">
+				<span class="manage-h1"><i class="far fa-edit manage-icon manage-green"></i> <span class="manage-title">Testy</span><br></span>				
+				<button class="manage-link"  id="changestate" onclick="loadtest()"><i class="fas fa-list-ul manage-sicon"></i>Wyświetl testy</button>
+				<button class="manage-link"onclick="loadtest(); test();"><i class="fas fa-plus manage-sicon"></i>Stwórz testy</button>
+				<button class="manage-link"><i class="far fa-trash-alt manage-sicon"></i>Usuń testy</button>
+				</div>
+				
+				<div class="manage-col">
+				<span class="manage-h1"><i class="far fa-comment-alt manage-icon manage-blue"></i> <span class="manage-title">Pytania i rozdziały</span><br></span>
+				<button class="manage-link"><i class="fas fa-list-ul manage-sicon"></i>Wyświetl pytania</button><br>
+				<button class="manage-link" onclick="navselect()"><i class="fas fa-plus manage-sicon"></i>Dodaj pytania i rozdziały</button><br>
+				<button class="manage-link" onclick="rem()"><i class="far fa-trash-alt manage-sicon"></i>Usuń pytania i rozdziały</button><br>
+				</div>
+				
+				<div class="manage-col">
+				<span class="manage-h1"><i class="far fa-chart-bar manage-icon"></i> <span class="manage-title">Statystyki</span><br></span>
+				<button class="manage-link"><i class="fas fa-chart-pie manage-sicon"></i> Statystyki testów</button>
+				<br><br>
+				
+				
+				<!--
                 <span class="f25 f200">Skorzystaj z pomocy jeśli nie wiesz jak utworzyć pytanie.</span><br><br>
-                <!-- Zawartosc opcjonalna, mozna go umiescic jesli przygotujemy poradniki/dzial pomocy w pelnej wersji strony -->
+                 Zawartosc opcjonalna, mozna go umiescic jesli przygotujemy poradniki/dzial pomocy w pelnej wersji strony
                 <div class="showq block-video">
-                    <!-- Bulma nadpisuje wysokosc, ktos cos? -->
                     <iframe width="100%" height="315" style="height:315px" src="https://www.youtube.com/embed/-2LtZRi6Q0s" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
 
@@ -78,6 +106,7 @@ E:/Z_C/programowanie/live-text/serwer
                     <br>
                     <span class="tutorial-button-run f300"><i class="far fa-play-circle icon_mg"></i> Uruchom poradnik</span><br>
                 </div>
+				-->
             </div>
         </div>
     </div>
@@ -234,13 +263,15 @@ E:/Z_C/programowanie/live-text/serwer
         })[0];
         if (result.type == "open") {
             cont.html(`<div class="showq">
-            <img src="` + result.zdj + `" alt="">
-            <div class="etykieta">Etykieta pytania</div>
+			<div class="etykieta f25"><i class="fas fa-info icon_mg"></i> Informacje o pytaniu</div><br>
+			<div class="quest-info">
+            <div class="etykieta">Etykieta pytania</div><br>
             <div>` + result.name + `</div><br>
-            <div class="etykieta">Treść pytania</div>
+            <div class="etykieta">Treść pytania</div><br>
             <div>` + result.content + `</div><br>               
-            <div class="etykieta">Ilość punktów</div>
-            <div>` + result.points + `</div><br>            
+            <div class="etykieta">Ilość punktów</div><br>
+            <div class="question">` + result.points + `</div></div><br> 
+			<img src="` + result.zdj + `" alt="">			
         <button db-id="` + result._id + `" onclick="editq(this)" class="edit-question">Edytuj</button></div>`)
 
         } else if (result.type == "single") {

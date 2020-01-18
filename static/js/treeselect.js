@@ -14,6 +14,7 @@
                 <option value="single">Pytanie pojedyńczego wyboru</option>
                 <option value="chapter">Rozdział</option>
                 <option value="multi">Pytanie wielokrotnego wyboru</option>
+				<option value="match">Pytanie dopasuj</option>
             </select>
 			
 			
@@ -71,6 +72,67 @@
          quil3("single2ans");
          quilleditor();
 
+     }else if (selected == 'match') {
+         container.html(` 
+                <div class="etykieta f25" style="margin-top:40px;"><i class="fas fa-info icon_mg"></i> Informacje o pytaniu</div><br>
+				<div class="quest-info">
+                <label  for="name" class="etykieta">Etykieta pytania</label><br>
+                <input id="multiname" type="text" name="name" class="question"><br>
+				<label for="points" class="etykieta">Ilość punktów za pytanie</label><br>
+                <input id="numberofpoints" type="number" class="question"> <br>   
+                <label class="etykieta" style="display:block;">Treść pytania</label><br>				
+                <div id="multicontent">
+                </div></div>
+				<br>
+				<div class="etykieta f25"><i class="far fa-clone icon_mg"></i> Możliwe odpowiedzi</div><br>
+				<div class="quest-info" style="height:441.06px">
+				<div class="column-quest">
+					<div class="column-questl">
+						<div class="num firstans">
+						<label class="a" for="multi1">Pierwsza odpowiedź</label>
+						<div id="multi1ans"></div>
+						</div>
+					</div>
+					<div class="column-questl2">
+						<i class="fas fa-long-arrow-alt-right"></i>
+					</div>
+					<div class="column-questr">
+						<label class="a" for="multi1">Dopasowanie do pierwszej odpowiedzi</label>
+						<input type="text" class="question"><br>
+						<div class="match-image"><i class="fas fa-image icon_mg"></i> Dodaj zdjęcie</div>
+					</div>
+				</div>
+				
+				<div class="column-quest" style="margin-top:30px;">
+					<div class="column-questl">
+						<div class="num secondans">
+						<label class="a" for="multi1">Druga odpowiedź</label>
+						<div id="multi2ans"></div>
+						</div>
+					</div>
+					<div class="column-questl2">
+						<i class="fas fa-long-arrow-alt-right"></i>
+					</div>
+					<div class="column-questr">
+						<label class="a" for="multi1">Dopasowanie do drugiej odpowiedzi</label>
+						<input type="text" class="question"><br>
+						<div class="match-image"><i class="fas fa-image icon_mg"></i> Dodaj zdjęcie</div>
+					</div>
+				</div>
+
+                </div>
+                </div>
+				<br>
+                <button id='possibility' onclick="addpossibility1()" class="link-button f300">Dodaj możliwą odpowiedź</button><br>
+                <input type="file" id="siofu_input" style="display:none;"/>
+                <label class="etykieta mg30 f25 pointer" for="siofu_input"><i class="fas fa-cloud-upload-alt icon_mg"></i> Wybierz plik</label><br>
+				<div id='qimg'> </div>
+                <span>Możliwe rozszerzenia: png, jpg, jpeg, bmp, pdf </span><br>
+                <button onclick="addmulti('add')" class="add-button">Dodaj</button> <div id="err"></div>`);
+         quil1("multicontent");
+         quil2("multi1ans");
+         quil3("multi2ans");
+         quilleditor();
      } else if (selected == 'multi') {
          container.html(` 
                 <div class="etykieta f25" style="margin-top:40px;"><i class="fas fa-info icon_mg"></i> Informacje o pytaniu</div><br>
