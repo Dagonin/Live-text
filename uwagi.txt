@@ -37,7 +37,7 @@ Będzie tekst wpisany w feedback np. "Masz rację... Coś tam", lub "Nie masz ra
 
 
 Przycisk duplikuj pytanie (jesli wyświetlasz jakieś pytanie) z pop-up gdzie jest etykieta duplikowanego pytania i input dla etykiety jaką ma mieć kopia tego pytania
-
+Przy okazji po kliknięciu zapisz pytanie (przy tworzeniu) albo pop-up albo div na początku i reset formularza albo przenosi do pytania które stworzyłeś
 
 
 Przy tworzeniu pytania opcja dotycząca wyświetlania się kolejności odpowiedzi
