@@ -670,12 +670,16 @@ float:left;
 padding:0px 50px;	
 }
 
-ul li.active {
+ul li.register {
 	background:#3273dc;
 	color:#fff;
 }
-ul li.active a:visited {
+ul li.register a:visited {
 	color:#fff;
+}
+
+ul li.active {
+	border-bottom:1px solid;
 }
 
 
@@ -766,6 +770,7 @@ background:#fff;width:100%;padding:50px;box-shadow:0px 0px 5px rgba(0,0,0,0.27);
 .indx-line {
 	width:100%;
 	float:left;
+	padding:50px 15%;box-sizing:border-box;
 }
 
 
@@ -775,5 +780,27 @@ background:#fff;width:100%;padding:50px;box-shadow:0px 0px 5px rgba(0,0,0,0.27);
   -webkit-text-fill-color: transparent;
 }
 
+.blink_me {
+	display:inline-block;
+	font-size:40px;
+	margin-top:-8px;
+	color:#3273dc;
+	margin-left:-30px;
+	text-shadow: 1px 1px 10px #2B32B2;
+	position:absolute;
+  animation: blinker 2s linear infinite;
+}
 
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+
+.icon_help {
+	margin-left:10px;
+	font-size:20px;
+	color:#ccc;
+}
 
