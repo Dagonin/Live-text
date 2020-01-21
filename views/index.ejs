@@ -21,11 +21,98 @@
     <title>Text Live</title>
   </head>
 
-  <body>
+  <body style="margin-bottom:100px;">
   
     <% if(!user){%>
-	<div id="content">
+	
+	<div class="indx-mn">	
+		<ul>
+			<li>Live-text</li>
+			<li class="small">Strona Główna</li>
+			<li class="small">O platformie</li>
+			<li class="small">Funkcjonalność</li>
+			<li class="active" style="float:right;"><a href="/register">Stwórz test online</a></li>
+			<li style="float:right;"><a href="/login">Zaloguj</a></li>
+		</ul>
+	</div>
 
+	
+	<div id="content">
+	<div class="indx-line">
+	<div class="indx-invite" class="center-div" style="	padding-top:50px;
+	box-sizing:border-box;">
+			<span class="indx-h1">Darmowy kreator testów</span><br><br>
+			<span class="indx-h2">Stwórz rozbudowany test w bardzo prosty sposób i nadzoruj<br> jego rozwiązywanie podczas gdy uczniowie go wypełniają.</span><br><br>
+			<a href="/register"><div class="indx-button">Stwórz test online</div></a> <div class="indx-buttonw">Zobacz jak działa kreator</div>
+	</div>
+	
+	<div class="indx-invite" class="center-div">
+			<div style="	width:100%;height:300px;box-shadow:0px 0px 5px rgba(0,0,0,0.27);width:100%;border-radius:3px;"></div>
+	</div>
+	</div>
+	<br>
+	
+	
+	<div class="indx-line">
+	<div class="indx-room" class="center-div">
+			<div class="indx-join">
+			<span class="indx-h2">Dołącz do pokoju</span><br><br><br>
+			<form action="/join" method="post">
+					<div class="input-box">
+					<i class="fa fa-hashtag input-icon"></i>
+					<input
+						class="input"
+						type="number"
+						placeholder="Kod Pokoju"
+						name="PIN"
+						required
+					/>
+					</div><br>
+					<div class="input-box">
+					<i class="fa fa-user input-icon"></i>
+					<input
+						class="input"
+						type="text"
+						placeholder="Twoja Nazwa"
+						name="guestname"
+						required
+					/>
+					</div><br>
+					<div class="input-box">
+					<i class="fa fa-envelope input-icon"></i>
+					<input
+						class="input"
+						type="email"
+						placeholder="Twój Email"
+						name="remail"
+						required
+					/></div>	<br>				<button class="button is-info join-class" style="margin-top:20px;">
+					Dołącz <span style="float:right"><i class="fas fa-chevron-right"></i></span>
+					</button>
+				</form></div>
+				
+	</div>
+			<div class="indx-invite" class="center-div" style="	width:60%;margin-left:15%;padding-top:120px;
+	box-sizing:border-box;">
+			<span class="indx-h1">Wypełniaj testy bez zakładania konta</span><br><br>
+			<span class="indx-h2">Do wypełnienia testu wystarczy jedynie podać kod pokoju, który uzyskacie od waszego nauczyciela oraz podstawowe informacje.
+			Po kliknięciu przycisku zostaniesz przeniesiony do pokoju gdzie będziesz mógł wypełnić test.
+			</span><br><br>
+	</div></div><br>
+	
+		<div class="indx-line">
+	<div class="indx-invite" class="center-div" style="width:60%;
+	box-sizing:border-box;">
+			<span class="indx-h1">Dla nauczycieli</span><br><br>
+			<span class="indx-h2">Platforma Live-Text umożliwia tworzenie rozbudowanych testów oraz wypełnianie ich przez wielu uczniów jednocześnie. Jedną z jej funkcji jest
+			ocenianie pytań danego typu w czasie rzeczywistym, czyli gdy uczniowie rozwiązuja test. By poznać wszystkie funkcje załóż darmowe konto.
+			</span><br><br>
+	</div>
+	
+	<div class="indx-room" class="center-div" style="width:40%;">
+	</div>
+	</div>
+<!--
 	<div id="header" class="center-div">
 		<div id="left-side">
 			<div class="logo">
@@ -116,7 +203,7 @@
 		</div>
 	</div>
 	</div>
-
+-->
     <% } %> <% if(user){ console.log(user) %>
 	
 
