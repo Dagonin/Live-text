@@ -2,11 +2,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet">
+	<script src="js/button.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/data-tooltip.css">
+	<link href="/css/fontawesome/css/all.css" rel="stylesheet"> <!--load all styles -->
     <title>
+	Text Live - Panel logowania
     </title>
 </head>
-<body>
+<body style="background:rgba(0,0,0,0.02)">
+<!--
   <form action="/login" method="post">
    <label for="username">Nazwa użytkownika</label>
     <input name="username" type="text">
@@ -15,6 +24,51 @@
     <button>Zaloguj</button>
 </form>
        <ul id="guests"></ul>
+-->	   
+	   
+	   
+	<div class="indx-mn">	
+		<ul>
+			<a href="index.ejs"><li>Live-text</li></a>
+			<li class="small">Strona Główna</li>
+			<li class="small">O platformie</li>
+			<li class="small">Funkcjonalność</li>
+			<li class="register" style="float:right;"><a href="/register">Stwórz test online</a></li>
+			<li class="small" style="float:right;"><a href="/login">Zaloguj</a></li>
+		</ul>
+	</div>	   
+	   
+	<div id="loginbox">   
+			<div class="indx-join loginbox-p">
+			<span class="login-h1">Panel logowania</span>
+			<form action="/login" method="post">
+					<div class="input-loginbox">
+					<i class="fa fa-user input-icon"></i>
+					<input
+						class="input"
+						name="username"
+						placeholder="Login"
+						type="text"
+						required
+					/>
+					</div><br>
+					<div class="input-loginbox">
+					<i class="fa fa-key input-icon"></i>
+					<input
+						class="input"
+						name="password"
+						placeholder="Hasło"
+						type="password"
+						required
+					/>
+					</div>	<br><br><span style="font-size:14px;">Nie masz jeszcze konta? <a href="javascript:void(0);" id="link2" onclick="register()">Utwórz konto</a>.</span><br>				<button class="button is-info join-panel" data-tooltip="Po kliknięciu tego przycisku zalogujesz się">
+					Zaloguj <span style="float:right"><i class="fas fa-chevron-right"></i></span>
+					</button>
+				</form></div>
+	</div>			
+	   
+	   
+	   
 </body>
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>

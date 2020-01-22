@@ -4,36 +4,34 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <script
-      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-      crossorigin="anonymous"
-    ></script>
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-      crossorigin="anonymous"
-    />
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-      crossorigin="anonymous"
-    ></script>
+	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet">
+	<script src="js/button.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/data-tooltip.css">
+	<link href="/css/fontawesome/css/all.css" rel="stylesheet"> <!--load all styles -->
     <title>Text Live</title>
   </head>
-  <body class="bg-dark">
-    <div class="container p-5">
-      <div class="jumbotron bg-secondary">
-        <div class="row justify-content-center">
-          <div class="col-sm col-md-6">
-            <form method="post" action="/">
-              <div class="row">
+  <body style="background:rgba(0,0,0,0.02)">
+   		   
+	   
+	<div class="indx-mn">	
+		<ul>
+			<a href="index.ejs"><li>Live-text</li></a>
+			<li class="small">Strona Główna</li>
+			<li class="small">O platformie</li>
+			<li class="small">Funkcjonalność</li>
+			<li class="register" style="float:right;"><a href="/register">Stwórz test online</a></li>
+			<li class="small" style="float:right;"><a href="/login">Zaloguj</a></li>
+		</ul>
+	</div>	   
+	   
+	<div id="loginbox" style="margin:100px auto;box-sizing:border-box">   
+			<div class="indx-join loginbox-p">
+			<span class="login-h1" style="margin-bottom:10px;">ZAKŁADANIE KONTA</span><br>
+			<span class="indx-h2" style="font-size:18px;display:inline-block;    margin-bottom: 30px;">By stworzyć test i umożliwić uczniom rozwiązanie go musisz posiadać konto.</span><br><br>
+			<form action="/login" method="post">
+					<div class="input-loginbox">
+					<i class="fa fa-user input-icon"></i>
                 <input
                   name="login"
                   type="text"
@@ -41,24 +39,9 @@
                   placeholder="Login"
                   required
                 />
-              </div>
-              <div class="row">
-                <input
-                  name="password"
-                  type="password"
-                  class="input mb-1 form-control col-10"
-                  placeholder="Hasło"
-                  required
-                />
-                <input
-                  name="repeatpassword"
-                  type="password"
-                  class="input mb-1 form-control col-10"
-                  placeholder="Powtórz hasło"
-                  required
-                />
-              </div>
-              <div class="row">
+					</div><br>
+					<div class="input-loginbox">
+					<i class="fa fa-envelope input-icon"></i>
                 <input
                   name="email"
                   type="email"
@@ -66,19 +49,52 @@
                   class="input mb-1 form-control col-10"
                   required
                 />
-              </div>
-              <div class="row">
+					</div>	<br>
+					
+					<div class="input-loginbox">
+					<i class="fa fa-key input-icon"></i>
                 <input
-                  class="input btn btn-primary form-control col-10"
-                  type="submit"
-                  value="Zarejestruj się"
-                  id="submit"
+                  name="password"
+                  type="password"
+                  class="input mb-1 form-control col-10"
+                  placeholder="Hasło"
+                  required
                 />
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
+					</div><br>
+					<div class="input-loginbox">
+					<i class="fa fa-key input-icon"></i>
+                <input
+                  name="repeatpassword"
+                  type="password"
+                  class="input mb-1 form-control col-10"
+                  placeholder="Powtórz hasło"
+                  required
+                />
+					</div>	
+					<style>
+					label.a {
+    padding-left: 30px;
+    padding: 30px 0px 30px 30px;
+    display: inline-block;
+}.checkmark:after {
+    left: 7px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: 2px solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+</style>
+					<!--<label class="a mg30" for="multi2"><input id="multi2" type="checkbox" value="2" name="ans" class="icon_mg radio-c" checked=""><span class="checkmark"></span>Zapoznałem się z regulaminem użytkownika i akceptuje jego warunki.</label>-->
+<br><br>
+					<button class="button is-info join-panel" style="margin-top:0px" data-tooltip="Po kliknięciu tego przycisku zarejestrujesz się na naszej platformie">
+					Załóż konto <span style="float:right"><i class="fas fa-chevron-right"></i></span>
+					</button>
+				</form></div>
+	</div>			
+	   
+	   
+	   
   </body>
 </html>

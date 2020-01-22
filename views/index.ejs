@@ -22,7 +22,7 @@
     <title>Text Live</title>
   </head>
 
-  <body style="margin-bottom:100px;">
+  <body>
   
     <% if(!user){%>
 	
@@ -38,26 +38,22 @@
 	</div>
 
 	
-	<div id="content" style="width:100%;">
-	<div class="indx-line" style="border-bottom: 1px solid #eee;
-    box-shadow: 0 4px 2px -2px #efefef;
-">
-	<div class="indx-invite" class="center-div" style="	padding-top:50px;
-	box-sizing:border-box;width:45%;margin-right:5%;">
+	<div style="width:100%;">
+	<div class="indx-line indx-border">
+	<div class="indx-invite indx-box-a">
 			<span class="indx-h1">Darmowy kreator testów</span><br><br>
 			<span class="indx-h2">Stwórz rozbudowany test w bardzo prosty sposób i nadzoruj jego rozwiązywanie podczas gdy uczniowie go wypełniają.</span><br><br>
 			<a href="/register"><div class="indx-button" data-tooltip="Jeśli nie posiadasz konta, musisz sie zarejestrować">Stwórz test online</div></a> <div class="indx-buttonw" data-tooltip="Zobacz jak prosto zbudować test używając naszej platformy">Zobacz jak działa kreator</div>
 	</div>
 	
 	<div class="indx-invite" class="center-div">
-			<div style="background:url(css/ss5.png);background-size:100%;	width:100%;height:300px;box-shadow:0px 0px 5px rgba(0,0,0,0.27);width:100%;border-radius:3px;"></div>
+			<div class="indx-box-b"></div>
 	</div>
 	</div>
 	<br>
 	
 	
-	<div class="indx-line" style="background:rgba(0,0,0,0.02);border-bottom: 1px solid #eee;
-    box-shadow: 0 4px 2px -2px #efefef;">
+	<div class="indx-line indx-box-c">
 	<div class="indx-room" class="center-div">
 			<div class="indx-join">
 			<span class="indx-h2"><div class="blink_me">•</div> Dołącz do pokoju</span><br><br><br>
@@ -96,25 +92,21 @@
 				</form></div>
 				
 	</div>
-			<div class="indx-invite" class="center-div" style="	width:60%;margin-left:15%;padding-top:120px;
-	box-sizing:border-box;">
+			<div class="indx-invite indx-box-d">
 			<span class="indx-h1">Wypełniaj testy bez zakładania konta</span><br><br>
 			<span class="indx-h2">Do wypełnienia testu wystarczy jedynie podać <span style="font-weight:300">kod pokoju</span>, który uzyskacie od waszego nauczyciela oraz podstawowe informacje.
 			Po kliknięciu przycisku zostaniesz przeniesiony do pokoju gdzie będziesz mógł wypełnić test.
 			</span><br><br>
 	</div></div><br>
 	
-		<div class="indx-line">
-	<div class="indx-invite" class="center-div" style="width:60%;
-	box-sizing:border-box;">
+		<div class="indx-line indx-border" style="border-top: 1px solid #eee;">
+	<div class="indx-invite indx-box-e">
 			<span class="indx-h1">Dla nauczycieli</span><br><br>
 			<span class="indx-h2">Platforma Live-Text umożliwia tworzenie rozbudowanych testów oraz wypełnianie ich przez wielu uczniów jednocześnie. Jedną z jej funkcji jest
 			ocenianie pytań danego typu w czasie rzeczywistym, czyli gdy uczniowie rozwiązuja test. By poznać wszystkie funkcje załóż darmowe konto.
 			</span><br><br>
 	</div>
 	
-	<div class="indx-room" class="center-div" style="width:40%;">
-	</div>
 	</div>
 <!--
 	<div id="header" class="center-div">
@@ -209,21 +201,23 @@
 	</div>
 -->
     <% } %> <% if(user){ console.log(user) %>
-	
+	<div class="indx-mn">	
+		<ul>
+			<li>Live-text</li>
+			<li class="small">Strona Główna</li>
+			<li class="small">O platformie</li>
+			<li class="small">Funkcjonalność</li>
+			<li class="active" style="float:right;">Witaj, <%= user.username %><i class="fas fa-caret-down" style="margin-left:10px"></i></li>
+		</ul>
+	</div>
 
-<div id="content">
+<div id="content" style="background:background:rgba(0,0,0,0.02)">
 
-	<div id="header" class="center-div">
-		<div id="left-side">
-			<div class="logo">
-				<span class="title">Witaj, <%= user.username %>!</span> <br>
-				Dziękujemy, że skorzystałeś z naszej platformy
-			</div>
-		</div>
 		<div id="right-side" style="width:66%;padding:50px;box-sizing:border-box">
+			<!--
               <div class="info">Wygląda na to, że nie posiadasz żadnego utworzonego pokoju<br> Użyj
               przycisku poniżej, aby utworzyć pokój!</div>
-			  <br>
+			  <br>-->
               <form action="/create_room" method="get">
                     <a href="/tree" class="button is-info panel_button"
                       ><i class="fas fa-cog icon_mg"></i> Zarządzaj pytaniami</a
@@ -233,7 +227,6 @@
                     >
               </form>
 		</div>
-	</div>
 </div>
 
     <% } %>
