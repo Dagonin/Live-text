@@ -273,7 +273,7 @@ E:/Z_C/programowanie/live-text/serwer
             <div class="etykieta">Treść pytania</div><br>
             <div>` + result.content + `</div><br>               
             <div class="etykieta">Ilość punktów</div><br>
-            <div class="question">` + result.points + `</div></div><br> 
+            <div>` + result.points + `</div></div><br> 
 			<img src="` + result.zdj + `" alt="">			
         <button db-id="` + result._id + `" onclick="editq(this)" class="edit-question">Edytuj</button></div>`)
 
@@ -282,22 +282,25 @@ E:/Z_C/programowanie/live-text/serwer
             let correct = "";
             for (let i = 0; i < result.option.length; i++) {
                 if (result.option[i] == result.correct) {
-                    correct = "   --Poprawna odpowiedź--";
+                    correct = "<div class='correct-answer'><i class='fas fa-check icon_mg'></i> Poprawna odpowiedź</div><br>";
                 } else {
-                    correct = "";
+                    correct = "<div class='wrong-answer'><i class='fas fa-times icon_mg'></i> Zła odpowiedź</div><br>";
                 }
                 ans += `<div>Opdpowiedź ` + (i + 1) + `.</div>
-             <div>` + result.option[i] + correct + `</div>`;
+             <div class="answers-info">` + result.option[i] + correct + `</div>`;
 
             }
             cont.html(`<div class="showq">
-            <img src="` + result.zdj + `" alt="">
+			<div class="etykieta f25"><i class="fas fa-info icon_mg"></i> Informacje o pytaniu</div><br>
+            <div class="quest-info">
             <div class="etykieta">Etykieta pytania</div>
             <div>` + result.name + `</div><br>
             <div class="etykieta">Treść pytania</div>
             <div>` + result.content + `</div><br>  
             <div class="etykieta">Ilość punktów</div>
-            <div>` + result.points + `</div><br>  
+            <div>` + result.points + `</div></div><br>
+			<div class="etykieta f25"><i class="far fa-clone icon_mg"></i> Możliwe odpowiedzi</div><br>	
+			<img src="` + result.zdj + `" alt="">			
             ` + ans + `<button db-id="` + result._id + `" onclick="editq(this)" class="edit-question">Edytuj</button></div>`)
 
         } else if (result.type == "multi") {
@@ -305,22 +308,25 @@ E:/Z_C/programowanie/live-text/serwer
             let correct = "";
             for (let i = 0; i < result.option.length; i++) {
                 if (jQuery.inArray(result.option[i], result.correct) != -1) {
-                    correct = "   --Poprawna odpowiedź--";
+                    correct = "<div class='correct-answer'><i class='fas fa-check icon_mg'></i> Poprawna odpowiedź</div><br>";
                 } else {
-                    correct = "";
+                    correct = "<div class='wrong-answer'><i class='fas fa-times icon_mg'></i> Zła odpowiedź</div><br>";
                 }
                 ans += `<div>Opdpowiedź ` + (i + 1) + `.</div>
-             <div>` + result.option[i] + correct + `</div>`;
+             <div class="answers-info">` + result.option[i] + correct + `</div>`;
 
             }
             cont.html(`<div class="showq">
-            <img src="` + result.zdj + `" alt="">
+			<div class="etykieta f25"><i class="fas fa-info icon_mg"></i> Informacje o pytaniu</div><br>
+            <div class="quest-info">
             <div class="etykieta">Etykieta pytania</div>
             <div>` + result.name + `</div><br>
             <div class="etykieta">Treść pytania</div>
             <div>` + result.content + `</div><br> 
             <div class="etykieta">Ilość punktów</div>
-            <div>` + result.points + `</div><br>  
+            <div>` + result.points + `</div></div><br>  
+			<div class="etykieta f25"><i class="far fa-clone icon_mg"></i> Możliwe odpowiedzi</div><br>
+			<img src="` + result.zdj + `" alt="">
             ` + ans + `<button db-id="` + result._id + `" onclick="editq(this)" class="edit-question">Edytuj</button></div>`)
         }
         $(".showq").attr("id", e.id);
