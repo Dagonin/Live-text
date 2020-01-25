@@ -85,7 +85,7 @@
                 </div></div>
 				<br>
 				<div class="etykieta f25"><i class="far fa-clone icon_mg"></i> Możliwe odpowiedzi</div><br>
-				<div class="quest-info" style="height:441.06px">
+				<div id='matchall' class="quest-info" style="height:441.06px">
 				<div class="column-quest">
 					<div class="column-questl">
 						<div class="num firstans">
@@ -123,7 +123,9 @@
                 </div>
                 </div>
 				<br>
-                <button id='possibility' onclick="addpossibility2()" class="link-button f300">Dodaj możliwą odpowiedź</button><br>
+                <button id='possibility' onclick="addpossibility2()" class="link-button f300">Dodaj możliwą odpowiedź</button><br>                
+                <button id='fakeans' onclick="fake(this)" class="link-button f300">Dodaj fałszywą odpowiedź</button><br>                
+                <button id='fakematch' onclick="fake(this)" class="link-button f300">Dodaj fałszywe dopasowanie</button><br>
                 <input type="file" id="siofu_input" style="display:none;"/>
                 <label class="etykieta mg30 f25 pointer" for="siofu_input"><i class="fas fa-cloud-upload-alt icon_mg"></i> Wybierz plik</label><br>
 				<div id='qimg'> </div>
@@ -379,7 +381,28 @@
 
 
 
+ function fake(e) {
+     if (e.id == "fakematch") {
+         $('.fakeans').remove();
+         $(".fakematch").remove()
+         $("#matchall").append(`
+						<div class="fakematch">
+						<label class="a" for="fakematch">Fałszywe dopasowanie</label>
+						<div id="fakematchquil"></div>
+						</div>`);
+         quil15('fakematchquil');
+     } else if (e.id == "fakeans") {
+         $(".fakematch").remove();
+         $('.fakeans').remove();
+         $("#matchall").append(`
+						<div class="fakeans">
+						<label class="a" for="fakeans">Fałszywa odpowiedź</label>
+						<div id="fakeansquil"></div>
+						</div>`);
+         quil15('fakeansquil');
 
+     }
+ }
 
 
 
@@ -573,7 +596,7 @@
              window.quill11.container.firstChild.innerHTML = window.quill13.container.firstChild.innerHTML;
              $(".col6").remove();
          }
-         if(num==6&&e.parentElement.parentElement.className.includes("sixthans")){
+         if (num == 6 && e.parentElement.parentElement.className.includes("sixthans")) {
              $(".col6").remove();
          }
 
@@ -797,6 +820,26 @@
  function quil13(e) {
      var cont = document.getElementById(e)
      window.quill13 = new Quill(cont, {
+         modules: {
+             toolbar: toolbarOptions
+         },
+         theme: 'snow'
+     });
+ }
+
+ function quil14(e) {
+     var cont = document.getElementById(e)
+     window.quill14 = new Quill(cont, {
+         modules: {
+             toolbar: toolbarOptions
+         },
+         theme: 'snow'
+     });
+ }
+
+ function quil15(e) {
+     var cont = document.getElementById(e)
+     window.quill15 = new Quill(cont, {
          modules: {
              toolbar: toolbarOptions
          },
