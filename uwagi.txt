@@ -67,3 +67,9 @@ Eksport i import testow i pytań no a jak normalnie tak wiesz jak się usuwa to 
 Najlepiej skopiuj moodle bo zaczne wypisywać tu wszystkie opcje z silników forumowych
 
 
+NA KIEDYŚ
+https://developer.mozilla.org/en-US/docs/Web/API/History_API
+https://stackoverflow.com/questions/824349/how-do-i-modify-the-url-without-reloading-the-page/3354511#3354511
+Nawigacja URL przy tworzeniu testów
+
+

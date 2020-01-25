@@ -98,7 +98,7 @@
 					</div>
 					<div class="column-questr">
 						<label class="a" for="match1">Dopasowanie do pierwszej odpowiedzi</label>
-						<input id="match1ans" type="text" class="question"><br>
+						<div id="match1ans" class="question"></div>
 						<div class="match-image"><i class="fas fa-image icon_mg"></i> Dodaj zdjęcie</div>
 					</div>
 				</div>
@@ -115,7 +115,7 @@
 					</div>
 					<div class="column-questr">
 						<label class="a" for="match2">Dopasowanie do drugiej odpowiedzi</label>
-						<input id="match2ans" type="text" class="question"><br>
+						<div id="match2ans" class="question"></div>
 						<div class="match-image"><i class="fas fa-image icon_mg"></i> Dodaj zdjęcie</div>
 					</div>
 				</div>
@@ -422,7 +422,7 @@
 					</div>
 					<div class="column-questr">
 						<label class="a" for="match3">Dopasowanie do trzeciej odpowiedzi</label>
-						<input id="match3ans" type="text" class="question"><br>
+						<div id="match3ans" class="question"></div>
 						<div class="match-image"><i class="fas fa-image icon_mg"></i> Dodaj zdjęcie</div>
 					</div>
 
@@ -443,7 +443,7 @@
 					</div>
 					<div class="column-questr">
 						<label class="a" for="match4">Dopasowanie do czwartej odpowiedzi</label>
-						<input id="match4ans" type="text" class="question"><br>
+						<div id="match4ans" class="question"></div>
 						<div class="match-image"><i class="fas fa-image icon_mg"></i> Dodaj zdjęcie</div>
 					</div>
 
@@ -464,7 +464,7 @@
 					</div>
 					<div class="column-questr">
 						<label class="a" for="match5">Dopasowanie do piątej odpowiedzi</label>
-						<input id="match5ans" type="text" class="question"><br>
+						<div id="match5ans" class="question"></div>
 						<div class="match-image"><i class="fas fa-image icon_mg"></i> Dodaj zdjęcie</div>
 					</div>
 
@@ -477,7 +477,7 @@
          $(`<div class="column-quest col6">
 					<div class="column-questl">
 						<div class="num sixthans">
-						<label class="a" for="match6">Szósta odpowiedź                <button onclick="del(this,'match')" class="del-more-answ"><span class="del-qst"><i class="fas fa-times icon_mg"></i> Usuń pytanie</span></button></label>
+						<label class="a" for="match6">Szósta odpowiedź <button onclick="del(this,'match')" class="del-more-answ"><span class="del-qst"><i class="fas fa-times icon_mg"></i> Usuń pytanie</span></button></label>
 						<div id="match6"></div>
 						</div>
 					</div>
@@ -486,7 +486,7 @@
 					</div>
 					<div class="column-questr">
 						<label class="a" for="match6">Dopasowanie do szóstej odpowiedzi</label>
-						<input id="match6ans" type="text" class="question"><br>
+						<div id="match6ans" class="question"></div>
 						<div class="match-image"><i class="fas fa-image icon_mg"></i> Dodaj zdjęcie</div>
 					</div>
 
@@ -681,15 +681,6 @@
          xi++
          this.id = "uil" + xi;
 
-         this.onclick = function () {
-             $("#quil1").css('z-index', 10);
-             $("#quil2").css('z-index', 1);
-             $("#quil3").css('z-index', 2);
-             $("#quil4").css('z-index', 3);
-             $("#quil5").css('z-index', 4);
-             $("#q" + this.id).css('z-index', 11);
-             console.log("#q" + this.id)
-         }
      })
  }
 
