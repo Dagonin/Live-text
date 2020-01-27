@@ -1,0 +1,104 @@
+@media (max-width: 600px) {
+	
+.indx-bob-b {
+	width:100%;
+}
+
+.indx-box-a {
+	width:100%;
+	padding-top:0px;
+}
+
+.indx-invite {
+	width:100%;
+}
+
+.indx-room {
+	width:100%;
+	margin:0px;
+	margin-top:10px;
+}
+
+.indx-box-d {
+	padding-top:10px;
+	margin-left:0px;
+}
+
+.indx-buttonw {
+	padding:8px 2px;
+}
+
+.indx-join {
+	min-width:260px;
+}
+
+.indx-mn {
+	display:none;
+}
+
+/* Menu */
+
+/* Style the navigation menu */
+.topnav {
+  overflow: hidden;
+  display:block;
+  font-weight:300;
+  background: #fff;
+  box-shadow: 0px 0px 5px rgba(0,0,0,0.27);
+  position: relative;
+}
+
+/* Hide the links inside the navigation menu (except for logo/home) */
+.topnav #myLinks {
+  display: none;
+}
+
+/* Style navigation menu links */
+.topnav a {
+  color: #333;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  display: block;
+}
+
+/* Style the hamburger menu */
+.topnav a.icon {
+  background: #3273dc;
+  display: block;
+  color:#fff;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+/* Add a grey background color on mouse-over */
+.topnav a:hover {
+  color: #333;
+  background:rgba(0,0,0, 0.03);
+}
+
+/* Style the active link (or home/logo) */
+.active {
+  background: #fff;
+  box-shadow: 0px 0px 5px rgba(0,0,0,0.27);
+  color: white;
+}
+
+ a.active:hover {
+  background: -webkit-linear-gradient(#1488CC, #2B32B2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+a.icon:hover {
+background:rgba(0,0,0,0.1);
+color:#555;
+}
+
+.active-title {
+	font-weight:300;
+  background: -webkit-linear-gradient(#1488CC, #2B32B2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
