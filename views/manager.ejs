@@ -329,6 +329,34 @@ E:/Z_C/programowanie/live-text/serwer
 			<div class="etykieta f25"><i class="far fa-clone icon_mg"></i> Możliwe odpowiedzi</div><br>
 			<img src="` + result.zdj + `" alt="">
             ` + ans + `<button db-id="` + result._id + `" onclick="editq(this)" class="edit-question">Edytuj</button></div>`)
+        }else if(result.type=="match"){
+            console.log(result)
+            let ans = '';
+            let correct = "";
+            for (let i = 0; i < result.option.length; i++) {
+                ans += `<div>Opdpowiedź ` + (i + 1) + `.</div>
+             <div class="answers-info">` + result.option[i]+ `</div>`;
+
+            }
+            
+            for (let i = 0; i < result.correct.length; i++) {
+                correct += `<div>Opdpowiedź do ` + (i + 1) + `.</div>
+             <div class="answers-info">` + result.correct[i]+ `</div>`;
+
+            }
+            
+                        cont.html(`<div class="showq">
+			<div class="etykieta f25"><i class="fas fa-info icon_mg"></i> Informacje o pytaniu</div><br>
+            <div class="quest-info">
+            <div class="etykieta">Etykieta pytania</div>
+            <div>` + result.name + `</div><br>
+            <div class="etykieta">Treść pytania</div>
+            <div>` + result.content + `</div><br> 
+            <div class="etykieta">Ilość punktów</div>
+            <div>` + result.points + `</div></div><br>  
+			<div class="etykieta f25"><i class="far fa-clone icon_mg"></i> Możliwe odpowiedzi</div><br>
+			<img src="` + result.zdj + `" alt="">
+            ` + ans + correct+`<button db-id="` + result._id + `" onclick="editq(this)" class="edit-question">Edytuj</button></div>`)
         }
         $(".showq").attr("id", e.id);
     }
@@ -614,10 +642,108 @@ E:/Z_C/programowanie/live-text/serwer
 
 // DODAWANIE PYTAŃ
 
-    function addmatch(check){
+    function addmatch(check,qid){
+        console.log("S")
         $("#err").html("");
+        let src;
+        if ($("#qimgsrc")) {
+            src = $("#qimgsrc").attr("src");
+        }
         let errorcheck = false;
         let error = [];
+        let arr = [];
+        let corr = [];
+        if ($('#matchname').val() == "") {
+            errorcheck = true;
+            error.push("<div>Etykieta pytania jest pusta</div>");
+        }
+        if($("#numberofpoints").val()<=0){
+            errorcheck = true;
+            error.push("<div>Liczba punktów musi być większa od zera</div>")
+        }
+        
+        if(window.quill1.container.firstChild.innerHTML == ""){
+            errocheck = true;
+            error.push("<div>Treść pytania jest pusta</div>");
+        }
+        
+        if(window.quill2.container.firstChild.innerHTML != "" && window.quill3.container.firstChild.innerHTML != ""){
+            arr[0] = window.quill2.container.firstChild.innerHTML;
+            corr[0] = window.quill3.container.firstChild.innerHTML;
+        }else{
+            errocheck = true;
+            error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");            
+        }
+        
+        if(window.quill4.container.firstChild.innerHTML != "" && window.quill5.container.firstChild.innerHTML != ""){
+            arr[1] = window.quill4.container.firstChild.innerHTML;
+            corr[1] = window.quill5.container.firstChild.innerHTML;
+        }else{
+            errocheck = true;
+            error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");            
+        }
+        
+        
+        if(window.quill6&&window.quill7){
+        if(window.quill6.container.firstChild.innerHTML != "" && window.quill7.container.firstChild.innerHTML != ""){
+            arr[2] = window.quill6.container.firstChild.innerHTML;
+            corr[2] = window.quill7.container.firstChild.innerHTML;
+        }else{
+            errocheck = true;
+            error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");            
+        }}
+        if(window.quill8&&window.quill9){
+        if(window.quill8.container.firstChild.innerHTML != "" && window.quill9.container.firstChild.innerHTML != ""){
+            arr[3] = window.quill8.container.firstChild.innerHTML;
+            corr[3] = window.quill9.container.firstChild.innerHTML;
+        }else{
+            errocheck = true;
+            error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");            
+        }}
+        if(window.quill10&&window.quill11){
+        if(window.quill10.container.firstChild.innerHTML != "" && window.quill11.container.firstChild.innerHTML != ""){
+            arr[4] = window.quill10.container.firstChild.innerHTML;
+            corr[4] = window.quill11.container.firstChild.innerHTML;
+        }else{
+            errocheck = true;
+            error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");            
+        }}
+        if(window.quill12&&window.quill13){
+        if(window.quill12.container.firstChild.innerHTML != "" && window.quill13.container.firstChild.innerHTML != ""){
+            arr[5] = window.quill12.container.firstChild.innerHTML;
+            corr[5] = window.quill13.container.firstChild.innerHTML;
+        }else{
+            errocheck = true;
+            error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");            
+        }}
+        
+        if(window.quill14){
+            arr[6]=window.quill14.container.firstChild.innerHTML;
+        }
+        if(window.quill15){
+            corr[6]=window.quill15.container.firstChild.innerHTML;
+        }
+        
+        if(errorcheck==false){
+           if(check=="add"){ socket.emit("dodaj",socket.id,$('#matchname').val(),"match",window.quill1.container.firstChild.innerHTML,arr,corr,`<%= user.id %>`,src,$("#numberofpoints").val())
+            }else if(check=="edit"){
+                   socket.emit("edit",socket.id,$('#matchname').val(),"match",window.quill1.container.firstChild.innerHTML,arr,corr,`<%= user.id %>`,src,qid,$("#numberofpoints").val())  
+                                $("#" + qid).html(`<span class="icon"> <svg class="svg-inline--fa fa-calendar-alt fa-w-14" aria-hidden="true" data-prefix="fas" data-icon="calendar-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M436 160H12c-6.6 0-12-5.4-12-12v-36c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48v36c0 6.6-5.4 12-12 12zM12 192h424c6.6 0 12 5.4 12 12v260c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V204c0-6.6 5.4-12 12-12zm116 204c0-6.6-5.4-12-12-12H76c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12H76c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm128 128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm128 128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40z"></path></svg><!-- <i class="fas fa-calendar-alt"></i> --> </span>` + $('#matchname').val())
+            }
+        }else{
+            console.log(error)
+        }
+         if (refreshbool == false) {
+            refreshbool = true;
+            setTimeout(function() {
+                refreshbool = false;
+                socket.emit("gettree", socket.id, `<%= user.id %>`);
+            }, 200)
+
+        }
+        unblock();
+        socket.emit("gettree", socket.id, `<%= user.id %>`);
+        select("match")
     }
     
     function addchapter() {
@@ -899,7 +1025,7 @@ E:/Z_C/programowanie/live-text/serwer
             }
         } else {
             $("#err").html(error);
-            console.log(arr)
+            console.log(error)
         }
         if (refreshbool == false) {
             refreshbool = true;
@@ -1063,6 +1189,16 @@ E:/Z_C/programowanie/live-text/serwer
                 $("#unassigned").find('.dir-items').css('height', '+=43');
             }
         } else if (question.type == "multi") {
+            div.append(
+                `<p class="list-item" id="` +
+                question._id +
+                `" draggable = 'true' ondragstart="drag(event)">
+        <span class="icon"> <i class="fas fa-calendar-alt"></i> </span
+        >` +
+                question.name +
+                `</p>`
+            )
+        }else if (question.type == "match") {
             div.append(
                 `<p class="list-item" id="` +
                 question._id +

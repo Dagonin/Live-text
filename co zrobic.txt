@@ -1,15 +1,5 @@
-
-
-Przerobiæ generate tree albo zrobic nowa funkcjê refreshtree. Aktualnie blokuje siê aktualno¶c i zamyka wszystko
-
-
-
-
-
-
-
-
-
+Pytanie typo match:
+correct i option, ten sam index = to jest odpowiedz.
 
 
 
@@ -35,40 +25,3 @@ Strona podg³±du na wykonywany test
 WA¯NE:
 DODAC ZABEZPIECZENIE. TYLKO OWNER MOZE USUWAC I PRZENOSIC.
 
-
-
-
-
-
-
-
-
-Przyciski po wyslaniu odpowiedzi przez guesta nie dzialaja (dobrze,odeslij,zle). Appendowanie do html linijka 200.
-Obsluga przycisków linijka 240.
-
-
-
-
-
-
-
-
-dontlookhere trzyma socid (w modelu odpowiedzi)
-active do aktywacji
-
-``````    <<< to cos do zaznaczania jako cudzyslow
-
-   ` <div class="answer">
-        <div class="answer-text inline-block">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore
-            tempora quae delectus vel nulla molestiae excepturi. Reiciendis quia
-            blanditiis expedita reprehenderit eum et quo ea error corporis
-            doloremque. Id, incidunt.
-        </div>
-        <div class="answer-actions inline-block">
-            <button class="btn warning">Bledy</button>
-            <button class="btn error">Odrzuæ</button>
-            <button class="btn success">Dobrze</button>
-            <a class="writing">Someone is writing</a>
-        </div>
-    </div> ` 

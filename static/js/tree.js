@@ -49,7 +49,16 @@ const generateTreeItems = (c, q) => {
         >` +
                     question.name +
                     `</p>`;
-            }
+            }else if (question.type == "match") {
+            tree +=
+                `<p class="list-item" id="` +
+                question._id +
+                `" draggable = 'true' >
+        <span class="icon"> <i class="fas fa-calendar-alt"></i> </span
+        >` +
+                question.name +
+                `</p>`;
+        }
         }
     });
     unblock();
@@ -79,6 +88,15 @@ const generateUnassignedItems = q => {
                 question.name +
                 `</p>`;
         } else if (question.type == "multi") {
+            tree +=
+                `<p class="list-item" id="` +
+                question._id +
+                `" draggable = 'true' >
+        <span class="icon"> <i class="fas fa-calendar-alt"></i> </span
+        >` +
+                question.name +
+                `</p>`;
+        }else if (question.type == "match") {
             tree +=
                 `<p class="list-item" id="` +
                 question._id +
@@ -232,6 +250,15 @@ function generateTestItems(test) {
                 `</p>`;
         } else if (question.type == "multi") {
             tr +=
+                `<p class="list-item" id="` +
+                question._id +
+                `" draggable = 'true' >
+        <span class="icon"> <i class="fas fa-calendar-alt"></i> </span
+        >` +
+                question.name +
+                `</p>`;
+        }else if (question.type == "match") {
+            tree +=
                 `<p class="list-item" id="` +
                 question._id +
                 `" draggable = 'true' >

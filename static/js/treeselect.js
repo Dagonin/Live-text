@@ -352,6 +352,165 @@
                 <span>Możliwe rozszerzenia: png, jpg, jpeg, bmp, pdf </span><br>
                 <button onclick="addopen('edit','` + qid + `')" class="add-button">Zapisz</button> <div id="err"></div>`);
          quil1("opencontent");
+     } else if (selected == "match") {
+         console.log(ev)
+         container.html(` 
+                <div class="etykieta f25" style="margin-top:40px;"><i class="fas fa-info icon_mg"></i> Informacje o pytaniu</div><br>
+				<div class="quest-info">
+                <label  for="name" class="etykieta">Etykieta pytania</label><br>
+                <input id="matchname" value="` + ev.name + `" type="text" name="name" class="question"><br>
+				<label  for="points" class="etykieta">Ilość punktów za pytanie</label><br>
+                <input value="` + ev.points + `" id="numberofpoints" type="number" class="question"> <br>   
+                <label class="etykieta" style="display:block;">Treść pytania</label><br>				
+                <div id="matchcontent">` + ev.content + `
+                </div></div>
+				<br>
+				<div class="etykieta f25"><i class="far fa-clone icon_mg"></i> Możliwe odpowiedzi</div><br>
+				<div id='matchall' class="quest-info" style="height:441.06px">
+				<div class="column-quest">
+					<div class="column-questl">
+						<div class="num firstans">
+						<label class="a" for="match1">Pierwsza odpowiedź</label>
+						<div id="match1">` + ev.option[0] + `</div>
+						</div>
+					</div>
+					<div class="column-questl2">
+						<i class="fas fa-long-arrow-alt-right"></i>
+					</div>
+					<div class="column-questr">
+						<label class="a" for="match1">Dopasowanie do pierwszej odpowiedzi</label>
+						<div id="match1ans" class="question">` + ev.correct[0] + `</div>
+						<div class="match-image"><i class="fas fa-image icon_mg"></i> Dodaj zdjęcie</div>
+					</div>
+				</div>
+				
+				<div class="column-quest" style="margin-top:30px;">
+					<div class="column-questl">
+						<div class="num secondans">
+						<label class="a" for="match2">Druga odpowiedź</label>
+						<div id="match2">` + ev.option[1] + `</div>
+						</div>
+					</div>
+					<div class="column-questl2">
+						<i class="fas fa-long-arrow-alt-right"></i>
+					</div>
+					<div class="column-questr">
+						<label class="a" for="match2">Dopasowanie do drugiej odpowiedzi</label>
+						<div id="match2ans" class="question">` + ev.correct[1] + `</div>
+						<div class="match-image"><i class="fas fa-image icon_mg"></i> Dodaj zdjęcie</div>
+					</div>
+				</div>
+                ` + (ev.option[2] ? `<div class="column-quest col3">
+					<div class="column-questl">
+						<div class="num thirdans">
+						<label class="a" for="match3">Trzecia odpowiedź                <button onclick="del(this,'match')" class="del-more-answ"><span class="del-qst"><i class="fas fa-times icon_mg"></i> Usuń pytanie</span></button></label>
+						<div id="match3">` + ev.option[2] + `</div>
+						</div>
+					</div>
+					<div class="column-questl2">
+						<i class="fas fa-long-arrow-alt-right"></i>
+					</div>
+					<div class="column-questr">
+						<label class="a" for="match3">Dopasowanie do trzeciej odpowiedzi</label>
+						<div id="match3ans" class="question">` + ev.correct[2] + `</div>
+						<div class="match-image"><i class="fas fa-image icon_mg"></i> Dodaj zdjęcie</div>
+					</div>
+
+				</div>` : "") + (ev.option[3] ? `<div class="column-quest col4">
+					<div class="column-questl">
+						<div class="num fourthans">
+						<label class="a" for="match4">Czwarta odpowiedź                <button onclick="del(this,'match')" class="del-more-answ"><span class="del-qst"><i class="fas fa-times icon_mg"></i> Usuń pytanie</span></button></label>
+						<div id="match4">` + ev.option[3] + `</div>
+						</div>
+					</div>
+					<div class="column-questl2">
+						<i class="fas fa-long-arrow-alt-right"></i>
+					</div>
+					<div class="column-questr">
+						<label class="a" for="match4">Dopasowanie do czwartej odpowiedzi</label>
+						<div id="match4ans" class="question">` + ev.correct[3] + `</div>
+						<div class="match-image"><i class="fas fa-image icon_mg"></i> Dodaj zdjęcie</div>
+					</div>
+
+				</div>` : "") + (ev.option[4] ? `<div class="column-quest col5">
+					<div class="column-questl">
+						<div class="num fifthans">
+						<label class="a" for="match5">Piąta odpowiedź                <button onclick="del(this,'match')" class="del-more-answ"><span class="del-qst"><i class="fas fa-times icon_mg"></i> Usuń pytanie</span></button></label>
+						<div id="match5">` + ev.option[4] + `</div>
+						</div>
+					</div>
+					<div class="column-questl2">
+						<i class="fas fa-long-arrow-alt-right"></i>
+					</div>
+					<div class="column-questr">
+						<label class="a" for="match5">Dopasowanie do piątej odpowiedzi</label>
+						<div id="match5ans" class="question">` + ev.correct[4] + `</div>
+						<div class="match-image"><i class="fas fa-image icon_mg"></i> Dodaj zdjęcie</div>
+					</div>
+
+				</div>` : "") + (ev.option[5] ? `<div class="column-quest col6">
+					<div class="column-questl">
+						<div class="num sixthans">
+						<label class="a" for="match6">Szósta odpowiedź <button onclick="del(this,'match')" class="del-more-answ"><span class="del-qst"><i class="fas fa-times icon_mg"></i> Usuń pytanie</span></button></label>
+						<div id="match6">` + ev.option[5] + `</div>
+						</div>
+					</div>
+					<div class="column-questl2">
+						<i class="fas fa-long-arrow-alt-right"></i>
+					</div>
+					<div class="column-questr">
+						<label class="a" for="match6">Dopasowanie do szóstej odpowiedzi</label>
+						<div id="match6ans" class="question">` + ev.correct[5] + `</div>
+						<div class="match-image"><i class="fas fa-image icon_mg"></i> Dodaj zdjęcie</div>
+					</div>
+
+				</div>` : "") + (ev.option[6] ? `<div class="fakeans">
+						<label class="a" for="fakeans">Fałszywa odpowiedź</label>
+						<div id="fakeansquil">` + ev.option[6] + `</div>
+						</div>` : "") + (ev.correct[6] ? `<div class="fakematch">
+						<label class="a" for="fakematch">Fałszywe dopasowanie</label>
+						<div id="fakematchquil">` + ev.correct[6] + `</div>
+						</div>` : "") + `
+                </div>
+
+                </div>
+				<br>
+                <button id='possibility' onclick="addpossibility2()" class="link-button f300">Dodaj możliwą odpowiedź</button><br>                
+                <button id='fakeans' onclick="fake(this)" class="link-button f300">Dodaj fałszywą odpowiedź</button><br>                
+                <button id='fakematch' onclick="fake(this)" class="link-button f300">Dodaj fałszywe dopasowanie</button><br>
+                <input type="file" id="siofu_input" style="display:none;"/>
+                <label class="etykieta mg30 f25 pointer" for="siofu_input"><i class="fas fa-cloud-upload-alt icon_mg"></i> Wybierz plik</label><br>
+				<div id='qimg'> </div>
+                <span>Możliwe rozszerzenia: png, jpg, jpeg, bmp, pdf </span><br>
+                <button onclick="addmatch('edit','` + qid + `')" class="add-button">Zapisz</button> <div id="err"></div>`);
+         quil1("matchcontent");
+         quil2("match1");
+         quil3("match1ans");
+         quil4("match2");
+         quil5("match2ans");
+         if (ev.option[2]) {
+             quil6("match3")
+             quil7("match3ans")
+         }
+         if (ev.option[3]) {
+             quil8("match4");
+             quil9("match4ans");
+         }
+         if (ev.option[4]) {
+             quil10("match5");
+             quil11("match5ans");
+         }
+         if (ev.option[5]) {
+             quil12("match6");
+             quil13("match6ans");
+         }
+         if (ev.correct[6]) {
+             quil14('fakematchquil');
+         }
+         if (ev.option[6]) {
+             quil15('fakeansquil');
+         }
+         quilleditor();
      }
      //         else if (selected == 'chapter') {
      //         container.html(`<div><label  for="name" class="f200 f30">Nazwa rodziału</label><br>
@@ -390,7 +549,7 @@
 						<label class="a" for="fakematch">Fałszywe dopasowanie</label>
 						<div id="fakematchquil"></div>
 						</div>`);
-         quil15('fakematchquil');
+         quil14('fakematchquil');
      } else if (e.id == "fakeans") {
          $(".fakematch").remove();
          $('.fakeans').remove();
