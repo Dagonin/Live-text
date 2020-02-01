@@ -337,7 +337,7 @@ width:45%;float:left;margin-right:5%;
 }
 
 .block-tutorial {
-width:45%;float:left;margin-right:5%;font-weight:200;
+width:45%;float:left;margin-right:5%;font-weight:300;
 }
 
 .link-button {
@@ -384,7 +384,7 @@ a.edit-question {
 }
 
 .f200 {
-	font-weight:200;
+	font-weight:300;
 }
 
 .f25 {
@@ -408,7 +408,7 @@ a:visited.menu {
 
 .etykieta, label.a {
     font-size: 17px;
-    font-weight: 200;
+    font-weight:300;
     width: 100%;
 }
 
@@ -420,7 +420,7 @@ input.question, input.timeinput {
     margin-bottom: 20px;
     border: 1px solid rgba(0,0,0,0.2);
 }
-
+/*
 div.question {
     font-size: 16px;
     border-radius: 3px;
@@ -428,7 +428,7 @@ div.question {
     margin: 10px 0px;
     margin-bottom: 20px;
     border: 1px solid rgba(0,0,0,0.2);
-}
+}*/
 
 #singlecontent {
 	margin-bottom:30px;
@@ -474,6 +474,8 @@ label.a {
 	box-shadow:0px 0px 5px rgba(0,0,0,0.27);
 	border-radius:3px;
 	margin-bottom:30px;
+	width:100%;
+	float:left;
 }
 
 input.radio-c {
@@ -579,6 +581,8 @@ max-width:800px;
 	width:20%;
 	float:left;
 	margin-right:5%;
+	min-width:246px;
+	min-height:240px;
 }
 
 .manage-link {
@@ -665,6 +669,7 @@ width:34%;
 	border:1px solid #ccc;
 	border-radius:3px;
 	display:inline-block;
+	margin:20px 0px 60px 0px;
 }
 
 .indx-mn ul {
@@ -730,7 +735,7 @@ ul li.small {
 
 .indx-h2 {
 	font-size:26px;
-	font-weight:200;
+	font-weight:300;
 }
 
 .indx-invite {
@@ -764,7 +769,7 @@ ul li.small {
 	border-left:none;
 	font-size:16px;
 	width:100%;
-	font-weight:200;
+	font-weight:300;
 	border-radius:0px 30px 30px 0px;
 }
 
@@ -806,6 +811,13 @@ background:#fff;padding:50px;box-shadow:0px 0px 5px rgba(0,0,0,0.27);width:100%;
 
 .loginbox-p {
 	padding:80px 50px!important;
+ position: absolute;
+ width:23%;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+	min-width:420px;
 }
 
 
@@ -888,7 +900,7 @@ border: 1px solid rgba(0,0,0,0.09);border-radius: 3px;margin-bottom: 8px;padding
 }
 
 
-.showq p {
+.answers-info p {
 		margin:20px 0px;
     padding: 8px 20px;
     background: #fff;
@@ -932,4 +944,7 @@ box-shadow: 0px 1px 2px #ccc;
 
 .topnav {
 	display:none;
+}
+
+div#match3ans.question.ql-container.ql-snow {;
 }

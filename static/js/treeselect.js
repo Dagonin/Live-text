@@ -85,7 +85,7 @@
                 </div></div>
 				<br>
 				<div class="etykieta f25"><i class="far fa-clone icon_mg"></i> Możliwe odpowiedzi</div><br>
-				<div id='matchall' class="quest-info" style="height:441.06px">
+				<div id='matchall' class="quest-info">
 				<div class="column-quest">
 					<div class="column-questl">
 						<div class="num firstans">
@@ -103,7 +103,7 @@
 					</div>
 				</div>
 				
-				<div class="column-quest" style="margin-top:30px;">
+				<div class="column-quest">
 					<div class="column-questl">
 						<div class="num secondans">
 						<label class="a" for="match2">Druga odpowiedź</label>
@@ -366,7 +366,7 @@
                 </div></div>
 				<br>
 				<div class="etykieta f25"><i class="far fa-clone icon_mg"></i> Możliwe odpowiedzi</div><br>
-				<div id='matchall' class="quest-info" style="height:441.06px">
+				<div id='matchall' class="quest-info">
 				<div class="column-quest">
 					<div class="column-questl">
 						<div class="num firstans">

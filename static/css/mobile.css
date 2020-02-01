@@ -102,3 +102,8 @@ color:#555;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+.loginbox-p {
+	margin-top:50px;
+	top:50px!important;
+}
