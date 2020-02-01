@@ -296,7 +296,7 @@ exports = module.exports = function (io) {
 
         })
 
-        socket.on("edit", (socid, name, type, content, options, correct, userid, src, qid, points) => {
+        socket.on("edit", (socid, name, type, content, options, correct, userid, src, qid, points,fake) => {
             if (type == "single") {
                 Questions.findByIdAndUpdate(qid, {
                     owner: userid,
@@ -367,14 +367,18 @@ exports = module.exports = function (io) {
                     correct: correct,
                     type: 'match',
                     zdj: src,
-                    points: points
+                    points: points,
+                    fake:{
+                        typ: fake.type,
+                        content: fake.content
+                    }
                 }, {
                     new: true
                 }, (err, nquestion) => {
                     if (err) {
                         console.log(err)
                     }
-
+    
                     console.log(nquestion);
 
                 })
@@ -384,7 +388,7 @@ exports = module.exports = function (io) {
 
         })
 
-        socket.on("dodaj", (socid, name, type, content, options, correct, userid, src, points) => {
+        socket.on("dodaj", (socid, name, type, content, options, correct, userid, src, points,fake) => {
             if (type == "addchapter") {
                 Chapters.create({
                     owner: userid,
@@ -459,11 +463,16 @@ exports = module.exports = function (io) {
                     correct: correct,
                     type: 'match',
                     zdj: src,
-                    points: points
+                    points: points,
+                    fake:{
+                        typ: fake.type,
+                        content: fake.content
+                    }
                 }, (err, cQuestion) => {
                     if (err) {
                         console.log(err);
                     }
+
                     socket.emit('cQuestion', cQuestion);
                 })
             }

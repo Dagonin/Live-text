@@ -344,7 +344,13 @@ E:/Z_C/programowanie/live-text/serwer
              <div class="answers-info">` + result.correct[i]+ `</div>`;
 
             }
-            
+            if(result.fake.typ=="fakeans"){
+                ans+= `<div>Fałszywa odpowiedź </div>
+             <div class="answers-info">` + result.fake.content+ `</div>`
+            }else if(result.fake.typ=="fakematch"){
+                                correct+= `<div>Fałszywe dopasowanie </div>
+             <div class="answers-info">` + result.fake.content+ `</div>`
+            }
                         cont.html(`<div class="showq">
 			<div class="etykieta f25"><i class="fas fa-info icon_mg"></i> Informacje o pytaniu</div><br>
             <div class="quest-info">
@@ -643,7 +649,6 @@ E:/Z_C/programowanie/live-text/serwer
 // DODAWANIE PYTAŃ
 
     function addmatch(check,qid){
-        console.log("S")
         $("#err").html("");
         let src;
         if ($("#qimgsrc")) {
@@ -653,6 +658,10 @@ E:/Z_C/programowanie/live-text/serwer
         let error = [];
         let arr = [];
         let corr = [];
+        let fake= {
+        type: String,
+        content: String
+    }
         if ($('#matchname').val() == "") {
             errorcheck = true;
             error.push("<div>Etykieta pytania jest pusta</div>");
@@ -684,7 +693,7 @@ E:/Z_C/programowanie/live-text/serwer
         }
         
         
-        if(window.quill6&&window.quill7){
+        if($(".col3")[0]){
         if(window.quill6.container.firstChild.innerHTML != "" && window.quill7.container.firstChild.innerHTML != ""){
             arr[2] = window.quill6.container.firstChild.innerHTML;
             corr[2] = window.quill7.container.firstChild.innerHTML;
@@ -692,7 +701,7 @@ E:/Z_C/programowanie/live-text/serwer
             errocheck = true;
             error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");            
         }}
-        if(window.quill8&&window.quill9){
+        if($(".col4")[0]){
         if(window.quill8.container.firstChild.innerHTML != "" && window.quill9.container.firstChild.innerHTML != ""){
             arr[3] = window.quill8.container.firstChild.innerHTML;
             corr[3] = window.quill9.container.firstChild.innerHTML;
@@ -700,7 +709,7 @@ E:/Z_C/programowanie/live-text/serwer
             errocheck = true;
             error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");            
         }}
-        if(window.quill10&&window.quill11){
+        if($(".col5")[0]){
         if(window.quill10.container.firstChild.innerHTML != "" && window.quill11.container.firstChild.innerHTML != ""){
             arr[4] = window.quill10.container.firstChild.innerHTML;
             corr[4] = window.quill11.container.firstChild.innerHTML;
@@ -708,7 +717,7 @@ E:/Z_C/programowanie/live-text/serwer
             errocheck = true;
             error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");            
         }}
-        if(window.quill12&&window.quill13){
+        if($(".col6")[0]){
         if(window.quill12.container.firstChild.innerHTML != "" && window.quill13.container.firstChild.innerHTML != ""){
             arr[5] = window.quill12.container.firstChild.innerHTML;
             corr[5] = window.quill13.container.firstChild.innerHTML;
@@ -717,17 +726,19 @@ E:/Z_C/programowanie/live-text/serwer
             error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");            
         }}
         
-        if(window.quill14){
-            arr[6]=window.quill14.container.firstChild.innerHTML;
+        if(window.quill14 && window.quill14.container){
+            fake.type = "fakematch";
+            fake.content = window.quill14.container.firstChild.innerHTML;
         }
-        if(window.quill15){
-            corr[6]=window.quill15.container.firstChild.innerHTML;
+        if(window.quill15&& window.quill15.container){
+            fake.type = "fakeans";
+            fake.content = window.quill15.container.firstChild.innerHTML;
         }
-        
+        console.log(arr,corr)
         if(errorcheck==false){
-           if(check=="add"){ socket.emit("dodaj",socket.id,$('#matchname').val(),"match",window.quill1.container.firstChild.innerHTML,arr,corr,`<%= user.id %>`,src,$("#numberofpoints").val())
+           if(check=="add"){ socket.emit("dodaj",socket.id,$('#matchname').val(),"match",window.quill1.container.firstChild.innerHTML,arr,corr,`<%= user.id %>`,src,$("#numberofpoints").val(),fake)
             }else if(check=="edit"){
-                   socket.emit("edit",socket.id,$('#matchname').val(),"match",window.quill1.container.firstChild.innerHTML,arr,corr,`<%= user.id %>`,src,qid,$("#numberofpoints").val())  
+                   socket.emit("edit",socket.id,$('#matchname').val(),"match",window.quill1.container.firstChild.innerHTML,arr,corr,`<%= user.id %>`,src,qid,$("#numberofpoints").val(),fake),  
                                 $("#" + qid).html(`<span class="icon"> <svg class="svg-inline--fa fa-calendar-alt fa-w-14" aria-hidden="true" data-prefix="fas" data-icon="calendar-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M436 160H12c-6.6 0-12-5.4-12-12v-36c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48v36c0 6.6-5.4 12-12 12zM12 192h424c6.6 0 12 5.4 12 12v260c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V204c0-6.6 5.4-12 12-12zm116 204c0-6.6-5.4-12-12-12H76c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12H76c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm128 128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm128 128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40z"></path></svg><!-- <i class="fas fa-calendar-alt"></i> --> </span>` + $('#matchname').val())
             }
         }else{

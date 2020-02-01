@@ -260,12 +260,12 @@
                 </div>
                 </div>
                 ` + (ev.option[2] ? `<div class="num thirdans">
-                <label class="a mg30" for="single3"><input id="single3" type="radio" value="3" name="ans" class="icon_mg radio-c" checked><span class="checkmark"></span>Trzecia odpowiedź</label><button onclick="del(this)" class="del-more-answ">Usuń</button>
+                <label class="a mg30" for="single3"><input id="single3" type="radio" value="3" name="ans" class="icon_mg radio-c" checked><span class="checkmark"></span>Trzecia odpowiedź<button onclick="del(this)" class="del-more-answ"><span class="del-qst"><i class="fas fa-times icon_mg"></i> Usuń pytanie</span></button></label>   
                 <div id="single3ans">` + ev.option[2] + `
                 </div>
                 </div>` : '') +
              (ev.option[3] ? `<div class="num fourthans">
-                <label class="a mg30" for="single4"><input id="single4" type="radio" value="4" name="ans" class="icon_mg radio-c" checked><span class="checkmark"></span>Czwarta odpowiedź</label><button onclick="del(this)" class="del-more-answ">Usuń</button>
+                <label class="a mg30" for="single4"><input id="single4" type="radio" value="4" name="ans" class="icon_mg radio-c" checked><span class="checkmark"></span>Czwarta odpowiedź<button onclick="del(this)" class="del-more-answ"><span class="del-qst"><i class="fas fa-times icon_mg"></i> Usuń pytanie</span></button></label> 
                 <div id="single4ans">` + ev.option[3] + `
                 </div>
                 </div>` : '') + `
@@ -310,11 +310,11 @@
                 </div>
                 </div>
                 ` + (ev.option[2] ? `<div class="num thirdans">
-                <label class="a mg30" for="multi3"><input id="multi3" type="checkbox" value="3" name="ans" class="icon_mg radio-c" checked><span class="checkmark"></span>Trzecia odpowiedź</label><button onclick="del(this)" class="del-more-answ">Usuń</button>
+                <label class="a mg30" for="multi3"><input id="multi3" type="checkbox" value="3" name="ans" class="icon_mg radio-c" checked><span class="checkmark"></span>Trzecia odpowiedź<button onclick="del(this)" class="del-more-answ"><span class="del-qst"><i class="fas fa-times icon_mg"></i> Usuń pytanie</span></button></label>
                 <div id="multi3ans">` + ev.option[2] + `
                 </div>                
                 </div>` : "") + (ev.option[3] ? `<div class="num fourthans">
-                <label class="a mg30" for="multi4"><input id="multi4" type="checkbox" value="4" name="ans" class="icon_mg radio-c" checked><span class="checkmark"></span>Czwarta odpowiedź</label><button onclick="del(this)" class="del-more-answ">Usuń</button>
+                <label class="a mg30" for="multi4"><input id="multi4" type="checkbox" value="4" name="ans" class="icon_mg radio-c" checked><span class="checkmark"></span>Czwarta odpowiedź<button onclick="del(this)" class="del-more-answ"><span class="del-qst"><i class="fas fa-times icon_mg"></i> Usuń pytanie</span></button></label>
                 <div id="multi4ans">` + ev.option[3] + `
                 </div>                
                 </div>` : "") + `
@@ -323,6 +323,7 @@
                     
                 <button id='possibility' onclick="addpossibility1()" class="link-button f300">Dodaj możliwą odpowiedź</button><br>
                 <input type="file" id="siofu_input" style="display:none;"/>
+				<div id='qimg'>` + (ev.zdj ? `<img src="` + ev.zdj + `" alt=""><button  class="remove-img" onclick="deleteimage()"><i class="fas fa-trash icon_mg fontg_red"></i> Usuń obraz</button>` : "") + `</div><div>
 				<div id='qimg'>` + (ev.zdj ? `<img src="` + ev.zdj + `" alt=""><button  class="remove-img" onclick="deleteimage()"><i class="fas fa-trash icon_mg fontg_red"></i> Usuń obraz</button>` : "") + `</div><div>
                 <label class="etykieta mg30 f25 pointer" for="siofu_input"><i class="fas fa-cloud-upload-alt icon_mg"></i> Wybierz plik</label><br>
                 <span>Możliwe rozszerzenia: png, jpg, jpeg, bmp, pdf </span><br>
@@ -448,7 +449,7 @@
 						<div class="match-image"><i class="fas fa-image icon_mg"></i> Dodaj zdjęcie</div>
 					</div>
 
-				</div>` : "") + (ev.option[5] ? `<div class="column-quest col6">
+				</div>` : "") + (ev.option[5] != null ? `<div class="column-quest col6">
 					<div class="column-questl">
 						<div class="num sixthans">
 						<label class="a" for="match6">Szósta odpowiedź <button onclick="del(this,'match')" class="del-more-answ"><span class="del-qst"><i class="fas fa-times icon_mg"></i> Usuń pytanie</span></button></label>
@@ -464,12 +465,12 @@
 						<div class="match-image"><i class="fas fa-image icon_mg"></i> Dodaj zdjęcie</div>
 					</div>
 
-				</div>` : "") + (ev.option[6] ? `<div class="fakeans">
+				</div>` : "") + (ev.fake.typ == 'fakeans' ? `<div class="fakeans">
 						<label class="a" for="fakeans">Fałszywa odpowiedź</label>
-						<div id="fakeansquil">` + ev.option[6] + `</div>
-						</div>` : "") + (ev.correct[6] ? `<div class="fakematch">
+						<div id="fakeansquil">` + ev.fake.content + `</div>
+						</div>` : "") + (ev.fake.typ=='fakematch' ? `<div class="fakematch">
 						<label class="a" for="fakematch">Fałszywe dopasowanie</label>
-						<div id="fakematchquil">` + ev.correct[6] + `</div>
+						<div id="fakematchquil">` + ev.fake.content + `</div>
 						</div>` : "") + `
                 </div>
 
@@ -488,28 +489,16 @@
          quil3("match1ans");
          quil4("match2");
          quil5("match2ans");
-         if (ev.option[2]) {
-             quil6("match3")
-             quil7("match3ans")
-         }
-         if (ev.option[3]) {
-             quil8("match4");
-             quil9("match4ans");
-         }
-         if (ev.option[4]) {
-             quil10("match5");
-             quil11("match5ans");
-         }
-         if (ev.option[5]) {
-             quil12("match6");
-             quil13("match6ans");
-         }
-         if (ev.correct[6]) {
-             quil14('fakematchquil');
-         }
-         if (ev.option[6]) {
-             quil15('fakeansquil');
-         }
+         quil6("match3")
+         quil7("match3ans")
+         quil8("match4");
+         quil9("match4ans");
+         quil10("match5");
+         quil11("match5ans");
+         quil12("match6");
+         quil13("match6ans");
+         quil14('fakematchquil');
+         quil15('fakeansquil');
          quilleditor();
      }
      //         else if (selected == 'chapter') {
@@ -588,6 +577,7 @@
 				</div>`).insertBefore('button#possibility')
          quil6("match3");
          quil7("match3ans");
+         quilleditor();
      }
      if (num == 3) {
          $(`<div class="column-quest col4">
@@ -609,6 +599,7 @@
 				</div>`).insertBefore('button#possibility')
          quil8("match4");
          quil9("match4ans");
+         quilleditor();
      }
      if (num == 4) {
          $(`<div class="column-quest col5">
@@ -630,7 +621,7 @@
 				</div>`).insertBefore('button#possibility')
          quil10("match5");
          quil11("match5ans");
-
+         quilleditor();
      }
      if (num == 5) {
          $(`<div class="column-quest col6">
@@ -652,6 +643,7 @@
 				</div>`).insertBefore('button#possibility')
          quil12("match6");
          quil13("match6ans");
+         quilleditor();
      }
  }
 

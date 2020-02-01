@@ -8,7 +8,11 @@ const questionSchema = new mongoose.Schema({
     correct: Array,
     chapter: mongoose.Schema.Types.ObjectId,
     name: String,
-    points: Number
+    points: Number,
+    fake: {
+        typ: String,
+        content: String
+    }
     
     
 });
