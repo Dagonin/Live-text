@@ -23,7 +23,9 @@ exports = module.exports = function (io) {
         uploader.on("saved", function (event) {
             socket.emit('uploaded', event);
         });
-
+        
+        uploader.on('complete',function(event){
+        })
 
 
 

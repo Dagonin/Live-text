@@ -187,7 +187,8 @@
                 </div>
 				<div class="etykieta f25"><i class="far fa-clone icon_mg"></i> Treść pytania</div><br>
 				<div class="quest-info">
-				<div id="opencontent"></div></div></div>
+				<div id="opencontent"></div>                <input type="file" id="siofu_1" style="display:none;"/>
+                <label class="etykieta mg30 f25 pointer" for="siofu_1"><i class="fas fa-cloud-upload-alt icon_mg"></i> Wybierz plik</label><br></div></div>
                 <input type="file" id="siofu_input" style="display:none;"/>
                 <label class="etykieta mg30 f25 pointer" for="siofu_input"><i class="fas fa-cloud-upload-alt icon_mg"></i> Wybierz plik</label><br>
 				<div id='qimg'> </div>
@@ -205,18 +206,60 @@
 
      let src;
      var uploader = new SocketIOFileUpload(socket);
+     var uploader1 = new SocketIOFileUpload(socket);
      uploader.maxFileSize = 300000;
+
      uploader.listenOnInput(document.getElementById("siofu_input"));
+     uploader1.listenOnInput(document.getElementById("siofu_1"));
      uploader.addEventListener("error", function (data) {
          if (data.code === 1) {
              alert("Don't upload such a big file");
          }
      });
+
      uploader.addEventListener("start", function (event) {
          if (event.file.type != "image/png" && event.file.type != "image/jpeg" && event.file.type != "image/bmp") {
              return false;
          }
+         let ftype;
+         if (event.file.type == "image/png") {
+             ftype = ".png";
+         }
+         if (event.file.type == "image/jpeg") {
+             ftype = ".jpeg";
+         }
+         if (event.file.type == "image/bmp") {
+             ftype = ".bmp"
+         }
+         Object.defineProperty(event.file, 'name', {
+             writable: true,
+             value: "c" + ftype
+         });
+
      });
+     uploader1.addEventListener("start", function (event) {
+         if (event.file.type != "image/png" && event.file.type != "image/jpeg" && event.file.type != "image/bmp") {
+             return false;
+         }
+         let ftype;
+         if (event.file.type == "image/png") {
+             ftype = ".png";
+         }
+         if (event.file.type == "image/jpeg") {
+             ftype = ".jpeg";
+         }
+         if (event.file.type == "image/bmp") {
+             ftype = ".bmp"
+         }
+         Object.defineProperty(event.file, 'name', {
+             writable: true,
+             value: "b" + ftype
+         });
+
+     });
+
+
+
  }
 
 
@@ -468,7 +511,7 @@
 				</div>` : "") + (ev.fake.typ == 'fakeans' ? `<div class="fakeans">
 						<label class="a" for="fakeans">Fałszywa odpowiedź</label>
 						<div id="fakeansquil">` + ev.fake.content + `</div>
-						</div>` : "") + (ev.fake.typ=='fakematch' ? `<div class="fakematch">
+						</div>` : "") + (ev.fake.typ == 'fakematch' ? `<div class="fakematch">
 						<label class="a" for="fakematch">Fałszywe dopasowanie</label>
 						<div id="fakematchquil">` + ev.fake.content + `</div>
 						</div>` : "") + `
@@ -512,7 +555,7 @@
      let src;
      var uploader = new SocketIOFileUpload(socket);
      uploader.maxFileSize = 300000;
-     uploader.listenOnInput(document.getElementById("siofu_input"));
+     uploader.listenOnInput(document.getElementById("siofu_input"), document.getElementById("siofu_1"));
      uploader.addEventListener("error", function (data) {
          if (data.code === 1) {
              alert("Don't upload such a big file");
