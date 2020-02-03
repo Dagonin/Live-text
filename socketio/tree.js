@@ -20,12 +20,16 @@ exports = module.exports = function (io) {
 
         });
 
+
+        uploader.on("error", function (event) {
+            console.log("Error from uploader", event);
+        });
+
         uploader.on("saved", function (event) {
             socket.emit('uploaded', event);
         });
-        
-        uploader.on('complete',function(event){
-        })
+
+        uploader.on('complete', function (event) {})
 
 
 
@@ -298,7 +302,7 @@ exports = module.exports = function (io) {
 
         })
 
-        socket.on("edit", (socid, name, type, content, options, correct, userid, src, qid, points,fake) => {
+        socket.on("edit", (socid, name, type, content, options, correct, userid, src, qid, points, fake) => {
             if (type == "single") {
                 Questions.findByIdAndUpdate(qid, {
                     owner: userid,
@@ -370,7 +374,7 @@ exports = module.exports = function (io) {
                     type: 'match',
                     zdj: src,
                     points: points,
-                    fake:{
+                    fake: {
                         typ: fake.type,
                         content: fake.content
                     }
@@ -380,7 +384,7 @@ exports = module.exports = function (io) {
                     if (err) {
                         console.log(err)
                     }
-    
+
                     console.log(nquestion);
 
                 })
@@ -390,7 +394,7 @@ exports = module.exports = function (io) {
 
         })
 
-        socket.on("dodaj", (socid, name, type, content, options, correct, userid, src, points,fake) => {
+        socket.on("dodaj", (socid, name, type, content, options, correct, userid, src, points, fake) => {
             if (type == "addchapter") {
                 Chapters.create({
                     owner: userid,
@@ -466,7 +470,7 @@ exports = module.exports = function (io) {
                     type: 'match',
                     zdj: src,
                     points: points,
-                    fake:{
+                    fake: {
                         typ: fake.type,
                         content: fake.content
                     }
