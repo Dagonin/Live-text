@@ -229,7 +229,6 @@ function generateTestItems(test) {
         let question = $.grep(questions, function (ev) {
             return ev._id == qid;
         })[0];
-        
         if (question.type == "open") {
             tr +=
                 `<p class="list-item" id="` +
@@ -258,7 +257,7 @@ function generateTestItems(test) {
                 question.name +
                 `</p>`;
         }else if (question.type == "match") {
-            tree +=
+            tr +=
                 `<p class="list-item" id="` +
                 question._id +
                 `" draggable = 'true' >

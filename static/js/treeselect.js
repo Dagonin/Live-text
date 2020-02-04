@@ -861,8 +861,6 @@
 
 
 
-
-
  function quil1(e) {
      var cont = document.getElementById(e)
      window.quill1 = new Quill(cont, {

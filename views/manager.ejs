@@ -20,6 +20,15 @@
 
 <body>
 
+<!--   Pogdlad zdjec-->
+   <div class="showimage">
+  <div class="overlayimage"></div>
+  <div class="img-show">
+    <span>X</span>
+    <img src="">
+  </div>
+</div>
+   
     <!--
     <div class="columns">
         <div class="column list is-hoverable is-shadowless" id="tree"></div>
@@ -142,6 +151,33 @@ E:/Z_C/programowanie/live-text/serwer
     setClickEventOnTreeItems();
 
 
+    
+    //PODGLAD IMG, NW JAK TO DZIALA, UKRADLEM Z CODEPENA
+    function prewievimage() {
+    "use strict";
+    
+    $("img").click(function () {
+        var $src = $(this).attr("src");
+        $(".showimage").fadeIn();
+        $(".img-show img").attr("src", $src);
+        $('html').css('overflow','hidden')
+//        $('.img-show img').css('top',window.scrollY+'px');
+        $('.showimage .overlayimage').css('top',window.scrollY+'px');
+        $('.showimage .img-show').css('top',(window.scrollY+$('html')[0].clientHeight/2)+'px');
+        console.log($('html')[0].clientHeight)
+    });
+    
+    $("span, .overlayimage").click(function () {
+        $(".showimage").fadeOut();
+        $('html').css('overflow','auto')
+    });
+    
+}  
+    
+    
+    
+    
+    
         $(".navbut1").hide();
 
     function block() {
@@ -365,6 +401,7 @@ E:/Z_C/programowanie/live-text/serwer
             ` + ans + correct+`<button db-id="` + result._id + `" onclick="editq(this)" class="edit-question">Edytuj</button></div>`)
         }
         $(".showq").attr("id", e.id);
+        prewievimage()
     }
     // TWORZENIE TESTU
 
