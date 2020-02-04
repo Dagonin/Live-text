@@ -41,22 +41,19 @@
                 <input id="singlename" type="text" name="name" class="question">  <br>
                 <label for="points" class="etykieta">Ilość punktów za pytanie</label><br>
                 <input id="numberofpoints" type="number" class="question"> <br>
-				<label for="tresc" class="etykieta" style="display:block">Treść pytania              <input type="file" id="siofu_content" style="display:none;"/>
-                <label class="etykieta mg30 f25 pointer" for="siofu_content"><i class="fas fa-cloud-upload-alt icon_mg"></i> Wybierz plik</label></label><br>
+				<label for="tresc" class="etykieta" style="display:block">Treść pytania</label><br>
                 <div id="singlecontent"></div>
                 </div>
 				<div class="etykieta f25"><i class="far fa-clone icon_mg"></i> Możliwe odpowiedzi</div><br>
 				<div class="quest-info">
                 <div class="num firstans">
-                <label class="a" for="single1"><input id="single1" type="radio" value="1" name="ans" class="radio-c" checked><span class="checkmark"></span>Pierwsza odpowiedź              <input type="file" id="siofu_1" style="display:none;"/>
-                <label class="etykieta mg30 f25 pointer" for="siofu_1"><i class="fas fa-cloud-upload-alt icon_mg"></i> Wybierz plik</label></label>
+                <label class="a" for="single1"><input id="single1" type="radio" value="1" name="ans" class="radio-c" checked><span class="checkmark"></span>Pierwsza odpowiedź</label>
                 <div id="single1ans">
                 </div>                
                 </div>
                 
                 <div class="num secondans">
-                <label class="a mg30" for="single2"><input id="single2" type="radio" value="2" name="ans" class="radio-c" checked><span class="checkmark"></span>Druga odpowiedź              <input type="file" id="siofu_2" style="display:none;"/>
-                <label class="etykieta mg30 f25 pointer" for="siofu_2"><i class="fas fa-cloud-upload-alt icon_mg"></i> Wybierz plik</label></label>
+                <label class="a mg30" for="single2"><input id="single2" type="radio" value="2" name="ans" class="radio-c" checked><span class="checkmark"></span>Druga odpowiedź</label>
                 <div id="single2ans">
 
                 
@@ -148,16 +145,14 @@
                 <input id="multiname" type="text" name="name" class="question"><br>
 				<label for="points" class="etykieta">Ilość punktów za pytanie</label><br>
                 <input id="numberofpoints" type="number" class="question"> <br>   
-                <label class="etykieta" style="display:block;">Treść pytania              <input type="file" id="siofu_content" style="display:none;"/>
-                <label class="etykieta mg30 f25 pointer" for="siofu_content"><i class="fas fa-cloud-upload-alt icon_mg"></i> Wybierz plik</label></label><br>				
+                <label class="etykieta" style="display:block;">Treść pytania </label><br>				
                 <div id="multicontent">
                 </div></div>
 				<br>
 				<div class="etykieta f25"><i class="far fa-clone icon_mg"></i> Możliwe odpowiedzi</div><br>
 				<div class="quest-info">
                 <div class="num firstans">
-                <label class="a" for="multi1"><input id="multi1" type="checkbox" value="1" name="ans" class="icon_mg radio-c" checked><span class="checkmark"></span>Pierwsza odpowiedź              <input type="file" id="siofu_1" style="display:none;"/>
-                <label class="etykieta mg30 f25 pointer" for="siofu_1"><i class="fas fa-cloud-upload-alt icon_mg"></i> Wybierz plik</label></label>
+                <label class="a" for="multi1"><input id="multi1" type="checkbox" value="1" name="ans" class="icon_mg radio-c" checked><span class="checkmark"></span>Pierwsza odpowiedź </label>
                 <div id="multi1ans">
                 </div>                
                 </div>
@@ -171,9 +166,7 @@
                 </div>
                 </div>
                 </div>
-                <button id='possibility' onclick="addpossibility1()" class="link-button f300">Dodaj możliwą odpowiedź</button><br>
-                <input type="file" id="siofu_input" style="display:none;"/>
-                <label class="etykieta mg30 f25 pointer" for="siofu_input"><i class="fas fa-cloud-upload-alt icon_mg"></i> Wybierz plik</label><br>
+                <button id='possibility' onclick="addpossibility1()" class="link-button f300">Dodaj możliwą odpowiedź</button><br><br>
 				<div id='qimg'> </div>
                 <span>Możliwe rozszerzenia: png, jpg, jpeg, bmp, pdf </span><br>
                 <button onclick="addmulti('add')" class="add-button">Dodaj</button> <div id="err"></div>`);
@@ -218,16 +211,6 @@
      if ($("#siofu_input").length!=0) {
          uploader.listenOnInput($("#siofu_input")[0]);
      }
-//     if ($("#siofu_content").length!=0) {
-//         uploader_content.listenOnInput($("#siofu_content")[0]);
-//     }
-//     if ($("#siofu_1").length!=0) {
-//         console.log(test)
-//         uploader_1.listenOnInput($("#siofu_1")[0]);
-//     }
-//     if ($("#siofu_2").length!=0) {
-//         uploader_2.listenOnInput($("#siofu_2")[0]);
-//     }
 
 
      uploader.addEventListener("error", function (data) {
@@ -256,67 +239,6 @@
          });
 
      });
-//     uploader_content.addEventListener("start", function (event) {
-//         if (event.file.type != "image/png" && event.file.type != "image/jpeg" && event.file.type != "image/bmp") {
-//             return false;
-//         }
-//         let ftype;
-//         if (event.file.type == "image/png") {
-//             ftype = ".png";
-//         }
-//         if (event.file.type == "image/jpeg") {
-//             ftype = ".jpeg";
-//         }
-//         if (event.file.type == "image/bmp") {
-//             ftype = ".bmp"
-//         }
-//         Object.defineProperty(event.file, 'name', {
-//             writable: true,
-//             value: "co" + ftype
-//         });
-//
-//     });
-//     uploader_1.addEventListener("start", function (event) {
-//         if (event.file.type != "image/png" && event.file.type != "image/jpeg" && event.file.type != "image/bmp") {
-//             return false;
-//         }
-//         let ftype;
-//         if (event.file.type == "image/png") {
-//             ftype = ".png";
-//         }
-//         if (event.file.type == "image/jpeg") {
-//             ftype = ".jpeg";
-//         }
-//         if (event.file.type == "image/bmp") {
-//             ftype = ".bmp"
-//         }
-//         Object.defineProperty(event.file, 'name', {
-//             writable: true,
-//             value: "q1" + ftype
-//         });
-//
-//     });
-//     uploader_2.addEventListener("start", function (event) {
-//         if (event.file.type != "image/png" && event.file.type != "image/jpeg" && event.file.type != "image/bmp") {
-//             return false;
-//         }
-//         let ftype;
-//         if (event.file.type == "image/png") {
-//             ftype = ".png";
-//         }
-//         if (event.file.type == "image/jpeg") {
-//             ftype = ".jpeg";
-//         }
-//         if (event.file.type == "image/bmp") {
-//             ftype = ".bmp"
-//         }
-//         Object.defineProperty(event.file, 'name', {
-//             writable: true,
-//             value: "q2" + ftype
-//         });
-//
-//     });
-
 
 
  }
