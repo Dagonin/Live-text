@@ -1039,6 +1039,7 @@ p img {
 }
 
 .showimage .overlayimage {
+    z-index: 9999;
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, .66);
@@ -1047,6 +1048,7 @@ p img {
 }
 
 .showimage .img-show {
+    z-index: 9999;
     width: 600px;
     height: 400px;
     background: #FFF;
@@ -1057,14 +1059,15 @@ p img {
 }
 
 .img-show span {
+    z-index: 9999;
     position: absolute;
     top: 10px;
     right: 10px;
-    z-index: 999;
     cursor: pointer;
 }
 
 .img-show img {
+    z-index: 9999;
     width: 100%;
     height: 100%;
     position: absolute;
