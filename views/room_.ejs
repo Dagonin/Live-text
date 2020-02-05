@@ -202,7 +202,10 @@
                 $(".toggle").each(function(){
                     ans.push(this.id)
                 })
-            }}
+            }else if(true){
+                     
+                     
+                     }}
             if(ans){
                 answers[guest.index] = ans;
             }
@@ -229,7 +232,7 @@
             console.log(questions[guest.index]);
             //WYŚWITLANIE PYTANIA                         WĄŻŃĘ////////////////////////////////////////////
             $("#question").html(questions[guest.index].content);
-            if(questions[guest.index].type!="open"){
+            if(questions[guest.index].type=="single"||questions[guest.index].type=="multi"){
                 $("#answers").html("");
                 let optionindex=0;
                 questions[guest.index].option.forEach(option=>{
@@ -241,7 +244,7 @@
                         $("#"+qid).addClass("toggle");
                     })
                 }
-            }else{
+            }else if(questions[guest.index].type=="open"){
                 
                 if(answers[guest.index]){
                     $("#answers").html(`<div id='quillopen'>`+answers[guest.index]+`</div>`);
@@ -249,6 +252,28 @@
                     $("#answers").html(`<div id='quillopen'></div>`);
                 }
                 quil("quillopen");
+            }else if(questions[guest.index].type=='match'){
+                if(answers[guest.index]){
+                    
+                }else{
+                $('#answers').html(`<div id='matchq'></div><div id='matchans'></div>`);
+                questions[guest.index].option.forEach(option=>{
+                    $("#matchq").append(`<div>`+option+`</div>`)
+                })                
+                questions[guest.index].correct.forEach(correct=>{
+                    $("#matchans").append(`<div>`+correct+`</div>`)
+                })
+                if(questions[guest.index].fake){
+                    fak = questions[guest.index].fake;
+                    console.log(fak)
+                    if(fak.typ=="fakeans"){
+                        $("#matchq").append(`<div>`+fak.content+`</div>`)
+                    }else if(fak.typ=="fakematch"){
+                        $("#matchans").append(`<div>`+fak.content+`</div>`)
+                    }
+                }    
+                
+                }
             }
 //            Timer
             <% if(!room.time){ %>
