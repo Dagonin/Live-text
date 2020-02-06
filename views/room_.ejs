@@ -257,19 +257,19 @@
                     
                 }else{
                 $('#answers').html(`<div id='matchq'></div><div id='matchans'></div>`);
-                questions[guest.index].option.forEach(option=>{
-                    $("#matchq").append(`<div>`+option+`</div>`)
+                questions[guest.index].option.forEach((option,i)=>{
+                    $("#matchq").append(`<div num="o`+i+`">`+option+`</div>`)
                 })                
-                questions[guest.index].correct.forEach(correct=>{
-                    $("#matchans").append(`<div>`+correct+`<div class='matchdrop'></div></div>`)
+                questions[guest.index].correct.forEach((correct,i)=>{
+                    $("#matchans").append(`<div num="a`+i+`">`+correct+`<div class='matchdrop'></div></div>`)
                 })
                 if(questions[guest.index].fake){
                     fak = questions[guest.index].fake;
                     console.log(fak)
                     if(fak.typ=="fakeans"){
-                        $("#matchq").append(`<div>`+fak.content+`</div>`)
+                        $("#matchq").append(`<div num="fo">`+fak.content+`</div>`)
                     }else if(fak.typ=="fakematch"){
-                        $("#matchans").append(`<div>`+fak.content+`<div class='matchdrop'></div>`)
+                        $("#matchans").append(`<div num="fa">`+fak.content+`<div class='matchdrop'></div>`)
                     }
                 }    
                 
