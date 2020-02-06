@@ -1,11 +1,4 @@
-Do poprawienia:
 
-Przy edytowaniu poprawne odpowiedzi nie są zaznaczane tak jak zostały wybrane, tylko tak jak zostało ustawione domyślnie
-(Single = Druga odpowiedz poprawna), (Multi = Pierwsza i Druga)
-
-Przy usuwaniu odpowiedzi 3 i 4 JEŚLi są 4 odpowiedzi,
-przycisk usuń dla 3 odpowiedzi usuwa 4 odpowiedz // powinien usunac 3, a pytanie 4 przeniesc na pozycje 3
-przycisk usuń dla 4 odpowiedzi usuwa 4 odpowiedz // dobrze dziala
 
 Do zrobienia:
 
@@ -71,5 +64,6 @@ NA KIEDYŚ
 https://developer.mozilla.org/en-US/docs/Web/API/History_API
 https://stackoverflow.com/questions/824349/how-do-i-modify-the-url-without-reloading-the-page/3354511#3354511
 Nawigacja URL przy tworzeniu testów
-
+Import i export pytań i rodziałów (array id pytań i zakodować w np Base32)
+Prawie na 100% bede usuwał system testów, bo są nie potrzebne i wzbudzają nie potrzebne zamieszanie
 
