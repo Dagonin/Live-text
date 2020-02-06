@@ -71,8 +71,24 @@ font-weight:300;
 #matchq{
     width: 45%;
     display: block;
+    border: black 1px solid;
+}
+#matchq div{
+    height: 100px;
+    width: 100%;
+    display: block;
+    border: red 1px solid;
 }
 #matchans{
     width: 45%;
     display: block;
+    border: black 1px solid;
+}
+.matchdrop{
+    height: 100px;
+    background-color: yellow;
+}
+.matchdrop div{
+    height: 100%;
+    background-color: yellow;
 }

@@ -46,12 +46,14 @@
 <% } %>
 </div>
 </body>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js'></script>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
 <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
 <script>
     let room;
+    let drake = dragula();
     let guestlist;
     let questions;
     let guest;
@@ -203,8 +205,6 @@
                     ans.push(this.id)
                 })
             }else if(true){
-                     
-                     
                      }}
             if(ans){
                 answers[guest.index] = ans;
@@ -261,7 +261,7 @@
                     $("#matchq").append(`<div>`+option+`</div>`)
                 })                
                 questions[guest.index].correct.forEach(correct=>{
-                    $("#matchans").append(`<div>`+correct+`</div>`)
+                    $("#matchans").append(`<div>`+correct+`<div class='matchdrop'></div></div>`)
                 })
                 if(questions[guest.index].fake){
                     fak = questions[guest.index].fake;
@@ -269,11 +269,28 @@
                     if(fak.typ=="fakeans"){
                         $("#matchq").append(`<div>`+fak.content+`</div>`)
                     }else if(fak.typ=="fakematch"){
-                        $("#matchans").append(`<div>`+fak.content+`</div>`)
+                        $("#matchans").append(`<div>`+fak.content+`<div class='matchdrop'></div>`)
                     }
                 }    
                 
                 }
+                let divarr = $(".matchdrop").toArray();
+                divarr.push($("#matchq")[0]);
+                dragula(divarr,{
+                accepts: (el,target,source,sibling)=>{
+                    if(target.className.includes('matchdrop')){
+                        if(target.getElementsByTagName('div').length==0){
+                            return true;
+                        }else{
+                            return false;
+                        }
+                           
+                    }else{
+                        return true;
+                    }
+        }
+    });
+                
             }
 //            Timer
             <% if(!room.time){ %>
