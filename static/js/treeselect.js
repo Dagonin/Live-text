@@ -208,7 +208,7 @@
      var uploader_2 = new SocketIOFileUpload(socket);
      uploader.maxFileSize = 300000;
 
-     if ($("#siofu_input").length!=0) {
+     if ($("#siofu_input").length != 0) {
          uploader.listenOnInput($("#siofu_input")[0]);
      }
 
@@ -273,23 +273,23 @@
 				<div class="etykieta f25"><i class="far fa-clone icon_mg"></i> Możliwe odpowiedzi</div><br>
 				<div class="quest-info">
                 <div class="num firstans">
-                <label class="a" for="single1"><input id="single1" type="radio" value="1" name="ans" class="icon_mg radio-c" checked><span class="checkmark"></span>Pierwsza odpowiedź</label>
+                <label class="a" for="single1"><input id="single1" type="radio" value="1" name="ans" class="icon_mg radio-c" ><span class="checkmark"></span>Pierwsza odpowiedź</label>
                 <div id="single1ans">` + ev.option[0] + `
                 </div>                
                 </div>
                 
                 <div class="num secondans">
-                <label class="a mg30" for="single2"><input id="single2" type="radio" value="2" name="ans" class="icon_mg radio-c" checked><span class="checkmark"></span>Druga odpowiedź</label>
+                <label class="a mg30" for="single2"><input id="single2" type="radio" value="2" name="ans" class="icon_mg radio-c" ><span class="checkmark"></span>Druga odpowiedź</label>
                 <div id="single2ans">` + ev.option[1] + `
                 </div>
                 </div>
                 ` + (ev.option[2] ? `<div class="num thirdans">
-                <label class="a mg30" for="single3"><input id="single3" type="radio" value="3" name="ans" class="icon_mg radio-c" checked><span class="checkmark"></span>Trzecia odpowiedź<button onclick="del(this)" class="del-more-answ"><span class="del-qst"><i class="fas fa-times icon_mg"></i> Usuń pytanie</span></button></label>   
+                <label class="a mg30" for="single3"><input id="single3" type="radio" value="3" name="ans" class="icon_mg radio-c" ><span class="checkmark"></span>Trzecia odpowiedź<button onclick="del(this)" class="del-more-answ"><span class="del-qst"><i class="fas fa-times icon_mg"></i> Usuń pytanie</span></button></label>   
                 <div id="single3ans">` + ev.option[2] + `
                 </div>
                 </div>` : '') +
              (ev.option[3] ? `<div class="num fourthans">
-                <label class="a mg30" for="single4"><input id="single4" type="radio" value="4" name="ans" class="icon_mg radio-c" checked><span class="checkmark"></span>Czwarta odpowiedź<button onclick="del(this)" class="del-more-answ"><span class="del-qst"><i class="fas fa-times icon_mg"></i> Usuń pytanie</span></button></label> 
+                <label class="a mg30" for="single4"><input id="single4" type="radio" value="4" name="ans" class="icon_mg radio-c" ><span class="checkmark"></span>Czwarta odpowiedź<button onclick="del(this)" class="del-more-answ"><span class="del-qst"><i class="fas fa-times icon_mg"></i> Usuń pytanie</span></button></label> 
                 <div id="single4ans">` + ev.option[3] + `
                 </div>
                 </div>` : '') + `
@@ -301,6 +301,7 @@
                 <label class="etykieta mg30 f25 pointer" for="siofu_input"><i class="fas fa-cloud-upload-alt icon_mg"></i> Wybierz plik</label><br>
                 <span>Możliwe rozszerzenia: png, jpg, jpeg, bmp, pdf </span><br>
                 <button onclick="addsingle('edit','` + qid + `')" class="add-button">Zapisz</button> <div id="err"></div>`);
+         $(`input[name='ans']`)[$.inArray(ev.correct[0], ev.option)].checked = true;
          quil1("singlecontent");
          quil2("single1ans");
          quil3("single2ans");
@@ -323,22 +324,22 @@
 				<div class="etykieta f25"><i class="far fa-clone icon_mg"></i> Możliwe odpowiedzi</div><br>
 				<div class="quest-info">
                 <div class="num firstans">
-                <label class="a" for="multi1"><input id="multi1" type="checkbox" value="1" name="ans" class="icon_mg radio-c" checked><span class="checkmark"></span>Pierwsza odpowiedź</label>
+                <label class="a" for="multi1"><input id="multi1" type="checkbox" value="1" name="ans" class="icon_mg radio-c" ><span class="checkmark"></span>Pierwsza odpowiedź</label>
                 <div id="multi1ans">` + ev.option[0] + `
                 </div>                
                 </div>
                 
                 <div class="num secondans">
-                <label class="a mg30" for="multi2"><input id="multi2" type="checkbox" value="2" name="ans" class="icon_mg radio-c" checked><span class="checkmark"></span>Druga odpowiedź</label>
+                <label class="a mg30" for="multi2"><input id="multi2" type="checkbox" value="2" name="ans" class="icon_mg radio-c" ><span class="checkmark"></span>Druga odpowiedź</label>
                 <div id="multi2ans">` + ev.option[1] + `    
                 </div>
                 </div>
                 ` + (ev.option[2] ? `<div class="num thirdans">
-                <label class="a mg30" for="multi3"><input id="multi3" type="checkbox" value="3" name="ans" class="icon_mg radio-c" checked><span class="checkmark"></span>Trzecia odpowiedź<button onclick="del(this)" class="del-more-answ"><span class="del-qst"><i class="fas fa-times icon_mg"></i> Usuń pytanie</span></button></label>
+                <label class="a mg30" for="multi3"><input id="multi3" type="checkbox" value="3" name="ans" class="icon_mg radio-c" ><span class="checkmark"></span>Trzecia odpowiedź<button onclick="del(this)" class="del-more-answ"><span class="del-qst"><i class="fas fa-times icon_mg"></i> Usuń pytanie</span></button></label>
                 <div id="multi3ans">` + ev.option[2] + `
                 </div>                
                 </div>` : "") + (ev.option[3] ? `<div class="num fourthans">
-                <label class="a mg30" for="multi4"><input id="multi4" type="checkbox" value="4" name="ans" class="icon_mg radio-c" checked><span class="checkmark"></span>Czwarta odpowiedź<button onclick="del(this)" class="del-more-answ"><span class="del-qst"><i class="fas fa-times icon_mg"></i> Usuń pytanie</span></button></label>
+                <label class="a mg30" for="multi4"><input id="multi4" type="checkbox" value="4" name="ans" class="icon_mg radio-c" ><span class="checkmark"></span>Czwarta odpowiedź<button onclick="del(this)" class="del-more-answ"><span class="del-qst"><i class="fas fa-times icon_mg"></i> Usuń pytanie</span></button></label>
                 <div id="multi4ans">` + ev.option[3] + `
                 </div>                
                 </div>` : "") + `
@@ -352,6 +353,12 @@
                 <label class="etykieta mg30 f25 pointer" for="siofu_input"><i class="fas fa-cloud-upload-alt icon_mg"></i> Wybierz plik</label><br>
                 <span>Możliwe rozszerzenia: png, jpg, jpeg, bmp, pdf </span><br>
                 <button onclick="addmulti('edit','` + qid + `')" class="add-button">Zapisz</button> <div id="err"></div>`);
+         ev.option.forEach((option,i)=>{
+             let inputpos = $.inArray(option,ev.correct)
+             if(inputpos!=-1){
+                  $(`input[name='ans']`)[i].checked = true;
+             }
+         })
          quil1("multicontent");
          quil2("multi1ans");
          quil3("multi2ans");
@@ -780,7 +787,16 @@
 
          if (num == 4 && e.parentElement.parentElement.className.includes("thirdans")) {
              window.quill4.container.firstChild.innerHTML = window.quill5.container.firstChild.innerHTML;
+             if($(".fourthans label input")[0].checked==true){
+                 $(".thirdans label input")[0].checked=true;
+                 console.log('tr')
+             }else{
+                 $(".thirdans label input")[0].checked=false;
+                console.log('fl')
+
+             }
              $(".fourthans").remove();
+             
          } else if (num == 3 && e.parentElement.parentElement.className.includes("thirdans")) {
              $(".thirdans").remove();
          } else if (num == 4 && e.parentElement.parentElement.className.includes("fourthans")) {
@@ -838,7 +854,7 @@
         }],
         [{
          'align': []
-        }],[ 'link', 'image', 'video', 'formula' ],    
+        }], ['link', 'image', 'video', 'formula'],
 
         ['clean'] // remove formatting button
     ];
