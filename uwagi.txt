@@ -71,5 +71,6 @@ NA KIEDYŚ
 https://developer.mozilla.org/en-US/docs/Web/API/History_API
 https://stackoverflow.com/questions/824349/how-do-i-modify-the-url-without-reloading-the-page/3354511#3354511
 Nawigacja URL przy tworzeniu testów
-
+Eksport folderów, pytań - zrobic arraya z id pytań i zakodować w np base32, albo czyms krótszym
+Myśle nad usunięciem opcji testów, bo wprowadza niepotrzebne zamieszanie w Managerze pytań i utrudnia poruszanie się.
 
