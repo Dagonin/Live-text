@@ -63,9 +63,11 @@
     <% if(!user){ %>
     <% if( fguest.roomquestions.answer!=""){ %>
     let answers = <%-JSON.stringify(fguest.roomquestions.answer) %>;
+    console.log(answers)
     <% }else{ %>
     let answers = [];
-    <% }}%>
+    <% } %>
+    <% }%>
     const socket = io();
             socket.on('connect', () => {
                 console.log(socket.id)
@@ -78,6 +80,12 @@
                 socket.emit('joinroom',"<%= room.PIN %>",<%= room.OPEN %>);
 
         });
+    
+    
+        window.onbeforeunload = function(event)
+    {
+        changequestion(0)
+    };
     
     
     //SOCKETIO
@@ -109,9 +117,9 @@
         console.log(questionidlist)
         questions.forEach(q =>{
         questionidlist.push(q._id);
-            
         })
         <% if(!user){ %>
+        console.log(answers);
         changequestion(0);
         <% }} %>
     })
