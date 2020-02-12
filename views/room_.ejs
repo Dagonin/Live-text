@@ -94,7 +94,6 @@
         if(questions){
         questions.forEach(q =>{
             questionidlist.push(q._id);
-            console.log("a")
         })
         }
         $("#guestlist").html("")
@@ -217,7 +216,6 @@
             }
             }
             if(ans){
-                console.log(ans)
                 answers[guest.index] = ans;
             }
             <% if(!room.time){%>
@@ -240,7 +238,6 @@
                     return false;
                 <% } %>
             }
-            console.log(questions[guest.index]);
             //WYŚWITLANIE PYTANIA                         WĄŻŃĘ////////////////////////////////////////////
             $("#question").html(questions[guest.index].content);
             if(questions[guest.index].type=="single"||questions[guest.index].type=="multi"){
@@ -270,20 +267,30 @@
                     let index = i+1;
                     let ind = $.inArray(index.toString(), answers[guest.index].a);
                     if(ind!= -1&&answers[guest.index].o[ind]){
+                        if(answers[guest.index].o[ind]==0){
+                        $("#matchans").append(`<div class='a' num="`+index+`">`+correct+`<div class='matchdrop'>`+`<div class='o' num="0">`+questions[guest.index].fake.content+`</div>`+`</div></div>`)
+                        }else{
                         $("#matchans").append(`<div class='a' num="`+index+`">`+correct+`<div class='matchdrop'>`+`<div class='o' num="`+answers[guest.index].o[ind]+`">`+questions[guest.index].option[answers[guest.index].o[ind]-1]+`</div>`+`</div></div>`)
+                        }
                     }else{
+                        
                        $("#matchans").append(`<div class='a' num="`+index+`">`+correct+`<div class='matchdrop'></div></div>`) 
                     }
                     
                 })
                     if(questions[guest.index].fake){
                     fak = questions[guest.index].fake;
-                    console.log(fak)
                     if(fak.typ=="fakeans"){
+                        if($.inArray("0",answers[guest.index].o)==-1){
+                            console.log(answers[guest.index])
+                            $('#matchq').append(`<div class='o' num='0'>`+fak.content+`</div>`)
+                        }else{
+                        }
+                        
                         
                     }else if(fak.typ=="fakematch"){
-                        console.log()
-                        if($.inArray("0",answers[guest.index].a)!=-1){
+                       
+                        if($.inArray("0",answers[guest.index].a)!=-1&&answers[guest.index].o[$.inArray("0",answers[guest.index].a)]){
                              $("#matchans").append(`<div class='a' num="0">`+fak.content+`<div class='matchdrop'>`+`<div class='o' num="`+$.inArray("0",answers[guest.index].a)+`">`+questions[guest.index].option[$.inArray("0",answers[guest.index].a)-1]+`</div>`+`</div>`)
                         }else{
                             $("#matchans").append(`<div class='a' num="0">`+fak.content+`<div class='matchdrop'></div>`)
@@ -310,7 +317,6 @@
                 })
                 if(questions[guest.index].fake){
                     fak = questions[guest.index].fake;
-                    console.log(fak)
                     if(fak.typ=="fakeans"){
                         $("#matchq").append(`<div class='o' num="0">`+fak.content+`</div>`)
                     }else if(fak.typ=="fakematch"){

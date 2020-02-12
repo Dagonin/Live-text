@@ -68,11 +68,10 @@ exports = module.exports = function (io) {
                                 }
                                 fQuestions.forEach(question=>{
                                     if(question.type=="match"){
-                                        console.log(question)
                                         question.option = shuffleSeed.shuffle(question.option,PIN);
-                                        question.correct = shuffleSeed.shuffle(question.correct,PIN);
-                                        console.log(question)
+                                        question.correct = shuffleSeed.shuffle(question.correct,PIN*2);
                                     }
+                                    
                                 })
 //                                io.to('room_' + PIN).emit('reloadlist', fRoom, fGuests, fQuestions);
                                 socket.emit('reloadlist', fRoom, fGuests, fQuestions)
