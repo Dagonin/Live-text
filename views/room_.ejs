@@ -84,7 +84,7 @@
     
         window.onbeforeunload = function(event)
     {
-        changequestion(0)
+        changequestion(0);
     };
     
     
@@ -120,7 +120,8 @@
         })
         <% if(!user){ %>
         console.log(answers);
-        changequestion(0);
+        showquestion()
+        setInterval(changequestion,2000,0)
         <% }} %>
     })
     
@@ -247,7 +248,93 @@
                     return false;
                 <% } %>
             }
-            //WYŚWITLANIE PYTANIA                         WĄŻŃĘ////////////////////////////////////////////
+            if(num!=0){
+                showquestion()
+            }
+            
+
+//            Timer
+            <% if(!room.time){ %>
+               if(questions[guest.index].type=='open'){
+                   timer(<%= room.opentime %>)
+               }else{
+                   timer(<%= room.closedtime %>)
+               }
+            <% } %>
+            
+
+            
+            
+    // Emit
+            socket.emit("changeindex","<%= fguest.id %>",guest.index,questions[guest.index].type,'<%= room.opentime %>','<%= room.closedtime %>','<%= room.time %>',questionidlist,answers,"<%= room.PIN %>")
+            
+        }
+        <% } %>
+    //Timer
+        function timer(time){
+                function changetime(){
+                let min = Math.floor(time/60);
+                let sec = time%60;
+                $("#timer").text(min+":"+sec)
+                    
+                if(time<=0){
+                    timeout();
+                    clearInterval(timerinverval)
+                }  
+                    time--;
+                }
+                
+                if(timerinverval){
+                clearInterval(timerinverval);
+                timerinverval=undefined;
+                }
+                
+                timerinverval = setInterval(changetime,1000,time);
+            }
+            
+        function checktime(){
+            if(timeremaining() >guest.time){
+                timeout();
+            }
+        }    
+            
+        function timeremaining(){
+            let currentdate = new Date();
+            return currentdate.getHours()*3600+currentdate.getMinutes()*60+currentdate.getSeconds();
+        }
+            
+        function timeout(){
+
+            <% if(room.time){ %>
+                    clearInterval(timerinverval)
+                    $("#gamequestions").html('')
+           <%}else{ %>
+            clearInterval(timerinverval);
+            changequestion(1);
+            
+            <% } %>
+        }
+            // Zaznaczanie dobrej odpowiedzi
+            function check(e,type){    
+                if(type=="single"&& $(".toggle").length==1){
+                    $(".toggle").toggleClass("toggle");
+                }
+                e.classList.toggle("toggle")
+            }
+            
+            
+            // Obiekt guest
+            
+            socket.on('nguestlist',(ng)=>{
+                <% if(user){ %>
+                
+                guestlist[(guestlist.findIndex(x => x._id === ng._id))]= ng;
+                <% } %>
+            })
+            
+            
+                        //WYŚWITLANIE PYTANIA                         WĄŻŃĘ////////////////////////////////////////////
+            function showquestion(){
             $("#question").html(questions[guest.index].content);
             if(questions[guest.index].type=="single"||questions[guest.index].type=="multi"){
                 $("#answers").html("");
@@ -352,84 +439,9 @@
     });
                 
             }
-//            Timer
-            <% if(!room.time){ %>
-               if(questions[guest.index].type=='open'){
-                   timer(<%= room.opentime %>)
-               }else{
-                   timer(<%= room.closedtime %>)
-               }
-            <% } %>
-            
-
-            
-            
-    // Emit
-            socket.emit("changeindex","<%= fguest.id %>",guest.index,questions[guest.index].type,'<%= room.opentime %>','<%= room.closedtime %>','<%= room.time %>',questionidlist,answers,"<%= room.PIN %>")
-            
-        }
-        <% } %>
-    //Timer
-        function timer(time){
-                function changetime(){
-                let min = Math.floor(time/60);
-                let sec = time%60;
-                $("#timer").text(min+":"+sec) 
-                
-                if(time<=0){
-                    timeout();
-                    clearInterval(timerinverval)
-                }  
-                    time--;
-                }
-                
-                if(timerinverval){
-                clearInterval(timerinverval);
-                timerinverval=undefined;
-                }
-                
-                timerinverval = setInterval(changetime,1000,time);
-            }
-            
-        function checktime(){
-            if(timeremaining() >guest.time){
-                timeout();
-            }
-        }    
-            
-        function timeremaining(){
-            let currentdate = new Date();
-            return currentdate.getHours()*3600+currentdate.getMinutes()*60+currentdate.getSeconds();
-        }
-            
-        function timeout(){
-
-            <% if(room.time){ %>
-                    clearInterval(timerinverval)
-                    $("#gamequestions").html('')
-           <%}else{ %>
-            clearInterval(timerinverval);
-            changequestion(1);
-            
-            <% } %>
-        }
-            // Zaznaczanie dobrej odpowiedzi
-            function check(e,type){    
-                if(type=="single"&& $(".toggle").length==1){
-                    $(".toggle").toggleClass("toggle");
-                }
-                e.classList.toggle("toggle")
             }
             
             
-            // Obiekt guest
-            
-            socket.on('nguestlist',(ng)=>{
-                <% if(user){ %>
-                
-                guestlist[(guestlist.findIndex(x => x._id === ng._id))]= ng;
-                <% } %>
-            })
             
             
             
