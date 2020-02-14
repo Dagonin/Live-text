@@ -96,7 +96,6 @@ const Rooms = require('./models/room');
 const Mailer = require('./helpers/mailer');
 const Questions = require('./models/question');
 const Chapters = require('./models/chapter');
-const Tests = require('./models/test');
 const routes = require('./routes/routes')
 
 

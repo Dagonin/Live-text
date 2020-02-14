@@ -54,12 +54,9 @@ E:/Z_C/programowanie/live-text/serwer
         <div id="m-rightside">
             <!-- przyciski -->
             <div id="m-rightbuttons" class="navbar">
-<!--                <button id="changestate" onclick="loadtest()">Wyświetl testy</button>-->
                 <button class="navbut" onclick="navselect()">Dodaj Pytanie</button>
                 <button class="navbut" onclick="rem()">Usuń</button>
-<!--                <button class="navbut" onclick="test()">Stwórz test</button>-->
                 <button class="navbut" onclick="test()">Stwórz pokój</button>
-<!--                <button class="navbut1" onclick="testrem()">Usuń test</button>-->
 				<button class="navbut" style="position:absolute;right:0"><%= user.username %><i class="fas fa-caret-down" style="margin-left:10px"></i></button>
 				<button class="navbut" style="position:absolute;right:0"><%= user.username %><i class="fas fa-caret-down" style="margin-left:10px"></i></button>
             </div>
@@ -494,45 +491,15 @@ E:/Z_C/programowanie/live-text/serwer
             let cid = this.parentElement.parentElement.parentElement.parentElement.id;
             if($("div.create-test-chapter[db-id='"+cid+"']").length==1){
                 $("div.create-test-chapter[db-id='"+cid+"']").append("<div class='create-test'>" + this.parentElement.innerText + "</div>")
-            }else{
-//                location.reload()
-//                console.log('control')
             }
             testarr.push(this.parentElement.id);
         })
         
-//        $("input:checked").each(function() {
-//            console.log(this.parentElement.tagName)
-//            if (this.parentElement.tagName == "DIV") {
-//
-//
-//            }else if(this.parentElement.tagName=="P"){
-//            testarr.push(this.parentElement.id);
-//
-//                $(".namelist").append("<div class='create-test'>" + this.parentElement.innerText + "</div>")
-//            }
-//        });
+
         if(!document.getElementById("testname")){
-//        $(".maincont").append("<input class='question' placeholder='Podaj nazwe testu' type='text' id='testname'>")
-        
-//        if (testbool == '') {
-//            $(".maincont").append("<button onclick='createroom(testarr)'>Stwórz!</button>")
-//        } else {
-//            $(".maincont").append("<button onclick='etest(testarr)'>Edytuj!</button>")
-//        }
             }
     }
-//
-    function createtest(testarr) {
-        socket.emit("ctest", socket.id, testarr, $("#testname").val(), `<%=user.id%>`);
-        test()
-    }
-//
-//    function etest(testarr) {
-//        socket.emit("etest", socket.id, testarr, $("#testname").val(), <%=user.id%>, testbool);
-//        testbool = '';
-//        test()
-//    }
+
     // USUWANIE PYTAŃ I RODZIAŁÓW ORAZ TESTÓW
 
 
@@ -559,32 +526,6 @@ E:/Z_C/programowanie/live-text/serwer
         }
     }
 
-//    function testrem() {
-//        if (statequestion == false) {
-//            unblock();
-//            block();
-//            $(".cont").append("<input name='rem' onclick='testr(this)' type='checkbox'> ");
-//        }
-//    }
-//
-//
-//    function testr() {
-//        tremarr = [];
-//        $(".maincont").html("")
-//        $("input:checked").each(function() { 
-//        $(".maincont").append("<div>" + $(this.parentElement).find(".dir-header")[0].innerText + "</div>")
-//
-//            tremarr.push(this.parentElement.id);
-//        });
-//          
-//        $(".maincont").append("<button onclick='testdel(tremarr)'>Usuń!</button>")
-//    }
-//
-//
-//
-//    function testdel(tremarr) {
-//        socket.emit("treedeletetest", socket.id, tremarr)
-//    }
 
 
     function remc(e) {
@@ -1177,52 +1118,6 @@ E:/Z_C/programowanie/live-text/serwer
         console.log("NEW " + allquestions)
     })
 
-//    socket.on("newtests", (ntests, nquestions) => {
-//        tests = ntests;
-//        questions = nquestions;
-//        allquestions = nquestions;
-//        unblock();
-//        generateTestTree(tests, questions);
-//        //        setClickEventOnTreeItems();
-//        //        console.log(questions)
-//        //        $("#unassigned").remove()
-//    })
-//
-//
-//    function loadtest() {
-//        if (statequestion == true) {
-//            $(".navbut1").show();
-//            $(".navbut").hide();
-//            testbool = "";
-//            unblock();
-//            socket.emit("gettests", socket.id, `<%=user.id%>);
-//            socket.emit("gettree", socket.id, `<%= user.id %>);
-//            statequestion = false;
-//            $("#changestate").text("Wyświetl pytania")
-//            setTimeout(function() {
-//                $("p.list-item").attr("draggable", "false");
-//                $("p.list-item").off("dragstart", drag);
-//                $(".cont").off("dragover", allowDrop);
-//            }, 200)
-//        } else {
-//            unblock()
-//            $(".navbut").show();
-//            $(".navbut1").hide();
-//            testbool = "";
-//            socket.emit("rtree", socket.id, `<%= user.id %>);
-//            $("#changestate").text("Wyświetl testy");
-//            statequestion = true;
-//        }
-//
-//    }
-//
-//    function edittest(e) {
-//        e= $(e).attr("db-id");
-//        generateTree(chapters, questions);
-//        setClickEventOnTreeItems();
-//        testbool = e;
-//        test(tests[tests.findIndex(x => x._id === e)].questions);
-//    }
 
     socket.on("treedelete", (treeid) => {
         console.log(treeid)
@@ -1377,10 +1272,7 @@ E:/Z_C/programowanie/live-text/serwer
         unblock();
         socket.emit("gettree", socket.id, `<%= user.id %>`);
     })
-//    socket.on('newtest', (test) => {
-//        console.log(test)
-//    })
-    
+
     socket.on('redirect',(path)=>{
         window.location.href = path;
     })

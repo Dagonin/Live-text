@@ -2,7 +2,6 @@ const socketio = require('socket.io')
 const Users = require("../models/user");
 const Questions = require('../models/question');
 const Chapters = require('../models/chapter');
-const Tests = require('../models/test');
 const Guests = require('../models/guest');
 const siofu = require("socketio-file-upload");
 const fs = require('fs-extra');
