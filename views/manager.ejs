@@ -276,9 +276,9 @@ E:/Z_C/programowanie/live-text/serwer
     function createroom(arr){
         if(Array.isArray(arr)){
      if($(".timeinput").length==1&&$(".timeinput")[0].value>0){
-         socket.emit("createroom",socket.id,$('#testname').val(),null,null,$(".timeinput")[0].value,arr,`<%=user.id%>`)
+         socket.emit("createroom",socket.id,null,null,$(".timeinput")[0].value,arr,`<%=user.id%>`)
      }else if($(".timeinput").length==2&&$(".timeinput")[0].value>0&&$(".timeinput")[1].value>0){
-         socket.emit("createroom",socket.id,$('#testname').val(),$(".timeinput")[0].value,$(".timeinput")[1].value,null,arr,`<%=user.id%>`)
+         socket.emit("createroom",socket.id,$(".timeinput")[0].value,$(".timeinput")[1].value,null,arr,`<%=user.id%>`)
      }
     }
     }
@@ -415,8 +415,6 @@ E:/Z_C/programowanie/live-text/serwer
         $(".maincont").html(`<div class="showq"><div class="etykieta f25"><i class="fas fa-info icon_mg"></i> Tworzenie pokoju</div><br>
 			<div class="quest-info">
 			<div class="namelist"></div>
-			<label class="etykieta">Podaj nazwe testu</label><br>
-			<input type='text' id='testname' class='question'><br>
 			<label class="etykieta">Podaj limit czasu</label><br>
 			<select onchange="selecttime(this.options[this.selectedIndex].value)" class="question">
                 <option value="all">Czas całkowity</option>
@@ -426,7 +424,7 @@ E:/Z_C/programowanie/live-text/serwer
                 <div class="etykieta">Podaj czas w minutach dla całego testu</div>
                 <input class="timeinput" type="number" >
             </div>            
-            </div><button onclick='createroom(roomarray)' class='add-button'>Stwórz pokój</button></div>`);
+            </div><button onclick='createroom(testarr)' class='add-button'>Stwórz pokój</button></div>`);
         if (rembool == false) {
 
             rembool = true;
@@ -474,7 +472,22 @@ E:/Z_C/programowanie/live-text/serwer
         testarr = [];
         $(".namelist").html("")
         $("input[name='remc']:checked").each(function(){
-            $(".namelist").append("<div db-id="+this.parentElement.id+" class='create-test-chapter'>" + $(this.parentElement).find(".dir-header").text() + "</div>")
+            if($(this.parentElement).find("input[name='rem']:checked").length>0){
+                console.log($(this.parentElement).find("input[name='rem']:checked").length)
+                $(".namelist").append("<div db-id="+this.parentElement.id+" class='create-test-chapter'>" + $(this.parentElement).find(".dir-header").text() + "</div>")       
+            }else{
+                $(this).prop('checked',false);    
+                console.log($(this.parentElement).find("input[name='rem']:checked").length)
+
+            }
+            
+        })
+        
+        $("input[name='remc']:checkbox:not(:checked)").each(function(){
+            if($(this.parentElement).find("input[name='rem']:checked").length>0){
+                $(this).prop('checked',true);
+                $(".namelist").append("<div db-id="+this.parentElement.id+" class='create-test-chapter'>" + $(this.parentElement).find(".dir-header").text() + "</div>")  
+            }
         })
         
         $("input[name='rem']:checked").each(function(){
@@ -482,8 +495,8 @@ E:/Z_C/programowanie/live-text/serwer
             if($("div.create-test-chapter[db-id='"+cid+"']").length==1){
                 $("div.create-test-chapter[db-id='"+cid+"']").append("<div class='create-test'>" + this.parentElement.innerText + "</div>")
             }else{
-                location.reload()
-//                console.log()
+//                location.reload()
+//                console.log('control')
             }
             testarr.push(this.parentElement.id);
         })

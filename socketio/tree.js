@@ -36,7 +36,7 @@ exports = module.exports = function (io) {
 
 
 
-        socket.on("createroom", (socid, name, opentime, closedtime, time, questions, useid) => {
+        socket.on("createroom", (socid, opentime, closedtime, time, questions, useid) => {
             if (opentime == null && closedtime == null) {
                 securePin.generatePin(6, (pin) => {
                     Rooms.findOne({
