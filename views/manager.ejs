@@ -54,14 +54,14 @@ E:/Z_C/programowanie/live-text/serwer
         <div id="m-rightside">
             <!-- przyciski -->
             <div id="m-rightbuttons" class="navbar">
-                <button id="changestate" onclick="loadtest()">Wyświetl testy</button>
+<!--                <button id="changestate" onclick="loadtest()">Wyświetl testy</button>-->
                 <button class="navbut" onclick="navselect()">Dodaj Pytanie</button>
                 <button class="navbut" onclick="rem()">Usuń</button>
-                <button class="navbut" onclick="test()">Stwórz test</button>
-                <button class="navbut1" onclick="room()">Stwórz pokój</button>
-                <button class="navbut1" onclick="testrem()">Usuń test</button>
+<!--                <button class="navbut" onclick="test()">Stwórz test</button>-->
+                <button class="navbut" onclick="test()">Stwórz pokój</button>
+<!--                <button class="navbut1" onclick="testrem()">Usuń test</button>-->
 				<button class="navbut" style="position:absolute;right:0"><%= user.username %><i class="fas fa-caret-down" style="margin-left:10px"></i></button>
-				<button class="navbut1" style="position:absolute;right:0"><%= user.username %><i class="fas fa-caret-down" style="margin-left:10px"></i></button>
+				<button class="navbut" style="position:absolute;right:0"><%= user.username %><i class="fas fa-caret-down" style="margin-left:10px"></i></button>
             </div>
 			<div class="subnav-right">
 			</div>
@@ -81,14 +81,14 @@ E:/Z_C/programowanie/live-text/serwer
 				<div class="manage-col">
 				<span class="manage-h1"><i class="far fa-hdd manage-icon manage-grey"></i> <span class="manage-title">Kokpit</span><br></span>
 				<a href="/tree" class="manage-link"><i class="fas fa-columns manage-sicon"></i>Strona główna</a><br>
-				<button class="manage-link" onclick="room()"><i class="fab fa-buromobelexperte manage-sicon"></i> Stwórz pokój</button>
+				<button class="manage-link" onclick="test()"><i class="fab fa-buromobelexperte manage-sicon"></i> Stwórz pokój</button>
 				</div>
 				
 				<div class="manage-col">
-				<span class="manage-h1"><i class="far fa-edit manage-icon manage-green"></i> <span class="manage-title">Testy</span><br></span>				
-				<button class="manage-link"  id="changestate" onclick="loadtest()"><i class="fas fa-list-ul manage-sicon"></i>Wyświetl testy</button>
-				<button class="manage-link"onclick="loadtest(); test();"><i class="fas fa-plus manage-sicon"></i>Stwórz testy</button>
-				<button class="manage-link"><i class="far fa-trash-alt manage-sicon"></i>Usuń testy</button>
+<!--				<span class="manage-h1"><i class="far fa-edit manage-icon manage-green"></i> <span class="manage-title">Testy</span><br></span>			-->
+<!--				<button class="manage-link"  id="changestate" onclick="loadtest()"><i class="fas fa-list-ul manage-sicon"></i>Wyświetl testy</button>-->
+<!--				<button class="manage-link"onclick="loadtest(); test();"><i class="fas fa-plus manage-sicon"></i>Stwórz testy</button>-->
+<!--				<button class="manage-link"><i class="far fa-trash-alt manage-sicon"></i>Usuń testy</button>-->
 				</div>
 				
 				<div class="manage-col">
@@ -178,7 +178,6 @@ E:/Z_C/programowanie/live-text/serwer
     
     
     
-        $(".navbut1").hide();
 
     function block() {
         $("p.list-item").off("click");
@@ -230,6 +229,7 @@ E:/Z_C/programowanie/live-text/serwer
             rembool = true;
             block();
             $(".cont").append("<input name='rem' onclick='roomarr()' type='checkbox'> ");
+            $("p.list-item").append("<input name='remq' onclick='roomarr()' type='checkbox'> ");
             roomarr();
             
 
@@ -252,13 +252,17 @@ E:/Z_C/programowanie/live-text/serwer
         roomarray=[];
         $(".namelist").html("");
                 $("input:checked").each(function() {
-
+                if(this.name=="rem"){
                 $(this.parentElement).find('.list-item').each(function(){
-                    console.log(this)
-                   roomarray.push(this.id);
-                        
+                console.log(this)
+                roomarray.push(this.id);
+
                 })
-                $(".namelist").append("<div>" + $(this.parentElement).find(".dir-header")[0].innerText + "</div>")
+                $(".namelist").append("<div class='roomchapter'>" + $(this.parentElement).find(".dir-header")[0].innerText + "</div>")
+                }else{
+                    
+                }
+
         if(!document.getElementById("testname")){
         $(".maincont").append("<input placeholder='Podaj nazwe testu' type='text' id='testname'><br>")
         $(".maincont").append("<input type='number'><br>")
@@ -408,7 +412,21 @@ E:/Z_C/programowanie/live-text/serwer
 
     function test(ev) {
         unblock();
-        $(".maincont").html(`<div class='namelist showq'></div>`);
+        $(".maincont").html(`<div class="showq"><div class="etykieta f25"><i class="fas fa-info icon_mg"></i> Tworzenie pokoju</div><br>
+			<div class="quest-info">
+			<div class="namelist"></div>
+			<label class="etykieta">Podaj nazwe testu</label><br>
+			<input type='text' id='testname' class='question'><br>
+			<label class="etykieta">Podaj limit czasu</label><br>
+			<select onchange="selecttime(this.options[this.selectedIndex].value)" class="question">
+                <option value="all">Czas całkowity</option>
+                <option value="single">Dla każdego pytania</option>
+            </select><br><br>
+            <div id="timediv">
+                <div class="etykieta">Podaj czas w minutach dla całego testu</div>
+                <input class="timeinput" type="number" >
+            </div>            
+            </div><button onclick='createroom(roomarray)' class='add-button'>Stwórz pokój</button></div>`);
         if (rembool == false) {
 
             rembool = true;
@@ -431,7 +449,7 @@ E:/Z_C/programowanie/live-text/serwer
                 }
             }
             testar(ev);
-            $(".cont").append("<input name='rem' onclick='testc(this)' type='checkbox'> ");
+            $(".cont").append("<input name='remc' onclick='testc(this)' type='checkbox'> ");
 
         }
     }
@@ -455,35 +473,53 @@ E:/Z_C/programowanie/live-text/serwer
     function testar(ev) {
         testarr = [];
         $(".namelist").html("")
-        $("input:checked").each(function() {
-            if (this.parentElement.tagName == "P") {
-                testarr.push(this.parentElement.id);
-
-                $(".namelist").append("<div class='create-test'>" + this.parentElement.innerText + "</div>")
-
-            }
-        });
-        if(!document.getElementById("testname")){
-        $(".maincont").append("<input class='question' placeholder='Podaj nazwe testu' type='text' id='testname'>")
+        $("input[name='remc']:checked").each(function(){
+            $(".namelist").append("<div db-id="+this.parentElement.id+" class='create-test-chapter'>" + $(this.parentElement).find(".dir-header").text() + "</div>")
+        })
         
-        if (testbool == '') {
-            $(".maincont").append("<button onclick='createtest(testarr)'>Stwórz!</button>")
-        } else {
-            $(".maincont").append("<button onclick='etest(testarr)'>Edytuj!</button>")
-        }
+        $("input[name='rem']:checked").each(function(){
+            let cid = this.parentElement.parentElement.parentElement.parentElement.id;
+            if($("div.create-test-chapter[db-id='"+cid+"']").length==1){
+                $("div.create-test-chapter[db-id='"+cid+"']").append("<div class='create-test'>" + this.parentElement.innerText + "</div>")
+            }else{
+                location.reload()
+//                console.log()
+            }
+            testarr.push(this.parentElement.id);
+        })
+        
+//        $("input:checked").each(function() {
+//            console.log(this.parentElement.tagName)
+//            if (this.parentElement.tagName == "DIV") {
+//
+//
+//            }else if(this.parentElement.tagName=="P"){
+//            testarr.push(this.parentElement.id);
+//
+//                $(".namelist").append("<div class='create-test'>" + this.parentElement.innerText + "</div>")
+//            }
+//        });
+        if(!document.getElementById("testname")){
+//        $(".maincont").append("<input class='question' placeholder='Podaj nazwe testu' type='text' id='testname'>")
+        
+//        if (testbool == '') {
+//            $(".maincont").append("<button onclick='createroom(testarr)'>Stwórz!</button>")
+//        } else {
+//            $(".maincont").append("<button onclick='etest(testarr)'>Edytuj!</button>")
+//        }
             }
     }
-
+//
     function createtest(testarr) {
         socket.emit("ctest", socket.id, testarr, $("#testname").val(), `<%=user.id%>`);
         test()
     }
-
-    function etest(testarr) {
-        socket.emit("etest", socket.id, testarr, $("#testname").val(), `<%=user.id%>`, testbool);
-        testbool = '';
-        test()
-    }
+//
+//    function etest(testarr) {
+//        socket.emit("etest", socket.id, testarr, $("#testname").val(), <%=user.id%>, testbool);
+//        testbool = '';
+//        test()
+//    }
     // USUWANIE PYTAŃ I RODZIAŁÓW ORAZ TESTÓW
 
 
@@ -510,32 +546,32 @@ E:/Z_C/programowanie/live-text/serwer
         }
     }
 
-    function testrem() {
-        if (statequestion == false) {
-            unblock();
-            block();
-            $(".cont").append("<input name='rem' onclick='testr(this)' type='checkbox'> ");
-        }
-    }
-
-
-    function testr() {
-        tremarr = [];
-        $(".maincont").html("")
-        $("input:checked").each(function() { 
-        $(".maincont").append("<div>" + $(this.parentElement).find(".dir-header")[0].innerText + "</div>")
-
-            tremarr.push(this.parentElement.id);
-        });
-          
-        $(".maincont").append("<button onclick='testdel(tremarr)'>Usuń!</button>")
-    }
-
-
-
-    function testdel(tremarr) {
-        socket.emit("treedeletetest", socket.id, tremarr)
-    }
+//    function testrem() {
+//        if (statequestion == false) {
+//            unblock();
+//            block();
+//            $(".cont").append("<input name='rem' onclick='testr(this)' type='checkbox'> ");
+//        }
+//    }
+//
+//
+//    function testr() {
+//        tremarr = [];
+//        $(".maincont").html("")
+//        $("input:checked").each(function() { 
+//        $(".maincont").append("<div>" + $(this.parentElement).find(".dir-header")[0].innerText + "</div>")
+//
+//            tremarr.push(this.parentElement.id);
+//        });
+//          
+//        $(".maincont").append("<button onclick='testdel(tremarr)'>Usuń!</button>")
+//    }
+//
+//
+//
+//    function testdel(tremarr) {
+//        socket.emit("treedeletetest", socket.id, tremarr)
+//    }
 
 
     function remc(e) {
@@ -607,7 +643,7 @@ E:/Z_C/programowanie/live-text/serwer
         console.log(chapterarr)
         console.log(updatearr)
         socket.emit("treedeletequestion", socket.id, arrq, `<%= user.id %> `);
-        socket.emit("treetestupdate", socket.id, arrq, `<%= user.id %>`)
+//        socket.emit("treetestupdate", socket.id, arrq, `<%= user.id %>)
         socket.emit("treechapterupdate", socket.id, arrq, `<%= user.id %>`)
         if (refreshbool == false) {
             refreshbool = true;
@@ -1128,52 +1164,52 @@ E:/Z_C/programowanie/live-text/serwer
         console.log("NEW " + allquestions)
     })
 
-    socket.on("newtests", (ntests, nquestions) => {
-        tests = ntests;
-        questions = nquestions;
-        allquestions = nquestions;
-        unblock();
-        generateTestTree(tests, questions);
-        //        setClickEventOnTreeItems();
-        //        console.log(questions)
-        //        $("#unassigned").remove()
-    })
-
-
-    function loadtest() {
-        if (statequestion == true) {
-            $(".navbut1").show();
-            $(".navbut").hide();
-            testbool = "";
-            unblock();
-            socket.emit("gettests", socket.id, `<%=user.id%>`);
-            socket.emit("gettree", socket.id, `<%= user.id %>`);
-            statequestion = false;
-            $("#changestate").text("Wyświetl pytania")
-            setTimeout(function() {
-                $("p.list-item").attr("draggable", "false");
-                $("p.list-item").off("dragstart", drag);
-                $(".cont").off("dragover", allowDrop);
-            }, 200)
-        } else {
-            unblock()
-            $(".navbut").show();
-            $(".navbut1").hide();
-            testbool = "";
-            socket.emit("rtree", socket.id, `<%= user.id %>`);
-            $("#changestate").text("Wyświetl testy");
-            statequestion = true;
-        }
-
-    }
-
-    function edittest(e) {
-        e= $(e).attr("db-id");
-        generateTree(chapters, questions);
-        setClickEventOnTreeItems();
-        testbool = e;
-        test(tests[tests.findIndex(x => x._id === e)].questions);
-    }
+//    socket.on("newtests", (ntests, nquestions) => {
+//        tests = ntests;
+//        questions = nquestions;
+//        allquestions = nquestions;
+//        unblock();
+//        generateTestTree(tests, questions);
+//        //        setClickEventOnTreeItems();
+//        //        console.log(questions)
+//        //        $("#unassigned").remove()
+//    })
+//
+//
+//    function loadtest() {
+//        if (statequestion == true) {
+//            $(".navbut1").show();
+//            $(".navbut").hide();
+//            testbool = "";
+//            unblock();
+//            socket.emit("gettests", socket.id, `<%=user.id%>);
+//            socket.emit("gettree", socket.id, `<%= user.id %>);
+//            statequestion = false;
+//            $("#changestate").text("Wyświetl pytania")
+//            setTimeout(function() {
+//                $("p.list-item").attr("draggable", "false");
+//                $("p.list-item").off("dragstart", drag);
+//                $(".cont").off("dragover", allowDrop);
+//            }, 200)
+//        } else {
+//            unblock()
+//            $(".navbut").show();
+//            $(".navbut1").hide();
+//            testbool = "";
+//            socket.emit("rtree", socket.id, `<%= user.id %>);
+//            $("#changestate").text("Wyświetl testy");
+//            statequestion = true;
+//        }
+//
+//    }
+//
+//    function edittest(e) {
+//        e= $(e).attr("db-id");
+//        generateTree(chapters, questions);
+//        setClickEventOnTreeItems();
+//        testbool = e;
+//        test(tests[tests.findIndex(x => x._id === e)].questions);
+//    }
 
     socket.on("treedelete", (treeid) => {
         console.log(treeid)
@@ -1328,9 +1364,9 @@ E:/Z_C/programowanie/live-text/serwer
         unblock();
         socket.emit("gettree", socket.id, `<%= user.id %>`);
     })
-    socket.on('newtest', (test) => {
-        console.log(test)
-    })
+//    socket.on('newtest', (test) => {
+//        console.log(test)
+//    })
     
     socket.on('redirect',(path)=>{
         window.location.href = path;

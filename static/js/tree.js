@@ -192,83 +192,83 @@ function wys(e) {
 
 //////////// TESTY
 
-function generateTestTree(tests, questions) {
-    tree.innerHTML = "";
-
-    tests.forEach(test => {
-        let tempInner = `<div class='dir cont list-item' id="` +
-            test._id +
-            `"ondrop="drop(event, this)" >
-    <div class='dir-header' db-id=` +
-            test._id +
-            `>
-      <span class='icon'><i class='fas fa-folder'></i></span> ` +
-            test.name +
-            `
-      <span class='icon is-pulled-right arrow'
-        ><i class='fas fa-angle-right'></i
-      ></span>
-    </div>
-    <div class='dir-items'><div class="dir-items-wrapper">` +
-            generateTestItems(test) +
-            `</div></div></div>`;
-
-        tree.innerHTML += tempInner;
-        //        console.log(tree);
-
-
-
-    })
-    setClickEventOnTreeItems();
-}
-
-function generateTestItems(test) {
-    let tr = "";
-    test.questions.forEach(qid => {
-        
-        let question = $.grep(questions, function (ev) {
-            return ev._id == qid;
-        })[0];
-        if (question.type == "open") {
-            tr +=
-                `<p class="list-item" id="` +
-                question._id +
-                `" draggable = 'true' >
-      <span class="icon"> <i class="fas fa-calendar-minus"></i> </span
-      >` +
-                question.name +
-                `</p>`;
-        } else if (question.type == "single") {
-            tr +=
-                `<p class="list-item" id="` +
-                question._id +
-                `" draggable = 'true'  >
-      <span class="icon"> <i class="fas fa-calendar-check"></i> </span
-      >` +
-                question.name +
-                `</p>`;
-        } else if (question.type == "multi") {
-            tr +=
-                `<p class="list-item" id="` +
-                question._id +
-                `" draggable = 'true' >
-        <span class="icon"> <i class="fas fa-calendar-alt"></i> </span
-        >` +
-                question.name +
-                `</p>`;
-        }else if (question.type == "match") {
-            tr +=
-                `<p class="list-item" id="` +
-                question._id +
-                `" draggable = 'true' >
-        <span class="icon"> <i class="fas fa-calendar-alt"></i> </span
-        >` +
-                question.name +
-                `</p>`;
-        }
-
-    })
-    tr+=`<p><button db-id="`+test._id+`" onclick="edittest(this)">Edytuj</button></p>`;
-    console.log(tr)
-    return tr;
-}
+//function generateTestTree(tests, questions) {
+//    tree.innerHTML = "";
+//
+//    tests.forEach(test => {
+//        let tempInner = `<div class='dir cont list-item' id="` +
+//            test._id +
+//            `"ondrop="drop(event, this)" >
+//    <div class='dir-header' db-id=` +
+//            test._id +
+//            `>
+//      <span class='icon'><i class='fas fa-folder'></i></span> ` +
+//            test.name +
+//            `
+//      <span class='icon is-pulled-right arrow'
+//        ><i class='fas fa-angle-right'></i
+//      ></span>
+//    </div>
+//    <div class='dir-items'><div class="dir-items-wrapper">` +
+//            generateTestItems(test) +
+//            `</div></div></div>`;
+//
+//        tree.innerHTML += tempInner;
+//        //        console.log(tree);
+//
+//
+//
+//    })
+//    setClickEventOnTreeItems();
+//}
+//
+//function generateTestItems(test) {
+//    let tr = "";
+//    test.questions.forEach(qid => {
+//        
+//        let question = $.grep(questions, function (ev) {
+//            return ev._id == qid;
+//        })[0];
+//        if (question.type == "open") {
+//            tr +=
+//                `<p class="list-item" id="` +
+//                question._id +
+//                `" draggable = 'true' >
+//      <span class="icon"> <i class="fas fa-calendar-minus"></i> </span
+//      >` +
+//                question.name +
+//                `</p>`;
+//        } else if (question.type == "single") {
+//            tr +=
+//                `<p class="list-item" id="` +
+//                question._id +
+//                `" draggable = 'true'  >
+//      <span class="icon"> <i class="fas fa-calendar-check"></i> </span
+//      >` +
+//                question.name +
+//                `</p>`;
+//        } else if (question.type == "multi") {
+//            tr +=
+//                `<p class="list-item" id="` +
+//                question._id +
+//                `" draggable = 'true' >
+//        <span class="icon"> <i class="fas fa-calendar-alt"></i> </span
+//        >` +
+//                question.name +
+//                `</p>`;
+//        }else if (question.type == "match") {
+//            tr +=
+//                `<p class="list-item" id="` +
+//                question._id +
+//                `" draggable = 'true' >
+//        <span class="icon"> <i class="fas fa-calendar-alt"></i> </span
+//        >` +
+//                question.name +
+//                `</p>`;
+//        }
+//
+//    })
+//    tr+=`<p><button db-id="`+test._id+`" onclick="edittest(this)">Edytuj</button></p>`;
+//    console.log(tr)
+//    return tr;
+//}
