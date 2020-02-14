@@ -8,6 +8,7 @@ const siofu = require("socketio-file-upload");
 const fs = require('fs-extra');
 const securePin = require('secure-pin');
 const Rooms = require('../models/room');
+const shuffleSeed = require('shuffle-seed');
 exports = module.exports = function (io) {
 
 
@@ -65,7 +66,13 @@ exports = module.exports = function (io) {
                                 if (err) {
                                     console.log(err);
                                 }
-                                console.log("Asd")
+                                fQuestions.forEach(question=>{
+                                    if(question.type=="match"){
+                                        question.option = shuffleSeed.shuffle(question.option,PIN);
+                                        question.correct = shuffleSeed.shuffle(question.correct,PIN*2);
+                                    }
+                                    
+                                })
 //                                io.to('room_' + PIN).emit('reloadlist', fRoom, fGuests, fQuestions);
                                 socket.emit('reloadlist', fRoom, fGuests, fQuestions)
                             })
@@ -184,6 +191,7 @@ exports = module.exports = function (io) {
 
         socket.on('changeindex', (gid, index, type, opentime, closedtime, roomtime, qid, answer, PIN) => {
             console.log(PIN + "PIN")
+            console.log(gid, index, type, opentime, closedtime, roomtime, qid, answer, PIN)
             let date = new Date();
             let addtime;
             if (!roomtime) {

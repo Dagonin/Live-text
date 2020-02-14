@@ -833,8 +833,8 @@ E:/Z_C/programowanie/live-text/serwer
         let x = 1;
         let corr = "";
         let ansid = parseInt($("input[name='ans']:checked").attr('value'));
+        console.log(ansid)
         let arr = [];
-        console.log(ansid + 1);
 
         if($("#numberofpoints").val()<=0){
             errorcheck = true;
@@ -871,7 +871,7 @@ E:/Z_C/programowanie/live-text/serwer
             if (x == 4) {
                 if (window.quill4.container.firstChild.innerHTML != "") {
                     arr.push(window.quill4.container.firstChild.innerHTML)
-                    if (ansid += 1 == x) {
+                    if (ansid + 1 == x) {
                         corr = window.quill4.container.firstChild.innerHTML;
                     }
                 } else {
@@ -882,8 +882,9 @@ E:/Z_C/programowanie/live-text/serwer
             if (x == 5) {
                 if (window.quill5.container.firstChild.innerHTML != "") {
                     arr.push(window.quill5.container.firstChild.innerHTML);
-                    if (ansid += 1 == x) {
+                    if (ansid + 1 == x) {
                         corr = window.quill5.container.firstChild.innerHTML;
+                        console.log(ansid,x)
                     }
                 } else {
                     errocheck = true;
@@ -891,6 +892,7 @@ E:/Z_C/programowanie/live-text/serwer
                 }
             }
         })
+        console.log(corr)
         if ($('#singlename').val() == "") {
             errorcheck = true;
             error.push("<div>Etykieta pytania jest pusta</div>");

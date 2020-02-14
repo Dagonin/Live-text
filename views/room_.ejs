@@ -46,12 +46,14 @@
 <% } %>
 </div>
 </body>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js'></script>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
 <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
 <script>
     let room;
+    let drake = dragula();
     let guestlist;
     let questions;
     let guest;
@@ -61,9 +63,11 @@
     <% if(!user){ %>
     <% if( fguest.roomquestions.answer!=""){ %>
     let answers = <%-JSON.stringify(fguest.roomquestions.answer) %>;
+    console.log(answers)
     <% }else{ %>
     let answers = [];
-    <% }}%>
+    <% } %>
+    <% }%>
     const socket = io();
             socket.on('connect', () => {
                 console.log(socket.id)
@@ -78,8 +82,10 @@
         });
     
     
-
-    
+        window.onbeforeunload = function(event)
+    {
+        changequestion(0);
+    };
     
     
     //SOCKETIO
@@ -96,7 +102,6 @@
         if(questions){
         questions.forEach(q =>{
             questionidlist.push(q._id);
-            console.log("a")
         })
         }
         $("#guestlist").html("")
@@ -112,10 +117,11 @@
         console.log(questionidlist)
         questions.forEach(q =>{
         questionidlist.push(q._id);
-            
         })
         <% if(!user){ %>
-        changequestion(0);
+        console.log(answers);
+        showquestion()
+        setInterval(changequestion,2000,0)
         <% }} %>
     })
     
@@ -180,6 +186,7 @@
             <% }%>
 
             <% } %>
+            location.reload()
         })    
         
         
@@ -202,10 +209,22 @@
                 $(".toggle").each(function(){
                     ans.push(this.id)
                 })
-            }else if(true){
-                     
-                     
-                     }}
+            }else if(questions[guest.index].type=="match"){
+            ans = {
+                o: [],
+                a: []
+            };         
+                $( ".a").each(function( index ) {
+                    if($(this).find('.o').length==1){
+                        ans.o[index]=$(this).find('.o').attr('num');
+                        ans.a.push($(this).attr('num'));
+                    }else{
+                        ans.a.push($(this).attr('num'));
+                    }
+                    
+}               );
+            }
+            }
             if(ans){
                 answers[guest.index] = ans;
             }
@@ -229,52 +248,11 @@
                     return false;
                 <% } %>
             }
-            console.log(questions[guest.index]);
-            //WYŚWITLANIE PYTANIA                         WĄŻŃĘ////////////////////////////////////////////
-            $("#question").html(questions[guest.index].content);
-            if(questions[guest.index].type=="single"||questions[guest.index].type=="multi"){
-                $("#answers").html("");
-                let optionindex=0;
-                questions[guest.index].option.forEach(option=>{
-                    $("#answers").append("<div onclick=check(this,'"+questions[guest.index].type+"') id="+optionindex+">"+option+"</div>");
-                    optionindex++;
-                })
-                if(answers[guest.index]){
-                    answers[guest.index].forEach(qid=>{
-                        $("#"+qid).addClass("toggle");
-                    })
-                }
-            }else if(questions[guest.index].type=="open"){
-                
-                if(answers[guest.index]){
-                    $("#answers").html(`<div id='quillopen'>`+answers[guest.index]+`</div>`);
-                }else{
-                    $("#answers").html(`<div id='quillopen'></div>`);
-                }
-                quil("quillopen");
-            }else if(questions[guest.index].type=='match'){
-                if(answers[guest.index]){
-                    
-                }else{
-                $('#answers').html(`<div id='matchq'></div><div id='matchans'></div>`);
-                questions[guest.index].option.forEach(option=>{
-                    $("#matchq").append(`<div>`+option+`</div>`)
-                })                
-                questions[guest.index].correct.forEach(correct=>{
-                    $("#matchans").append(`<div>`+correct+`</div>`)
-                })
-                if(questions[guest.index].fake){
-                    fak = questions[guest.index].fake;
-                    console.log(fak)
-                    if(fak.typ=="fakeans"){
-                        $("#matchq").append(`<div>`+fak.content+`</div>`)
-                    }else if(fak.typ=="fakematch"){
-                        $("#matchans").append(`<div>`+fak.content+`</div>`)
-                    }
-                }    
-                
-                }
+            if(num!=0){
+                showquestion()
             }
+            
+
 //            Timer
             <% if(!room.time){ %>
                if(questions[guest.index].type=='open'){
@@ -297,8 +275,8 @@
                 function changetime(){
                 let min = Math.floor(time/60);
                 let sec = time%60;
-                $("#timer").text(min+":"+sec) 
-                
+                $("#timer").text(min+":"+sec)
+                    
                 if(time<=0){
                     timeout();
                     clearInterval(timerinverval)
@@ -353,6 +331,117 @@
                 guestlist[(guestlist.findIndex(x => x._id === ng._id))]= ng;
                 <% } %>
             })
+            
+            
+                        //WYŚWITLANIE PYTANIA                         WĄŻŃĘ////////////////////////////////////////////
+            function showquestion(){
+            $("#question").html(questions[guest.index].content);
+            if(questions[guest.index].type=="single"||questions[guest.index].type=="multi"){
+                $("#answers").html("");
+                let optionindex=0;
+                questions[guest.index].option.forEach(option=>{
+                    $("#answers").append("<div onclick=check(this,'"+questions[guest.index].type+"') id="+optionindex+">"+option+"</div>");
+                    optionindex++;
+                })
+                if(answers[guest.index]){
+                    answers[guest.index].forEach(qid=>{
+                        $("#"+qid).addClass("toggle");
+                    })
+                }
+            }else if(questions[guest.index].type=="open"){
+                
+                if(answers[guest.index]){
+                    $("#answers").html(`<div id='quillopen'>`+answers[guest.index]+`</div>`);
+                }else{
+                    $("#answers").html(`<div id='quillopen'></div>`);
+                }
+                quil("quillopen");
+            }else if(questions[guest.index].type=='match'){
+                if(answers[guest.index]){
+                    $('#answers').html(`<div id='matchq'></div><div id='matchans'></div>`);
+                questions[guest.index].correct.forEach((correct,i)=>{
+                    let index = i+1;
+                    let ind = $.inArray(index.toString(), answers[guest.index].a);
+                    if(ind!= -1&&answers[guest.index].o[ind]){
+                        if(answers[guest.index].o[ind]==0){
+                        $("#matchans").append(`<div class='a' num="`+index+`">`+correct+`<div class='matchdrop'>`+`<div class='o' num="0">`+questions[guest.index].fake.content+`</div>`+`</div></div>`)
+                        }else{
+                        $("#matchans").append(`<div class='a' num="`+index+`">`+correct+`<div class='matchdrop'>`+`<div class='o' num="`+answers[guest.index].o[ind]+`">`+questions[guest.index].option[answers[guest.index].o[ind]-1]+`</div>`+`</div></div>`)
+                        }
+                    }else{
+                        
+                       $("#matchans").append(`<div class='a' num="`+index+`">`+correct+`<div class='matchdrop'></div></div>`) 
+                    }
+                    
+                })
+                    if(questions[guest.index].fake){
+                    fak = questions[guest.index].fake;
+                    if(fak.typ=="fakeans"){
+                        if($.inArray("0",answers[guest.index].o)==-1){
+                            console.log(answers[guest.index])
+                            $('#matchq').append(`<div class='o' num='0'>`+fak.content+`</div>`)
+                        }else{
+                        }
+                        
+                        
+                    }else if(fak.typ=="fakematch"){
+                       
+                        if($.inArray("0",answers[guest.index].a)!=-1&&answers[guest.index].o[$.inArray("0",answers[guest.index].a)]){
+                             $("#matchans").append(`<div class='a' num="0">`+fak.content+`<div class='matchdrop'>`+`<div class='o' num="`+$.inArray("0",answers[guest.index].a)+`">`+questions[guest.index].option[$.inArray("0",answers[guest.index].a)-1]+`</div>`+`</div>`)
+                        }else{
+                            $("#matchans").append(`<div class='a' num="0">`+fak.content+`<div class='matchdrop'></div>`)
+                        }
+                        
+                    }
+                }  
+                   questions[guest.index].option.forEach((option,i)=>{                       
+                    let index = i+1;
+                       if($('.o[num="'+index+'"]').length==0){
+                           $("#matchq").append(`<div class='o' num="`+index+`">`+option+`</div>`)
+                       }
+                })    
+
+                }else{
+                $('#answers').html(`<div id='matchq'></div><div id='matchans'></div>`);
+                questions[guest.index].option.forEach((option,i)=>{
+                    let index = i+1;
+                    $("#matchq").append(`<div class='o' num="`+index+`">`+option+`</div>`)
+                })                
+                questions[guest.index].correct.forEach((correct,i)=>{
+                    let index = i+1;
+                    $("#matchans").append(`<div class='a' num="`+index+`">`+correct+`<div class='matchdrop'></div></div>`)
+                })
+                if(questions[guest.index].fake){
+                    fak = questions[guest.index].fake;
+                    if(fak.typ=="fakeans"){
+                        $("#matchq").append(`<div class='o' num="0">`+fak.content+`</div>`)
+                    }else if(fak.typ=="fakematch"){
+                        $("#matchans").append(`<div class='a' num="0">`+fak.content+`<div class='matchdrop'></div>`)
+                    }
+                }    
+                
+                }
+                let divarr = $(".matchdrop").toArray();
+                divarr.push($("#matchq")[0]);
+                dragula(divarr,{
+                accepts: (el,target,source,sibling)=>{
+                    if(target.className.includes('matchdrop')){
+                        if(target.getElementsByTagName('div').length==0){
+                            return true;
+                        }else{
+                            return false;
+                        }
+                           
+                    }else{
+                        return true;
+                    }
+        }
+    });
+                
+            }
+            }
+            
+            
             
             
             
