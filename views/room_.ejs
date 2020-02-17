@@ -198,6 +198,7 @@
         // Zmiana indexu pytania
         function changequestion(num){
     //            Odpowiedź
+            let er = false;
             let ans
             if(questions[guest.index]){
             if(questions[guest.index].type=="open"){
@@ -236,18 +237,23 @@
             guest.index += num;
             if(guest.index<0){
                 guest.index = 0;
+                er=true;
             }
             if(guest.index>=questions.length){
                 <% if(room.time){ %>
-                guest.index = questions.length-1;
+                guest.index = questions.length-num;
+                er = true;
+                return false;
                 <%}else{ %>
                 // KONIEC Testu
                     clearInterval(checktimeinterval);
                     clearInterval(timerinverval)
                     $("#gamequestions").html('')
+                er = true;
                     return false;
                 <% } %>
             }
+            
             if(num!=0){
                 showquestion()
             }
@@ -255,18 +261,21 @@
 
 //            Timer
             <% if(!room.time){ %>
+            if(num!=0){
                if(questions[guest.index].type=='open'){
                    timer(<%= room.opentime %>)
                }else{
                    timer(<%= room.closedtime %>)
-               }
+               }}
             <% } %>
             
 
             
             
     // Emit
-            socket.emit("changeindex","<%= fguest.id %>",guest.index,questions[guest.index].type,'<%= room.opentime %>','<%= room.closedtime %>','<%= room.time %>',questionidlist,answers,"<%= room.PIN %>")
+            if(er==false){
+                console.log(er)
+            socket.emit("changeindex","<%= fguest.id %>",num,questions[guest.index].type,'<%= room.opentime %>','<%= room.closedtime %>','<%= room.time %>',questionidlist,answers,"<%= room.PIN %>")}
             
         }
         <% } %>
@@ -311,6 +320,7 @@
            <%}else{ %>
             clearInterval(timerinverval);
             changequestion(1);
+            console.log("ASDASDASD")
             
             <% } %>
         }
@@ -327,8 +337,8 @@
             
             socket.on('nguestlist',(ng)=>{
                 <% if(user){ %>
-                
                 guestlist[(guestlist.findIndex(x => x._id === ng._id))]= ng;
+                console.log(guestlist)
                 <% } %>
             })
             
@@ -340,7 +350,7 @@
                 $("#answers").html("");
                 let optionindex=0;
                 questions[guest.index].option.forEach(option=>{
-                    $("#answers").append("<div onclick=check(this,'"+questions[guest.index].type+"') id="+optionindex+">"+option+"</div>");
+                    $("#answers").append("<div class='"+questions[guest.index].type+"' onclick=check(this,'"+questions[guest.index].type+"') id="+optionindex+">"+option+"</div>");
                     optionindex++;
                 })
                 if(answers[guest.index]){

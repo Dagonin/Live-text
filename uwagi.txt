@@ -64,11 +64,10 @@ NA KIEDYŚ
 https://developer.mozilla.org/en-US/docs/Web/API/History_API
 https://stackoverflow.com/questions/824349/how-do-i-modify-the-url-without-reloading-the-page/3354511#3354511
 Nawigacja URL przy tworzeniu testów
+
 <<<<<<< HEAD
-Eksport folderów, pytań - zrobic arraya z id pytań i zakodować w np base32, albo czyms krótszym
-Myśle nad usunięciem opcji testów, bo wprowadza niepotrzebne zamieszanie w Managerze pytań i utrudnia poruszanie się.
 =======
 Import i export pytań i rodziałów (array id pytań i zakodować w np Base32)
-Prawie na 100% bede usuwał system testów, bo są nie potrzebne i wzbudzają nie potrzebne zamieszanie
 >>>>>>> dd85d44a0a117b5abde223ab31f0b91025f6235f
 
+MOŻE(mała szansa,około 20%) zrobie system publikacji, gdzie można opublikować test po wykonaniu go, lub folder jako test, do założonych z góry kategorii, i na stronie głównej bedzię się wyświetlać.

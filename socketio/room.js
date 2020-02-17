@@ -65,14 +65,14 @@ exports = module.exports = function (io) {
                                 if (err) {
                                     console.log(err);
                                 }
-                                fQuestions.forEach(question=>{
-                                    if(question.type=="match"){
-                                        question.option = shuffleSeed.shuffle(question.option,PIN);
-                                        question.correct = shuffleSeed.shuffle(question.correct,PIN*2);
+                                fQuestions.forEach(question => {
+                                    if (question.type == "match") {
+                                        question.option = shuffleSeed.shuffle(question.option, PIN);
+                                        question.correct = shuffleSeed.shuffle(question.correct, PIN * 2);
                                     }
-                                    
+
                                 })
-//                                io.to('room_' + PIN).emit('reloadlist', fRoom, fGuests, fQuestions);
+                                //                                io.to('room_' + PIN).emit('reloadlist', fRoom, fGuests, fQuestions);
                                 socket.emit('reloadlist', fRoom, fGuests, fQuestions)
                             })
 
@@ -189,10 +189,8 @@ exports = module.exports = function (io) {
         //Zmiana pytania
 
         socket.on('changeindex', (gid, index, type, opentime, closedtime, roomtime, qid, answer, PIN) => {
-            console.log(PIN + "PIN")
-            console.log(gid, index, type, opentime, closedtime, roomtime, qid, answer, PIN)
             let date = new Date();
-            let addtime;
+            let addtime = 0;
             if (!roomtime) {
                 if (type == "open") {
                     addtime = opentime;
@@ -204,22 +202,52 @@ exports = module.exports = function (io) {
                         console.log(err)
                     }
                     console.log(fquestion)
-                    Guests.findByIdAndUpdate(gid, {
-                        index: index,
-                        time: date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds() + parseInt(addtime),
-                        roomquestions: {
-                            answer: answer,
-                            question: qid
-                        }
-                    }, {
-                        new: true
-                    }, (err, nGuest) => {
-                        if (err) {
-                            console.log(err);
-                        }
-                        socket.emit("Nguest", nGuest);
-                        io.in('room_' + PIN).emit("nguestlist", nGuest);
-                    })
+                    if (index != 0) {
+                        Guests.findByIdAndUpdate(gid, {
+                            $inc: {
+                                index: index
+                            },
+                            time: date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds() + parseInt(addtime),
+                            roomquestions: {
+                                answer: answer,
+                                question: qid
+                            }
+                        }, {
+                            new: true
+                        }, (err, nGuest) => {
+                            if (err) {
+                                console.log(err);
+                            }
+                            socket.emit("Nguest", nGuest);
+                            io.in('room_' + PIN).emit("nguestlist", nGuest);
+                        })
+                    } else {
+                        Guests.findByIdAndUpdate(gid, {
+                            $inc: {
+                                index: index
+                            },
+                            roomquestions: {
+                                answer: answer,
+                                question: qid
+                            }
+                        }, {
+                            new: true
+                        }, (err, nGuest) => {
+                            if (err) {
+                                console.log(err);
+                            }
+                            if(!nGuest.time){
+                                nGuest.time = date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds() + parseInt(addtime);
+                                nGuest.save();
+                            }else{
+                                console.log("BBBBBBBBBBBBBBBBBBBBB")
+                            }
+                            socket.emit("Nguest", nGuest);
+                            io.in('room_' + PIN).emit("nguestlist", nGuest);
+                        })
+
+                    }
+
                 })
 
             } else {
@@ -232,7 +260,9 @@ exports = module.exports = function (io) {
 
 
                     Guests.findByIdAndUpdate(gid, {
-                        index: index,
+                        $inc: {
+                            index: index
+                        },
                         roomquestions: {
                             answer: answer,
                             question: qid
