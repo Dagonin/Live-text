@@ -45,6 +45,8 @@
 <button onclick="changequestion(1)">Następne pytanie</button>
 <% } %>
 </div>
+<!--Licznik pytań-->
+<div id="licznik"></div>
 </body>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js'></script>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
@@ -122,11 +124,22 @@
         console.log(answers);
         showquestion()
         setInterval(changequestion,2000,0)
+        questions.forEach(q=>{
+            $("#licznik").append(`<input name='licz' type="radio">`)
+        })
         <% }} %>
+        
+
     })
     
     socket.on('Nguest',(g)=>{
         guest = g;
+        console.log(g.index)
+//        $("input[name='licz']")[g.index]
+        if($('input[name="licz"]').length!=0){
+            $('input[name="licz"]')[g.index].checked = true;
+        }
+        
     })
     
     
