@@ -124,8 +124,19 @@
         console.log(answers);
         showquestion()
         setInterval(changequestion,2000,0)
-        questions.forEach(q=>{
-            $("#licznik").append(`<input name='licz' type="radio">`)
+        questions.forEach((q,i)=>{
+            $("#licznik").append(`<input num='`+i+`' name='licz' type="radio">`)
+            $('input[name="licz"]')[guest.index].checked = true;
+        })
+        $('input[name="licz"]').click(function(){
+            <% if(room.time){ %>
+            let num = parseInt(this.getAttribute("num"))
+            changequestion(num-guest.index)
+            <% }else{ %>
+            this.checked = false;
+            $('input[name="licz"]')[guest.index].checked = true;
+            <% } %>
+            
         })
         <% }} %>
         
@@ -350,8 +361,11 @@
             
             socket.on('nguestlist',(ng)=>{
                 <% if(user){ %>
-                guestlist[(guestlist.findIndex(x => x._id === ng._id))]= ng;
                 console.log(guestlist)
+                guestlist[(guestlist.findIndex(x => x._id === ng._id))]= ng;
+                guestlist.forEach((g,i)=>{
+                    
+                })
                 <% } %>
             })
             
