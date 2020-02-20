@@ -18,7 +18,7 @@
 <!--Timer-->
 <div id="timer"></div>
 <!--Numer pokoju -->
-<% if(room.OPEN==true && user){ %>
+<% if(user){ %>
 <div class="room">
 <div class="room-title"><i class="fas fa-cog icon_mg"></i> Zarządzanie pokojem</div>
 <div id="pinpokoju" class="etykieta"> Kod Klasy <br><br>
@@ -26,8 +26,9 @@
 <!--Lista guestów-->
 <div class="etykieta"><i class="fas fa-user-friends icon_mg"></i></i> Lista gości</div><br>
 <div id="guestlist"></div><br>
+<% if(room.OPEN==true){ %>
 <button onclick="startgame()" class="startgame"><i class="fas fa-play icon_mg"></i> ROZPOCZNIJ</button>
-<% }else if(room.OPEN){ %>
+<% }}else if(room.OPEN){ %>
 <!--Lista guestów-->
 <div id="guestlist"></div>
 </div>
@@ -126,8 +127,9 @@
         setInterval(changequestion,2000,0)
         questions.forEach((q,i)=>{
             $("#licznik").append(`<input num='`+i+`' name='licz' type="radio">`)
-            $('input[name="licz"]')[guest.index].checked = true;
+            
         })
+        $('input[name="licz"]')[guest.index].checked = true;
         $('input[name="licz"]').click(function(){
             <% if(room.time){ %>
             let num = parseInt(this.getAttribute("num"))
@@ -136,6 +138,11 @@
             this.checked = false;
             $('input[name="licz"]')[guest.index].checked = true;
             <% } %>
+            
+        })
+        <% }else{ %>
+                    $.each(guestlist,function(){
+            $("#guestlist").append(`<div class='guestobject' id='`+this._id+`'>`+this.username+ `<span class='counter'></span> </div>`)
             
         })
         <% }} %>
@@ -361,10 +368,11 @@
             
             socket.on('nguestlist',(ng)=>{
                 <% if(user){ %>
-                console.log(guestlist)
                 guestlist[(guestlist.findIndex(x => x._id === ng._id))]= ng;
                 guestlist.forEach((g,i)=>{
-                    
+                let anscount = g.index;
+                let qcount = g.roomquestions.question.length;
+                $("#"+g._id+" span").html("<br>"+(anscount+1)+'/'+qcount)
                 })
                 <% } %>
             })
