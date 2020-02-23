@@ -23,6 +23,9 @@
 <div class="room-title"><i class="fas fa-cog icon_mg"></i> Zarządzanie pokojem</div>
 <div id="pinpokoju" class="etykieta"> Kod Klasy <br><br>
 <span class="room-pin"><%= room.PIN %></span> </div><br>
+<!-- Pokazanie pytania -->
+<span>Pogląd ucznia </span>
+<div class="showq"></div>
 <!--Lista guestów-->
 <div class="etykieta"><i class="fas fa-user-friends icon_mg"></i></i> Lista gości</div><br>
 <div id="guestlist"></div><br>
@@ -63,6 +66,7 @@
     let timerinverval;
     let checktimeinterval;
     let questionidlist = [];
+    let shownquestioninfo;
     <% if(!user){ %>
     <% if( fguest.roomquestions.answer!=""){ %>
     let answers = <%-JSON.stringify(fguest.roomquestions.answer) %>;
@@ -142,13 +146,63 @@
         })
         <% }else{ %>
                     $.each(guestlist,function(){
-            $("#guestlist").append(`<div class='guestobject' id='`+this._id+`'>`+this.username+ `<span class='counter'></span> </div>`)
+                    $("#guestlist").append(`<div class='guestobject' id='`+this._id+`'>`+this.username+ `<span class='counter'></span><div class='showquestions'></div> </div>`)
+                        
+                    $("#"+this._id).click(function(){
+                        let qdiv = $(this).find(".showquestions");
+                        let qid = this.id;
+//                        if(qdiv.attr("alt")=="open"){
+//                           qdiv.html("");
+//                            qdiv.attr( "alt", "notopen" )
+//                           }else{
+                        qdiv.html("");
+                        qdiv.attr( "alt", "open" )
+                        let gobj = $.grep(guestlist,function(n){return n._id == qid;})
+                        gobj[0].roomquestions.question.forEach(q=>{
+                            let thisq = $.grep(questions,function(n){return n._id == q;})[0];
+                            qdiv.append(`<div class='qlist' db-id="`+thisq._id+`">`+ thisq.name+`</div>`)
+                            $(`div[db-id="`+thisq._id+`"]`).click(function(){
+                                shownquestioninfo = [thisq,this.parentElement.parentElement.id]
+                                showq(thisq,this.parentElement.parentElement.id)
+                            })
+                        })
+//                           }
+                })
             
         })
         <% }} %>
         
 
     })
+    // Wyświetlenie pytania u nauczyciela
+    function showq(qobject,gid){
+        let g = $.grep(guestlist,function(n){return n._id==gid})[0]
+        let qindex = $.inArray(qobject._id,g.roomquestions.question)
+        console.log(qobject,g,qindex)
+        
+        if(qobject.type=="open"){
+            
+            console.log("a")
+            $(".showq").html(`<div class="showqcontent">`+qobject.content+`</div>`+(g.roomquestions.answer[qindex] ? `<div class="showqanswer">`+g.roomquestions.answer[qindex]+`</div>` : ""))
+            
+        }else if(qobject.type=="single"||qobject.type=="multi"){
+            
+                $(".showq").html(`<div class="showqcontent">`+qobject.content+`</div><div class="showqanswer"></div>`)
+                qobject.option.forEach((option,i)=>{
+                    $(".showqanswer").append("<div class='"+qobject.type+"' id="+i+">"+option+"</div>");
+                    if(g.roomquestions.answer[qindex].length!=0){
+                       if($.inArray(i.toString(),g.roomquestions.answer[qindex])!=-1){
+                           $("#"+i).addClass("toggle")
+                       }
+                        
+                    }
+                })
+            
+        } else if(qobject.type="match"){
+            
+            
+        }
+    }
     
     socket.on('Nguest',(g)=>{
         guest = g;
@@ -372,8 +426,11 @@
                 guestlist.forEach((g,i)=>{
                 let anscount = g.index;
                 let qcount = g.roomquestions.question.length;
-                $("#"+g._id+" span").html("<br>"+(anscount+1)+'/'+qcount)
+                $("#"+g._id+" span").html("<br>"+(anscount+1)+'/'+qcount);
                 })
+                if(shownquestioninfo){
+                showq(shownquestioninfo[0],shownquestioninfo[1])
+                }
                 <% } %>
             })
             
