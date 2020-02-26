@@ -64,7 +64,7 @@ NA KIEDYŚ
 https://developer.mozilla.org/en-US/docs/Web/API/History_API
 https://stackoverflow.com/questions/824349/how-do-i-modify-the-url-without-reloading-the-page/3354511#3354511
 Nawigacja URL przy tworzeniu testów
-
+Nauczyciel może dawać sygnały uczniom xD
 <<<<<<< HEAD
 =======
 Import i export pytań i rodziałów (array id pytań i zakodować w np Base32)

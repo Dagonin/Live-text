@@ -67,6 +67,7 @@
     let checktimeinterval;
     let questionidlist = [];
     let shownquestioninfo;
+    let openqarray = [];
     <% if(!user){ %>
     <% if( fguest.roomquestions.answer!=""){ %>
     let answers = <%-JSON.stringify(fguest.roomquestions.answer) %>;
@@ -178,7 +179,7 @@
     function showq(qobject,gid){
         let g = $.grep(guestlist,function(n){return n._id==gid})[0]
         let qindex = $.inArray(qobject._id,g.roomquestions.question)
-        console.log(qobject,g,qindex)
+//        console.log(qobject,g,qindex)
         
         if(qobject.type=="open"){
             
@@ -214,6 +215,35 @@
         
     })
     
+    
+//    //Wyświetlenie listy pytań otwartych do oceny
+//    function getqinfo(){
+//        openqarray = [];
+//        let qarr = [];
+//        questions.forEach(q=>{
+//            if(q.type=="open"){
+//                qarr.push(q)
+//            }
+//        })
+//        
+//        qarr.forEach(q=>{
+//           console.log(q) 
+//           guestlist.forEach(g=>{
+//               if(g.roomquestions.question){
+//                   let qid = $.inArray(q._id,g.roomquestions.question);
+//                   
+//                   if(qid!=-1&&qid<g.index){
+//                       console.log("a")
+//                       openqarray.push(g.roomquestions.answer[qid])
+//                   }
+//               }
+//           })
+//        })
+//    }
+//    
+//    function openquestionslist(qarr){
+//        
+//    }
     
 
     
@@ -598,7 +628,7 @@
         }],
         [{
          'align': []
-        }],
+        }],['link', 'image', 'video', 'formula'],
 
         ['clean'] // remove formatting button
     ];
