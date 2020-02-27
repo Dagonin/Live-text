@@ -91,7 +91,24 @@ exports = module.exports = function (io) {
 
 
 
+        //oceń pytanie
+        socket.on('rateopenq', (gid, pkt, qindex) => {
+            Guests.findByIdAndUpdate(gid, {
+                points: pkt
+                }, {
+                    new: true
+                },
+                (err, fGuest) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    console.log(fGuest)
+                    socket.emit("nguestlist", fGuest);
+                })
 
+
+
+        })
 
 
 
@@ -236,10 +253,10 @@ exports = module.exports = function (io) {
                             if (err) {
                                 console.log(err);
                             }
-                            if(!nGuest.time){
+                            if (!nGuest.time) {
                                 nGuest.time = date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds() + parseInt(addtime);
                                 nGuest.save();
-                            }else{
+                            } else {
                                 console.log("BBBBBBBBBBBBBBBBBBBBB")
                             }
                             socket.emit("Nguest", nGuest);

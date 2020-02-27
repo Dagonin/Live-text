@@ -14,7 +14,6 @@
 </head>
 
 <body>
-
 <!--Timer-->
 <div id="timer"></div>
 <!--Numer pokoju -->
@@ -51,6 +50,11 @@
 </div>
 <!--Licznik pytań-->
 <div id="licznik"></div>
+
+<!--lista pytań otwartych-->
+<% if(user){%>
+<div class="openqlist"></div>
+<% } %>
 </body>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js'></script>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
@@ -67,7 +71,7 @@
     let checktimeinterval;
     let questionidlist = [];
     let shownquestioninfo;
-    let openqarray = [];
+    let openqarray;
     <% if(!user){ %>
     <% if( fguest.roomquestions.answer!=""){ %>
     let answers = <%-JSON.stringify(fguest.roomquestions.answer) %>;
@@ -217,35 +221,67 @@
     
     
 //    //Wyświetlenie listy pytań otwartych do oceny
-//    function getqinfo(){
-//        openqarray = [];
-//        let qarr = [];
-//        questions.forEach(q=>{
-//            if(q.type=="open"){
-//                qarr.push(q)
-//            }
-//        })
-//        
-//        qarr.forEach(q=>{
-//           console.log(q) 
-//           guestlist.forEach(g=>{
-//               if(g.roomquestions.question){
-//                   let qid = $.inArray(q._id,g.roomquestions.question);
-//                   
-//                   if(qid!=-1&&qid<g.index){
-//                       console.log("a")
-//                       openqarray.push(g.roomquestions.answer[qid])
-//                   }
-//               }
-//           })
-//        })
-//    }
-//    
-//    function openquestionslist(qarr){
-//        
-//    }
+    function getqinfo(){
+        openqarray = [];
+        let qarr = [];
+        questions.forEach(q=>{
+            if(q.type=="open"){
+                qarr.push(q)
+            }
+        })
+        
+        qarr.forEach(q=>{
+           guestlist.forEach(g=>{
+               if(g.roomquestions.question){
+                   let qid = $.inArray(q._id,g.roomquestions.question);
+                   
+                   if(qid!=-1&&qid<g.index&&!g.points[qid]){
+                       
+                       
+                       let obj = {
+                           content: q.content,
+                           _id: g._id,
+                           qid: qid,
+                           name: q.name,
+                           ans: g.roomquestions.answer[qid],
+                           pkt: q.points
+                       }
+                       openqarray.push(obj)            
+                   }
+               }
+           })
+        })
+    }
     
+    function openquestionslist(){
+        $('.openqlist').html('');
+        openqarray.forEach((q,i)=>{
+            $('.openqlist').append(`<div index='`+i+`' db-id='`+q._id+`' class="qlist">`+q.name+`</div>`);
+            $(`div[index='`+i+`']`).click(function(){
+            $(".showq").html(`<div class="showqcontent">`+q.content+`</div><div class="showqanswer">`+q.ans+`</div><label for="pkt">Podaj ilość punktów za pytanie (0-`+q.pkt+`) </label><input name='pkt' type="number"><button class='rateq'>Oceń</button>`)
+            $('.rateq').click(function(){
+                let pkt = $("input[name='pkt']").val()
+                if(pkt<0){
+                    pkt = 0;
+                    console.log(pkt)
+                }else if(pkt>q.pkt){
+                    pkt = q.pkt;
+                    console.log(pkt)
+                }
+                if(pkt.length==0&&pkt!=0){
+                    return false;
+                }
+                let g = $.grep(guestlist,function(n){return n._id ==q._id;})[0]
+                g.points[q.qid] = pkt;
+                
+                socket.emit('rateopenq',q._id,g.points,q.qid)
+                
+                
+            })
+        })
+        })
 
+ }
     
     //Wyrzucenie guesta z pokoju
     <% if(user){ %> 
@@ -390,6 +426,7 @@
     // Emit
             if(er==false){
                 console.log(er)
+                console.log('a')
             socket.emit("changeindex","<%= fguest.id %>",num,questions[guest.index].type,'<%= room.opentime %>','<%= room.closedtime %>','<%= room.time %>',questionidlist,answers,"<%= room.PIN %>")}
             
         }
@@ -461,6 +498,8 @@
                 if(shownquestioninfo){
                 showq(shownquestioninfo[0],shownquestioninfo[1])
                 }
+                getqinfo()
+                openquestionslist(openqarray)
                 <% } %>
             })
             
