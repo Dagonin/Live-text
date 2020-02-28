@@ -221,6 +221,7 @@
     
     
 //    //Wyświetlenie listy pytań otwartych do oceny
+    <% if(user&&!room.time){%>
     function getqinfo(){
         openqarray = [];
         let qarr = [];
@@ -282,6 +283,7 @@
         })
 
  }
+    <%}%>
     
     //Wyrzucenie guesta z pokoju
     <% if(user){ %> 
@@ -498,9 +500,10 @@
                 if(shownquestioninfo){
                 showq(shownquestioninfo[0],shownquestioninfo[1])
                 }
+                <% if(!room.time){ %>
                 getqinfo()
                 openquestionslist(openqarray)
-                <% } %>
+                <% }} %>
             })
             
             
