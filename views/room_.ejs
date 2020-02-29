@@ -6,7 +6,6 @@
     <title>Document</title>
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <link rel="stylesheet" href="/css/room.css" />
-    <link rel="stylesheet" href="/css/style.css" />
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet">
     <link href="/css/fontawesome/css/all.css" rel="stylesheet">
     <link href="//cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
@@ -44,17 +43,23 @@
 <!--Treść pytania-->
 <div id="gamequestions">
 <% if(!user && room.OPEN == false){ %>
+<div class="room">
+<div class="room-title">Wypełnianie testu</div>
+<div style="padding:30px;box-sizing:border-box;background:#fff;margin-top:20px;    box-shadow: 0px 0px 5px #ccc;border-radius:3px;">
+<div class="quest-number">Pytanie [numer] z X</div><br>
+Treść pytania<br><br>
 <div id="question"></div>
 <div id="answers"></div>
 <% if(room.time){ %>
-<button onclick="changequestion(-1)">Poprzednie pytanie</button>
+<button onclick="changequestion(-1)" class="nav-question">Poprzednie pytanie</button>
 <% } %>
-<button onclick="changequestion(1)">Następne pytanie</button>
+<button onclick="changequestion(1)" class="nav-question">Następne pytanie</button>
 <% } %>
-</div>
 <!--Licznik pytań-->
 <div id="licznik"></div>
-
+</div>
+</div>
+</div>
 <!--lista pytań otwartych-->
 <% if(user){%>
 <div class="openqlist"></div>
@@ -139,7 +144,7 @@
         showquestion()
         setInterval(changequestion,2000,0)
         questions.forEach((q,i)=>{
-            $("#licznik").append(`<input num='`+i+`' name='licz' type="radio">`)
+            $("#licznik").append(`<input num='`+i+`' name='licz' type="radio" class="radio-c"><span class="checkmark">?</span>`)
             
         })
         $('input[name="licz"]')[guest.index].checked = true;
@@ -518,7 +523,7 @@
                 $("#answers").html("");
                 let optionindex=0;
                 questions[guest.index].option.forEach(option=>{
-                    $("#answers").append("<div class='"+questions[guest.index].type+"' onclick=check(this,'"+questions[guest.index].type+"') id="+optionindex+">"+option+"</div>");
+                    $("#answers").append("<span class='"+questions[guest.index].type+"' onclick=check(this,'"+questions[guest.index].type+"') id="+optionindex+">A</span>"+option+"</div><br>");
                     optionindex++;
                 })
                 if(answers[guest.index]){

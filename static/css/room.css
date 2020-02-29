@@ -66,13 +66,6 @@ width:18%;margin-right:2%;float:left;box-sizing:border-box;padding:10px 30px 30p
 	border-radius:30px;
 	margin-top:30px;
 }
-
-.toggle{
-    border: 2px solid yellow;
-}
-#answers{
-    display: flex;
-}
 #matchq{
     width: 45%;
     display: block;
@@ -104,4 +97,160 @@ width:18%;margin-right:2%;float:left;box-sizing:border-box;padding:10px 30px 30p
 }
 .qlist:hover{
     border-color: red;
+}
+
+.toggle{
+    background:#28a745!important;
+	color:#fff;
+    display: inline-block;
+}
+#matchq{
+    width: 45%;
+    display: block;
+    border: black 1px solid;
+}
+#matchq div{
+    height: 100px;
+    width: 100%;
+    display: block;
+    border: red 1px solid;
+}
+#matchans{
+    width: 45%;
+    display: block;
+    border: black 1px solid;
+}
+.matchdrop{
+    height: 100px;
+    background-color: yellow;
+}
+.matchdrop div{
+    height: 100%;
+    background-color: yellow;
+}
+
+/* Strona klienta */
+
+.nav-question {
+	padding:6px 14px;
+	border: 1px solid rgba(0,0,0,0.2);
+	margin:20px 15px 0px 0px;
+	font-size:13px;
+	color:#555;
+	border-radius:3px;
+}
+
+.quest-number {
+	font-size:18px;
+}
+
+#answers p{
+	display:inline-block;
+}
+
+#answers span.multi {
+	padding:4px 8px;
+	color:#fff;
+	font-size:14px;
+	margin-right:25px;
+	background:rgba(0,0,0,0.3);
+	border-radius:3px;
+}
+
+#answers span.multi:hover {
+	cursor:pointer;
+	transition: background-color 0.5s ease;
+	background:rgba(0,0,0,0.8);
+}
+
+#answers span.single {
+	padding:4px 8px;
+	color:#fff;
+	font-size:14px;
+	margin-right:25px;
+	background:rgba(0,0,0,0.3);
+	border-radius:50%;
+}
+
+#answers span.single:hover {
+	cursor:pointer;
+	transition: background-color 0.5s ease;
+	background:rgba(0,0,0,0.8);
+}
+
+
+
+
+#licznik{
+margin-top:30px;
+}
+
+input.radio-c {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkmark{
+	height: 20px;
+    display: inline-block;
+	text-align:center;
+	line-height:20px;
+	font-size:14px;
+    width: 20px;
+	margin-right:8px;
+    background-color: #eee;
+    border-radius: 50%;
+}
+
+
+.a:hover input ~ .checkmark {
+    background-color: #ccc;
+    cursor: pointer;
+}
+
+
+.a input:checked ~ .checkmark {
+    background-color: #28a745;
+}
+
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+
+.a input:checked ~ .checkmark:after {
+    display: block;
+}
+
+
+.a .checkmark:after {
+    left: 8px;
+    top: 4px;
+    width: 5px;
+    height: 10px;
+    border: 2px solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.a input[type=checkbox] ~ .checkmark {
+    border-radius: 3px;
+}
+
+.a input[type=checkbox]:checked ~ .checkmark {
+    background-color: #28a745;
+}
+
+button {
+    background: none;
+    padding: 8px 12px;
+    border: 0;
+    border-radius: 3px;
+    color: #999;
+    font-size: 1em;
+    cursor: pointer;
 }
