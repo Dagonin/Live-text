@@ -1,131 +1,152 @@
 body {
-background:rgba(0, 0, 0, 0.02);
-margin:0;
-font-family: 'Roboto', sans-serif;
-color:#4a4a4a;
-font-weight:300;
+    background: rgba(0, 0, 0, 0.02);
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    color: #4a4a4a;
+    font-weight: 300;
 }
 
 .room {
-	width: 80%;
+    width: 80%;
     box-sizing: border-box;
     border-radius: 3px;
-	
-	margin:50px auto 0px auto;
+
+    margin: 50px auto 0px auto;
 }
 
 .room-title {
-	width:100%;
-	background:#262626;
-	border-radius:3px;
-	color:#fff;
-	padding:15px 30px;
-	box-sizing:border-box;
+    width: 100%;
+    background: #262626;
+    border-radius: 3px;
+    color: #fff;
+    padding: 15px 30px;
+    box-sizing: border-box;
 }
 
 .room-pin {
-	font-weight:500;
-	padding:8px 30px;
-	border-radius:30px;
-	color:#555;
-	border:1px solid rgba(0,0,0,0.1);
+    font-weight: 500;
+    padding: 8px 30px;
+    border-radius: 30px;
+    color: #555;
+    border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .kodklasy {
-margin-bottom:20px;box-sizing:border-box;padding:20px;background:#fff;    box-shadow: 0px 0px 5px #ccc;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0px 0px 5px #ccc;
 }
 
 .uczniowie-box {
-width:100%;float:left;box-sizing:border-box;padding:25px;background:#fff;    box-shadow: 0px 0px 5px #ccc;
+    width: 100%;
+    float: left;
+    box-sizing: border-box;
+    padding: 25px;
+    background: #fff;
+    box-shadow: 0px 0px 5px #ccc;
 }
 
-#guestlist .guestobject{
+#guestlist .guestobject {
     padding: 10px 10px 10px 20px;
-	border-radius:3px;
+    border-radius: 3px;
     font-size: 14px;
     color: #555;
     background: #fff;
-	margin:20px 0px 0px 0px;
-	float:left;
-	width:100%;
-	box-sizing:border-box;
-	box-shadow:0px 0px 5px #ccc;
+    margin: 20px 0px 0px 0px;
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 5px #ccc;
 }
 
 .etykieta {
-	font-size:23px!important;
+    font-size: 23px !important;
 }
 
 .startgame {
-	background:#28a745;
-	color:#fff;
-	font-size:13px;
-	padding:12px 20px;
-	border-radius:30px;
-	margin-top:30px;
+    background: #28a745;
+    color: #fff;
+    font-size: 13px;
+    padding: 12px 20px;
+    border-radius: 30px;
+    margin-top: 30px;
 }
-#matchq{
+
+#matchq {
     width: 45%;
     display: block;
     border: black 1px solid;
 }
-#matchq div{
+
+#matchq div {
     height: 100px;
     width: 100%;
     display: block;
     border: red 1px solid;
 }
-#matchans{
+
+#matchans {
     width: 45%;
     display: block;
     border: black 1px solid;
 }
-.matchdrop{
+
+.matchdrop {
     height: 100px;
     background-color: yellow;
 }
-.matchdrop div{
+
+.matchdrop div {
     height: 100%;
     background-color: yellow;
 }
-.qlist{
-	margin:5px 0px;
-	border:1px solid rgba(0,0,0,0.1);
-	padding:6px 12px;
-	box-sizing:border-box;
-	border-radius:3px;
-}
-.qlist:hover{
-	border:1px solid rgba(0,0,0,0.5);
-	cursor:pointer;
+
+.qlist {
+    margin: 5px 0px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 6px 12px;
+    box-sizing: border-box;
+    border-radius: 3px;
 }
 
-.toggle{
-    background:#28a745!important;
-	color:#fff;
+.qlist:hover {
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+.toggle {
+    background: #28a745 !important;
+    color: #fff;
     display: inline-block;
 }
-#matchq{
+
+#matchq {
     width: 45%;
     display: block;
     border: black 1px solid;
 }
-#matchq div{
+
+#matchq div {
     height: 100px;
     width: 100%;
     display: block;
     border: red 1px solid;
 }
-#matchans{
+
+#matchans {
     width: 45%;
     display: block;
     border: black 1px solid;
 }
-.matchdrop{
+
+.matchdrop {
     height: 100px;
     background-color: yellow;
 }
-.matchdrop div{
+
+.matchdrop div {
     height: 100%;
     background-color: yellow;
 }
@@ -133,57 +154,57 @@ width:100%;float:left;box-sizing:border-box;padding:25px;background:#fff;    box
 /* Strona klienta */
 
 .nav-question {
-	padding:6px 14px;
-	border: 1px solid rgba(0,0,0,0.2);
-	margin:20px 15px 0px 0px;
-	font-size:13px;
-	color:#555;
-	border-radius:3px;
+    padding: 6px 14px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    margin: 20px 15px 0px 0px;
+    font-size: 13px;
+    color: #555;
+    border-radius: 3px;
 }
 
 .quest-number {
-	font-size:18px;
+    font-size: 18px;
 }
 
-#answers p{
-	display:inline-block;
+#answers p {
+    display: inline-block;
 }
 
 #answers span.multi {
-	padding:4px 8px;
-	color:#fff;
-	font-size:14px;
-	margin-right:25px;
-	background:rgba(0,0,0,0.3);
-	border-radius:3px;
+    padding: 4px 8px;
+    color: #fff;
+    font-size: 14px;
+    margin-right: 25px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
 }
 
 #answers span.multi:hover {
-	cursor:pointer;
-	transition: background-color 0.5s ease;
-	background:rgba(0,0,0,0.8);
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+    background: rgba(0, 0, 0, 0.8);
 }
 
 #answers span.single {
-	padding:4px 8px;
-	color:#fff;
-	font-size:14px;
-	margin-right:25px;
-	background:rgba(0,0,0,0.3);
-	border-radius:50%;
+    padding: 4px 8px;
+    color: #fff;
+    font-size: 14px;
+    margin-right: 25px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
 }
 
 #answers span.single:hover {
-	cursor:pointer;
-	transition: background-color 0.5s ease;
-	background:rgba(0,0,0,0.8);
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+    background: rgba(0, 0, 0, 0.8);
 }
 
 
 
 
-#licznik{
-margin-top:30px;
+#licznik {
+    margin-top: 30px;
 }
 
 input.radio-c {
@@ -192,14 +213,14 @@ input.radio-c {
     cursor: pointer;
 }
 
-.checkmark{
-	height: 20px;
+.checkmark {
+    height: 20px;
     display: inline-block;
-	text-align:center;
-	line-height:20px;
-	font-size:14px;
+    text-align: center;
+    line-height: 20px;
+    font-size: 14px;
     width: 20px;
-	margin-right:8px;
+    margin-right: 8px;
     background-color: #eee;
     border-radius: 50%;
 }
@@ -260,4 +281,17 @@ button {
     padding: 10px 30px 30px 30px;
     background: #fff;
     box-shadow: 0px 0px 5px #ccc;
+}
+
+
+.matchcor {
+    border: 1px solid black;
+    width: 30%;
+    background-color: gray;
+}
+
+.matchopt {
+    border: 1px solid black;
+    width: 30%;
+    background-color: bisque;
 }
