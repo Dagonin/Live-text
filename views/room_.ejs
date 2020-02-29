@@ -19,15 +19,19 @@
 <!--Numer pokoju -->
 <% if(user){ %>
 <div class="room">
-<div class="room-title"><i class="fas fa-cog icon_mg"></i> Zarządzanie pokojem</div>
+<div class="room-title">Zarządzanie pokojem</div>
+<div style="float:left;width:100%;box-sizing:border-box;margin-top:20px; ">
+<div style="width:80%;float:right;height:auto;">
+<div class="kodklasy">
 <div id="pinpokoju" class="etykieta"> Kod Klasy <br><br>
-<span class="room-pin"><%= room.PIN %></span> </div><br>
+<span class="room-pin"><%= room.PIN %></span> </div></div>
 <!-- Pokazanie pytania -->
-<span>Pogląd ucznia </span>
-<div class="showq"></div>
+<span class="etykieta">Pogląd ucznia </span><br><br>
+<div class="showq"></div></div>
 <!--Lista guestów-->
-<div class="etykieta"><i class="fas fa-user-friends icon_mg"></i></i> Lista gości</div><br>
-<div id="guestlist"></div><br>
+<div class="uczniowie-box">
+<div class="etykieta"><i class="fas fa-user-friends icon_mg"></i></i> Uczniowie</div><br>
+<div id="guestlist"></div></div><br>
 <% if(room.OPEN==true){ %>
 <button onclick="startgame()" class="startgame"><i class="fas fa-play icon_mg"></i> ROZPOCZNIJ</button>
 <% }}else if(room.OPEN){ %>
