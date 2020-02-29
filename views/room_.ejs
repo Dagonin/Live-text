@@ -28,9 +28,11 @@
 <span class="etykieta">Pogląd ucznia </span><br><br>
 <div class="showq"></div></div>
 <!--Lista guestów-->
+<div style="width:18%;float:left;margin-right:2%;">
 <div class="uczniowie-box">
-<div class="etykieta"><i class="fas fa-user-friends icon_mg"></i></i> Uczniowie</div><br>
-<div id="guestlist"></div></div><br>
+<div class="etykieta"><i class="fas fa-user-friends icon_mg"></i></i> Uczniowie</div>
+</div><br>
+<div id="guestlist"></div></div>
 <% if(room.OPEN==true){ %>
 <button onclick="startgame()" class="startgame"><i class="fas fa-play icon_mg"></i> ROZPOCZNIJ</button>
 <% }}else if(room.OPEN){ %>
