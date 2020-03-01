@@ -38,6 +38,8 @@
 <% }}else if(room.OPEN){ %>
 <!--Lista guestów-->
 <div id="guestlist"></div>
+
+
 </div>
 
 
@@ -65,7 +67,11 @@ Treść pytania<br><br>
 <!--lista pytań otwartych-->
 <% if(user){%>
 <div class="openqlist"></div>
+<div id="popup"></div>
 <% } %>
+
+
+
 </body>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js'></script>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
@@ -83,6 +89,8 @@ Treść pytania<br><br>
     let questionidlist = [];
     let shownquestioninfo;
     let openqarray;
+    let gradetype;
+    let correctmatchq;
     <% if(!user){ %>
     <% if( fguest.roomquestions.answer!=""){ %>
     let answers = <%-JSON.stringify(fguest.roomquestions.answer) %>;
@@ -186,13 +194,15 @@ Treść pytania<br><br>
                 })
             
         })
+        getqinfo()
+        openquestionslist(openqarray)
         <% }} %>
         
 
     })
     // Wyświetlenie pytania u nauczyciela
     function showq(qobject,gid){
-        let g = $.grep(guestlist,function(n){return n._id==gid})[0]
+        let g =  $.grep(guestlist,function(n){return n._id==gid})[0]
         let qindex = $.inArray(qobject._id,g.roomquestions.question)
 //        console.log(qobject,g,qindex)
         
@@ -215,7 +225,6 @@ Treść pytania<br><br>
                 })
             
         } else if(qobject.type="match"){
-            console.log(qobject,g.roomquestions.answer[qindex])
             $(".showq").html(`<div class="qoption"></div><div class="qcorrect"></div>`)
             qobject.option.forEach((opt,i)=>{
                 let num = i+1;
@@ -251,6 +260,90 @@ Treść pytania<br><br>
         }
         
     })
+    
+    // Ocena pytań i koniec testu
+    
+    function endtest(){
+        <% if(user){ %>    
+        <%  if(!room.time){ %>
+        let bool = false;
+        if(openqarray.length!=0){
+            bool=true;
+            return false;
+        }
+        
+        if(gradetype!='bin'&&gradetype!='nor'){
+                $("#popup").html(`<span>Wybierz typ oceniania testu</span><button id='bin'>Binarnie</button><button id='nor'>Normalnie</button>`)
+            $('#bin').click(function(){
+                gradetype="bin";
+                endtest()
+            })            
+            $('#nor').click(function(){
+                gradetype="nor";
+                endtest()
+            })
+            bool=true;
+            return false;
+        }
+        
+            if(!correctmatchq){
+                let qarr = [];
+                $.grep(questions,function(n){return n.type =="match";}).forEach(q=>{
+                    qarr.push(q.option.length)
+                })
+                
+                
+                socket.emit('getmatch',socket.id,qarr,"<%= room.PIN %>")
+            }else{
+        
+        
+                guestlist.forEach((g,idx)=>{
+                    let qindex = [];
+                    $.grep(questions,function(n){return n.type =="match";}).forEach(q=>{
+                       qindex.push($.inArray(q._id,g.roomquestions.question))
+                    })
+                    
+                    qindex.forEach((qidx,qi)=>{
+                        let points = 0;
+                       g.roomquestions.answer[qidx].a.forEach((num,i)=>{
+                        let corr = correctmatchq[qi].corr[num-1];
+                        let opt = correctmatchq[qi].opt[g.roomquestions.answer[qidx].o[i]-1];
+                           if(corr==opt&&opt&&corr){
+                               console.log(corr,opt)
+                               points+=1;
+                           }
+                       })
+//                        g.points[qidx] = Math.floor(points/questions[qidx].option.length)
+                        console.log(g.points)
+                            g.points[qidx] = points
+                        
+                         socket.emit('rateopenq',g._id,g.points)
+                    })
+                    
+                   
+                    
+                })
+                }
+                            
+                            
+        if(gradetype=="nor"){
+            
+        }
+        
+        if(bool==false){
+            console.log('end')
+        }
+        
+        <% }} %>
+    }
+    
+    
+    
+        socket.on('matchorder',(arr)=>{
+            correctmatchq=arr;
+            console.log(correctmatchq)
+        })
+        
     
     
 //    //Wyświetlenie listy pytań otwartych do oceny
