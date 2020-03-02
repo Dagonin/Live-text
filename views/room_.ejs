@@ -194,9 +194,10 @@ Treść pytania<br><br>
                 })
             
         })
+        <% if(!room.time){ %>
         getqinfo()
         openquestionslist(openqarray)
-        <% }} %>
+        <% }}} %>
         
 
     })
@@ -264,14 +265,15 @@ Treść pytania<br><br>
     // Ocena pytań i koniec testu
     
     function endtest(){
-        <% if(user){ %>    
-        <%  if(!room.time){ %>
+        <% if(user){ %> 
         let bool = false;
+        <%  if(!room.time){ %>
+        
         if(openqarray.length!=0){
             bool=true;
             return false;
         }
-        
+         <% } %>
         if(gradetype!='bin'&&gradetype!='nor'){
                 $("#popup").html(`<span>Wybierz typ oceniania testu</span><button id='bin'>Binarnie</button><button id='nor'>Normalnie</button>`)
             $('#bin').click(function(){
@@ -298,12 +300,17 @@ Treść pytania<br><br>
         
         
                 guestlist.forEach((g,idx)=>{
-                    let qindex = [];
+                    let qindexmatch = [];
+                    let qindexrest = [];
                     $.grep(questions,function(n){return n.type =="match";}).forEach(q=>{
-                       qindex.push($.inArray(q._id,g.roomquestions.question))
+                       qindexmatch.push($.inArray(q._id,g.roomquestions.question))
+                    })
+                    $.grep(questions,function(n){return n.type =="single"|| n.type=="multi";}).forEach(q=>{
+                       qindexrest.push($.inArray(q._id,g.roomquestions.question))
                     })
                     
-                    qindex.forEach((qidx,qi)=>{
+                    console.log(qindexrest,"ASD")
+                    qindexmatch.forEach((qidx,qi)=>{
                         let points = 0;
                        g.roomquestions.answer[qidx].a.forEach((num,i)=>{
                         let corr = correctmatchq[qi].corr[num-1];
@@ -313,16 +320,53 @@ Treść pytania<br><br>
                                points+=1;
                            }
                        })
-//                        g.points[qidx] = Math.floor(points/questions[qidx].option.length)
-                        console.log(g.points)
-                            g.points[qidx] = points
-                        
-                         socket.emit('rateopenq',g._id,g.points)
+                        if(gradetype=="nor"){
+                            g.points[qidx] = (points/questions[qidx].option.length)*questions[qidx].points
+                        }else if(gradetype=="bin"){
+                            if(points/questions[qidx].option.length==1){
+                                g.points[qidx] = questions[qidx].points;
+                            }else{
+                                g.points[qidx] = 0;
+                            }
+                        }
+                         
                     })
                     
-                   
+                    
+                    qindexrest.forEach((qidx,qi)=>{
+                        let points = 0;
+                        if(g.roomquestions.answer[qidx]){
+                        g.roomquestions.answer[qidx].forEach(ans=>{
+                        let index = $.inArray(questions[qidx].option[ans],questions[qidx].correct)
+                        if(index == -1){
+                            points--;
+                        }else{
+                            points++;
+                        }
+                            
+                        })}
+                        if(points<0){
+                            points = 0;
+                        }
+                        
+                        if(gradetype=="nor"){
+                        g.points[qidx] = (points/questions[qidx].correct.length) * questions[qidx].points
+                        }else if(gradetype=="bin"){
+                            if(points/questions[qidx].correct.length==1){
+                                g.points[qidx] = questions[qidx].points;
+                            }else{
+                                g.points[qidx] = 0;
+                            }
+                        }
+                    })
+                    
+                    
+                    
+                    
+                   socket.emit('rateopenq',g._id,g.points)
                     
                 })
+                
                 }
                             
                             
@@ -334,7 +378,7 @@ Treść pytania<br><br>
             console.log('end')
         }
         
-        <% }} %>
+        <% } %>
     }
     
     
