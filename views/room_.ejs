@@ -151,9 +151,11 @@ Treść pytania<br><br>
         })
         <% if(!user){ %>
         
-         <% if(room.end==true){ %>
+         <% if(room.end=='halftrue'){ %>
         $("body").html('Test się już zakończy, czekaj aż nauczyciel oceni pytania')
-        <%}else{ %>
+        <%}else if(room.end=="true"){ %>
+        $("body").html('aaaaaaaaaaaaaaaaaaaaaa')
+        <%}else {%>
         console.log(answers);
         showquestion()
         setInterval(changequestion,2000,0)
@@ -200,7 +202,7 @@ Treść pytania<br><br>
                 })
             
         })
-        <% if(!room.time){ %>
+        <% if(!room.time||room.end=="halftrue"){ %>
         getqinfo()
         openquestionslist(openqarray)
         <% }}} %>
@@ -279,6 +281,7 @@ Treść pytania<br><br>
             return false;
         }
          <% } %>
+        
         if(gradetype!='bin'&&gradetype!='nor'){
                 $("#popup").html(`<span>Wybierz typ oceniania testu</span><button id='bin'>Binarnie</button><button id='nor'>Normalnie</button>`)
             $('#bin').click(function(){
@@ -299,7 +302,7 @@ Treść pytania<br><br>
                     qarr.push(q.option.length)
                 })
                 
-                
+                bool=true;
                 socket.emit('getmatch',socket.id,qarr,"<%= room.PIN %>")
             }else{
         
@@ -316,6 +319,7 @@ Treść pytania<br><br>
                     
                     qindexmatch.forEach((qidx,qi)=>{
                         let points = 0;
+                        if(g.roomquestions.answer[qidx]){
                        g.roomquestions.answer[qidx].a.forEach((num,i)=>{
                         let corr = correctmatchq[qi].corr[num-1];
                         let opt = correctmatchq[qi].opt[g.roomquestions.answer[qidx].o[i]-1];
@@ -323,7 +327,7 @@ Treść pytania<br><br>
 
                                points+=1;
                            }
-                       })
+                       })}
                         if(gradetype=="nor"){
                             g.points[qidx] = (points/questions[qidx].option.length)*questions[qidx].points
                         }else if(gradetype=="bin"){
@@ -366,25 +370,26 @@ Treść pytania<br><br>
                     
                     
                     
-                    
                    socket.emit('rateopenq',g._id,g.points)
                     
                 })
                 
                 }
-                    
-
         
-                            
-        if(gradetype=="nor"){
+        if(bool==true){
+            return false;
+        }
+        
+        
+        getqinfo()
+        openquestionslist(openqarray)
+        if(openqarray.length!=0){
             
-        }
-        
-        if(bool==false){
-            console.log(`end`)
-        }
-        
-        socket.emit('endtest',"<%= room.id %>")
+            socket.emit('endtest',"<%= room.id %>","halftrue",'u')
+        }else{
+            socket.emit('endtest',"<%= room.id %>","true",'u')            
+            }
+
         
         <% } %>
     }
@@ -392,9 +397,17 @@ Treść pytania<br><br>
             socket.on('endgame',(nroom)=>{
             room=nroom;
             <% if(!user){ %>
-            
+                clearInterval(checktimeinterval);
+                clearInterval(timerinverval)
+                if(room.end=="halftrue"){
                 $("body").html('Test się już zakończy, czekaj aż nauczyciel oceni pytania')
-            <% }%>
+                }else{
+                   $("body").html('aaaaaaaaaaaa') 
+                }
+            <% }else{%>
+                getqinfo()
+                openquestionslist(openqarray)
+            <%} %>
         })
                     
                     
@@ -402,13 +415,13 @@ Treść pytania<br><br>
     
         socket.on('matchorder',(arr)=>{
             correctmatchq=arr;
-            console.log(correctmatchq)
+            endtest();
         })
         
     
     
 //    //Wyświetlenie listy pytań otwartych do oceny
-    <% if(user&&!room.time){%>
+    <% if(user){%>
     function getqinfo(){
         openqarray = [];
         let qarr = [];
@@ -590,6 +603,7 @@ Treść pytania<br><br>
                 // KONIEC Testu
                     clearInterval(checktimeinterval);
                     clearInterval(timerinverval)
+                socket.emit('endtest',"<%= room.id %>","halftrue",'asd')     
                     $("#gamequestions").html('')
                 er = true;
                     return false;
@@ -655,13 +669,12 @@ Treść pytania<br><br>
             
         function timeout(){
 
-            <% if(room.time){ %>
+            <% if(room.time && room.end=="false"){ %>
                     clearInterval(timerinverval)
-                    $("#gamequestions").html('')
+            socket.emit('endtest',"<%= room.id %>","halftrue",'dds')
            <%}else{ %>
             clearInterval(timerinverval);
             changequestion(1);
-            console.log("ASDASDASD")
             
             <% } %>
         }
@@ -686,6 +699,10 @@ Treść pytania<br><br>
                 })
                 if(shownquestioninfo){
                 showq(shownquestioninfo[0],shownquestioninfo[1])
+                }
+                if(room.end=="halftrue"&&room.time){
+                                    getqinfo()
+                openquestionslist(openqarray)
                 }
                 <% if(!room.time){ %>
                 getqinfo()

@@ -342,18 +342,20 @@ exports = module.exports = function (io) {
 
         //koniec testu
 
-        socket.on('endtest', (rid) => {
+        socket.on('endtest', (rid, bool, a) => {
             Rooms.findByIdAndUpdate(rid, {
-                end: true
+                end: bool
             }, {
                 new: true
             }, (err, nroom) => {
                 if (err) {
                     console.log(err)
                 }
-
-                io.in('room_' + nroom.PIN).emit("endgame", nroom);
-
+                if (a == 'u') {
+                    io.in('room_' + nroom.PIN).emit("endgame", nroom);
+                } else {
+                    socket.emit("endgame", nroom);
+                }
             })
         })
 
