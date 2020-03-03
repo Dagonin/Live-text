@@ -150,6 +150,10 @@ Treść pytania<br><br>
         questionidlist.push(q._id);
         })
         <% if(!user){ %>
+        
+         <% if(room.end==true){ %>
+        $("body").html('Test się już zakończy, czekaj aż nauczyciel oceni pytania')
+        <%}else{ %>
         console.log(answers);
         showquestion()
         setInterval(changequestion,2000,0)
@@ -167,8 +171,10 @@ Treść pytania<br><br>
             $('input[name="licz"]')[guest.index].checked = true;
             <% } %>
             
+           
+            
         })
-        <% }else{ %>
+        <% }}else{ %>
                     $.each(guestlist,function(){
                     $("#guestlist").append(`<div class='guestobject' id='`+this._id+`'>`+this.username+ `<span class='counter'></span><div class='showquestions'></div> </div>`)
                         
@@ -254,7 +260,6 @@ Treść pytania<br><br>
     
     socket.on('Nguest',(g)=>{
         guest = g;
-        console.log(g.index)
 //        $("input[name='licz']")[g.index]
         if($('input[name="licz"]').length!=0){
             $('input[name="licz"]')[g.index].checked = true;
@@ -309,14 +314,13 @@ Treść pytania<br><br>
                        qindexrest.push($.inArray(q._id,g.roomquestions.question))
                     })
                     
-                    console.log(qindexrest,"ASD")
                     qindexmatch.forEach((qidx,qi)=>{
                         let points = 0;
                        g.roomquestions.answer[qidx].a.forEach((num,i)=>{
                         let corr = correctmatchq[qi].corr[num-1];
                         let opt = correctmatchq[qi].opt[g.roomquestions.answer[qidx].o[i]-1];
                            if(corr==opt&&opt&&corr){
-                               console.log(corr,opt)
+
                                points+=1;
                            }
                        })
@@ -368,20 +372,33 @@ Treść pytania<br><br>
                 })
                 
                 }
-                            
+                    
+
+        
                             
         if(gradetype=="nor"){
             
         }
         
         if(bool==false){
-            console.log('end')
+            console.log(`end`)
         }
+        
+        socket.emit('endtest',"<%= room.id %>")
         
         <% } %>
     }
     
-    
+            socket.on('endgame',(nroom)=>{
+            room=nroom;
+            <% if(!user){ %>
+            
+                $("body").html('Test się już zakończy, czekaj aż nauczyciel oceni pytania')
+            <% }%>
+        })
+                    
+                    
+                    
     
         socket.on('matchorder',(arr)=>{
             correctmatchq=arr;
@@ -481,7 +498,9 @@ Treść pytania<br><br>
   // Ładowanie wszystkiego                  
     socket.on('lastload',(nRoom,fQuestions)=>{
             room = nRoom;
+            if(fQuestions){
             questions = fQuestions;
+            }
             <% if(!user){ %>
             <% if(room.time){%>
             $("#gamequestions").html(`<div id="question"></div><div id="answers"></div>
@@ -597,8 +616,6 @@ Treść pytania<br><br>
             
     // Emit
             if(er==false){
-                console.log(er)
-                console.log('a')
             socket.emit("changeindex","<%= fguest.id %>",num,questions[guest.index].type,'<%= room.opentime %>','<%= room.closedtime %>','<%= room.time %>',questionidlist,answers,"<%= room.PIN %>")}
             
         }

@@ -122,7 +122,8 @@ router.get('/create_room', (req, res) => {
                 if (!fRoom) {
                     Rooms.create({
                         PIN: pin,
-                        owner: req.user.id
+                        owner: req.user.id,
+                        end: false
                     }, (err, cRoom) => {
                         if (err) {
                             console.log(err)
