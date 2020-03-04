@@ -22,8 +22,8 @@
 <div style="float:left;width:100%;box-sizing:border-box;margin-top:20px; ">
 <div style="width:80%;float:right;height:auto;">
 <div class="kodklasy">
-<div id="pinpokoju" class="etykieta"> Kod Klasy <br><br>
-<span class="room-pin"><%= room.PIN %></span> </div></div>
+<div id="pinpokoju" class="etykieta"><span class="room-pin-title">Kod Klasy</span>
+<div class="room-pin"><%= room.PIN %></div> </div></div>
 <!-- Pokazanie pytania -->
 <span class="etykieta">Pogląd ucznia </span><br><br>
 <div class="showq"></div></div>
@@ -50,8 +50,7 @@
 <div class="room">
 <div class="room-title">Wypełnianie testu</div>
 <div style="padding:30px;box-sizing:border-box;background:#fff;margin-top:20px;    box-shadow: 0px 0px 5px #ccc;border-radius:3px;">
-<div class="quest-number">Pytanie [numer] z X</div><br>
-Treść pytania<br><br>
+<div class="quest-number">Pytanie 1 z 1</div>
 <div id="question"></div>
 <div id="answers"></div>
 <% if(room.time){ %>
@@ -137,7 +136,7 @@ Treść pytania<br><br>
         }
         $("#guestlist").html("")
         $.each(guestlist,function(){
-            $("#guestlist").append(`<div>`+this.username+ <% if(user){ %>   `<button onclick="deleteguest(this)" db-id="`+this._id+`"><i class="fas fa-times"></i></button> ` +  <% } %> `</div>`)
+            $("#guestlist").append(`<div class="guestobject">`+this.username+ <% if(user){ %>   `<button onclick="deleteguest(this)" db-id="`+this._id+`"><i class="fas fa-times"></i></button> ` +  <% } %> `</div>`)
             
         })
         <% }else{ %>
@@ -160,7 +159,7 @@ Treść pytania<br><br>
         showquestion()
         setInterval(changequestion,2000,0)
         questions.forEach((q,i)=>{
-            $("#licznik").append(`<input num='`+i+`' name='licz' type="radio" class="radio-c"><span class="checkmark">?</span>`)
+            $("#licznik").append(`<input num='`+i+`' name='licz' type="radio" class="radio-c"><span class="checkmark">1</span>`)
             
         })
         $('input[name="licz"]')[guest.index].checked = true;

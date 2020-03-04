@@ -971,7 +971,7 @@ ul li.small {
 .create-test {
     border: 1px solid rgba(0, 0, 0, 0.09);
     border-radius: 3px;
-    margin-bottom: 8px;
+	margin: 16px 0px 0px 2%;
     padding: 8px 14px;
 }
 
@@ -1079,3 +1079,15 @@ p img {
     div#match3ans.question.ql-container.ql-snow {
         ;
     }
+	
+.create-test-chapter {
+margin-bottom:30px;
+}
+
+.chapter-title {
+border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    margin-bottom: 8px;
+	background:rgba(0,0,0,0.05);
+    padding: 8px 14px;	
+}
