@@ -151,10 +151,10 @@ Treść pytania<br><br>
         })
         <% if(!user){ %>
         
-         <% if(room.end=='halftrue'){ %>
+         <% if(room.end=='halftrue'|| (fguest.end==true&&room.end=='false')){ %>
         $("body").html('Test się już zakończy, czekaj aż nauczyciel oceni pytania')
         <%}else if(room.end=="true"){ %>
-        $("body").html('aaaaaaaaaaaaaaaaaaaaaa')
+        endgame()
         <%}else {%>
         console.log(answers);
         showquestion()
@@ -259,17 +259,46 @@ Treść pytania<br><br>
             
         }
     }
-    
+
     socket.on('Nguest',(g)=>{
         guest = g;
+        if(guest){
+        if(guest.end==true){
+                            clearInterval(checktimeinterval);
+                clearInterval(timerinverval)
+                $("body").html('Test się już zakończy, czekaj aż nauczyciel oceni pytania')
+        }}
+        if(guest.end==false){
 //        $("input[name='licz']")[g.index]
         if($('input[name="licz"]').length!=0){
             $('input[name="licz"]')[g.index].checked = true;
         }
-        
+        }
     })
     
     // Ocena pytań i koniec testu
+    
+    
+    function endgame(){
+        <%if(!user){ %>
+        let qpoints = 0;
+        let gpoints = 0;
+            questions.forEach(n=>{
+                qpoints += n.points;
+                
+            })
+        guest.points.forEach(n=>{
+            if(n==null){
+               n=0;
+               }
+            gpoints += parseInt(n);
+        })
+        
+            
+        $('body').html(`<div>zdobyłeś `+gpoints+` na `+qpoints+` punktów. To jest: `+parseInt(gpoints/qpoints*100)+`%</div>`)
+     <%   } %>
+    }
+    
     
     function endtest(){
         <% if(user){ %> 
@@ -387,6 +416,7 @@ Treść pytania<br><br>
             
             socket.emit('endtest',"<%= room.id %>","halftrue",'u')
         }else{
+                        console.log('a')
             socket.emit('endtest',"<%= room.id %>","true",'u')            
             }
 
@@ -402,7 +432,7 @@ Treść pytania<br><br>
                 if(room.end=="halftrue"){
                 $("body").html('Test się już zakończy, czekaj aż nauczyciel oceni pytania')
                 }else{
-                   $("body").html('aaaaaaaaaaaa') 
+                    endgame()
                 }
             <% }else{%>
                 getqinfo()
@@ -603,7 +633,7 @@ Treść pytania<br><br>
                 // KONIEC Testu
                     clearInterval(checktimeinterval);
                     clearInterval(timerinverval)
-                socket.emit('endtest',"<%= room.id %>","halftrue",'asd')     
+                socket.emit('endgtest',"<%= fguest.id %>","halftrue",'asd')     
                     $("#gamequestions").html('')
                 er = true;
                     return false;
@@ -668,16 +698,18 @@ Treść pytania<br><br>
         }
             
         function timeout(){
-
+            <% if(!user){ %>
             <% if(room.time && room.end=="false"){ %>
-                    clearInterval(timerinverval)
-            socket.emit('endtest',"<%= room.id %>","halftrue",'dds')
+            clearInterval(timerinverval)
+            socket.emit('endgtest',"<%= fguest.id %>","halftrue",'dds')
            <%}else{ %>
+                        console.log(<%= room.end %>)
             clearInterval(timerinverval);
             changequestion(1);
             
-            <% } %>
+            <% }} %>
         }
+
             // Zaznaczanie dobrej odpowiedzi
             function check(e,type){    
                 if(type=="single"&& $(".toggle").length==1){

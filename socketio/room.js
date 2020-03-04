@@ -164,7 +164,7 @@ exports = module.exports = function (io) {
                 io.to(`${fGuest.socket}`).emit('leaveroom');
 
                 Rooms.findOneAndUpdate({
-                    PIN: PIN
+                    PIN: PIN,
                 }, {
                     $pull: {
                         guests: fGuest._id
@@ -206,7 +206,8 @@ exports = module.exports = function (io) {
         //Rozpoczęcie gry
         socket.on('startgame', (PIN, RID) => {
             Rooms.findByIdAndUpdate(RID, {
-                OPEN: false
+                OPEN: false,
+                end: "false"
             }, {
                 new: true
             }, (err, nRoom) => {
@@ -343,6 +344,7 @@ exports = module.exports = function (io) {
         //koniec testu
 
         socket.on('endtest', (rid, bool, a) => {
+            console.log(bool)
             Rooms.findByIdAndUpdate(rid, {
                 end: bool
             }, {
@@ -354,12 +356,25 @@ exports = module.exports = function (io) {
                 if (a == 'u') {
                     io.in('room_' + nroom.PIN).emit("endgame", nroom);
                 } else {
-                    socket.emit("endgame", nroom);
                 }
             })
         })
-
-
+        
+        
+        
+            socket.on('endgtest', (rid) => {
+            Guests.findByIdAndUpdate(rid, {
+                end: true
+            }, {
+                new: true
+            }, (err, nGuest) => {
+                if (err) {
+                    console.log(err)
+                }
+                console.log(nGuest)
+                    socket.emit("Nguest", nGuest);
+            })
+        })
 
 
 

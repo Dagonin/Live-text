@@ -123,7 +123,7 @@ router.get('/create_room', (req, res) => {
                     Rooms.create({
                         PIN: pin,
                         owner: req.user.id,
-                        end: false
+                        end: 'false'
                     }, (err, cRoom) => {
                         if (err) {
                             console.log(err)
@@ -156,6 +156,7 @@ router.post('/join', (req, res) => {
                 username: req.body.guestname,
                 email: req.body.remail,
                 index: 0,
+                end: false,
                 roomquestions: {
                     answer: [],
                     question: []
