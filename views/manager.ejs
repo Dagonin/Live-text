@@ -428,7 +428,7 @@ E:/Z_C/programowanie/live-text/serwer
             rembool = true;
             block();
             $("p.list-item").append("<input name='rem' type='checkbox'>");
-            $("input").css("float", "right");
+			//$("input").css("float", "right");
             $("p.list-item").on("click", (ev) => {
                 let input = ev.target.lastChild;
                 if (input.checked == false) {
@@ -472,7 +472,7 @@ E:/Z_C/programowanie/live-text/serwer
         $("input[name='remc']:checked").each(function(){
             if($(this.parentElement).find("input[name='rem']:checked").length>0){
                 console.log($(this.parentElement).find("input[name='rem']:checked").length)
-                $(".namelist").append("<div db-id="+this.parentElement.id+" class='create-test-chapter'>" + $(this.parentElement).find(".dir-header").text() + "</div>")       
+                $(".namelist").append("<div db-id="+this.parentElement.id+" class='create-test-chapter'><div class='chapter-title'>" + $(this.parentElement).find(".dir-header").text() + "<span style='float:right'><i class='fas fa-angle-up'></i></span></div></div>")       
             }else{
                 $(this).prop('checked',false);    
                 console.log($(this.parentElement).find("input[name='rem']:checked").length)

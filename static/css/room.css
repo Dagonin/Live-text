@@ -23,10 +23,16 @@ body {
     box-sizing: border-box;
 }
 
+.room-pin-title {
+	display:block;
+	margin-bottom:16px;
+}
+
 .room-pin {
     font-weight: 500;
     padding: 8px 30px;
     border-radius: 30px;
+	display:inline-block;
     color: #555;
     border: 1px solid rgba(0, 0, 0, 0.1);
 }
@@ -66,17 +72,21 @@ body {
 }
 
 .startgame {
-    background: #28a745;
+	background: #3273dc;
     color: #fff;
     font-size: 13px;
-    padding: 12px 20px;
-    border-radius: 30px;
+	box-shadow: 0px 0px 5px #ccc;
+    width: 18%;
+    padding: 16px 20px;
+	box-sizing:border-box;
+    border-radius: 3px;
     margin-top: 30px;
 }
 
 #matchq {
     width: 45%;
     display: block;
+	float:left;
     border: black 1px solid;
 }
 
@@ -90,6 +100,7 @@ body {
 #matchans {
     width: 45%;
     display: block;
+	float:left;
     border: black 1px solid;
 }
 
@@ -281,17 +292,39 @@ button {
     padding: 10px 30px 30px 30px;
     background: #fff;
     box-shadow: 0px 0px 5px #ccc;
+	float:left;
+	width:100%;
 }
 
 
 .matchcor {
     border: 1px solid black;
-    width: 30%;
+    width: 100%;
     background-color: gray;
 }
 
 .matchopt {
     border: 1px solid black;
-    width: 30%;
+    width: 100%;
     background-color: bisque;
 }
+
+.icon_mg {
+margin-right:15px;
+}
+
+.question-desc {
+	margin-top:4px;
+	display:block;
+}
+
+.qoption {
+float:left;
+width:50%;
+}
+
+.qcorrect {
+float:left;
+width:50%;
+}
+
