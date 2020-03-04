@@ -472,11 +472,7 @@ E:/Z_C/programowanie/live-text/serwer
         $("input[name='remc']:checked").each(function(){
             if($(this.parentElement).find("input[name='rem']:checked").length>0){
                 console.log($(this.parentElement).find("input[name='rem']:checked").length)
-<<<<<<< HEAD
-                $(".namelist").append("<div db-id="+this.parentElement.id+" class='create-test-chapter'><div class='asd'>" + $(this.parentElement).find(".dir-header").text() + "</div></div>")       
-=======
                 $(".namelist").append("<div db-id="+this.parentElement.id+" class='create-test-chapter'><div class='chapter-title'>" + $(this.parentElement).find(".dir-header").text() + "<span style='float:right'><i class='fas fa-angle-up'></i></span></div></div>")       
->>>>>>> 4262a357eaef6e4db4bf03a78d736d879e0f4efb
             }else{
                 $(this).prop('checked',false);    
                 console.log($(this.parentElement).find("input[name='rem']:checked").length)
