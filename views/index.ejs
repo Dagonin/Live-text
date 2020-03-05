@@ -1,14 +1,13 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet">
-	<script src="js/button.js"></script>
-	<link rel="stylesheet" type="text/css" href="css/style.css">
-		<link rel="stylesheet" type="text/css" href="css/mobile.css">
+	<link rel="stylesheet" type="text/css" href="css/index.css">
 	<link rel="stylesheet" type="text/css" href="css/data-tooltip.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
 	<link href="/css/fontawesome/css/all.css" rel="stylesheet"> <!--load all styles -->
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -20,176 +19,153 @@
       integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
       crossorigin="anonymous"
     ></script>
-    <title>Text Live</title>
-  </head>
+</head>
 
-  <body>
- <script>
-/* Toggle between showing and hiding the navigation menu links when the user clicks on the hamburger menu / bar icon */
-function myFunction() {
-  var x = document.getElementById("myLinks");
-  if (x.style.display === "block") {
-    x.style.display = "none";
-  } else {
-    x.style.display = "block";
+<script>
+var modal = document.getElementById('id01');
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
   }
 }
-</script> 
+</script>
+
+<body>
+
+<style>
+body{margin-bottom:100px;background:#fff;color:#fff;margin:0;font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;}
+#menu {position:fixed;width:100%;box-sizing:border-box;background:#24292e;height:60px;line-height:60px;padding:0px 10%;list-style-type:none;margin:0;}
+#menu li {float:left;color:#fff;padding:0px 30px;}#menu li.right {float:right}
+#menu li:first-child {padding:0 30px 0 0}
+#content{float:left;width:100%;margin:0;box-sizing:border-box;height:850px;background-image: linear-gradient(178deg, #2b3137 70%, #fff calc(70% + 2px));}
+h1{font-size:36px;color:#fff}
+#container {width:60%;margin:auto;padding:130px 0 0 0}
+.create-test{padding:12px 18px;border:1px solid #1074e7;color:#fff;border-radius:3px;display:inline-block;margin-top:50px;}
+.header-left{width:40%;color:#ccc;font-weight:500;float:left;}.room-form{min-width:300px;border-radius:3px;float:right;color:#333;display:inline-block;padding:30px;background:#fff}.room-input{width:100%;box-sizing:border-box;margin-top:5px;border:1px solid #ccc;background:#fff;padding:12px 18px;border-radius:3px;}
+.room-button {z-index:1;font-size:14px;font-weight:500;background:#1074e7;padding:12px 18px;border-radius:30px;color:#fff;border:0;width:100%;margin:10px 0 0 0}
+.input-box{font-size:15px;}	
+.start-icon {
+	font-size:30px;
+	text-align:center;
+	line-height:70px;
+	border-radius:50%;
+	color:#fff;
+	margin:auto;
+	background:linear-gradient(to top right, #252525, #333);
+	height:70px;
+	width:70px;
+}.info {color:#333;margin-block-start:5px!important}h2.info{color:#777;font-weight:400;font-size:17px;}.icon_mg{margin-right:5px;}.icon_google{top:3px;left:4px;position:relative;font-size:15px;}#footer{margin:60px 0px;color:#333}ul.ftr {width:21%;list-style-type:none;float:left;}ul.ftr li {display:inline-block;margin:8px 0px;width:100%;float:left}ul.ftr li.main{font-weight:500}
+
+</style>
+
+<style>
+
+</style>
     <% if(!user){%>
+
+<div id="menu">
+	<li>Live-Text</li>
+	<li>Strona Główna</li>
+	<li>Funkcjonalność</li>
+	<li>O platformie</li>
 	
-	<div class="indx-mn">	
-		<ul>
-			<li>Live-text</li>
-			<li class="small active">Strona Główna</li>
-			<li class="small">O platformie</li>
-			<li class="small">Funkcjonalność</li>
-			<li class="register" style="float:right;"><a href="/register">Stwórz test online</a></li>
-			<li style="float:right;"><a href="/login">Zaloguj</a></li>
-		</ul>
-	</div>
-	
-<!-- Top Navigation Menu -->
-<div class="topnav">
-  <a href="#home" class="active active-title">Live-Text</a>
-  <!-- Navigation links (hidden by default) -->
-  <div id="myLinks">
-    <a href="#news">Strona Główna</a>
-    <a href="#contact">O platformie</a>
-    <a href="#about">Funkcjonalność</a>
-  </div>
-  <!-- "Hamburger menu" / "Bar icon" to toggle the navigation links -->
-  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-    <i class="fa fa-bars"></i>
-  </a>
+	<li class="right">Rejestracja</li>
+	<li class="right"><button onclick="document.getElementById('id01').style.display='block'" style="width:auto;padding:0;background:0;margin:0;font-size:16px;font-weight:400">Logowanie</button></li>
 </div>
 
-	
-	<div style="width:100%;">
-	<div class="indx-line indx-border">
-	<div class="indx-invite indx-box-a">
-			<span class="indx-h1">Darmowy kreator testów</span><br><br>
-			<span class="indx-h2">Stwórz rozbudowany test w bardzo prosty sposób i nadzoruj jego rozwiązywanie podczas gdy uczniowie go wypełniają.</span><br><br>
-			<a href="/register"><div class="indx-button" data-tooltip="Jeśli nie posiadasz konta, musisz sie zarejestrować">Stwórz test online</div></a> <div class="indx-buttonw" data-tooltip="Zobacz jak prosto zbudować test używając naszej platformy">Zobacz jak działa kreator</div>
-	</div>
-	
-	<div class="indx-invite" class="center-div">
-			<div class="indx-box-b"></div>
-	</div>
-	</div>
-	<br>
-	
-	
-	<div class="indx-line indx-box-c">
-	<div class="indx-room" class="center-div">
-			<div class="indx-join">
-			<span class="indx-h2"><div class="blink_me">•</div> Dołącz do pokoju</span><br><br><br>
-			<form action="/join" method="post">
-					<div class="input-box">
-					<i class="fa fa-hashtag input-icon"></i>
-					<input
-						class="input"
-						type="number"
-						placeholder="Kod Pokoju"
-						name="PIN"
-						required
-					/>
-					</div><br>
-					<div class="input-box">
-					<i class="fa fa-user input-icon"></i>
-					<input
-						class="input"
-						type="text"
-						placeholder="Twoja Nazwa"
-						name="guestname"
-						required
-					/>
-					</div><br>
-					<div class="input-box">
-					<i class="fa fa-envelope input-icon"></i>
-					<input
-						class="input"
-						type="email"
-						placeholder="Twój Email"
-						name="remail"
-						required
-					/></div>	<br>				<button class="button is-info join-class" style="margin-top:20px;" data-tooltip="Po kliknięciu tego przycisku zostaniesz przeniesiony do pokoju">
-					Dołącz <span style="float:right"><i class="fas fa-chevron-right"></i></span>
-					</button>
-				</form></div>
-				
-	</div>
-			<div class="indx-invite indx-box-d">
-			<span class="indx-h1">Wypełniaj testy bez zakładania konta</span><br><br>
-			<span class="indx-h2">Do wypełnienia testu wystarczy jedynie podać <span style="font-weight:300">kod pokoju</span>, który uzyskacie od waszego nauczyciela oraz podstawowe informacje.
-			Po kliknięciu przycisku zostaniesz przeniesiony do pokoju gdzie będziesz mógł wypełnić test.
-			</span><br><br>
-	</div></div><br>
-	
-		<div class="indx-line indx-border" style="border-top: 1px solid #eee;">
-	<div class="indx-invite indx-box-e">
-			<span class="indx-h1">Dla nauczycieli</span><br><br>
-			<span class="indx-h2">Platforma Live-Text umożliwia tworzenie rozbudowanych testów oraz wypełnianie ich przez wielu uczniów jednocześnie. Jedną z jej funkcji jest
-			ocenianie pytań danego typu w czasie rzeczywistym, czyli gdy uczniowie rozwiązuja test. By poznać wszystkie funkcje załóż darmowe konto.
-			</span><br><br>
-	</div>
-	
-	</div>
-<!--
-	<div id="header" class="center-div">
-		<div id="left-side">
-			<div class="logo">
-				<span class="title">Witamy na platformie!</span></h1> <br>
-				Aby dowiedzieć się wiecej o naszej platformie kliknij w poniższy przycisk.
-				<br><br><br>
-				<center><span class="sign-in">O platformie</span></center>
-			</div>
+<div id="content">
+	<div id="container">
+		<div class="header-left">
+		<h1>Platforma<br>stworzona dla nauczycieli</h1>
+		Platforma stworzona dla nauczycieli w celu tworzenia, wysyłania i analizowania testów w prosty sposób. Wyposażona w funkcje oceniania pytań i przeglądania progresu ucznia podczas wypełniania testu w czasie rzeczywistym.
+		<br>
+		<div class="create-test">Rozpocznij tworzenie testów</div>
 		</div>
-		<div id="right-side" style="border-right:1px solid rgba(0,0,0,0.1);">
-			<div class="text">
-				<center>
-				<span class="title">Dołącz do gry</span>
-				<form action="/join" method="post">
+		
+		
+		
+		<div style="width:60%;float:left;">
+		<form action="/join" method="post" class="room-form">
+					<div class="input-box">
+					Identyfikator pokoju<br>
 					<input
-						class="input"
+						class="room-input"
 						type="number"
-						placeholder="Kod Klasy"
 						name="PIN"
 						required
-					/><br>
+					/>
+					</div><br>
+					<div class="input-box">
+					Nazwa<br>
 					<input
-						class="input"
+						class="room-input"
 						type="text"
-						placeholder="Twoja Nazwa"
 						name="guestname"
 						required
 					/>
+					</div><br>
+					<div class="input-box">
+					Email<br>
 					<input
-						class="input"
+						class="room-input"
 						type="email"
-						placeholder="Twój Email"
 						name="remail"
 						required
-					/>
-					<br><br>
-					<button class="button is-info join-class" style="margin-top:20px;">
-					Dołącz
+					/></div>	<br>				<button class="room-button" data-tooltip="Po kliknięciu tego przycisku zostaniesz przeniesiony do pokoju">
+					Dołącz do pokoju</span>
 					</button>
 				</form>
-				</center>
-			</div>
 		</div>
-		<div id="right-side">
-			<div class="text">
-				<center>
-					<div id="panel">
-						<div id="registerp"><a href="javascript:void(0);" id="link1" onclick="register()">Rejestracja</a></div>
-						<div style="height:30px;width:1px;background:#ddd;float:left;"></div>
-						<div id="loginp"><a href="javascript:void(0);" id="link2" onclick="login()">Panel użytkownika</a></div>
-					</div>
-				</center>
-				<center>
-				<form action="/login" method="post" id="loginform" style="display:block">
-					<span class="title" style="margin-bottom:10px;display:block;margin-top:10px;">Panel użytkownika</span>
+</div>	</div>
+<div style="width:60%;float:left;margin:-320px 20% 0 20%">
+		<div style="margin-top:250px;width:100%;float:left;color:#555">
+		<!--
+		<div style="width:24%;border-radius:3px;box-shadow:0px 0px 5px rgba(0, 0, 0, 0.27);background:#fff;height:300px;margin-bottom:100px;padding:40px 20px;box-sizing:border-box;">
+			<div class="start-icon"><i class="fas fa-pen"></i></div>
+			<br>
+			Twórz testy
+		</div>
+		
+		-->
+		<div style="width:70%;margin:auto;">
+		<center><i class="fas fa-layer-group icon_mg"></i> Tworzenie testów<br>
+		<h1 class="info">Buduj testy z dodanych pytań</h1>
+		<h2 class="info">Szybko twórz świetnie wyglądające testy używając prostych i wysoce konfigurowalnych funkcji menedżera, które pozwalają między innymi na tworzenie różnych typów pytań, załączanie zdjęć, filmów, plików audio, formatowanie tekstu i wiele więcej. Dodane pytania mogą zostać edytowane, duplikowane i wykorzystane wiele razy, dzięki czemu nie trzeba za każdym razem ich kopiować.  </h2>
+		<div class="create-test" style="color:#1074e7;margin-top:20px;">
+		Rozpocznij już teraz <i class="material-icons icon_google">arrow_right_alt</i>
+		</div>
+		</center>
+		</div>
+		<div style="width:70%;margin:auto;margin-top:150px;margin-bottom:100px;">
+		<center><i class="fas fa-volume-up icon_mg"></i> Usprawnienia dla niepełnosprawnych<br>
+		<h1 class="info">Funkcja czytania na głos</h1>
+		<h2 class="info">Szybko twórz świetnie wyglądające testy używając prostych i wysoce konfigurowalnych funkcji menedżera, które pozwalają między innymi na tworzenie różnych typów pytań, załączanie zdjęć, filmów, plików audio, formatowanie tekstu i wiele więcej. Dodane pytania mogą zostać edytowane, duplikowane i wykorzystane wiele razy, dzięki czemu nie trzeba za każdym razem ich kopiować.  </h2>
+		<div class="create-test" style="color:#1074e7;margin-top:20px;">
+		Czytaj więcej <i class="material-icons icon_google">arrow_right_alt</i>
+		</div>
+		</center>
+		</div>
+	</div>
+	</div>
+</div>
+
+
+		<div style="width:60%;float:left;margin:0px 20% 100px 20%;">
+		
+<button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
+		<div id="id01" class="modal">
+  <span onclick="document.getElementById('id01').style.display='none'"
+class="close" title="Close Modal">&times;</span>
+
+  <!-- Modal Content -->
+  <div class="modal-content animate">
+
+    <div class="container">
+	      
+	  
+				<form action="/login" method="post">
+					<div class="input-loginbox">
+					Login<br>
 					<input
 						class="input"
 						name="username"
@@ -197,7 +173,9 @@ function myFunction() {
 						type="text"
 						required
 					/>
-					<br>
+					</div><br>
+					<div class="input-loginbox">
+					Hasło<br>
 					<input
 						class="input"
 						name="password"
@@ -205,27 +183,46 @@ function myFunction() {
 						type="password"
 						required
 					/>
-					<br>
-					<span style="font-size:14px;">Nie masz jeszcze konta? <a href="javascript:void(0);" id="link2" onclick="register()">Utwórz konto</a>.</span><br>
-					<button class="button is-info join-class" style="margin-top:20px;">
+					</div>	<span class="create-account">Nie masz jeszcze konta? <a href="javascript:void(0);" id="link2" onclick="register()">Utwórz konto</a>.</span><br><center><button class="button is-info join-panel" data-tooltip="Po kliknięciu tego przycisku zalogujesz się">
 					Zaloguj
-					</button>
-				</form>
-				<form action="/" method="post" id="registerform" style="display:none">
-					<span class="title" style="margin-bottom:10px;margin-top:10px;display:block">Rejestracja</span>
-					<input type="text" placeholder="Login" name="login"><br>
-					<input type="text" placeholder="E-mail" name="email"><br>
-					<input type="password" placeholder="Hasło" name="password"><br>
-					<input type="password" placeholder="Powtórz hasło" name="repeatpassword"><br>
-					<span style="font-size:14px;">Posiadasz już konto? <a href="javascript:void(0);" id="link1" onclick="login()">Zaloguj się</a>.</span><br><br>
-					<button type="submit" name="dolacz" class="join-class">Zarejestruj</button>
-				</form>
-				</center>
+					</button></center>
+				</form>	  
+	  
+    </div>
+  </div>
+</div>
+			<div id="footer">
+			<ul class="ftr">
+				<li class="main">Live-Text</li>
+			</ul>
+			
+			<ul class="ftr">
+				<li class="main">Main</li>
+				<li>Home</li>
+				<li>Home</li>
+				<li>Home</li>
+				<li>Home</li>
+			</ul>
+			
+			
+			<ul class="ftr">
+				<li class="main">Main</li>
+				<li>Home</li>
+				<li>Home</li>
+				<li>Home</li>
+				<li>Home</li>
+			</ul>
+			
+			<ul class="ftr">
+				<li class="main">Main</li>
+				<li>Home</li>
+				<li>Home</li>
+				<li>Home</li>
+				<li>Home</li>
+			</ul>
 			</div>
 		</div>
-	</div>
-	</div>
--->
+		<br><br>
     <% } %> <% if(user){ console.log(user) %>
 	<div class="indx-mn">	
 		<ul>
@@ -256,5 +253,19 @@ function myFunction() {
 </div>
 
     <% } %>
-  </body>
+
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+    var socket = io();
+    socket.on('connect', () => {
+        console.log(socket.id); // true
+    });
+    socket.on('roomcheck', ()=> {
+        console.log(io.rooms)
+    })
+
+    
+</script>
 </html>
