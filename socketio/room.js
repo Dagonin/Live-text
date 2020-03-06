@@ -343,10 +343,12 @@ exports = module.exports = function (io) {
 
         //koniec testu
 
-        socket.on('endtest', (rid, bool, a) => {
-            console.log(bool)
+        socket.on('endtest', (rid, bool, a,arr,maxpoints) => {
+            console.log(arr)
             Rooms.findByIdAndUpdate(rid, {
-                end: bool
+                end: bool,
+                maxpoints:maxpoints,
+                rankings: arr
             }, {
                 new: true
             }, (err, nroom) => {
@@ -355,14 +357,13 @@ exports = module.exports = function (io) {
                 }
                 if (a == 'u') {
                     io.in('room_' + nroom.PIN).emit("endgame", nroom);
-                } else {
-                }
+                } else {}
             })
         })
-        
-        
-        
-            socket.on('endgtest', (rid) => {
+
+
+
+        socket.on('endgtest', (rid) => {
             Guests.findByIdAndUpdate(rid, {
                 end: true
             }, {
@@ -371,10 +372,11 @@ exports = module.exports = function (io) {
                 if (err) {
                     console.log(err)
                 }
-                console.log(nGuest)
-                    socket.emit("Nguest", nGuest);
+//                console.log(nGuest)
+                socket.emit("Nguest", nGuest);
             })
         })
+
 
 
 

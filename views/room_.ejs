@@ -277,6 +277,30 @@
     
     // Ocena pytań i koniec testu
     
+    function rankpoints(){
+        let arr = [];
+        guestlist.forEach(g=>{
+            let obj = {};
+            let gpoints = 0;
+            g.points.forEach(p=>{
+            if(p==null){
+               p=0;
+               }
+            gpoints += parseInt(p);
+                
+            })
+            obj.points = gpoints;
+            obj.id=g._id;
+            arr.push(obj);
+        })
+        arr.sort(function(a1,b1){
+            let a = a1.points;
+            let b = b1.points;
+            return b-a;
+        })
+        return arr;
+    }
+    
     
     function endgame(){
         <%if(!user){ %>
@@ -395,9 +419,7 @@
                             }
                         }
                     })
-                    
-                    
-                    
+                       
                    socket.emit('rateopenq',g._id,g.points)
                     
                 })
@@ -415,8 +437,13 @@
             
             socket.emit('endtest',"<%= room.id %>","halftrue",'u')
         }else{
-                        console.log('a')
-            socket.emit('endtest',"<%= room.id %>","true",'u')            
+            let qpoints = 0;
+            questions.forEach(n=>{
+                qpoints += n.points;
+                
+            })
+             let rank = rankpoints();
+            socket.emit('endtest',"<%= room.id %>","true",'u',rank,qpoints)            
             }
 
         
@@ -438,8 +465,6 @@
                 openquestionslist(openqarray)
             <%} %>
         })
-                    
-                    
                     
     
         socket.on('matchorder',(arr)=>{

@@ -25,6 +25,11 @@ const roomSchema = new mongoose.Schema({
             guest: String,
             hisanswer: Object
         }
+    }],
+    maxpoints: Number,
+    rankings: [{
+        points: Number,
+        gid: String
     }]
 })
 
