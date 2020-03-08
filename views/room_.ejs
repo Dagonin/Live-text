@@ -27,6 +27,7 @@
 <!-- Pokazanie pytania -->
 <span class="etykieta">Pogląd ucznia </span><br><br>
 <div class="showq"></div></div>
+<button onclick="endtest()">zakończ test</button>
 <!--Lista guestów-->
 <div style="width:18%;float:left;margin-right:2%;">
 <div class="uczniowie-box">
@@ -290,7 +291,7 @@
                 
             })
             obj.points = gpoints;
-            obj.id=g._id;
+            obj.gid=g._id;
             arr.push(obj);
         })
         arr.sort(function(a1,b1){
@@ -304,21 +305,21 @@
     
     function endgame(){
         <%if(!user){ %>
-        let qpoints = 0;
-        let gpoints = 0;
-            questions.forEach(n=>{
-                qpoints += n.points;
-                
+        let qpoints = room.maxpoints;
+        let g = $.grep(room.rankings,function(n){return n.gid ==`<%= fguest._id %>`;})
+        let index = $.inArray(g[0],room.rankings) +1
+        console.log(g,index)
+            
+        $('body').html(`<div class='congrats'>zdobyłeś `+g[0].points+` na `+qpoints+` punktów. To jest: `+parseInt(g[0].points/qpoints*100)+`%</div><div class='rank'>Twoje miejsce w pokoju to: `+index+`/`+room.rankings.length+`</div><div class='showq'></div><div class="qobject"></div>`);
+        questions.forEach((q,n)=>{
+            $('.qobject').append(`<div db-id='`+q._id+`'>`+q.name+`</div>`)
+            
+            $(`div[db-id="`+q._id+`"]`).click(function(){
+                showq(q,`<%= fguest._id %>`)
             })
-        guest.points.forEach(n=>{
-            if(n==null){
-               n=0;
-               }
-            gpoints += parseInt(n);
+            
         })
         
-            
-        $('body').html(`<div>zdobyłeś `+gpoints+` na `+qpoints+` punktów. To jest: `+parseInt(gpoints/qpoints*100)+`%</div>`)
      <%   } %>
     }
     

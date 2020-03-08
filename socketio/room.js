@@ -344,7 +344,7 @@ exports = module.exports = function (io) {
         //koniec testu
 
         socket.on('endtest', (rid, bool, a,arr,maxpoints) => {
-            console.log(arr)
+            
             Rooms.findByIdAndUpdate(rid, {
                 end: bool,
                 maxpoints:maxpoints,
