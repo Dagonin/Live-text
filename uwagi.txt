@@ -70,4 +70,7 @@ Nauczyciel może dawać sygnały uczniom xD
 Import i export pytań i rodziałów (array id pytań i zakodować w np Base32)
 >>>>>>> dd85d44a0a117b5abde223ab31f0b91025f6235f
 
-MOŻE(mała szansa,około 20%) zrobie system publikacji, gdzie można opublikować test po wykonaniu go, lub folder jako test, do założonych z góry kategorii, i na stronie głównej bedzię się wyświetlać.
+
+https://responsivevoice.org/api/ <- text to speech
+https://cloud.google.com/speech-to-text <- speech to text
+
