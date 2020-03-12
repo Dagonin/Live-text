@@ -110,7 +110,9 @@
     var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
     var recognition = new SpeechRecognition();
     var speechRecognitionList = new SpeechGrammarList();
-//    recognition.continuous = true;
+    let readquestion = ['przeczytaj pytanie','przeczytaj pytania','czytaj pytanie',"czytaj pytania",'przyczyny pytania','przyczyny pytanie']
+    let readquestiontype = ["typ pytania",'typ pytan','typ pytanie','typ','te pytanie','te pytania']
+    let readpossibilities = ['przeczytaj możliwości',"przeczytaj możliwość","przeczytaj odpowiedzi","możliwe odpowiedzi","przeczytaj odpowiedź","możliwe odpowiedź",'czy te możliwość','czy te odpowiedź','czy te odpowiedzi']
     recognition.lang = 'pl-PL';
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
@@ -119,10 +121,69 @@
     }
     recognition.onresult = function(ev){
         let confidence = ev.results[0][0].confidence
-        if(confidence>0.8){
-            console.log(ev.results[0][0])
+        if(confidence>0.3){
+            let com = ev.results[0][0].transcript.toLowerCase();
+            console.log(com)
+            let bool = false;
+            readquestion.forEach((n)=>{
+                if(com.includes(n)){
+                    responsiveVoice.speak($('#question p').text(),"Polish Female")
+                    bool = true;
+                    throw "a";
+                }
+            })
+            if(bool==false){
+            readquestiontype.forEach(n=>{
+                if(com.includes(n)){
+                    let czyt;
+                    if(questions[guest.index].type=="open"){
+                        czyt='otwarte';
+                    }
+                    if(questions[guest.index].type=="single"){
+                        czyt='Pojedyńczego wyboru';
+                    }
+                    if(questions[guest.index].type=="multi"){
+                        czyt='Wielokrotnego wyboru';
+                    }
+                    if(questions[guest.index].type=="match"){
+                        czyt='Dopasowywanie';
+                    }
+                    responsiveVoice.speak(czyt,"Polish Female")
+                    bool = true;
+                    throw "a";
+                }
+            })}
+            
+            if(bool==false){
+               readpossibilities.forEach(n=>{
+                   if(com.includes(n)){
+                       $('#answers span').each(n=>{
+                           let ans = $('#answers p')[n].innerText;
+                           if(n==0){
+                               responsiveVoice.speak("Odpowiedź pierwsza, "+ans,"Polish Female")
+                           }  
+                           if(n==1){
+                               responsiveVoice.speak("Odpowiedź druga, "+ans,"Polish Female")
+                           }
+                           if(n==2){
+                               responsiveVoice.speak("Odpowiedź trzecia, "+ans,"Polish Female")
+                           }
+                           if(n==3){
+                               responsiveVoice.speak("Odpowiedź czwarta, "+ans,"Polish Female")
+                           }
+                       })
+                       bool = true;
+                       throw "a";
+                   }               
+               })
+               }
+            
+            
+            
+            
         }else{
-            console.log("Powtórz")
+            console.log(ev.results[0][0])
+            responsiveVoice.speak('Powtórz', "Polish Female"); 
         }
         
 
