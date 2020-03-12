@@ -103,6 +103,37 @@
     
     
     
+    //Wykrywanie mowy
+    
+    var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+    var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
+    var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
+    var recognition = new SpeechRecognition();
+    var speechRecognitionList = new SpeechGrammarList();
+//    recognition.continuous = true;
+    recognition.lang = 'pl-PL';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+    recognition.onspeechend = function() {
+        recognition.stop();
+    }
+    recognition.onresult = function(ev){
+        let confidence = ev.results[0][0].confidence
+        if(confidence>0.8){
+            console.log(ev.results[0][0])
+        }else{
+            console.log("Powtórz")
+        }
+        
+
+    }
+    
+    recognition.onend = function(ev){
+        recognition.start()
+    }
+    
+    
+    
     
     <% if(!user){ %>
     <% if( fguest.roomquestions.answer!=""){ %>
