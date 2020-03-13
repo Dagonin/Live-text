@@ -113,6 +113,10 @@
     let readquestion = ['przeczytaj pytanie','przeczytaj pytania','czytaj pytanie',"czytaj pytania",'przyczyny pytania','przyczyny pytanie']
     let readquestiontype = ["typ pytania",'typ pytan','typ pytanie','typ','te pytanie','te pytania']
     let readpossibilities = ['przeczytaj możliwości',"przeczytaj możliwość","przeczytaj odpowiedzi","możliwe odpowiedzi","przeczytaj odpowiedź","możliwe odpowiedź",'czy te możliwość','czy te odpowiedź','czy te odpowiedzi']
+    let readnextquestion = ['nastepne','nastepny','następne','następny']
+    let readpreviousquestion = ['poprzednie',' poprzedni']
+    let readanswerquestion  = ['zaznacz','odpowiedz','zapisz','odpowiedź','dopisz','zamień']
+    let readstop = ['stop']
     recognition.lang = 'pl-PL';
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
@@ -157,6 +161,7 @@
             if(bool==false){
                readpossibilities.forEach(n=>{
                    if(com.includes(n)){
+                       if(questions[guest.index].type!="open"){
                        $('#answers span').each(n=>{
                            let ans = $('#answers p')[n].innerText;
                            if(n==0){
@@ -174,10 +179,107 @@
                        })
                        bool = true;
                        throw "a";
+                       }else{
+                           responsiveVoice.speak("Zapisałeś: "+$('.ql-editor').text(),"Polish Female")
+                       }
                    }               
                })
                }
             
+            if(bool==false){
+                readnextquestion.forEach(n=>{
+                    if(com.includes(n)){
+                        changequestion(1);
+                        responsiveVoice.speak("Następne pytanie","Polish Female")
+                        bool = true;
+                        throw "a";
+                    }
+                })
+            }
+            
+                if(bool==false){
+                readpreviousquestion.forEach(n=>{
+                    if(com.includes(n)){
+                        <% if(room.time){ %>
+                        changequestion(-1);
+                        responsiveVoice.speak("Poprzednie pytanie","Polish Female")
+                        bool = true;
+                        throw "a";
+                    <% } else{ %>
+                        responsiveVoice.speak("W tym teście nie można cofać pytać","Polish Female")
+                        bool = true;
+                        throw "a";
+                    <% } %>
+                    }
+                })
+            }
+            
+            if(bool==false){
+                readanswerquestion.forEach(n=>{
+                    if(com.includes(n)){
+                        if(n=='zapisz'&&questions[guest.index].type=="open"){
+                            let indx = com.indexOf("zapisz")+7;
+                            let string = ev.results[0][0].transcript.slice(indx);
+                            string = string.charAt(0).toUpperCase() + string.slice(1);
+                            $('.ql-editor').html("<p>"+string+". </p>")
+                            responsiveVoice.speak("Zapisano: "+string,"Polish Female")     
+                            bool = true;
+                            throw "a";
+                            
+                        }
+                        if(questions[guest.index].type=="open"&&n=='zamień'){
+                            let str = $('.ql-editor').text();
+                            var secondLastIndex = str.lastIndexOf('. ', str.lastIndexOf('. ')-1)
+                            if(secondLastIndex==-1){
+                            let indx = com.indexOf("zamień")+7;
+                            let string = ev.results[0][0].transcript.slice(indx);
+                            string = string.charAt(0).toUpperCase() + string.slice(1);
+                            $('.ql-editor').html("<p>"+string+". </p>")
+                            responsiveVoice.speak("Zapisano: "+string,"Polish Female")     
+                            bool = true;
+                            throw "a"; 
+                            }else{
+                            let str = $('.ql-editor').text();
+                            let indx = com.indexOf("zamień")+7;
+                            let string = ev.results[0][0].transcript.slice(indx);
+                            string = string.charAt(0).toUpperCase() + string.slice(1);
+                            $('.ql-editor').text(str.slice(0,secondLastIndex)+'. '+string+'. ');
+                            responsiveVoice.speak("Zapisano: "+string,"Polish Female")     
+                            bool = true;
+                            throw "a"; 
+                            }
+
+                        }
+                        if(questions[guest.index].type=="open"&&n=="dopisz"){
+                            let indx = com.indexOf("dopisz")+7;
+                            let string = ev.results[0][0].transcript.slice(indx);
+                            string = string.charAt(0).toUpperCase() + string.slice(1);
+                            $('.ql-editor p').append(string+'. ');
+                            responsiveVoice.speak("Zapisano: "+string,"Polish Female")     
+                            bool = true;
+                            throw "a"; 
+                        }
+                    }
+                    
+                })
+            }
+            
+            
+            
+            
+            
+            
+            
+            
+            if(bool==false){
+                readstop.forEach(n=>{
+                    if(com.includes(n)){
+                        responsiveVoice.cancel();
+                        bool = true;
+                        throw "a";
+                    }
+                })
+            }
             
             
             
