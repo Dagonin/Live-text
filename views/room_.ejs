@@ -115,7 +115,12 @@
     let readpossibilities = ['przeczytaj możliwości',"przeczytaj możliwość","przeczytaj odpowiedzi","możliwe odpowiedzi","przeczytaj odpowiedź","możliwe odpowiedź",'czy te możliwość','czy te odpowiedź','czy te odpowiedzi']
     let readnextquestion = ['nastepne','nastepny','następne','następny']
     let readpreviousquestion = ['poprzednie',' poprzedni']
-    let readanswerquestion  = ['zaznacz','odpowiedz','zapisz','odpowiedź','dopisz','zamień']
+    let readanswerquestion  = ['zaznacz','odpowiedz','zapisz','odpowiedź','dopisz','zamień','odznacz']
+    let readanswer1 = ['pierwszą',"pierwsza",'1','1:00','1.','jeden']
+    let readanswer2 = ['drugą','druga','2','2:00','2.','dwa']
+    let readanswer3 = ['trzecią','trzecia','3','3:00','3.','trzy']
+    let readanswer4 = ['czwartą','czwarta','4','4:00','4.','cztery']
+    let readmyanswer = ['moje odpowiedzi','moja odpowiedź','moja odpowiedzi','moje odpowiedź','moją odpowiedź','moją odpowiedzi','moja spowiedzi','mój odpowiedź','mój odpowiedzi','mój spowiedź']
     let readstop = ['stop']
     recognition.lang = 'pl-PL';
     recognition.interimResults = false;
@@ -157,6 +162,28 @@
                     throw "a";
                 }
             })}
+            
+            
+            if(bool==false){
+                readmyanswer.forEach(n=>{
+                    if(com.includes(n)){
+                        if(questions[guest.index].type=="open"){
+                            responsiveVoice.speak("Zapisałeś, "+$(".ql-editor").text(),"Polish Female")
+                        }
+                        if(questions[guest.index].type=="single"||questions[guest.index].type=="multi" ){
+                            let idarr = [];
+                            $(".toggle").each(function(x){
+                                 let id = parseInt(this.id)+1+':00'
+                                 idarr.push(id);
+                            })
+                           responsiveVoice.speak("Zaznaczyłeś odpowiedź "+idarr,"Polish Female") 
+                        }
+                    }
+                })
+            }
+            
+            
+            
             
             if(bool==false){
                readpossibilities.forEach(n=>{
@@ -258,6 +285,57 @@
                             responsiveVoice.speak("Zapisano: "+string,"Polish Female")     
                             bool = true;
                             throw "a"; 
+                        }
+                        
+                        if(questions[guest.index].type!="open"&&(n=='zaznacz'||n=='odpowiedz'||n=='odpowiedź'||n=="odznacz")){
+                            readanswer1.forEach(x=>{
+                                if(com.includes(x)){
+                                    $('#0').click()
+                                    if(questions[guest.index].type=='multi'&&$("#0").hasClass('toggle')==false){
+                                    responsiveVoice.speak("Odznaczono odpowiedź pierwszą","Polish Female")  
+                                    }else{
+                                    responsiveVoice.speak("Zaznaczono odpowiedź pierwszą","Polish Female")  
+                                    }
+                                    bool = true;
+                                    throw "a"; 
+                                }
+                            })
+                            readanswer2.forEach(x=>{
+                                if(com.includes(x)){
+                                    $('#1').click()
+                                    if(questions[guest.index].type=='multi'&&$("#1").hasClass('toggle')==false){
+                                    responsiveVoice.speak("Odznaczono odpowiedź drugą","Polish Female")  
+                                    }else{
+                                    responsiveVoice.speak("Zaznaczono odpowiedź drugą","Polish Female")  
+                                    }
+                                    bool = true;
+                                    throw "a"; 
+                                }
+                            })                            
+                            readanswer3.forEach(x=>{
+                                if(com.includes(x)){
+                                    $('#2').click()
+                                    if(questions[guest.index].type=='multi'&&$("#2").hasClass('toggle')==false){
+                                    responsiveVoice.speak("Odznaczono odpowiedź trzecią","Polish Female")  
+                                    }else{
+                                    responsiveVoice.speak("Zaznaczono odpowiedź trzecią","Polish Female")  
+                                    }
+                                    bool = true;
+                                    throw "a"; 
+                                }
+                            })                            
+                            readanswer4.forEach(x=>{
+                                if(com.includes(x)){
+                                    $('#3').click()
+                                    if(questions[guest.index].type=='multi'&&$("#3").hasClass('toggle')==false){
+                                    responsiveVoice.speak("Odznaczono odpowiedź czwartą","Polish Female")  
+                                    }else{
+                                    responsiveVoice.speak("Zaznaczono odpowiedź czwartą","Polish Female")  
+                                    }
+                                    bool = true;
+                                    throw "a"; 
+                                }
+                            })                              
                         }
                     }
                     
