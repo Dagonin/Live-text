@@ -173,8 +173,21 @@
                         if(questions[guest.index].type=="single"||questions[guest.index].type=="multi" ){
                             let idarr = [];
                             $(".toggle").each(function(x){
-                                 let id = parseInt(this.id)+1+':00'
-                                 idarr.push(id);
+                                if(this.id==0){
+                                    idarr.push('pierwszą')
+                                }
+                                if(this.id==1){
+                                    idarr.push('drugą')
+                                }                                
+                                if(this.id==2){
+                                    idarr.push('trzecią')
+                                }
+                                if(this.id==3){
+                                    idarr.push('czwartą')
+                                }                                                                
+                                
+                                
+                                
                             })
                            responsiveVoice.speak("Zaznaczyłeś odpowiedź "+idarr,"Polish Female") 
                         }
@@ -362,7 +375,6 @@
             
             
         }else{
-            console.log(ev.results[0][0])
             responsiveVoice.speak('Powtórz', "Polish Female"); 
         }
         
