@@ -8,6 +8,19 @@ const Questions = require('../models/question');
 const Chapters = require('../models/chapter');
 // Logowanie i rejestracja
 
+
+router.get('/.well-known/acme-challenge/hy19TbO16N8TVIOnRoafDmMvhi2Eepyg99MxuSydyHw', (req, res) => {
+    res.send("hy19TbO16N8TVIOnRoafDmMvhi2Eepyg99MxuSydyHw");
+})
+router.get('/.well-known/acme-challenge/PfZEiXuWBWRQVMMqsLe2szxHW_fmtpSizlR24qN0O_Y', (req, res) => {
+    res.send("zFc4ZInyI7LwPmk7rdC19DzEtDQ51GY4tHx2xBYotZw");
+})
+
+
+
+
+
+
 router.get('/', (req, res) => {
     res.render("index", {
         user: req.user
