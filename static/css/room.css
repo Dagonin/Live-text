@@ -127,11 +127,20 @@ body {
     cursor: pointer;
 }
 
-.toggle {
+.togglered {
+    background: red !important;
+    color: #fff;
+    border: black 2px solid;
+/*    display: inline-block;*/
+}
+
+.togglegreen {
     background: #28a745 !important;
     color: #fff;
-    display: inline-block;
+/*    display: inline-block;*/
 }
+
+
 
 #matchq {
     width: 45%;

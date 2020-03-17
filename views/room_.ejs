@@ -510,8 +510,7 @@
     function showq(qobject,gid){
         let g =  $.grep(guestlist,function(n){return n._id==gid})[0]
         let qindex = $.inArray(qobject._id,g.roomquestions.question)
-//        console.log(qobject,g,qindex)
-        
+        console.log(qobject)
         if(qobject.type=="open"){
             
             console.log("a")
@@ -524,9 +523,12 @@
                     $(".showqanswer").append("<div class='"+qobject.type+"' id="+i+">"+option+"</div>");
                     if(g.roomquestions.answer[qindex].length!=0){
                        if($.inArray(i.toString(),g.roomquestions.answer[qindex])!=-1){
-                           $("#"+i).addClass("toggle")
+                           $("#"+i).addClass("togglered")
                        }
                         
+                    }
+                    if($.inArray(option,qobject.correct)!=-1){
+                        $("#"+i).addClass("togglegreen")
                     }
                 })
             
@@ -541,17 +543,19 @@
                 $(".qoption").append(`<div class='matchopt'>`+(qobject.option.length+1)+'.'+qobject.fake.content+`</div>`)
             }}
             qobject.correct.forEach((cor,i)=>{
-                $('.qcorrect').append(`<div class="matchcor">`+qobject.correct[i]+(g.roomquestions.answer[qindex].o[i] !=0 && g.roomquestions.answer[qindex].o[i] !=null ? `<h1>`+g.roomquestions.answer[qindex].o[i]+`.</h1>`: "")+`</div>`)
+                let indx = g.roomquestions.answer[qindex].o[i]-1;
+                $('.qcorrect').append(`<div class="matchcor">`+qobject.correct[i]+(g.roomquestions.answer[qindex].o[i] !=0 && g.roomquestions.answer[qindex].o[i] !=null ? `<h1>`+qobject.option[indx]+`</h1>`: "")+`</div>`)
             })
            let fake = $.inArray("0",g.roomquestions.answer[qindex].o);
             if(fake!=-1){
-              $($('.matchcor')[fake]).append(`<h1>`+(qobject.option.length+1)+`</h1>`)
+              $($('.matchcor')[fake]).append(`<h1>`+(qobject.fake.content)+`</h1>`)
+                console.log(fake)
             }
             
             if(qobject.fake){
             if(qobject.fake.typ=="fakematch"){
                 console.log(g.roomquestions.answer[qindex].o[(qobject.option.length)])
-                $(".qcorrect").append(`<div class='matchcor'>`+qobject.fake.content+(g.roomquestions.answer[qindex].o[(qobject.option.length)] !=0 && g.roomquestions.answer[qindex].o[(qobject.option.length)] !=null ?`<h1>`+g.roomquestions.answer[qindex].o[(qobject.option.length)]+`.</h1>`:'')+`</div>`)
+                $(".qcorrect").append(`<div class='matchcor'>`+qobject.fake.content+(g.roomquestions.answer[qindex].o[(qobject.option.length)] !=0 && g.roomquestions.answer[qindex].o[(qobject.option.length)] !=null ?`<h1>`+qobject.option[g.roomquestions.answer[qindex].o[(qobject.option.length)]-1]+`</h1>`:'')+`</div>`)
             }}
             
         }
