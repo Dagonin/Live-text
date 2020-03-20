@@ -445,13 +445,18 @@
         console.log(questionidlist)
         questions.forEach(q =>{
         questionidlist.push(q._id);
+            
+            
         })
         <% if(!user){ %>
         
          <% if(room.end=='halftrue'|| (fguest.end==true&&room.end=='false')){ %>
+                        clearInterval(checktimeinterval);
+                clearInterval(timerinverval)
         $("body").html('Test się już zakończy, czekaj aż nauczyciel oceni pytania')
         <%}else if(room.end=="true"){ %>
         endgame()
+        
         <%}else {%>
         console.log(answers);
         showquestion()
@@ -499,6 +504,11 @@
                 })
             
         })
+                let qarr = [];
+        $.grep(questions,function(n){return n.type =="match";}).forEach(q=>{
+                    qarr.push(q.option.length)
+        })
+        socket.emit('getmatch',socket.id,qarr,"<%= room.PIN %>")
         <% if(!room.time||room.end=="halftrue"){ %>
         getqinfo()
         openquestionslist(openqarray)
@@ -509,8 +519,10 @@
     // Wyświetlenie pytania u nauczyciela
     function showq(qobject,gid){
         let g =  $.grep(guestlist,function(n){return n._id==gid})[0]
+        console.log(qobject,g)
         let qindex = $.inArray(qobject._id,g.roomquestions.question)
-        console.log(qobject)
+        console.log(g.roomquestions.answer[qindex])
+        if(g.roomquestions.answer[qindex]!=null){
         if(qobject.type=="open"){
             
             console.log("a")
@@ -533,6 +545,10 @@
                 })
             
         } else if(qobject.type="match"){
+            let matchans = scorematch("check");
+            let ansobj =  $.grep(scorematch("check"),function(n){return n.id == gid;})
+            let ansindex = $.grep(ansobj[0].ans,function(n){return n.index == qindex;})
+            console.log(ansindex[0])
             $(".showq").html(`<div class="qoption"></div><div class="qcorrect"></div>`)
             qobject.option.forEach((opt,i)=>{
                 let num = i+1;
@@ -544,20 +560,22 @@
             }}
             qobject.correct.forEach((cor,i)=>{
                 let indx = g.roomquestions.answer[qindex].o[i]-1;
-                $('.qcorrect').append(`<div class="matchcor">`+qobject.correct[i]+(g.roomquestions.answer[qindex].o[i] !=0 && g.roomquestions.answer[qindex].o[i] !=null ? `<h1>`+qobject.option[indx]+`</h1>`: "")+`</div>`)
+                let checkif = $.inArray(i,ansindex[0].corr);
+                $('.qcorrect').append(`<div class="matchcor">`+qobject.correct[i]+(g.roomquestions.answer[qindex].o[i] !=0 && g.roomquestions.answer[qindex].o[i] !=null ? `<h1>`+qobject.option[indx]+`</h1>`: "")+(checkif==-1 ? `<i class="fas fa-times"></i>` : '<i class="fas fa-check"></i>') +`</div>`)
             })
            let fake = $.inArray("0",g.roomquestions.answer[qindex].o);
             if(fake!=-1){
-              $($('.matchcor')[fake]).append(`<h1>`+(qobject.fake.content)+`</h1>`)
-                console.log(fake)
+              $($('.matchcor')[fake]).find('i').remove();
+              $($('.matchcor')[fake]).append(`<h1>`+(qobject.fake.content)+`</h1><i class="fas fa-times"></i>`)
             }
-            
             if(qobject.fake){
             if(qobject.fake.typ=="fakematch"){
                 console.log(g.roomquestions.answer[qindex].o[(qobject.option.length)])
-                $(".qcorrect").append(`<div class='matchcor'>`+qobject.fake.content+(g.roomquestions.answer[qindex].o[(qobject.option.length)] !=0 && g.roomquestions.answer[qindex].o[(qobject.option.length)] !=null ?`<h1>`+qobject.option[g.roomquestions.answer[qindex].o[(qobject.option.length)]-1]+`</h1>`:'')+`</div>`)
+                $(".qcorrect").append(`<div class='matchcor'>`+qobject.fake.content+(g.roomquestions.answer[qindex].o[(qobject.option.length)] !=0 && g.roomquestions.answer[qindex].o[(qobject.option.length)] !=null ?`<h1>`+qobject.option[g.roomquestions.answer[qindex].o[(qobject.option.length)]-1]+`</h1><i class="fas fa-times"></i>`:'<i class="fas fa-check"></i>')+`</div>`)
             }}
             
+        }}else{
+            $(".showq").text("Uczeń jeszcze nie odpowiedział")
         }
     }
 
@@ -565,7 +583,7 @@
         guest = g;
         if(guest){
         if(guest.end==true){
-                            clearInterval(checktimeinterval);
+                clearInterval(checktimeinterval);
                 clearInterval(timerinverval)
                 $("body").html('Test się już zakończy, czekaj aż nauczyciel oceni pytania')
         }}
@@ -659,72 +677,9 @@
                 bool=true;
                 socket.emit('getmatch',socket.id,qarr,"<%= room.PIN %>")
             }else{
+            scorematch("end")
         
-        
-                guestlist.forEach((g,idx)=>{
-                    let qindexmatch = [];
-                    let qindexrest = [];
-                    $.grep(questions,function(n){return n.type =="match";}).forEach(q=>{
-                       qindexmatch.push($.inArray(q._id,g.roomquestions.question))
-                    })
-                    $.grep(questions,function(n){return n.type =="single"|| n.type=="multi";}).forEach(q=>{
-                       qindexrest.push($.inArray(q._id,g.roomquestions.question))
-                    })
-                    
-                    qindexmatch.forEach((qidx,qi)=>{
-                        let points = 0;
-                        if(g.roomquestions.answer[qidx]){
-                       g.roomquestions.answer[qidx].a.forEach((num,i)=>{
-                        let corr = correctmatchq[qi].corr[num-1];
-                        let opt = correctmatchq[qi].opt[g.roomquestions.answer[qidx].o[i]-1];
-                           if(corr==opt&&opt&&corr){
 
-                               points+=1;
-                           }
-                       })}
-                        if(gradetype=="nor"){
-                            g.points[qidx] = (points/questions[qidx].option.length)*questions[qidx].points
-                        }else if(gradetype=="bin"){
-                            if(points/questions[qidx].option.length==1){
-                                g.points[qidx] = questions[qidx].points;
-                            }else{
-                                g.points[qidx] = 0;
-                            }
-                        }
-                         
-                    })
-                    
-                    
-                    qindexrest.forEach((qidx,qi)=>{
-                        let points = 0;
-                        if(g.roomquestions.answer[qidx]){
-                        g.roomquestions.answer[qidx].forEach(ans=>{
-                        let index = $.inArray(questions[qidx].option[ans],questions[qidx].correct)
-                        if(index == -1){
-                            points--;
-                        }else{
-                            points++;
-                        }
-                            
-                        })}
-                        if(points<0){
-                            points = 0;
-                        }
-                        
-                        if(gradetype=="nor"){
-                        g.points[qidx] = (points/questions[qidx].correct.length) * questions[qidx].points
-                        }else if(gradetype=="bin"){
-                            if(points/questions[qidx].correct.length==1){
-                                g.points[qidx] = questions[qidx].points;
-                            }else{
-                                g.points[qidx] = 0;
-                            }
-                        }
-                    })
-                       
-                   socket.emit('rateopenq',g._id,g.points)
-                    
-                })
                 
                 }
         
@@ -771,7 +726,6 @@
     
         socket.on('matchorder',(arr)=>{
             correctmatchq=arr;
-            endtest();
         })
         
     
@@ -900,6 +854,92 @@
             location.reload()
         })    
         
+        
+        // Ocena match
+        
+        function scorematch(where){
+            let goodmatcharray=[];
+                guestlist.forEach((g,idx)=>{
+                    let gobj = {
+                        id: g._id,
+                        ans: []
+                    }
+                    let qindexmatch = [];
+                    let qindexrest = [];
+                    $.grep(questions,function(n){return n.type =="match";}).forEach(q=>{
+                       qindexmatch.push($.inArray(q._id,g.roomquestions.question))
+                    })
+                    $.grep(questions,function(n){return n.type =="single"|| n.type=="multi";}).forEach(q=>{
+                       qindexrest.push($.inArray(q._id,g.roomquestions.question))
+                    })
+                    
+                    qindexmatch.forEach((qidx,qi)=>{
+                        let qobj = {
+                            index: qidx,
+                            corr: []
+                        }
+                        let points = 0;
+                        if(g.roomquestions.answer[qidx]){
+                       g.roomquestions.answer[qidx].a.forEach((num,i)=>{
+                        let corr = correctmatchq[qi].corr[num-1];
+                        let opt = correctmatchq[qi].opt[g.roomquestions.answer[qidx].o[i]-1];                      
+                           if(corr==opt&&opt!=undefined&&corr!=undefined){
+                               qobj.corr.push(num-1)
+                               points+=1;
+                               
+                           }
+                       })}
+                        gobj.ans.push(qobj)
+                        if(gradetype=="nor"){
+                            g.points[qidx] = (points/questions[qidx].option.length)*questions[qidx].points
+                        }else if(gradetype=="bin"){
+                            if(points/questions[qidx].option.length==1){
+                                g.points[qidx] = questions[qidx].points;
+                            }else{
+                                g.points[qidx] = 0;
+                            }
+                        }
+                         
+                    })
+                    goodmatcharray.push(gobj)
+                    
+                    qindexrest.forEach((qidx,qi)=>{
+                        let points = 0;
+                        if(g.roomquestions.answer[qidx]){
+                        g.roomquestions.answer[qidx].forEach(ans=>{
+                        let index = $.inArray(questions[qidx].option[ans],questions[qidx].correct)
+                        if(index == -1){
+                            points--;
+                        }else{
+                            points++;
+                        }
+                            
+                        })}
+                        if(points<0){
+                            points = 0;
+                        }
+                        
+                        if(gradetype=="nor"){
+                        g.points[qidx] = (points/questions[qidx].correct.length) * questions[qidx].points
+                        }else if(gradetype=="bin"){
+                            if(points/questions[qidx].correct.length==1){
+                                g.points[qidx] = questions[qidx].points;
+                            }else{
+                                g.points[qidx] = 0;
+                            }
+                        }
+                    })
+                       if(where=="end"){
+                   socket.emit('rateopenq',g._id,g.points)
+                    }
+                    
+                })
+            if(where=="check"){
+                return goodmatcharray;
+            }
+        }
+        
+
         
         
     //Zmiana pytania
@@ -1124,7 +1164,7 @@
                     }else if(fak.typ=="fakematch"){
                        
                         if($.inArray("0",answers[guest.index].a)!=-1&&answers[guest.index].o[$.inArray("0",answers[guest.index].a)]){
-                             $("#matchans").append(`<div class='a' num="0">`+fak.content+`<div class='matchdrop'>`+`<div class='o' num="`+$.inArray("0",answers[guest.index].a)+`">`+questions[guest.index].option[$.inArray("0",answers[guest.index].a)-1]+`</div>`+`</div>`)
+                             $("#matchans").append(`<div class='a' num="0">`+fak.content+`<div class='matchdrop'>`+`<div class='o' num="`+answers[guest.index].o[$.inArray("0",answers[guest.index].a)]+`">`+questions[guest.index].option[answers[guest.index].o[$.inArray("0",answers[guest.index].a)]-1]+`</div>`+`</div>`)
                         }else{
                             $("#matchans").append(`<div class='a' num="0">`+fak.content+`<div class='matchdrop'></div>`)
                         }
