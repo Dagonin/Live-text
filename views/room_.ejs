@@ -451,10 +451,15 @@
         <% if(!user){ %>
         
          <% if(room.end=='halftrue'|| (fguest.end==true&&room.end=='false')){ %>
-                        clearInterval(checktimeinterval);
+                clearInterval(checktimeinterval);
                 clearInterval(timerinverval)
         $("body").html('Test się już zakończy, czekaj aż nauczyciel oceni pytania')
         <%}else if(room.end=="true"){ %>
+                        let qarr = [];
+        $.grep(questions,function(n){return n.type =="match";}).forEach(q=>{
+                    qarr.push(q.option.length)
+        })
+        socket.emit('getmatch',socket.id,qarr,"<%= room.PIN %>")
         endgame()
         
         <%}else {%>
@@ -545,10 +550,11 @@
                 })
             
         } else if(qobject.type="match"){
+            let wrongindex = 0;
             let matchans = scorematch("check");
             let ansobj =  $.grep(scorematch("check"),function(n){return n.id == gid;})
             let ansindex = $.grep(ansobj[0].ans,function(n){return n.index == qindex;})
-            console.log(ansindex[0])
+            console.log()
             $(".showq").html(`<div class="qoption"></div><div class="qcorrect"></div>`)
             qobject.option.forEach((opt,i)=>{
                 let num = i+1;
@@ -561,7 +567,10 @@
             qobject.correct.forEach((cor,i)=>{
                 let indx = g.roomquestions.answer[qindex].o[i]-1;
                 let checkif = $.inArray(i,ansindex[0].corr);
-                $('.qcorrect').append(`<div class="matchcor">`+qobject.correct[i]+(g.roomquestions.answer[qindex].o[i] !=0 && g.roomquestions.answer[qindex].o[i] !=null ? `<h1>`+qobject.option[indx]+`</h1>`: "")+(checkif==-1 ? `<i class="fas fa-times"></i>` : '<i class="fas fa-check"></i>') +`</div>`)
+                $('.qcorrect').append(`<div class="matchcor">`+qobject.correct[i]+(g.roomquestions.answer[qindex].o[i] !=0 && g.roomquestions.answer[qindex].o[i] !=null ? `<h1>`+qobject.option[indx]+`</h1>`: "")+(checkif==-1 ? `<i class="fas fa-times"></i><div>`+qobject.option[ansindex[0].c[wrongindex]]+`</div>`  : '<i class="fas fa-check"></i>') +`</div>`)
+                if(checkif==-1){
+                    wrongindex++;
+                }
             })
            let fake = $.inArray("0",g.roomquestions.answer[qindex].o);
             if(fake!=-1){
@@ -644,6 +653,7 @@
     
     
     function endtest(){
+ 
         <% if(user){ %> 
         let bool = false;
         <%  if(!room.time){ %>
@@ -667,7 +677,7 @@
             bool=true;
             return false;
         }
-        
+
             if(!correctmatchq){
                 let qarr = [];
                 $.grep(questions,function(n){return n.type =="match";}).forEach(q=>{
@@ -675,11 +685,11 @@
                 })
                 
                 bool=true;
+                console.log(guestlist,'aaaaaaaaa')
                 socket.emit('getmatch',socket.id,qarr,"<%= room.PIN %>")
             }else{
+                                                   
             scorematch("end")
-        
-
                 
                 }
         
@@ -687,9 +697,10 @@
             return false;
         }
         
-        
+
         getqinfo()
         openquestionslist(openqarray)
+        
         if(openqarray.length!=0){
             
             socket.emit('endtest',"<%= room.id %>","halftrue",'u')
@@ -876,7 +887,10 @@
                     qindexmatch.forEach((qidx,qi)=>{
                         let qobj = {
                             index: qidx,
-                            corr: []
+                            corr: [],
+                            wrong: [],
+                            c: [],
+
                         }
                         let points = 0;
                         if(g.roomquestions.answer[qidx]){
@@ -886,6 +900,11 @@
                            if(corr==opt&&opt!=undefined&&corr!=undefined){
                                qobj.corr.push(num-1)
                                points+=1;
+                               
+                           }else{
+                               qobj.c.push(correctmatchq[qi].opt.indexOf(corr))
+                               qobj.wrong.push(num-1)
+                               
                                
                            }
                        })}
@@ -903,6 +922,7 @@
                     })
                     goodmatcharray.push(gobj)
                     
+                    <% if(user){ %>
                     qindexrest.forEach((qidx,qi)=>{
                         let points = 0;
                         if(g.roomquestions.answer[qidx]){
@@ -932,7 +952,7 @@
                        if(where=="end"){
                    socket.emit('rateopenq',g._id,g.points)
                     }
-                    
+                    <% }%>
                 })
             if(where=="check"){
                 return goodmatcharray;
@@ -1025,7 +1045,7 @@
             
             
     // Emit
-            if(er==false){
+            if(er==false && room.end=="false"){
             socket.emit("changeindex","<%= fguest.id %>",num,questions[guest.index].type,'<%= room.opentime %>','<%= room.closedtime %>','<%= room.time %>',questionidlist,answers,"<%= room.PIN %>")}
             
         }
@@ -1087,7 +1107,8 @@
             
             // Obiekt guest
             
-            socket.on('nguestlist',(ng)=>{
+            socket.on('nguestlist',(ng,d)=>{
+                console.log(ng,d)
                 <% if(user){ %>
                 guestlist[(guestlist.findIndex(x => x._id === ng._id))]= ng;
                 guestlist.forEach((g,i)=>{
@@ -1095,7 +1116,7 @@
                 let qcount = g.roomquestions.question.length;
                 $("#"+g._id+" span").html("<br>"+(anscount+1)+'/'+qcount);
                 })
-                if(shownquestioninfo){
+                if(shownquestioninfo && room.end=="false"){
                 showq(shownquestioninfo[0],shownquestioninfo[1])
                 }
                 if(room.end=="halftrue"&&room.time){

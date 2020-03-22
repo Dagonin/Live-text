@@ -103,7 +103,7 @@ exports = module.exports = function (io) {
                         console.log(err);
                     }
                     console.log(fGuest)
-                    socket.emit("nguestlist", fGuest);
+                    socket.emit("nguestlist", fGuest,'a');
                 })
 
 
@@ -263,7 +263,7 @@ exports = module.exports = function (io) {
                                 console.log(err);
                             }
                             socket.emit("Nguest", nGuest);
-                            io.in('room_' + PIN).emit("nguestlist", nGuest);
+                            io.in('room_' + PIN).emit("nguestlist", nGuest,'b');
                         })
                     } else {
                         Guests.findByIdAndUpdate(gid, {
@@ -285,7 +285,7 @@ exports = module.exports = function (io) {
                                 nGuest.save();
                             } else {}
                             socket.emit("Nguest", nGuest);
-                            io.in('room_' + PIN).emit("nguestlist", nGuest);
+                            io.in('room_' + PIN).emit("nguestlist", nGuest,'c');
                         })
 
                     }
@@ -317,7 +317,7 @@ exports = module.exports = function (io) {
                         }
                         console.log('room_' + PIN)
                         socket.emit("Nguest", nGuest);
-                        io.in('room_' + PIN).emit("nguestlist", nGuest);
+                        io.in('room_' + PIN).emit("nguestlist", nGuest,'d');
                     })
                 })
             }
