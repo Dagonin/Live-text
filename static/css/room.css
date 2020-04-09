@@ -140,6 +140,11 @@ body {
 /*    display: inline-block;*/
 }
 
+.toggle{
+    background: #28a745 !important;
+    color: #fff;
+}
+
 
 
 #matchq {

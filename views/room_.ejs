@@ -522,11 +522,18 @@
 
     })
     // Wyświetlenie pytania u nauczyciela
-    function showq(qobject,gid){
-        let g =  $.grep(guestlist,function(n){return n._id==gid})[0]
-        console.log(qobject,g)
+    function showq(qobject,gid,checkifguest){
+        let g;
+        if(checkifguest == 'g'){
+            g = guest;
+        }else{
+            g = $.grep(guestlist,function(n){return n._id==gid})[0];
+            console.log("a")
+        }
+        
+        console.log(qobject,checkifguest,g)
         let qindex = $.inArray(qobject._id,g.roomquestions.question)
-        console.log(g.roomquestions.answer[qindex])
+//        console.log(g.roomquestions.answer[qindex])
         if(g.roomquestions.answer[qindex]!=null){
         if(qobject.type=="open"){
             
@@ -554,7 +561,7 @@
             let matchans = scorematch("check");
             let ansobj =  $.grep(scorematch("check"),function(n){return n.id == gid;})
             let ansindex = $.grep(ansobj[0].ans,function(n){return n.index == qindex;})
-            console.log()
+            console.log(wrongindex,matchans,ansobj,ansindex)
             $(".showq").html(`<div class="qoption"></div><div class="qcorrect"></div>`)
             qobject.option.forEach((opt,i)=>{
                 let num = i+1;
@@ -637,13 +644,22 @@
         let g = $.grep(room.rankings,function(n){return n.gid ==`<%= fguest._id %>`;})
         let index = $.inArray(g[0],room.rankings) +1
         console.log(g,index)
+                        let qarr = [];
+                $.grep(questions,function(n){return n.type =="match";}).forEach(q=>{
+                    qarr.push(q.option.length)
+                })
+                
+                bool=true;
+                socket.emit('getmatch',socket.id,qarr,"<%= room.PIN %>")
+        
+        guestlist[0] = guest;
             
         $('body').html(`<div class='congrats'>zdobyłeś `+g[0].points+` na `+qpoints+` punktów. To jest: `+parseInt(g[0].points/qpoints*100)+`%</div><div class='rank'>Twoje miejsce w pokoju to: `+index+`/`+room.rankings.length+`</div><div class='showq'></div><div class="qobject"></div>`);
         questions.forEach((q,n)=>{
             $('.qobject').append(`<div db-id='`+q._id+`'>`+q.name+`</div>`)
             
             $(`div[db-id="`+q._id+`"]`).click(function(){
-                showq(q,`<%= fguest._id %>`)
+                showq(q,`<%= fguest._id %>`,'g')
             })
             
         })
@@ -736,6 +752,7 @@
                     
     
         socket.on('matchorder',(arr)=>{
+
             correctmatchq=arr;
         })
         
