@@ -53,3 +53,7 @@ p.list-item:hover {
 #quil5 {
     z-index: 4;
 }
+
+.hidden{
+    display: none;
+}

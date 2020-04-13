@@ -192,6 +192,7 @@ E:/Z_C/programowanie/live-text/serwer
         $("p.list-item").on("dragstart", drag);
         $(".cont").on("dragover", allowDrop);
         $("input[name=rem]").remove();
+        $("input[name=remc]").remove();
         rembool = false;
 
     }
@@ -409,6 +410,7 @@ E:/Z_C/programowanie/live-text/serwer
 
 
     function test(ev) {
+        $('[type=checkbox]').remove();
         unblock();
         $(".maincont").html(`<div class="showq"><div class="etykieta f25"><i class="fas fa-info icon_mg"></i> Tworzenie pokoju</div><br>
 			<div class="quest-info">
@@ -430,14 +432,18 @@ E:/Z_C/programowanie/live-text/serwer
             $("p.list-item").append("<input name='rem' type='checkbox'>");
 			//$("input").css("float", "right");
             $("p.list-item").on("click", (ev) => {
-                let input = ev.target.lastChild;
+                let input = ev.currentTarget.lastChild;
+                if(ev.target.type=='checkbox'){
+                    
+                }else{   
                 if (input.checked == false) {
                     input.checked = true;
                 } else {
                     input.checked = false;
                 }
+                }
                 testar(ev);
-            });
+            }); 
             console.log(ev)
             if (ev && Array.isArray(ev)) {
                 for (let i = 0; i < ev.length; i++) {
@@ -472,10 +478,17 @@ E:/Z_C/programowanie/live-text/serwer
         $("input[name='remc']:checked").each(function(){
             if($(this.parentElement).find("input[name='rem']:checked").length>0){
                 console.log($(this.parentElement).find("input[name='rem']:checked").length)
-                $(".namelist").append("<div db-id="+this.parentElement.id+" class='create-test-chapter'><div class='chapter-title'>" + $(this.parentElement).find(".dir-header").text() + "<span style='float:right'><i class='fas fa-angle-up'></i></span></div></div>")       
+                $(".namelist").append("<div db-id="+this.parentElement.id+" class='create-test-chapter'><div class='chapter-title'>" + $(this.parentElement).find(".dir-header").text() + "<span style='float:right'><i class='fas fa-angle-up'></i></span></div></div>")
+                
+                $(".create-test-chapter[db-id='"+this.parentElement.id+"']").find('.chapter-title').click(function(){
+                    $(this.parentElement).find('.create-test').each(function(){
+                        $(this).toggleClass("hidden")
+                    })
+                })
+                
             }else{
                 $(this).prop('checked',false);    
-                console.log($(this.parentElement).find("input[name='rem']:checked").length)
+//                console.log($(this.parentElement).find("input[name='rem']:checked").length)
 
             }
             
@@ -484,14 +497,19 @@ E:/Z_C/programowanie/live-text/serwer
         $("input[name='remc']:checkbox:not(:checked)").each(function(){
             if($(this.parentElement).find("input[name='rem']:checked").length>0){
                 $(this).prop('checked',true);
-                $(".namelist").append("<div db-id="+this.parentElement.id+" class='create-test-chapter'>" + $(this.parentElement).find(".dir-header").text() + "</div>")  
+                $(".namelist").append("<div db-id="+this.parentElement.id+" class='create-test-chapter'><div class='chapter-title'>" + $(this.parentElement).find(".dir-header").text() + "<span style='float:right'><i class='fas fa-angle-up'></i></span></div></div>") 
             }
+            $(".create-test-chapter[db-id='"+this.parentElement.id+"']").find('.chapter-title').click(function(){
+                    $(this.parentElement).find('.create-test').each(function(){
+                        $(this).toggleClass("hidden")
+                    })
+            })
         })
         
         $("input[name='rem']:checked").each(function(){
             let cid = this.parentElement.parentElement.parentElement.parentElement.id;
             if($("div.create-test-chapter[db-id='"+cid+"']").length==1){
-                $("div.create-test-chapter[db-id='"+cid+"']").append("<div class='create-test'>" + this.parentElement.innerText + "</div>")
+                $("div.create-test-chapter[db-id='"+cid+"']").append("<div class='create-test hidden'>" + this.parentElement.innerText + "</div>")
             }
             testarr.push(this.parentElement.id);
         })
@@ -506,6 +524,7 @@ E:/Z_C/programowanie/live-text/serwer
 
     function rem() {
         if (statequestion == true) {
+            $('[type=checkbox]').remove();
             unblock();
             if (rembool == false) {
                 rembool = true;
@@ -541,6 +560,10 @@ E:/Z_C/programowanie/live-text/serwer
     unblock();
 
 
+    
+    function CtestShowChapterQs(ev){
+        console.log('ev');
+    }
 
 
 
