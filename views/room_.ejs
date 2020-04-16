@@ -83,6 +83,7 @@
 <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
 <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
 <script src="https://code.responsivevoice.org/responsivevoice.js?key=hnkla9Ul"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
 <script>
     let room;
     let drake = dragula();
@@ -97,6 +98,119 @@
     let gradetype;
     let correctmatchq;
 
+        //Wykres z wynikami
+    
+    
+    
+    
+    
+        function PostGamePointsGraph(){
+        let UserPoints = [];
+        let MaxPoints = [];
+        let NumberOfQuestions = questions.length;
+        let NumberOfGuests = guestlist.length;
+        let div = $("#PointsGraph");
+        let xLabel = [];
+        let QuestionValues = [];
+        questions.forEach(q=>{
+            MaxPoints.push(q.points*NumberOfGuests)
+        })
+        
+        for(let i = 0;i<NumberOfQuestions;i++){
+            UserPoints[i] = 0;
+            guestlist.forEach(g=>{
+            UserPoints[i] += parseFloat(g.points[i])   
+            })
+        }
+        
+        
+        questions.forEach((q,i)=>{
+            xLabel.push("Pytanie "+(i+1));
+        })
+        UserPoints.forEach((p,i)=>{
+            QuestionValues.push(p/MaxPoints[i]*100)
+        })
+            
+            
+            Chart(QuestionValues,xLabel)
+    }
+    
+    
+
+    function Chart(qValues,qLabels){
+  Highcharts.setOptions({
+    colors: ['#67BCE6'],
+    chart: {
+        style: {
+            fontFamily: 'sans-serif',
+            color: 'black'
+        }
+    }
+});
+  $('#PointsGraph').highcharts({
+        chart: {
+            type: 'column',
+            backgroundColor: '#36394B'
+        },
+        title: {
+            text: 'Średnia wyników',
+            style: {  
+              color: '#fff'
+            }
+        },
+        xAxis: {
+            tickWidth: 0,
+            labels: {
+              style: {
+                  color: '#fff',
+                 }
+              },
+            categories: qLabels
+        },
+        yAxis: {
+            ceiling:100
+            ,
+           gridLineWidth: .5,
+		      gridLineDashStyle: 'dash',
+		      gridLineColor: 'black',
+           title: {
+                text: '',
+                style: {
+                  color: '#fff'
+                 }
+            },
+            labels: {
+                formatter: function() {
+                        return this.value+"%";
+                    },
+              style: {
+                  color: '#fff',
+                 }
+              }
+            },
+        legend: {
+            enabled: false,
+        },
+        credits: {
+            enabled: false
+        },
+        plotOptions: {
+		      column: {
+			      borderRadius: 2,
+             pointPadding: 0,
+			      groupPadding: 0.1
+            } 
+		    },
+        series: [{
+            name: ['Średni wynik'],
+            data: qValues
+        }]
+    });
+};
+    
+    
+    
+    
     
     
     //Czytanie
@@ -473,7 +587,7 @@
         console.log(questionidlist)
         questions.forEach(q =>{
         questionidlist.push(q._id);
-            
+
             
         })
         <% if(!user){ %>
@@ -512,6 +626,7 @@
             
         })
         <% }}else{ %>
+                   
                     $.each(guestlist,function(){
                     $("#guestlist").append(`<div class='guestobject' id='`+this._id+`'>`+this.username+ `<span class='counter'></span><div class='showquestions'></div> </div>`)
                         
@@ -542,6 +657,9 @@
                     qarr.push(q.option.length)
         })
         socket.emit('getmatch',socket.id,qarr,"<%= room.PIN %>")
+        <% if(room.end=="true"){ %>
+                    PostGamePointsGraph()    
+                  <%  } %>
         <% if(!room.time||room.end=="halftrue"){ %>
         getqinfo()
         openquestionslist(openqarray)
@@ -666,27 +784,7 @@
     }
     
     
-    function PostGamePointsGraph(){
-        let UserPoints = [];
-        let MaxPoints = [];
-        let NumberOfQuestions = questions.length;
-        let NumberOfGuests = guestlist.length;
-        let div = $("#PointsGraph");
-        questions.forEach(q=>{
-            MaxPoints.push(q.points*NumberOfGuests)
-        })
-        
-        for(let i = 0;i<NumberOfQuestions;i++){
-            UserPoints[i] = 0;
-            guestlist.forEach(g=>{
-            UserPoints[i] += parseFloat(g.points[i])   
-            })
-        }
-        
-        
-        
-        console.log(UserPoints,MaxPoints);
-    }
+
     
     
     function endgame(){
@@ -813,6 +911,9 @@
             <% }else{%>
                 getqinfo()
                 openquestionslist(openqarray)
+                if(room.end=="true"){
+                PostGamePointsGraph()
+                }
             <%} %>
         })
                     

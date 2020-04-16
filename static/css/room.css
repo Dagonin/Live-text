@@ -530,5 +530,9 @@ width:50%;
   text-anchor: middle;
 }
 
-
-
+#PointsGraph{
+    max-width: 1000px;
+    margin: 0 auto;
+    width: 600px;
+    display: block;
+}
