@@ -9,6 +9,8 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet">
     <link href="/css/fontawesome/css/all.css" rel="stylesheet">
     <link href="//cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
     <link href="//cdn.quilljs.com/1.0.0/quill.bubble.css" rel="stylesheet">
 </head>
 
@@ -21,13 +23,14 @@
 <div class="room-title">Zarządzanie pokojem</div>
 <div style="float:left;width:100%;box-sizing:border-box;margin-top:20px; ">
 <div style="width:80%;float:right;height:auto;">
+<span class="etykieta">Kod Klasy </span><br><br>
 <div class="kodklasy">
-<div id="pinpokoju" class="etykieta"><span class="room-pin-title">Kod Klasy</span>
+<div id="pinpokoju" class="etykieta">
 <div class="room-pin"><%= room.PIN %></div> </div></div>
 <!-- Pokazanie pytania -->
 <span class="etykieta">Pogląd ucznia </span><br><br>
-<div class="showq"></div></div>
-<button onclick="endtest()">zakończ test</button>
+<div class="showq">Brak danych</div></div>
+<button onclick="endtest()" class="close-test"><i class="fas fa-times icon_mg"></i> zakończ test</button>
 <!--Lista guestów-->
 <div style="width:18%;float:left;margin-right:2%;">
 <div class="uczniowie-box">
@@ -478,7 +481,7 @@
          <% if(room.end=='halftrue'|| (fguest.end==true&&room.end=='false')){ %>
                 clearInterval(checktimeinterval);
                 clearInterval(timerinverval)
-        $("body").html('Test się już zakończy, czekaj aż nauczyciel oceni pytania')
+        $("body").html('<div class="test-successful"><div class="successful-text"><h1><span class="material-icons">done</span><br> Test zakończony</h2><h3>Poczekaj aż nauczyciel oceni odpowiedzi</h3></div></div>')
         <%}else if(room.end=="true"){ %>
                         let qarr = [];
         $.grep(questions,function(n){return n.type =="match";}).forEach(q=>{
@@ -599,7 +602,7 @@
             qobject.correct.forEach((cor,i)=>{
                 let indx = g.roomquestions.answer[qindex].o[i]-1;
                 let checkif = $.inArray(i,ansindex[0].corr);
-                $('.qcorrect').append(`<div class="matchcor">`+qobject.correct[i]+(g.roomquestions.answer[qindex].o[i] !=0 && g.roomquestions.answer[qindex].o[i] !=null ? `<h1>`+qobject.option[indx]+`</h1>`: "")+(checkif==-1 ? `<i class="fas fa-times"></i><div>`+qobject.option[ansindex[0].c[wrongindex]]+`</div>`  : '<i class="fas fa-check"></i>') +`</div>`)
+                $('.qcorrect').append(`<div class="matchcor">`+qobject.correct[i]+(g.roomquestions.answer[qindex].o[i] !=0 && g.roomquestions.answer[qindex].o[i] !=null ? `<h1>`+qobject.option[indx]+`</h1>`: "")+(checkif==-1 ? `<i class="fas fa-times"></i><div>`+qobject.option[ansindex[0].c[wrongindex]]+`</div>`  : '<span class="material-icons">done</span><br>') +`</div>`)
                 if(checkif==-1){
                     wrongindex++;
                 }
@@ -612,7 +615,7 @@
             if(qobject.fake){
             if(qobject.fake.typ=="fakematch"){
                 console.log(g.roomquestions.answer[qindex].o[(qobject.option.length)])
-                $(".qcorrect").append(`<div class='matchcor'>`+qobject.fake.content+(g.roomquestions.answer[qindex].o[(qobject.option.length)] !=0 && g.roomquestions.answer[qindex].o[(qobject.option.length)] !=null ?`<h1>`+qobject.option[g.roomquestions.answer[qindex].o[(qobject.option.length)]-1]+`</h1><i class="fas fa-times"></i>`:'<i class="fas fa-check"></i>')+`</div>`)
+                $(".qcorrect").append(`<div class='matchcor'>`+qobject.fake.content+(g.roomquestions.answer[qindex].o[(qobject.option.length)] !=0 && g.roomquestions.answer[qindex].o[(qobject.option.length)] !=null ?`<h1>`+qobject.option[g.roomquestions.answer[qindex].o[(qobject.option.length)]-1]+`</h1><i class="fas fa-times"></i>`:'<span class="material-icons">done</span><br>')+`</div>`)
             }}
             
         }}else{
@@ -626,7 +629,7 @@
         if(guest.end==true){
                 clearInterval(checktimeinterval);
                 clearInterval(timerinverval)
-                $("body").html('Test się już zakończy, czekaj aż nauczyciel oceni pytania')
+                $("body").html('<div class="test-successful"><div class="successful-text"><h1><span class="material-icons">done</span><br> Test zakończony</h2><h3>Poczekaj aż nauczyciel oceni odpowiedzi</h3></div></div>')
         }}
         if(guest.end==false){
 //        $("input[name='licz']")[g.index]
@@ -702,7 +705,22 @@
         
         guestlist[0] = guest;
             
-        $('body').html(`<div class='congrats'>zdobyłeś `+g[0].points+` na `+qpoints+` punktów. To jest: `+parseInt(g[0].points/qpoints*100)+`%</div><div class='rank'>Twoje miejsce w pokoju to: `+index+`/`+room.rankings.length+`</div><div class='showq'></div><div class="qobject"></div>`);
+        $('body').html(`<div class='score'><div class='diagram'><div class='single-chart'>
+    <svg viewBox='0 0 36 36' class='circular-chart orange'>
+      <path class='circle-bg'
+        d='M18 2.0845
+          a 15.9155 15.9155 0 0 1 0 31.831
+          a 15.9155 15.9155 0 0 1 0 -31.831'
+      />
+      <path class='circle'
+        stroke-dasharray='`+parseInt(g[0].points/qpoints*100)+`, 100'
+        d='M18 2.0845
+          a 15.9155 15.9155 0 0 1 0 31.831
+          a 15.9155 15.9155 0 0 1 0 -31.831'
+      />
+      <text x='18' y='20.35' class='percentage'>`+parseInt(g[0].points/qpoints*100)+`%</text>
+    </svg>
+  </div></div><div class='score-text'><div class='congrats'>Zdobyłeś `+g[0].points+` na `+qpoints+` punktów.</div><div class='rank'>Jesteś na `+index+`. miejscu</div></div></div><div class='showq'></div><div class="qobject"></div>`);
         questions.forEach((q,n)=>{
             $('.qobject').append(`<div db-id='`+q._id+`'>`+q.name+`</div>`)
             
@@ -729,7 +747,7 @@
          <% } %>
         
         if(gradetype!='bin'&&gradetype!='nor'){
-                $("#popup").html(`<span>Wybierz typ oceniania testu</span><button id='bin'>Binarnie</button><button id='nor'>Normalnie</button>`)
+                $("#popup").html(`<div class='modal'><span>Wybierz typ oceniania testu</span><br><button id='bin'>Binarnie</button><br><button id='nor'>Normalnie</button></div>`)
             $('#bin').click(function(){
                 gradetype="bin";
                 endtest()
@@ -788,7 +806,7 @@
                 clearInterval(checktimeinterval);
                 clearInterval(timerinverval)
                 if(room.end=="halftrue"){
-                $("body").html('Test się już zakończy, czekaj aż nauczyciel oceni pytania')
+                $("body").html('<div class="test-successful"><div class="successful-text"><h1><span class="material-icons">done</span><br> Test zakończony</h2><h3>Poczekaj aż nauczyciel oceni odpowiedzi</h3></div></div>')
                 }else{
                     endgame()
                 }
@@ -845,7 +863,7 @@
         openqarray.forEach((q,i)=>{
             $('.openqlist').append(`<div index='`+i+`' db-id='`+q._id+`' class="qlist">`+q.name+`</div>`);
             $(`div[index='`+i+`']`).click(function(){
-            $(".showq").html(`<div class="showqcontent">`+q.content+`</div><div class="showqanswer">`+q.ans+`</div><label for="pkt">Podaj ilość punktów za pytanie (0-`+q.pkt+`) </label><input name='pkt' type="number"><button class='rateq'>Oceń</button>`)
+            $(".showq").html(`<div class="showqcontent">`+q.content+`</div><div class="showqanswer">`+q.ans+`</div><label for="pkt">Podaj ilość punktów za pytanie (0-`+q.pkt+`) </label><br><input name='pkt' class='insertpkt' type="number"><button class='rateq'>Oceń</button>`)
             $('.rateq').click(function(){
                 let pkt = $("input[name='pkt']").val()
                 if(pkt<0){

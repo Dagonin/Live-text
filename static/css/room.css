@@ -303,11 +303,12 @@ button {
 }
 
 .showq {
-    padding: 10px 30px 30px 30px;
+    padding: 20px;
     background: #fff;
     box-shadow: 0px 0px 5px #ccc;
 	float:left;
 	width:100%;
+	box-sizing:border-box;
 }
 
 
@@ -341,4 +342,193 @@ width:50%;
 float:left;
 width:50%;
 }
+
+.close-test{
+    background: #c6443e;
+    color: #fff;
+    font-size: 13px;
+    box-shadow: 0px 0px 5px #ccc;
+    width: 18%;
+    padding: 16px 20px;
+    box-sizing: border-box;
+	text-transform:uppercase;
+    border-radius: 3px;
+	margin-bottom:30px;
+}
+
+.modal {
+    position: fixed;
+    z-index: 5;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    color: #000;
+}
+
+#popup {
+	position:absolute;
+	background:#fff;
+	padding:40px 40px;
+	box-shadow:0px 0px 5px #ccc;
+	top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+
+.rateq {
+	background:#3273dc;
+	border-radius:3px;
+    padding: 6px 12px;
+	color:#fff;
+	margin-left:20px;
+}
+
+.insertpkt {
+	font-size: 16px;
+    border-radius: 3px;
+    padding: 6px 12px;
+    margin: 10px 0px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    font-weight: 100;
+    color: #666;
+}
+
+.test-successful
+{
+    position: fixed;
+    z-index: 5;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    padding-top: 60px;
+    color: #000;	
+}
+
+.successful-text {
+	position:absolute;
+	background:#fff;
+	padding:40px 40px;
+	border-radius:3px;
+	box-shadow:0px 0px 5px #ccc;
+	top: 50%;
+    left: 50%;
+    margin-right: -50%;
+	text-align:center;
+    transform: translate(-50%, -50%);
+}
+
+
+.successful-text h1, h3 {
+	margin-block-start: 0em;
+    margin-block-end: 0em;
+	font-weight:300;
+	font-family: 'Roboto', sans-serif;
+}
+
+.successful-text h3{
+	margin-top:15px;
+}
+
+.material-icons {
+	font-size:60px!important;
+	color:green;
+	margin-bottom:30px;
+}
+
+.congrats, .rank {
+	font-size:30px;
+}
+
+.score {
+	background:#fff;
+	padding:40px 40px 40px 80px;
+	border-radius:3px;
+	box-sizing:border-box;
+	box-shadow:0px 0px 5px #ccc;
+	text-align:center;
+	width:60%;
+	float:left;
+	position:relative;
+	margin:200px 20%;
+}
+
+.score-text {
+	width:60%;
+	margin-left:20%;
+	float:left;
+	position: absolute;               /* 2 */
+   top: 50%;                         /* 3 */
+   transform: translate(0, -50%)
+}
+
+.diagram {
+	width:20%;
+	float:left;
+	height:100%;
+}
+
+.flex-wrapper {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.single-chart {
+  width: 100%;
+  justify-content: space-around ;
+}
+
+.circular-chart {
+  display: block;
+  margin: 10px auto;
+  max-width: 80%;
+  max-height: 250px;
+}
+
+.circle-bg {
+  fill: none;
+  stroke: #eee;
+  stroke-width: 3.8;
+}
+
+.circle {
+  fill: none;
+  stroke-width: 2.8;
+  stroke-linecap: round;
+  animation: progress 1s ease-out forwards;
+}
+
+@keyframes progress {
+  0% {
+    stroke-dasharray: 0 100;
+  }
+}
+
+.circular-chart.orange .circle {
+  stroke: #ff9f00;
+}
+
+.circular-chart.green .circle {
+  stroke: #4CC790;
+}
+
+.circular-chart.blue .circle {
+  stroke: #3c9ee5;
+}
+
+.percentage {
+  fill: #666;
+  font-family: sans-serif;
+  font-size: 0.5em;
+  text-anchor: middle;
+}
+
+
 
