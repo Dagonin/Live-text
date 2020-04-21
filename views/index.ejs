@@ -22,6 +22,12 @@
 </head>
 
 <script>
+    
+        <% if(user){ %>
+    window.location.href = '/tree';
+    <% } %>
+    
+    
 var modal = document.getElementById('id01');
 window.onclick = function(event) {
   if (event.target == modal) {
@@ -61,7 +67,6 @@ h1{font-size:36px;color:#fff}
 <style>
 
 </style>
-    <% if(!user){%>
 
 <div id="menu">
 	<li>Live-Text</li>
@@ -223,36 +228,6 @@ class="close" title="Close Modal">&times;</span>
 			</div>
 		</div>
 		<br><br>
-    <% } %> <% if(user){ console.log(user) %>
-	<div class="indx-mn">	
-		<ul>
-			<li>Live-text</li>
-			<li class="small">Strona Główna</li>
-			<li class="small">O platformie</li>
-			<li class="small">Funkcjonalność</li>
-			<li class="active" style="float:right;">Witaj, <%= user.username %><i class="fas fa-caret-down" style="margin-left:10px"></i></li>
-		</ul>
-	</div>
-
-<div id="content" style="background:background:rgba(0,0,0,0.02)">
-
-		<div id="right-side" style="width:66%;padding:50px;box-sizing:border-box">
-			<!--
-              <div class="info">Wygląda na to, że nie posiadasz żadnego utworzonego pokoju<br> Użyj
-              przycisku poniżej, aby utworzyć pokój!</div>
-			  <br>-->
-              <form action="/create_room" method="get">
-                    <a href="/tree" class="button is-info panel_button"
-                      ><i class="fas fa-cog icon_mg"></i> Zarządzaj pytaniami</a
-                    >
-                    <a href="/logout" class="button is-primary is-outlined panel_button"
-                      ><i class="fas fa-sign-out-alt icon_mg"></i> Wyloguj</a
-                    >
-              </form>
-		</div>
-</div>
-
-    <% } %>
 
 </body>
 <script src="/socket.io/socket.io.js"></script>
@@ -265,6 +240,7 @@ class="close" title="Close Modal">&times;</span>
     socket.on('roomcheck', ()=> {
         console.log(io.rooms)
     })
+
 
     
 </script>

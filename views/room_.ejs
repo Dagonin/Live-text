@@ -843,21 +843,11 @@
             return false;
         }
          <% } %>
-        
-        if(gradetype!='bin'&&gradetype!='nor'){
-                $("#popup").html(`<div class='modal'><div class='popup-box'><span><center>Wybierz typ oceniania testu</center></span><br><button id='bin'>Binarnie</button><button id='nor'>Normalnie</button></div></div>`)
-            $('#bin').click(function(){
-                gradetype="bin";
-                endtest()
-            })            
-            $('#nor').click(function(){
-                gradetype="nor";
-                endtest()
-            })
-            bool=true;
-            return false;
-        }
 
+
+               getqinfo()
+        openquestionslist(openqarray)
+        
             if(!correctmatchq){
                 let qarr = [];
                 $.grep(questions,function(n){return n.type =="match";}).forEach(q=>{
@@ -873,18 +863,44 @@
                 
                 }
         
+        
+        
+        
+        
+                
+        if(gradetype!='bin'&&gradetype!='nor' && openqarray.length==0){
+                $("#popup").html(`<div class='modal'><div class='popup-box'><span><center>Wybierz typ oceniania testu</center></span><br><button id='bin'>Binarnie</button><button id='nor'>Normalnie</button></div></div>`)
+            $('#bin').click(function(){
+                gradetype="bin";
+                endtest()
+            })            
+            $('#nor').click(function(){
+                gradetype="nor";
+                endtest()
+            })
+            bool=true;
+            return false;
+        }
+        
+        
+        
         if(bool==true){
             return false;
         }
         
+        
+        
+        
+        
+        
 
-        getqinfo()
-        openquestionslist(openqarray)
+ 
         
         if(openqarray.length!=0){
             
             socket.emit('endtest',"<%= room.id %>","halftrue",'u')
-        }else{
+        }else if(gradetype=='bin'||gradetype=='nor'){
+                $('#popup').hide();
             let qpoints = 0;
             questions.forEach(n=>{
                 qpoints += n.points;
