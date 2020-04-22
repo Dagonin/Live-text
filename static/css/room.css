@@ -624,7 +624,12 @@ button.volume {
 
 .highcharts-container{
 border-radius:3px;
-margin-top:80px;
+box-shadow:0px 0px 5px #ccc;
+}
+
+#PointsGraph{
+	margin-top:140px;
+box-shadow:0px 0px 5px #ccc;
 }
 
 

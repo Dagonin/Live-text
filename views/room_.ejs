@@ -162,19 +162,19 @@
   $('#PointsGraph').highcharts({
         chart: {
             type: 'column',
-            backgroundColor: '#262626'
+            backgroundColor: '#fff'
         },
         title: {
             text: 'Średnia wyników',
             style: {  
-              color: '#fff'
+              color: '#333'
             }
         },
         xAxis: {
             tickWidth: 0,
             labels: {
               style: {
-                  color: '#fff',
+                  color: '#333',
                  }
               },
             categories: qLabels
@@ -188,7 +188,7 @@
            title: {
                 text: '',
                 style: {
-                  color: '#fff'
+                  color: '#333'
                  }
             },
             labels: {
@@ -196,7 +196,7 @@
                         return this.value+"%";
                     },
               style: {
-                  color: '#fff',
+                  color: '#333',
                  }
               }
             },
