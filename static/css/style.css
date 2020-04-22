@@ -110,12 +110,12 @@ body {
 
 .join-panel {
     border: 0;
-    padding: 8px 24px;
+    padding: 12px 18px;
     color: #fff;
     font-size: 18px;
     width: 70%;
-    border-radius: 30px;
-    background: #2B32B2;
+    border-radius: 3px;
+    background: #1074e7;
     font: 300 16px Roboto;
     margin-top: 30px;
 }
@@ -826,7 +826,7 @@ ul li.small {
     font-size: 16px;
     width: 100%;
     font-weight: 300;
-    border-radius: 0px 30px 30px 0px;
+    border-radius: 0px 5px 5px 0px;
 }
 
 
@@ -855,7 +855,7 @@ ul li.small {
     color: #333;
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-right: none;
-    border-radius: 30px 0px 0px 30px;
+    border-radius: 5px 0px 0px 5px;
     min-width: 20px;
     text-align: center;
 }

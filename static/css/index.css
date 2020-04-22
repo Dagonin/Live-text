@@ -141,3 +141,18 @@ color:#555;
 	text-align:center;
 	margin:10px 0px;
 }
+
+li > a {
+	color:#fff;
+	text-decoration:none;
+}
+
+li > a:visited {
+	color:#fff;
+	text-decoration:none;
+}
+
+li > a:hover {
+	color:#fff;
+	text-decoration:none;
+}
