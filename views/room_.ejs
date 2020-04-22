@@ -28,9 +28,19 @@
 <div id="pinpokoju" class="etykieta">
 <div class="room-pin"><%= room.PIN %></div> </div></div>
 <!-- Pokazanie pytania -->
-<span class="etykieta">Pogląd ucznia </span><br><br>
-<div class="showq">Brak danych</div></div>
+<span class="etykieta">Pogląd pytań </span><br><br>
+<div class="showq">Brak danych</div>
+<% if(user){%>
+<div id="PointsGraph"></div>
+<% } %>
+</div>
 <button onclick="endtest()" class="close-test"><i class="fas fa-times icon_mg"></i> zakończ test</button>
+<% if(user){%>
+<div class="pytaniaocena">
+<div class="etykieta">Pytania otwarte</div>
+</div><br>
+<div class="openqlist"></div>
+<% } %>
 <!--Lista guestów-->
 <div style="width:18%;float:left;margin-right:2%;">
 <div class="uczniowie-box">
@@ -41,11 +51,15 @@
 <button onclick="startgame()" class="startgame"><i class="fas fa-play icon_mg"></i> ROZPOCZNIJ</button>
 <% }}else if(room.OPEN){ %>
 <!--Lista guestów-->
+<div style="min-width:330px;width:18%;margin:100px auto 0px auto">
+<div class="uczniowie-box">
+<div class="etykieta"><i class="fas fa-user-friends icon_mg"></i></i> Lista uczniów w pokoju</div>
+</div>
 <div id="guestlist"></div>
 
 
 </div>
-
+</div>
 
 <% } %>
 <!--Treść pytania-->
@@ -69,9 +83,7 @@
 </div>
 <!--lista pytań otwartych-->
 <% if(user){%>
-<div class="openqlist"></div>
 <div id="popup"></div>
-<div id="PointsGraph"></div>
 <% } %>
 
 
@@ -139,7 +151,7 @@
 
     function Chart(qValues,qLabels){
   Highcharts.setOptions({
-    colors: ['#67BCE6'],
+    colors: ['#3273dc'],
     chart: {
         style: {
             fontFamily: 'sans-serif',
@@ -150,7 +162,7 @@
   $('#PointsGraph').highcharts({
         chart: {
             type: 'column',
-            backgroundColor: '#36394B'
+            backgroundColor: '#262626'
         },
         title: {
             text: 'Średnia wyników',
@@ -818,7 +830,7 @@
       />
       <text x='18' y='20.35' class='percentage'>`+parseInt(g[0].points/qpoints*100)+`%</text>
     </svg>
-  </div></div><div class='score-text'><div class='congrats'>Zdobyłeś `+g[0].points+` na `+qpoints+` punktów.</div><div class='rank'>Jesteś na `+index+`. miejscu</div></div></div><div class="answers-full"><div class='questions-a'><div class="qobject"></div></div><div class='questions-b'><div class='showq'><span style='margin-top:20px;display:inline-block'>Wybierz pytanie, żeby zobaczyć poprawne odpowiedzi</span></div></div></div>`);
+  </div></div><div class='score-text'><div class='congrats'>Zdobyłeś `+g[0].points+` na `+qpoints+` punktów.</div><div class='rank'>Jesteś na `+index+`. miejscu</div><br><div class="sendscore"><i class="fas fa-envelope icon_mail"></i> Wyślij potwierdzenie na mail</div></div></div><div class="answers-full"><div class='questions-a'><div class="qobject"></div></div><div class='questions-b'><div class='showq'><span style='margin-top:20px;display:inline-block'>Wybierz pytanie, żeby zobaczyć poprawne odpowiedzi</span></div></div></div>`);
         questions.forEach((q,n)=>{
             $('.qobject').append(`<div db-id='`+q._id+`'>`+q.name+`</div>`)
             
@@ -978,7 +990,7 @@
     function openquestionslist(){
         $('.openqlist').html('');
         openqarray.forEach((q,i)=>{
-            $('.openqlist').append(`<div index='`+i+`' db-id='`+q._id+`' class="qlist">`+q.name+`</div>`);
+            $('.openqlist').append(`<div index='`+i+`' db-id='`+q._id+`' class="qlist2">`+q.name+`</div>`);
             $(`div[index='`+i+`']`).click(function(){
             $(".showq").html(`<div class="showqcontent">`+q.content+`</div><div class="showqanswer">`+q.ans+`</div><label for="pkt">Podaj ilość punktów za pytanie (0-`+q.pkt+`) </label><br><input name='pkt' class='insertpkt' type="number"><button class='rateq'>Oceń</button>`)
             $('.rateq').click(function(){
@@ -1333,7 +1345,7 @@
             
                         //WYŚWITLANIE PYTANIA                         WĄŻŃĘ////////////////////////////////////////////
             function showquestion(){
-            $("#question").html(questions[guest.index].content+`<button onclick="readtext(this)">Ikonka czytania</button>`);
+            $("#question").html(questions[guest.index].content+`<button class="volume" onclick="readtext(this)"><i class="fas fa-volume-up volume"></i></button>`);
             if(questions[guest.index].type=="single"||questions[guest.index].type=="multi"){
                 $("#answers").html("");
                 let optionindex=0;

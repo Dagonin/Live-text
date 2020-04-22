@@ -42,6 +42,7 @@ body {
     box-sizing: border-box;
     padding: 20px;
     background: #fff;
+	border-radius:3px;
     box-shadow: 0px 0px 5px #ccc;
 }
 
@@ -51,6 +52,7 @@ body {
     box-sizing: border-box;
     padding: 25px;
     background: #fff;
+	border-radius:3px;
     box-shadow: 0px 0px 5px #ccc;
 }
 
@@ -120,6 +122,19 @@ body {
     padding: 6px 12px;
     box-sizing: border-box;
     border-radius: 3px;
+}
+
+.qlist2{
+	padding: 10px 10px 10px 20px;
+    border-radius: 3px;
+    font-size: 14px;
+    color: #555;
+    background: #fff;
+    margin: 0px 0px 20px 0px;
+    float: left;
+    width: 18%;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 5px #ccc;
 }
 
 .qlist:hover {
@@ -546,7 +561,7 @@ width:50%;
 
 #PointsGraph{
     max-width: 1000px;
-    margin: 0 auto;
+    margin: 0 auto 100px auto;
     width: 600px;
     display: block;
 }
@@ -560,13 +575,8 @@ width:50%;
 }
 
 .questions-a {
-	background:#fff;
-	padding:40px;
-	border-radius:3px;
-	box-sizing:border-box;
-	box-shadow:0px 0px 5px #ccc;
 	text-align:left;
-	width:30%;
+	width:20%;
 	float:left;
 }
 
@@ -577,7 +587,7 @@ width:50%;
 	box-sizing:border-box;
 	box-shadow:0px 0px 5px #ccc;
 	text-align:left;
-	width:65%;
+	width:75%;
 	margin-left:5%;
 	float:left;
 }
@@ -585,4 +595,65 @@ width:50%;
 .questions-b > .showq {
 	box-shadow:none!important;
 	text-align:left;
+}
+
+.volume{
+color:#333;
+padding:10px 10px 10px 0px;
+border-radius:3px;
+}
+
+button.volume {
+	padding:0;
+}
+
+.qlist2:hover{
+	cursor:pointer;
+}
+
+.pytaniaocena {
+	width: 18%;
+    float: left;
+    box-sizing: border-box;
+    padding: 25px;
+    background: #fff;
+    border-radius: 3px;
+    box-shadow: 0px 0px 5px #ccc;
+	margin-bottom:20px;
+}
+
+.highcharts-container{
+border-radius:3px;
+margin-top:80px;
+}
+
+
+.qobject > div {
+	padding: 10px 10px 10px 20px;
+    border-radius: 3px;
+    font-size: 14px;
+    color: #555;
+    background: #fff;
+    margin: 0px 0px 20px 0px;
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 5px #ccc;
+}
+
+.qobject > div:hover {
+	cursor:pointer;
+}
+
+.sendscore{
+	display:inline-block;
+background:#ff9f00;
+color:#fff;
+border-radius:3px;
+margin-top:10px;
+padding: 10px 14px;
+}
+
+.icon_mail {
+	margin-right:5px;
 }
