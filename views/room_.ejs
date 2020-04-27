@@ -705,12 +705,12 @@
                     $(".showqanswer").append("<div class='"+qobject.type+"' id="+i+">"+option+"</div>");
                     if(g.roomquestions.answer[qindex].length!=0){
                        if($.inArray(i.toString(),g.roomquestions.answer[qindex])!=-1){
-                           $("#"+i).addClass("togglered")
+                           $("#"+i).addClass("togglered-a")
                        }
                         
                     }
                     if($.inArray(option,qobject.correct)!=-1){
-                        $("#"+i).addClass("togglegreen")
+                        $("#"+i).addClass("togglegreen-a")
                     }
                 })
             

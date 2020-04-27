@@ -662,3 +662,13 @@ padding: 10px 14px;
 .icon_mail {
 	margin-right:5px;
 }
+
+.togglegreen-a {
+	color:#28a745!important;
+	font-weight:bold;
+}
+
+.togglered-a {
+	color:red;
+	font-weight:bold;
+}
