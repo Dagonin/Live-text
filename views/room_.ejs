@@ -66,9 +66,9 @@
 <div id="gamequestions">
 <% if(!user && room.OPEN == false){ %>
 <div class="room">
-<div class="room-title">Wypełnianie testu <button onclick="recognition.start()">GŁÓS</button></div>
+<div class="room-title">Wypełnianie testu <button onclick="recognition.start()">GŁOS</button></div>
 <div style="padding:30px;box-sizing:border-box;background:#fff;margin-top:20px;    box-shadow: 0px 0px 5px #ccc;border-radius:3px;">
-<div class="quest-number">Pytanie 1 z 1</div>
+<div class="quest-number"></div>
 <div id="question"></div>
 <div id="answers"></div>
 <% if(room.time){ %>
@@ -223,7 +223,7 @@
     
     
     
-    
+
     
     //Czytanie
     function readtext(n){
@@ -576,6 +576,7 @@
     
     //Lista guestów
     socket.on('reloadlist',(fRoom,fGuests,fQuestions)=>{
+        $(".quest-number").text("Pytanie 1 z "+fQuestions.length);
         <% if(room.OPEN==true){ %>
         room = fRoom;
         guestlist = fGuests;
@@ -621,7 +622,7 @@
         showquestion()
         setInterval(changequestion,2000,0)
         questions.forEach((q,i)=>{
-            $("#licznik").append(`<input num='`+i+`' name='licz' type="radio" class="radio-c"><span class="checkmark">1</span>`)
+            $("#licznik").append(`<input num='`+i+`' name='licz' type="radio" class="radio-c"><span class="checkmark">`+(i+1)+`</span>`)
             
         })
         $('input[name="licz"]')[guest.index].checked = true;
