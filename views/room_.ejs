@@ -576,7 +576,8 @@
     
     //Lista guestów
     socket.on('reloadlist',(fRoom,fGuests,fQuestions)=>{
-        $(".quest-number").text("Pytanie 1 z "+fQuestions.length);
+        if(fQuestions){
+            $(".quest-number").text("Pytanie 1 z "+fQuestions.length);}
         <% if(room.OPEN==true){ %>
         room = fRoom;
         guestlist = fGuests;
