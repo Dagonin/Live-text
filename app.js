@@ -29,7 +29,7 @@ require('events').EventEmitter.defaultMaxListeners = 100;
 app.use(body_parser.urlencoded({
     extended: true
 }))
-app.use(morgan('combine'))
+// app.use(morgan('combine'))
 app.use(body_parser.json())
 app.use(cookieParser());
 app.use(express.static('static'));;
