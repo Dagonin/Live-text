@@ -99,7 +99,7 @@
 					<div class="column-questr">
 						<label class="a" for="match1">Dopasowanie do pierwszej odpowiedzi</label>
 						<div id="match1ans" class="question"></div>
-						<div class="match-image"><i class="fas fa-image icon_mg"></i> Dodaj zdjęcie</div>
+						
 					</div>
 				</div>
 				
@@ -116,7 +116,7 @@
 					<div class="column-questr">
 						<label class="a" for="match2">Dopasowanie do drugiej odpowiedzi</label>
 						<div id="match2ans" class="question"></div>
-						<div class="match-image"><i class="fas fa-image icon_mg"></i> Dodaj zdjęcie</div>
+						
 					</div>
 				</div>
 
@@ -412,7 +412,7 @@
 					<div class="column-questr">
 						<label class="a" for="match1">Dopasowanie do pierwszej odpowiedzi</label>
 						<div id="match1ans" class="question">` + ev.correct[0] + `</div>
-						<div class="match-image"><i class="fas fa-image icon_mg"></i> Dodaj zdjęcie</div>
+						
 					</div>
 				</div>
 				
@@ -429,7 +429,7 @@
 					<div class="column-questr">
 						<label class="a" for="match2">Dopasowanie do drugiej odpowiedzi</label>
 						<div id="match2ans" class="question">` + ev.correct[1] + `</div>
-						<div class="match-image"><i class="fas fa-image icon_mg"></i> Dodaj zdjęcie</div>
+						
 					</div>
 				</div>
                 ` + (ev.option[2] ? `<div class="column-quest col3">
@@ -445,7 +445,7 @@
 					<div class="column-questr">
 						<label class="a" for="match3">Dopasowanie do trzeciej odpowiedzi</label>
 						<div id="match3ans" class="question">` + ev.correct[2] + `</div>
-						<div class="match-image"><i class="fas fa-image icon_mg"></i> Dodaj zdjęcie</div>
+						
 					</div>
 
 				</div>` : "") + (ev.option[3] ? `<div class="column-quest col4">
@@ -461,7 +461,7 @@
 					<div class="column-questr">
 						<label class="a" for="match4">Dopasowanie do czwartej odpowiedzi</label>
 						<div id="match4ans" class="question">` + ev.correct[3] + `</div>
-						<div class="match-image"><i class="fas fa-image icon_mg"></i> Dodaj zdjęcie</div>
+						
 					</div>
 
 				</div>` : "") + (ev.option[4] ? `<div class="column-quest col5">
@@ -477,7 +477,7 @@
 					<div class="column-questr">
 						<label class="a" for="match5">Dopasowanie do piątej odpowiedzi</label>
 						<div id="match5ans" class="question">` + ev.correct[4] + `</div>
-						<div class="match-image"><i class="fas fa-image icon_mg"></i> Dodaj zdjęcie</div>
+						
 					</div>
 
 				</div>` : "") + (ev.option[5] != null ? `<div class="column-quest col6">
@@ -493,16 +493,16 @@
 					<div class="column-questr">
 						<label class="a" for="match6">Dopasowanie do szóstej odpowiedzi</label>
 						<div id="match6ans" class="question">` + ev.correct[5] + `</div>
-						<div class="match-image"><i class="fas fa-image icon_mg"></i> Dodaj zdjęcie</div>
+						
 					</div>
 
-				</div>` : "") + (ev.fake.typ == 'fakeans' ? `<div class="fakeans">
-						<label class="a" for="fakeans">Fałszywa odpowiedź</label>
-						<div id="fakeansquil">` + ev.fake.content + `</div>
-						</div>` : "") + (ev.fake.typ == 'fakematch' ? `<div class="fakematch">
-						<label class="a" for="fakematch">Fałszywe dopasowanie</label>
-						<div id="fakematchquil">` + ev.fake.content + `</div>
-						</div>` : "") + `
+				</div>` : "") +(ev.fake ?  (ev.fake.typ == 'fakeans' ? `<div class="fakeans">
+                <label class="a" for="fakeans">Fałszywa odpowiedź</label>
+                <div id="fakeansquil">` + ev.fake.content + `</div>
+                </div>` : "") + (ev.fake.typ == 'fakematch' ? `<div class="fakematch">
+                <label class="a" for="fakematch">Fałszywe dopasowanie</label>
+                <div id="fakematchquil">` + ev.fake.content + `</div>
+                </div>` : ""): "") + `
                 </div>
 
                 </div>
@@ -602,7 +602,7 @@
 					<div class="column-questr">
 						<label class="a" for="match3">Dopasowanie do trzeciej odpowiedzi</label>
 						<div id="match3ans" class="question"></div>
-						<div class="match-image"><i class="fas fa-image icon_mg"></i> Dodaj zdjęcie</div>
+						
 					</div>
 
 				</div>`).insertBefore('button#possibility')
@@ -624,7 +624,7 @@
 					<div class="column-questr">
 						<label class="a" for="match4">Dopasowanie do czwartej odpowiedzi</label>
 						<div id="match4ans" class="question"></div>
-						<div class="match-image"><i class="fas fa-image icon_mg"></i> Dodaj zdjęcie</div>
+						
 					</div>
 
 				</div>`).insertBefore('button#possibility')
@@ -646,7 +646,7 @@
 					<div class="column-questr">
 						<label class="a" for="match5">Dopasowanie do piątej odpowiedzi</label>
 						<div id="match5ans" class="question"></div>
-						<div class="match-image"><i class="fas fa-image icon_mg"></i> Dodaj zdjęcie</div>
+						
 					</div>
 
 				</div>`).insertBefore('button#possibility')
@@ -668,7 +668,7 @@
 					<div class="column-questr">
 						<label class="a" for="match6">Dopasowanie do szóstej odpowiedzi</label>
 						<div id="match6ans" class="question"></div>
-						<div class="match-image"><i class="fas fa-image icon_mg"></i> Dodaj zdjęcie</div>
+						
 					</div>
 
 				</div>`).insertBefore('button#possibility')

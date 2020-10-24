@@ -377,13 +377,14 @@ E:/Z_C/programowanie/live-text/serwer
              <div class="answers-info">` + result.correct[i]+ `</div>`;
 
             }
+            if(result.fake){
             if(result.fake.typ=="fakeans"){
                 ans+= `<div>Fałszywa odpowiedź </div>
              <div class="answers-info">` + result.fake.content+ `</div>`
             }else if(result.fake.typ=="fakematch"){
                                 correct+= `<div>Fałszywe dopasowanie </div>
              <div class="answers-info">` + result.fake.content+ `</div>`
-            }
+            }}
                         cont.html(`<div class="showq">
 			<div class="etykieta f25"><i class="fas fa-info icon_mg"></i> Informacje o pytaniu</div><br>
             <div class="quest-info">
@@ -716,58 +717,58 @@ E:/Z_C/programowanie/live-text/serwer
             error.push("<div>Liczba punktów musi być większa od zera</div>")
         }
         
-        if(window.quill1.container.firstChild.innerHTML == ""){
-            errocheck = true;
+        if(window.quill1.getText().length<2){
+            errorcheck = true;
             error.push("<div>Treść pytania jest pusta</div>");
         }
         
-        if(window.quill2.container.firstChild.innerHTML != "" && window.quill3.container.firstChild.innerHTML != ""){
+        if(window.quill2.getText().length>1 && window.quill3.getText().length>1){
             arr[0] = window.quill2.container.firstChild.innerHTML;
             corr[0] = window.quill3.container.firstChild.innerHTML;
         }else{
-            errocheck = true;
+            errorcheck = true;
             error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");            
         }
         
-        if(window.quill4.container.firstChild.innerHTML != "" && window.quill5.container.firstChild.innerHTML != ""){
+        if(window.quill4.getText().length>1 && window.quill5.getText().length>1){
             arr[1] = window.quill4.container.firstChild.innerHTML;
             corr[1] = window.quill5.container.firstChild.innerHTML;
         }else{
-            errocheck = true;
+            errorcheck = true;
             error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");            
         }
         
         
         if($(".col3")[0]){
-        if(window.quill6.container.firstChild.innerHTML != "" && window.quill7.container.firstChild.innerHTML != ""){
+        if(window.quill6.getText().length>1 != "" && window.quill7.getText().length>1){
             arr[2] = window.quill6.container.firstChild.innerHTML;
             corr[2] = window.quill7.container.firstChild.innerHTML;
         }else{
-            errocheck = true;
+            errorcheck = true;
             error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");            
         }}
         if($(".col4")[0]){
-        if(window.quill8.container.firstChild.innerHTML != "" && window.quill9.container.firstChild.innerHTML != ""){
+        if(window.quill8.getText().length>1 && window.quill9.getText().length>1){
             arr[3] = window.quill8.container.firstChild.innerHTML;
             corr[3] = window.quill9.container.firstChild.innerHTML;
         }else{
-            errocheck = true;
+            errorcheck = true;
             error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");            
         }}
         if($(".col5")[0]){
-        if(window.quill10.container.firstChild.innerHTML != "" && window.quill11.container.firstChild.innerHTML != ""){
+        if(window.quill10.getText().length>1 != "" && window.quill11.getText().length>1){
             arr[4] = window.quill10.container.firstChild.innerHTML;
             corr[4] = window.quill11.container.firstChild.innerHTML;
         }else{
-            errocheck = true;
+            errorcheck = true;
             error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");            
         }}
         if($(".col6")[0]){
-        if(window.quill12.container.firstChild.innerHTML != "" && window.quill13.container.firstChild.innerHTML != ""){
+        if(window.quill12.getText().length>1 && window.quill13.getText().length>1){
             arr[5] = window.quill12.container.firstChild.innerHTML;
             corr[5] = window.quill13.container.firstChild.innerHTML;
         }else{
-            errocheck = true;
+            errorcheck = true;
             error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");            
         }}
         
@@ -786,6 +787,9 @@ E:/Z_C/programowanie/live-text/serwer
                    socket.emit("edit",socket.id,$('#matchname').val(),"match",window.quill1.container.firstChild.innerHTML,arr,corr,`<%= user.id %>`,src,qid,$("#numberofpoints").val(),fake),  
                                 $("#" + qid).html(`<span class="icon"> <svg class="svg-inline--fa fa-calendar-alt fa-w-14" aria-hidden="true" data-prefix="fas" data-icon="calendar-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M436 160H12c-6.6 0-12-5.4-12-12v-36c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48v36c0 6.6-5.4 12-12 12zM12 192h424c6.6 0 12 5.4 12 12v260c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V204c0-6.6 5.4-12 12-12zm116 204c0-6.6-5.4-12-12-12H76c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12H76c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm128 128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm128 128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40z"></path></svg><!-- <i class="fas fa-calendar-alt"></i> --> </span>` + $('#matchname').val())
             }
+            unblock();
+            socket.emit("gettree", socket.id, `<%= user.id %>`);
+            select("match")
         }else{
             console.log(error)
         }
@@ -797,9 +801,7 @@ E:/Z_C/programowanie/live-text/serwer
             }, 200)
 
         }
-        unblock();
-        socket.emit("gettree", socket.id, `<%= user.id %>`);
-        select("match")
+
     }
     
     function addchapter() {
@@ -853,49 +855,50 @@ E:/Z_C/programowanie/live-text/serwer
             x++;
             console.log(x);
             if (x == 2) {
-                if (window.quill2.container.firstChild.innerHTML != "") {
+                console.log(window.quill2.getText())
+                if (window.quill2.getText().length>1) {
                     arr.push(window.quill2.container.firstChild.innerHTML)
                     if (ansid + 1 == x) {
                         corr = window.quill2.container.firstChild.innerHTML;
                         console.log(corr, x);
                     }
                 } else {
-                    errocheck = true;
+                    errorcheck = true;
                     error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");
                 }
             }
             if (x == 3) {
-                if (window.quill3.container.firstChild.innerHTML != "") {
+                if (window.quill3.getText().length>1) {
                     arr.push(window.quill3.container.firstChild.innerHTML);
                     if (ansid + 1 == x) {
                         corr = window.quill3.container.firstChild.innerHTML;
                         console.log(corr, x);
                     }
                 } else {
-                    errocheck = true;
+                    errorcheck = true;
                     error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");
                 }
             }
             if (x == 4) {
-                if (window.quill4.container.firstChild.innerHTML != "") {
+                if (window.quill4.getText().length>1) {
                     arr.push(window.quill4.container.firstChild.innerHTML)
                     if (ansid + 1 == x) {
                         corr = window.quill4.container.firstChild.innerHTML;
                     }
                 } else {
-                    errocheck = true;
+                    errorcheck = true;
                     error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");
                 }
             }
             if (x == 5) {
-                if (window.quill5.container.firstChild.innerHTML != "") {
+                if (window.quill5.getText().length>1) {
                     arr.push(window.quill5.container.firstChild.innerHTML);
                     if (ansid + 1 == x) {
                         corr = window.quill5.container.firstChild.innerHTML;
                         console.log(ansid,x)
                     }
                 } else {
-                    errocheck = true;
+                    errorcheck = true;
                     error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");
                 }
             }
@@ -905,7 +908,7 @@ E:/Z_C/programowanie/live-text/serwer
             errorcheck = true;
             error.push("<div>Etykieta pytania jest pusta</div>");
         }
-        if (window.quill1.container.firstChild.innerHTML == "") {
+        if (window.quill1.getText().length<2) {
             errorcheck = true;
             error.push("<div>Treść pytania jest pusta</div>");
         }
@@ -922,7 +925,9 @@ E:/Z_C/programowanie/live-text/serwer
                 socket.emit("edit", socket.id, $('#singlename').val(), "single", window.quill1.container.firstChild.innerHTML, arr, corr, `<%= user.id %>`, src, qid,$("#numberofpoints").val());
                 $("#" + qid).html(`<span class="icon"> <svg class="svg-inline--fa fa-calendar-check fa-w-14" aria-hidden="true" data-prefix="fas" data-icon="calendar-check" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M436 160H12c-6.627 0-12-5.373-12-12v-36c0-26.51 21.49-48 48-48h48V12c0-6.627 5.373-12 12-12h40c6.627 0 12 5.373 12 12v52h128V12c0-6.627 5.373-12 12-12h40c6.627 0 12 5.373 12 12v52h48c26.51 0 48 21.49 48 48v36c0 6.627-5.373 12-12 12zM12 192h424c6.627 0 12 5.373 12 12v260c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V204c0-6.627 5.373-12 12-12zm333.296 95.947l-28.169-28.398c-4.667-4.705-12.265-4.736-16.97-.068L194.12 364.665l-45.98-46.352c-4.667-4.705-12.266-4.736-16.971-.068l-28.397 28.17c-4.705 4.667-4.736 12.265-.068 16.97l82.601 83.269c4.667 4.705 12.265 4.736 16.97.068l142.953-141.805c4.705-4.667 4.736-12.265.068-16.97z"></path></svg><!-- <i class="fas fa-calendar-check"></i> --> </span>` + $('#singlename').val())
             }
-
+        unblock();
+        socket.emit("gettree", socket.id, `<%= user.id %>`);
+        select("single");
         } else {
             $("#err").html(error);
             console.log(arr)
@@ -935,9 +940,7 @@ E:/Z_C/programowanie/live-text/serwer
             }, 200)
 
         }
-        unblock();
-        socket.emit("gettree", socket.id, `<%= user.id %>`);
-        select("single");
+
     }
 
 
@@ -950,7 +953,6 @@ E:/Z_C/programowanie/live-text/serwer
             src = $("#qimgsrc").attr("src");
         }
         $("#err").html("");
-        console.log(window.quill1.container.firstChild.innerHTML)
         let errorcheck = false;
         let error = [];
         if ($('#openname').val() == "") {
@@ -961,7 +963,7 @@ E:/Z_C/programowanie/live-text/serwer
             errorcheck = true;
             error.push("<div>Liczba punktów musi być większa od zera</div>")
         }
-        if (window.quill1.container.firstChild.innerHTML == "") {
+        if (window.quill1.getText().length<2) {
             errorcheck = true;
             error.push("<div>Treść pytania jest pusta</div>");
         }
@@ -972,6 +974,9 @@ E:/Z_C/programowanie/live-text/serwer
                 socket.emit("edit", socket.id, $('#openname').val(), "open", window.quill1.container.firstChild.innerHTML, undefined, undefined, `<%= user.id %>`, src, qid,$("#numberofpoints").val());
                 $("#" + qid).html(`<span class="icon"> <svg class="svg-inline--fa fa-calendar-minus fa-w-14" aria-hidden="true" data-prefix="fas" data-icon="calendar-minus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M436 160H12c-6.6 0-12-5.4-12-12v-36c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48v36c0 6.6-5.4 12-12 12zM12 192h424c6.6 0 12 5.4 12 12v260c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V204c0-6.6 5.4-12 12-12zm304 192c6.6 0 12-5.4 12-12v-40c0-6.6-5.4-12-12-12H132c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h184z"></path></svg><!-- <i class="fas fa-calendar-minus"></i> --> </span>` + $('#openname').val())
             }
+        unblock();
+        socket.emit("gettree", socket.id, `<%= user.id %>`);
+        select("open");
         } else {
             $("#err").html(error);
         }
@@ -983,9 +988,7 @@ E:/Z_C/programowanie/live-text/serwer
             }, 200)
 
         }
-        unblock();
-        socket.emit("gettree", socket.id, `<%= user.id %>`);
-        select("open");
+
     }
 
     function addmulti(check, qid) {
@@ -1003,34 +1006,35 @@ E:/Z_C/programowanie/live-text/serwer
         $(".a").each(function() {
             x++;
             if (x == 2) {
-                if (window.quill2.container.firstChild.innerHTML != "") {
+                console.log(window.quill2.getText().length)
+                if (window.quill2.getText().length>1) {
                     arr.push(window.quill2.container.firstChild.innerHTML)
                 } else {
-                    errocheck = true;
+                    errorcheck = true;
                     error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");
                 }
             }
             if (x == 3) {
-                if (window.quill3.container.firstChild.innerHTML != "") {
+                if (window.quill3.getText().length>1) {
                     arr.push(window.quill3.container.firstChild.innerHTML);
                 } else {
-                    errocheck = true;
+                    errorcheck = true;
                     error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");
                 }
             }
             if (x == 4) {
-                if (window.quill4.container.firstChild.innerHTML != "") {
+                if (window.quill4.getText().length>1) {
                     arr.push(window.quill4.container.firstChild.innerHTML)
                 } else {
-                    errocheck = true;
+                    errorcheck = true;
                     error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");
                 }
             }
             if (x == 5) {
-                if (window.quill5.container.firstChild.innerHTML != "") {
+                if (window.quill5.getText().length>1) {
                     arr.push(window.quill5.container.firstChild.innerHTML);
                 } else {
-                    errocheck = true;
+                    errorcheck = true;
                     error.push("<div>Conajmniej jedna z odpowiedzi jest pusta</div>");
                 }
             }
@@ -1039,7 +1043,7 @@ E:/Z_C/programowanie/live-text/serwer
             errorcheck = true;
             error.push("<div>Etykieta pytania jest pusta</div>");
         }
-        if (window.quill1.container.firstChild.innerHTML == "") {
+        if (window.quill1.getText().length<2) {
             errorcheck = true;
             error.push("<div>Treść pytania jest pusta</div>");
         }
@@ -1072,8 +1076,6 @@ E:/Z_C/programowanie/live-text/serwer
             errorcheck = true;
             error.push("<div>Nie zaznaczono poprawnej odpowiedzi</div>");
         }
-
-
         if (errorcheck == false) {
             if (check == "add") {
                 socket.emit("dodaj", socket.id, $('#multiname').val(), "multi", window.quill1.container.firstChild.innerHTML, arr, corr, `<%= user.id %>`, src,$("#numberofpoints").val());
@@ -1081,6 +1083,9 @@ E:/Z_C/programowanie/live-text/serwer
                 socket.emit("edit", socket.id, $('#multiname').val(), "multi", window.quill1.container.firstChild.innerHTML, arr, corr, `<%= user.id %>`, src, qid,$("#numberofpoints").val());
                 $("#" + qid).html(`<span class="icon"> <svg class="svg-inline--fa fa-calendar-alt fa-w-14" aria-hidden="true" data-prefix="fas" data-icon="calendar-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M436 160H12c-6.6 0-12-5.4-12-12v-36c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48v36c0 6.6-5.4 12-12 12zM12 192h424c6.6 0 12 5.4 12 12v260c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V204c0-6.6 5.4-12 12-12zm116 204c0-6.6-5.4-12-12-12H76c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12H76c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm128 128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm128 128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40zm0-128c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-40z"></path></svg><!-- <i class="fas fa-calendar-alt"></i> --> </span>` + $('#multiname').val())
             }
+            unblock();
+            socket.emit("gettree", socket.id, `<%= user.id %>`);
+            select("multi")
         } else {
             $("#err").html(error);
             console.log(error)
@@ -1093,9 +1098,7 @@ E:/Z_C/programowanie/live-text/serwer
             }, 200)
 
         }
-        unblock();
-        socket.emit("gettree", socket.id, `<%= user.id %>`);
-        select("multi")
+
     }
 
     /////// SOCKET.IO /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
