@@ -266,7 +266,8 @@ E:/Z_C/programowanie/live-text/serwer
     }
     
     function createroom(arr){
-        if(Array.isArray(arr)){
+        console.log(arr.length)
+        if(Array.isArray(arr)&&arr.length>0){
      if($(".timeinput").length==1&&$(".timeinput")[0].value>0){
          socket.emit("createroom",socket.id,null,null,$(".timeinput")[0].value,arr,`<%=user.id%>`)
      }else if($(".timeinput").length==2&&$(".timeinput")[0].value>0&&$(".timeinput")[1].value>0){
