@@ -45,7 +45,7 @@ E:/Z_C/programowanie/live-text/serwer
 
     <div id="m-header">
         <div id="m-tree">
-            <div class="nav-left navbar"><a href="/tree" class="menu"><i class="fas fa-angle-left icon_mg" style="color:#3273dc"></i> Powrót do menu</a></div>
+            <div class="nav-left navbar"><div class="menu"><i class="fas fa-angle-left icon_mg" style="color:#3273dc"></i> Powrót do menu</div></div>
 			<div class="subnav-left">Menedżer <i class="fas fa-angle-right navicon"></i> Lista rozdziałów i pytań</a></div>
             <nav class="navbar has-background-info" role="navigation" aria-label="main navigation" style="display:none"></nav>
             <!--<div id="nav-side"><i class="fas fa-cog icon_mg"></i> Menadżer pytań</div>-->
@@ -142,7 +142,31 @@ E:/Z_C/programowanie/live-text/serwer
     setClickEventOnTreeItems();
 
 
-    
+    $(".menu").click(e=>{
+        $(".maincont").html(`                
+                <span style="font-size:30px" class="f200"><i class="fas fa-exclamation-circle icon_mg"></i> Wygląda na to, że nie utworzyłeś jeszcze żadnynch pytań.</span><br>
+                <a href="" class="link-button f300">Uruchom Kreator Pytań</a> <!-- Trzeba podpiac zeby dzialalo tak jak "Dodaj pytanie" -->
+                <a href="" class="link-button f300" style="margin-left:10px">Załaduj testową bazę pytań</a>
+                <br><br><br>
+				<span style="font-size:30px" class="f200"><i class="fas fa-exclamation-dsafads icon_mg"></i> Menedżer</span><br><br>
+				<div class="manage-col">
+				<span class="manage-h1"><i class="far fa-hdd manage-icon manage-grey"></i> <span class="manage-title">Kokpit</span><br></span>
+				<a href="/tree" class="manage-link"><i class="fas fa-columns manage-sicon"></i>Strona główna</a><br>
+				<button class="manage-link" onclick="test()"><i class="fab fa-buromobelexperte manage-sicon"></i> Stwórz pokój</button>
+				</div>
+				<div class="manage-col">
+				<span class="manage-h1"><i class="far fa-comment-alt manage-icon manage-blue"></i> <span class="manage-title">Pytania i rozdziały</span><br></span>
+				<button class="manage-link"><i class="fas fa-list-ul manage-sicon"></i>Wyświetl pytania</button><br>
+				<button class="manage-link" onclick="navselect()"><i class="fas fa-plus manage-sicon"></i>Dodaj pytania i rozdziały</button><br>
+				<button class="manage-link" onclick="rem()"><i class="far fa-trash-alt manage-sicon"></i>Usuń pytania i rozdziały</button><br>
+				</div>			
+				<div class="manage-col">
+				<span class="manage-h1"><i class="far fa-chart-bar manage-icon"></i> <span class="manage-title">Statystyki</span><br></span>
+				<button class="manage-link"><i class="fas fa-chart-pie manage-sicon"></i> Statystyki testów</button>
+				<br><br>`);
+                unblock();
+    }
+    )
     //PODGLAD IMG, NW JAK TO DZIALA, UKRADLEM Z CODEPENA
     function prewievimage() {
     "use strict";
@@ -519,6 +543,7 @@ E:/Z_C/programowanie/live-text/serwer
 
     function rem() {
         if (statequestion == true) {
+            $(".maincont").html("")
             $('[type=checkbox]').remove();
             unblock();
             if (rembool == false) {
