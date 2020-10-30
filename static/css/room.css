@@ -672,3 +672,7 @@ padding: 10px 14px;
 	color:red;
 	font-weight:bold;
 }
+
+.showqcontent{
+    border-bottom: 1px solid black;
+}
