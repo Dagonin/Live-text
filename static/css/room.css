@@ -265,6 +265,9 @@ input.radio-c {
     border-radius: 50%;
 }
 
+.checkmarkBold{
+    font-weight: bold;
+}
 
 .a:hover input ~ .checkmark {
     background-color: #ccc;

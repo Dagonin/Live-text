@@ -578,7 +578,9 @@
     //Lista guestów
     socket.on('reloadlist',(fRoom,fGuests,fQuestions)=>{
         if(fQuestions){
-            $(".quest-number").text("Pytanie 1 z "+fQuestions.length);}
+            $(".quest-number").text(`Pytanie ${guest.index+1} z `+fQuestions.length);
+            
+        }
         <% if(room.OPEN==true){ %>
         room = fRoom;
         guestlist = fGuests;
@@ -627,6 +629,7 @@
             $("#licznik").append(`<input num='`+i+`' name='licz' type="radio" class="radio-c"><span class="checkmark">`+(i+1)+`</span>`)
             
         })
+        $(".checkmark")[guest.index].classList.add("checkmarkBold")
         $('input[name="licz"]')[guest.index].checked = true;
         $('input[name="licz"]').click(function(){
             <% if(room.time){ %>
@@ -1256,8 +1259,15 @@
                }}
             <% } %>
             
-
-            
+               //Zmiana divu z numerem pytania
+               $(".quest-number").text(`Pytanie ${guest.index+1} z `+questions.length);
+               $(".checkmark").each(mark=>{
+                if(mark==guest.index){
+                $(".checkmark")[mark].classList.add('checkmarkBold')
+                }else{
+                    $(".checkmark")[mark].classList.remove('checkmarkBold') 
+                }
+               })
             
     // Emit
             if(er==false && room.end=="false"){
