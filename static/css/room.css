@@ -676,3 +676,6 @@ padding: 10px 14px;
 .showqcontent{
     border-bottom: 1px solid black;
 }
+.ChosenAns{
+    background-color: black;
+}

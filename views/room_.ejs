@@ -689,16 +689,15 @@
             g = guest;
         }else{
             g = $.grep(guestlist,function(n){return n._id==gid})[0];
-            console.log("a")
         }
         
-        console.log(qobject,checkifguest,g)
+
         let qindex = $.inArray(qobject._id,g.roomquestions.question)
 //        console.log(g.roomquestions.answer[qindex])
         if(g.roomquestions.answer[qindex]!=null){
         if(qobject.type=="open"){
             
-            console.log("a")
+
             $(".showq").html(`<div class="showqcontent">`+qobject.content+`</div>`+(g.roomquestions.answer[qindex] ? `<div class="showqanswer">`+g.roomquestions.answer[qindex]+`</div>` : ""))
             
         }else if(qobject.type=="single"||qobject.type=="multi"){
@@ -708,12 +707,13 @@
                     $(".showqanswer").append("<div class='"+qobject.type+"' id="+i+">"+option+"</div>");
                     if(g.roomquestions.answer[qindex].length!=0){
                        if($.inArray(i.toString(),g.roomquestions.answer[qindex])!=-1){
-                           $("#"+i).addClass("togglered-a")
+                           $("#"+i).addClass("togglegreen-a")
                        }
                         
                     }
+                    console.log(qobject,option,g)
                     if($.inArray(option,qobject.correct)!=-1){
-                        $("#"+i).addClass("togglegreen-a")
+                        $("#"+i+" p").append(" -Poprawna odpowiedź")
                     }
                 })
             
