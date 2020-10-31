@@ -34,8 +34,9 @@
 <div id="PointsGraph"></div>
 <% } %>
 </div>
+<% if(room.end=="false"){ %> 
 <button onclick="endtest()" class="close-test"><i class="fas fa-times icon_mg"></i> zakończ test</button>
-<% if(user){%>
+<% }if(user){%>
 <div class="pytaniaocena">
 <div class="etykieta">Pytania otwarte</div>
 </div><br>
@@ -578,7 +579,7 @@
     //Lista guestów
     socket.on('reloadlist',(fRoom,fGuests,fQuestions)=>{
         if(fQuestions){
-            $(".quest-number").text(`Pytanie ${guest.index+1} z `+fQuestions.length);
+            $(".quest-number").text(`Pytanie 1 z `+fQuestions.length);
             
         }
         <% if(room.OPEN==true){ %>
@@ -881,10 +882,6 @@
                 
                 }
         
-        
-        
-        
-        
                 
         if(gradetype!='bin'&&gradetype!='nor' && openqarray.length==0){
                 $("#popup").html(`<div class='modal'><div class='popup-box'><span><center>Wybierz typ oceniania testu</center></span><br><button id='bin'>Binarnie</button><button id='nor'>Normalnie</button></div></div>`)
@@ -906,14 +903,6 @@
             return false;
         }
         
-        
-        
-        
-        
-        
-
- 
-        
         if(openqarray.length!=0){
             
             socket.emit('endtest',"<%= room.id %>","halftrue",'u')
@@ -925,6 +914,7 @@
                 
             })
              let rank = rankpoints();
+             $(".close-test").remove();
             socket.emit('endtest',"<%= room.id %>","true",'u',rank,qpoints)            
             }
 
