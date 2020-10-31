@@ -965,7 +965,7 @@
                if(g.roomquestions.question){
                    let qid = $.inArray(q._id,g.roomquestions.question);
                    
-                   if(qid!=-1&&qid<g.index&&!g.points[qid]){
+                   if(qid!=-1&&qid<=g.index&&!g.points[qid]){
                        
                        
                        let obj = {
@@ -983,7 +983,7 @@
         })
     }
     
-    function openquestionslist(){
+    function openquestionslist(e){
         $('.openqlist').html('');
         openqarray.forEach((q,i)=>{
             $('.openqlist').append(`<div index='`+i+`' db-id='`+q._id+`' class="qlist2">`+q.name+`</div>`);
