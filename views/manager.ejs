@@ -9,9 +9,11 @@
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <link rel="stylesheet" href="/css/tree.css" />
     <link rel="stylesheet" href="/css/style.css" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/solid.min.css" rel="stylesheet">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/regular.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!--load all styles -->
     <link href="//cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
     <link href="//cdn.quilljs.com/1.0.0/quill.bubble.css" rel="stylesheet">
@@ -46,34 +48,51 @@ E:/Z_C/programowanie/live-text/serwer
 
     <div id="m-header">
         <div id="m-tree">
-            <div class="nav-left navbar"><div class="menu"><i class="fas fa-angle-left icon_mg" style="color:#3273dc"></i> Powrót do menu</div></div>
-			<div class="subnav-left">Menedżer <i class="fas fa-angle-right navicon"></i> Lista rozdziałów i pytań</a></div>
+            <div class="nav-left navbar"><a href="/tree">LIVE<span class="nav-left-myslnik">-</span>TEXT</a></div>
             <nav class="navbar has-background-info" role="navigation" aria-label="main navigation" style="display:none"></nav>
             <!--<div id="nav-side"><i class="fas fa-cog icon_mg"></i> Menadżer pytań</div>-->
-            <div class="column list is-hoverable is-shadowless" id="tree" style="margin-top:40px;"></div>
+            <div class="dir-header column">
+              <div class="list-item">
+              <span class="menu-text"><span class="svg-icon menu-icon">
+                <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                  <title>Stockholm-icons / Design / Layers</title>
+                  <desc>Created with Sketch.</desc>
+                  <defs></defs><g id="Stockholm-icons-/-Design-/-Layers" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><polygon id="Bound" points="0 0 24 0 24 24 0 24"></polygon>
+                    <path d="M12.9336061,16.072447 L19.36,10.9564761 L19.5181585,10.8312381 C20.1676248,10.3169571 20.2772143,9.3735535 19.7629333,8.72408713 C19.6917232,8.63415859 19.6104327,8.55269514 19.5206557,8.48129411 L12.9336854,3.24257445 C12.3871201,2.80788259 11.6128799,2.80788259 11.0663146,3.24257445 L4.47482784,8.48488609 C3.82645598,9.00054628 3.71887192,9.94418071 4.23453211,10.5925526 C4.30500305,10.6811601 4.38527899,10.7615046 4.47382636,10.8320511 L4.63,10.9564761 L11.0659024,16.0730648 C11.6126744,16.5077525 12.3871218,16.5074963 12.9336061,16.072447 Z" id="Shape" fill="#000000" fill-rule="nonzero"></path>
+                    <path d="M11.0563554,18.6706981 L5.33593024,14.122919 C4.94553994,13.8125559 4.37746707,13.8774308 4.06710397,14.2678211 C4.06471678,14.2708238 4.06234874,14.2738418 4.06,14.2768747 L4.06,14.2768747 C3.75257288,14.6738539 3.82516916,15.244888 4.22214834,15.5523151 C4.22358765,15.5534297 4.2250303,15.55454 4.22647627,15.555646 L11.0872776,20.8031356 C11.6250734,21.2144692 12.371757,21.2145375 12.909628,20.8033023 L19.7677785,15.559828 C20.1693192,15.2528257 20.2459576,14.6784381 19.9389553,14.2768974 C19.9376429,14.2751809 19.9363245,14.2734691 19.935,14.2717619 L19.935,14.2717619 C19.6266937,13.8743807 19.0546209,13.8021712 18.6572397,14.1104775 C18.654352,14.112718 18.6514778,14.1149757 18.6486172,14.1172508 L12.9235044,18.6705218 C12.377022,19.1051477 11.6029199,19.1052208 11.0563554,18.6706981 Z" id="Path" fill="#000000" opacity="0.3"></path></g></svg><!-- <i class="far fa-folder"></i> --></span> Dashboard</span>
+                  </div>
+                </div>
+
+                <div class="dir-header column" style="padding-bottom:0px;padding-top:0px;">
+                  <div class="list-item" style="padding-top:0px;padding-bottom:0px;">
+                    <span class="menu-text no-icon">
+                      Lista pytań
+                    </span>
+                  </div>
+                </div>
+
+            <div class="column list is-hoverable is-shadowless" id="tree">
+</div>
         </div>
         <div id="m-rightside">
             <!-- przyciski -->
             <div id="m-rightbuttons" class="navbar">
-                <button class="navbut" onclick="navselect()">Dodaj Pytanie</button>
-                <button class="navbut" onclick="rem()">Usuń</button>
-                <button class="navbut" onclick="test()">Stwórz pokój</button>
+                <button class="navbut" onclick="navselect()"><a class="menu-link">Dodaj Pytanie</a></button>
+                <button class="navbut" onclick="rem()"><a class="menu-link">Usuń</a></button>
+                <button class="navbut" onclick="test()"><a class="menu-link">Stwórz pokój</a></button>
 				<button class="navbut" style="position:absolute;right:0"><%= user.username %><i class="fas fa-caret-down" style="margin-left:10px"></i></button>
 				<button class="navbut" style="position:absolute;right:0"><%= user.username %><i class="fas fa-caret-down" style="margin-left:10px"></i></button>
             </div>
-			<div class="subnav-right">
-			</div>
             <div class="maincont column is-three-quarters">
 				<!-- Domyslne menu
 				<a class="link-menu"><i class="fas fa-folder-plus menu-icon"></i><br>Dodaj rozdział</a><br><br> -->
                 <!-- Brak pytan -->
-                <span style="font-size:30px" class="f200"><i class="fas fa-exclamation-circle icon_mg"></i> Wygląda na to, że nie utworzyłeś jeszcze żadnynch pytań.</span><br>
-
-                <a href="" class="link-button f300">Uruchom Kreator Pytań</a> <!-- Trzeba podpiac zeby dzialalo tak jak "Dodaj pytanie" -->
-                <a href="" class="link-button f300" style="margin-left:10px">Załaduj testową bazę pytań</a>
-
-                <br><br><br>
 				
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                  <b>Informacja</b> Znaleziono nowszą wersję oprogramownia. Przejdź do kreatora strony.
+                </div>
+        <!-- Stara wersja -->
+        <!--
 				<span style="font-size:30px" class="f200"><i class="fas fa-exclamation-dsafads icon_mg"></i> Menedżer</span><br><br>
 				
 				<div class="manage-col">
@@ -94,7 +113,68 @@ E:/Z_C/programowanie/live-text/serwer
 				<button class="manage-link"><i class="fas fa-chart-pie manage-sicon"></i> Statystyki testów</button>
 				<br><br>
 				
-				
+        -->
+
+        <div class="card mr3">
+          <h3 class="card-title">Exams</h3>
+          <div style="width:100%">
+            <div class="empty">
+              <div class="empty-img"><img src="https://preview.tabler.io/static/illustrations/undraw_quitting_time_dm8t.svg" height="128" alt="">
+              </div>
+              <p class="empty-title">Brak wyników</p>
+              <p class="empty-subtitle text-muted">
+                Wygląda na to, że nie zrobiłeś jeszcze żadnego sprawdzianu.
+              </p>
+              <div class="empty-action">
+                <a href="./." class="btn btn-primary">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  Stwórz pierwszy test
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mr3">
+          <h3 class="card-title">Exams</h3>
+          <div style="width:100%">
+            <div class="empty">
+              <div class="empty-img"><img src="https://preview.tabler.io/static/illustrations/undraw_quitting_time_dm8t.svg" height="128" alt="">
+              </div>
+              <p class="empty-title">Brak wyników</p>
+              <p class="empty-subtitle text-muted">
+                Wygląda na to, że nie zrobiłeś jeszcze żadnego sprawdzianu.
+              </p>
+              <div class="empty-action">
+                <a href="./." class="btn btn-primary">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  Stwórz pierwszy test
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="card-title">Exams</h3>
+          <div style="width:100%">
+            <div class="empty">
+              <div class="empty-img"><img src="https://preview.tabler.io/static/illustrations/undraw_quitting_time_dm8t.svg" height="128" alt="">
+              </div>
+              <p class="empty-title">Brak wyników</p>
+              <p class="empty-subtitle text-muted">
+                Wygląda na to, że nie zrobiłeś jeszcze żadnego sprawdzianu.
+              </p>
+              <div class="empty-action">
+                <a href="./." class="btn btn-primary">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  Stwórz pierwszy test
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
 				<!--
                 <span class="f25 f200">Skorzystaj z pomocy jeśli nie wiesz jak utworzyć pytanie.</span><br><br>
                  Zawartosc opcjonalna, mozna go umiescic jesli przygotujemy poradniki/dzial pomocy w pelnej wersji strony
