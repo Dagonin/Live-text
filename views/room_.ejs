@@ -1,190 +1,33 @@
-<%- include('templates/header.ejs') %>
-<head><style>body {
-    font-size: .875rem;
-  }
-  
-  .feather {
-    width: 16px;
-    height: 16px;
-    vertical-align: text-bottom;
-  }
-  
-  /*
-   * Sidebar
-   */
-  
-  .sidebar {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 100; /* Behind the navbar */
-    padding: 0;
-    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
-  }
-  
-  .sidebar-sticky {
-    position: -webkit-sticky;
-    position: sticky;
-    top: 48px; /* Height of navbar */
-    height: calc(100vh - 48px);
-    padding-top: .5rem;
-    overflow-x: hidden;
-    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-  }
-  
-  .sidebar .nav-link {
-    font-weight: 500;
-    color: #333;
-  }
-  
-  .sidebar .nav-link .feather {
-    margin-right: 4px;
-    color: #999;
-  }
-  
-  .sidebar .nav-link.active {
-    color: #007bff;
-  }
-  
-  .sidebar .nav-link:hover .feather,
-  .sidebar .nav-link.active .feather {
-    color: inherit;
-  }
-  
-  .sidebar-heading {
-    font-size: .75rem;
-    text-transform: uppercase;
-  }
-  
-  /*
-   * Navbar
-   */
-  
-  .navbar-brand {
-    padding-top: .75rem;
-    padding-bottom: .75rem;
-    font-size: 1rem;
-    background-color: rgba(0, 0, 0, .25);
-    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
-  }
-  
-  .navbar .form-control {
-    padding: .75rem 1rem;
-    border-width: 0;
-    border-radius: 0;
-  }
-  
-  .form-control-dark {
-    color: #fff;
-    background-color: rgba(255, 255, 255, .1);
-    border-color: rgba(255, 255, 255, .1);
-  }
-  
-  .form-control-dark:focus {
-    border-color: transparent;
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
-  }
-  
-  /*
-   * Utilities
-   */
-  
-  .border-top { border-top: 1px solid #e5e5e5; }
-  .border-bottom { border-bottom: 1px solid #e5e5e5; }</style></heaed>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link rel="stylesheet" href="/css/room.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400&display=swap" rel="stylesheet">
+    <link href="/css/fontawesome/css/all.css" rel="stylesheet">
+    <link href="//cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    <link href="//cdn.quilljs.com/1.0.0/quill.bubble.css" rel="stylesheet">
+</head>
+
 <body>
-
-    <!--Timer-->
-    <div id="timer"></div>
-
-<div class="container">
-    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-        <div class="sidebar-sticky">
-          <ul class="nav flex-column">
-            <li class="nav-item">
-              <a class="nav-link active" href="#">
-                <span data-feather="home"></span>
-                Dashboard <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span data-feather="file"></span>
-                Orders
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span data-feather="shopping-cart"></span>
-                Products
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span data-feather="users"></span>
-                Customers
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span data-feather="bar-chart-2"></span>
-                Reports
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span data-feather="layers"></span>
-                Integrations
-              </a>
-            </li>
-          </ul>
-
-          <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-            <span>Saved reports</span>
-            <a class="d-flex align-items-center text-muted" href="#">
-              <span data-feather="plus-circle"></span>
-            </a>
-          </h6>
-          <ul class="nav flex-column mb-2">
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span data-feather="file-text"></span>
-                Current month
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span data-feather="file-text"></span>
-                Last quarter
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span data-feather="file-text"></span>
-                Social engagement
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span data-feather="file-text"></span>
-                Year-end sale
-              </a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-</div>
-    <!--Numer pokoju -->
-    <% if(user){ %>
-    <div class="room">
-        <div class="room-title">Zarządzanie pokojem</div>
-        <div style="float:left;width:100%;box-sizing:border-box;margin-top:20px; ">
-        <div style="width:80%;float:right;height:auto;">
-        <span class="etykieta">Kod Klasy </span><br><br>
-        <div class="kodklasy">
-        <div id="pinpokoju" class="etykieta">
-        <div class="room-pin"><%= room.PIN %></div> </div></div>
-        <!-- Pokazanie pytania -->
+<!--Timer-->
+<div id="timer"></div>
+<!--Numer pokoju -->
+<% if(user){ %>
+<div class="room">
+<div class="room-title">Zarządzanie pokojem</div>
+<div style="float:left;width:100%;box-sizing:border-box;margin-top:20px; ">
+<div style="width:80%;float:right;height:auto;">
+<span class="etykieta">Kod Klasy </span><br><br>
+<div class="kodklasy">
+<div id="pinpokoju" class="etykieta">
+<div class="room-pin"><%= room.PIN %></div> </div></div>
+<!-- Pokazanie pytania -->
 <span class="etykieta">Pogląd pytań </span><br><br>
 <div class="showq">Brak danych</div>
 <% if(user){%>
@@ -214,11 +57,8 @@
 <div class="etykieta"><i class="fas fa-user-friends icon_mg"></i></i> Lista uczniów w pokoju</div>
 </div>
 <div id="guestlist"></div>
-
-
 </div>
 </div>
-
 <% } %>
 <!--Treść pytania-->
 <div id="gamequestions">
@@ -267,7 +107,6 @@
     let openqarray;
     let gradetype;
     let correctmatchq;
-
         //Wykres z wynikami
     
     
@@ -306,7 +145,6 @@
     }
     
     
-
     function Chart(qValues,qLabels){
   Highcharts.setOptions({
     colors: ['#3273dc'],
@@ -381,7 +219,6 @@
     
     
     
-
     
     //Czytanie
     function readtext(n){
@@ -399,7 +236,6 @@
     var isOpera = typeof window.opr !== "undefined";
     var isIEedge = winNav.userAgent.indexOf("Edge") > -1;
     var isIOSChrome = winNav.userAgent.match("CriOS");
-
     if (isIOSChrome) {
     // is Google Chrome on IOS
     } else if(
@@ -558,7 +394,6 @@
                 })
             }
             
-
             if(bool==false){
                 readanswerquestion.forEach(n=>{
                     if(com.includes(n)){
@@ -593,7 +428,6 @@
                             bool = true;
                             throw "a"; 
                             }
-
                         }
                         if(questions[guest.index].type=="open"&&n=="dopisz"){
                             let indx = com.indexOf("dopisz")+7;
@@ -683,7 +517,6 @@
             responsiveVoice.speak('Powtórz', "Polish Female"); 
         }
         
-
     }
     
     recognition.onend = function(ev){
@@ -719,7 +552,6 @@
                 timer(<%= fguest.time %>-timeremaining())
                 <% }%>
                 socket.emit('joinroom',"<%= room.PIN %>",<%= room.OPEN %>);
-
         });
     
     
@@ -762,7 +594,6 @@
         console.log(questionidlist)
         questions.forEach(q =>{
         questionidlist.push(q._id);
-
             
         })
         <% if(!user){ %>
@@ -841,7 +672,6 @@
         openquestionslist(openqarray)
         <% }}} %>
         
-
     })
     // Wyświetlenie pytania u nauczyciela
     function showq(qobject,gid,checkifguest){
@@ -852,13 +682,11 @@
             g = $.grep(guestlist,function(n){return n._id==gid})[0];
         }
         
-
         let qindex = $.inArray(qobject._id,g.roomquestions.question)
 //        console.log(g.roomquestions.answer[qindex])
         if(g.roomquestions.answer[qindex]!=null){
         if(qobject.type=="open"){
             
-
             $(".showq").html(`<div class="showqcontent">`+qobject.content+`</div>`+(g.roomquestions.answer[qindex] ? `<div class="showqanswer">`+g.roomquestions.answer[qindex]+`</div>` : ""))
             
         }else if(qobject.type=="single"||qobject.type=="multi"){
@@ -916,7 +744,6 @@
             $(".showq").text("Uczeń jeszcze nie odpowiedział")
         }
     }
-
     socket.on('Nguest',(g)=>{
         guest = g;
         if(guest){
@@ -960,7 +787,6 @@
     }
     
     
-
     
     
     function endgame(){
@@ -1019,8 +845,6 @@
             return false;
         }
          <% } %>
-
-
                getqinfo()
         openquestionslist(openqarray)
         
@@ -1074,7 +898,6 @@
              $(".close-test").remove();
             socket.emit('endtest',"<%= room.id %>","true",'u',rank,qpoints)            
             }
-
         
         <% } %>
     }
@@ -1100,7 +923,6 @@
                     
     
         socket.on('matchorder',(arr)=>{
-
             correctmatchq=arr;
         })
         
@@ -1167,7 +989,6 @@
             })
         })
         })
-
  }
     <%}%>
     
@@ -1176,7 +997,6 @@
     function deleteguest(e){
         socket.emit('deleteguest',$(e).attr('db-id'),"<%= room.PIN %>");
     }
-
     <% } %>
     socket.on('leaveroom',(e)=>{
         socket.emit('leaveroom1',"<%= room.PIN %>");
@@ -1225,7 +1045,6 @@
             checktimeinterval = setInterval(checktime,1000)
             timer(starttime);
             <% }%>
-
             <% } %>
             location.reload()
         })    
@@ -1255,7 +1074,6 @@
                             corr: [],
                             wrong: [],
                             c: [],
-
                         }
                         let points = 0;
                         if(g.roomquestions.answer[qidx]){
@@ -1324,12 +1142,10 @@
             }
         }
         
-
         
         
     //Zmiana pytania
         <% if(!user){ %>
-
         
         // Zmiana indexu pytania
         function changequestion(num){
@@ -1395,7 +1211,6 @@
                 showquestion()
             }
             
-
 //            Timer
             <% if(!room.time){ %>
             if(num!=0){
@@ -1467,7 +1282,6 @@
             
             <% }} %>
         }
-
             // Zaznaczanie dobrej odpowiedzi
             function check(e,type){    
                 if(type=="single"&& $(".toggle").length==1){
@@ -1570,7 +1384,6 @@
                            $("#matchq").append(`<div class='o' num="`+index+`">`+option+`</div>`)
                        }
                 })    
-
                 }else{
                 $('#answers').html(`<div id='matchq'></div><div id='matchans'></div>`);
                 questions[guest.index].option.forEach((option,i)=>{
@@ -1618,13 +1431,11 @@
             
             
             
-
      //////////////////////////////////////////////QUILL.JS       
             
              var toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'], // toggled buttons
         ['blockquote', 'code-block'],
-
         [{
          'header': 1
         }, {
@@ -1648,14 +1459,12 @@
         [{
          'direction': 'rtl'
         }], // text direction
-
         [{
          'size': ['small', false, 'large', 'huge']
         }], // custom dropdown
         [{
          'header': [1, 2, 3, 4, 5, 6, false]
         }],
-
         [{
          'color': []
         }, {
@@ -1667,10 +1476,8 @@
         [{
          'align': []
         }],['link', 'image', 'video', 'formula'],
-
         ['clean'] // remove formatting button
     ];
-
     function quil(e) {
      var cont = document.getElementById(e)
      window.quill = new Quill(cont, {
@@ -1681,9 +1488,5 @@
      });
  }            
 </script>
-<!-- Icons -->
-    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-    <script>
-      feather.replace()
-    </script>
+
 </html>
